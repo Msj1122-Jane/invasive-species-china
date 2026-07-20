@@ -388,6 +388,34 @@ body {
   text-align: center;
 }
 
+/* Big number: 660+ 先声夺人 */
+.intro-big-number {
+  font-family: var(--font-serif);
+  font-size: clamp(5rem, 14vw, 12rem);
+  font-weight: 900;
+  line-height: 1.0;
+  color: var(--b-text);
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.1s forwards;
+  letter-spacing: -0.02em;
+}
+.intro-plus {
+  color: var(--b-gold);
+  font-size: 0.6em;
+  vertical-align: super;
+  margin-left: 0.05em;
+}
+.intro-big-label {
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+  letter-spacing: 0.4em;
+  color: var(--b-text-dim);
+  text-transform: uppercase;
+  margin-bottom: 5vh;
+  opacity: 0;
+  animation: fadeInUp 0.7s 0.3s forwards;
+}
+
 /* Badge: top-center, refined */
 .intro-badge {
   display: inline-block;
@@ -416,6 +444,18 @@ body {
   opacity: 0;
   animation: fadeInUp 0.8s 0.3s forwards;
   color: var(--b-text);
+}
+
+/* English subtitle */
+.intro-en-title {
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+  letter-spacing: 0.35em;
+  color: var(--b-text-dim);
+  text-transform: uppercase;
+  margin-top: 1vh;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.6s forwards;
 }
 
 /* Subtitle: the core tagline */
@@ -497,6 +537,46 @@ body {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(8px); }
 }
+
+/* ===== 引言页：白底叙述区域 ===== */
+.intro-narrative-section {
+  min-height: auto;
+  padding: 18vh 24px 18vh;
+  background: linear-gradient(180deg, #0b1410 0%, #1a2520 15%, #f8fbf9 45%, #f8fbf9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intro-narrative-inner {
+  max-width: 680px;
+  text-align: center;
+}
+.intro-narrative-inner p {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  line-height: 2.1;
+  color: #2a3530;
+  margin-bottom: 1.8em;
+  font-weight: 400;
+}
+.intro-narrative-inner p:first-child {
+  color: #5a6660;
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+}
+.narrative-num {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--b-accent);
+  font-size: 1.1em;
+}
+.narrative-emphasis {
+  font-weight: 700 !important;
+  font-size: clamp(1.25rem, 2.4vw, 1.7rem) !important;
+  color: #1a2520 !important;
+  margin-top: 0.5em;
+  letter-spacing: 0.02em;
+}
+
 .province-selector select:hover { border-color: var(--b-gold); color: var(--b-text); }
 .province-selector select:focus { outline: none; border-color: var(--b-gold); color: var(--b-text); }
 .province-result {
@@ -2629,15 +2709,10 @@ body {
   <div class="page-flip-wrapper" id="pageFlipWrapper">
     <div class="page-flip-inner">
       <div class="intro-content">
-    <div class="intro-badge">中国外来入侵物种数据纪实</div>
+    <div class="intro-big-number">660<span class="intro-plus">+</span></div>
+    <div class="intro-big-label">物种</div>
     <h1 class="intro-main-title">来<span style="color:var(--b-gold)">者</span>何物</h1>
-    <p class="intro-subtitle">660+物种，2000亿年损失，无声入侵的国门叙事</p>
-    <p class="intro-lead">它们没有护照，没有签证，却已遍布中国35个省级行政区</p>
-
-    <div class="intro-data-pills">
-      <span class="data-pill"><strong class="pill-num">660+</strong> 记录在册入侵物种</span>
-      <span class="data-pill"><strong class="pill-num">2000</strong>亿 年均经济损失</span>
-    </div>
+    <p class="intro-en-title">THE INVASIVE CHRONICLE</p>
   </div>
 
   <div class="intro-scroll-hint">
@@ -2649,9 +2724,20 @@ body {
         </circle>
       </svg>
     </div>
-    <span class="scroll-hint-text">向下滚动探索</span>
+    <span class="scroll-hint-text">向下滚动</span>
   </div>
   </div>
+  </div>
+</section>
+
+<!-- 引言页 -->
+<section class="section intro-narrative-section">
+  <div class="intro-narrative-inner">
+    <p>我们脚下的草坪、路边的野花、河道里的水草——这些看似"理所当然"的本土风景，可能来自万里之外。</p>
+    <p>红火蚁从南美到广东，只用了<span class="narrative-num">90</span>年。水葫芦从观赏植物到河道噩梦，只用了<span class="narrative-num">30</span>年。</p>
+    <p>它们没有国界，没有签证，却以每年数百公里的速度，重写中国生态版图。</p>
+    <p><span class="narrative-num">660</span>余种外来物种已入侵中国<span class="narrative-num">35</span>个省级行政区。年均经济损失超过<span class="narrative-num">2000</span>亿元人民币。</p>
+    <p class="narrative-emphasis">这场无声的迁徙，正在我们眼前发生。</p>
   </div>
 </section>
 
