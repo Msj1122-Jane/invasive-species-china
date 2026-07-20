@@ -11,6 +11,34 @@
 
 <!-- Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script>
+// ECharts 全局动画增强：所有图表自动添加更持久的动画 + 数据逐项延迟出现
+(function() {
+  if (typeof echarts === 'undefined') return;
+  var origInit = echarts.init;
+  echarts.init = function(dom, theme, opts) {
+    var chart = origInit.call(echarts, dom, theme, opts);
+    var origSetOption = chart.setOption.bind(chart);
+    chart.setOption = function(option, setOpts) {
+      var defaults = {
+        animation: true,
+        animationDuration: 1800,
+        animationEasing: 'cubicOut',
+        animationDurationUpdate: 700,
+        animationEasingUpdate: 'cubicInOut',
+        animationDelay: function(idx) { return Math.min(idx * 80, 1200); }
+      };
+      if (option && typeof option === 'object') {
+        for (var key in defaults) {
+          if (!(key in option)) option[key] = defaults[key];
+        }
+      }
+      return origSetOption(option, setOpts);
+    };
+    return chart;
+  };
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
@@ -2679,6 +2707,56 @@ body {
 .sa-pre.sa-right.sa-in { transform: translateX(0); }
 .sa-pre.sa-scale { transform: scale(0.9); }
 .sa-pre.sa-scale.sa-in { transform: scale(1); }
+
+/* ===== 章节Gate切换动效 ===== */
+.section .gate-content > * {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.22,0.61,0.36,1),
+              transform 0.7s cubic-bezier(0.22,0.61,0.36,1);
+}
+.section.active .gate-content > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* gate-number: 从1.6倍缩放进入 */
+.section .gate-content > .gate-number {
+  opacity: 0;
+  transform: scale(1.6);
+  transition: opacity 0.9s ease, transform 1.4s cubic-bezier(0.22,0.61,0.36,1);
+}
+.section.active .gate-content > .gate-number {
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 0s;
+}
+/* gate-divider: 宽度从0展开 */
+.section .gate-content > .gate-divider {
+  opacity: 1;
+  transform: none;
+  width: 0;
+  transition: width 0.6s cubic-bezier(0.22,0.61,0.36,1);
+}
+.section.active .gate-content > .gate-divider {
+  width: 60px;
+  transition-delay: 0.35s;
+}
+/* 交错延迟 */
+.section.active .gate-content > .gate-title { transition-delay: 0.15s; }
+.section.active .gate-content > .gate-subtitle { transition-delay: 0.4s; }
+.section.active .gate-content > .gate-scroll-hint { transition-delay: 0.6s; }
+
+/* ===== 章节内容区域切换过渡（首次进入后保持可见） ===== */
+.section .section-inner {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.2s,
+              transform 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.2s;
+}
+.section.activated .section-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -3612,6 +3690,7 @@ async function activateSection(idx, sectionEl) {
   
   // Set new active
   sectionEl.classList.add('active');
+  sectionEl.classList.add('activated'); // 首次激活后永久保持内容可见
   if (navDots[idx]) navDots[idx].classList.add('active');
   
   // Nav visibility: hide on cover (idx=0), show on others
@@ -6500,6 +6579,56 @@ function toggleCheck(el) {
 
   window._refreshSA = function() {
     setTimeout(setupAnimations, 200);
+  };
+})();
+
+// ===== 图表视口重播系统：图表进入视口时重新触发动画 =====
+(function initChartViewportReplay() {
+  if (typeof echarts === 'undefined') return;
+
+  var replayObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var dom = entry.target;
+        if (dom._chartReplayed) return;
+        dom._chartReplayed = true;
+        var chart = echarts.getInstanceByDom(dom);
+        if (chart) {
+          setTimeout(function() {
+            try {
+              var option = chart.getOption();
+              // 重播动画（notMerge=true 触发重新入场）
+              chart.setOption(option, true);
+            } catch(e) { /* 静默失败，不影响页面 */ }
+          }, 200);
+        }
+        replayObserver.unobserve(dom);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px 50px 0px' });
+
+  // 扫描所有图表容器并观察
+  window._observeChartReplay = function() {
+    var containers = document.querySelectorAll(
+      '#china-map, #province-rank-chart, #trend-chart, #bubble-chart, ' +
+      '#countyHotspotChart, #spread-chart, #sankey-chart, #world-flow-chart, ' +
+      '#invasion-timeline-chart, #iceberg-chart, #loss-distribution-chart, ' +
+      '#loss-province-chart, #customsSankeyChart, #customsMethodsChart, ' +
+      '#customsTypesChart, #pet-trade-chart, #port-map-chart, #radar-chart'
+    );
+    containers.forEach(function(el) {
+      if (!el._replayObserved) {
+        el._replayObserved = true;
+        replayObserver.observe(el);
+      }
+    });
+  };
+
+  // 在章节渲染后触发扫描
+  var origRefresh = window._refreshSA;
+  window._refreshSA = function() {
+    if (origRefresh) origRefresh();
+    setTimeout(window._observeChartReplay, 400);
   };
 })();
 
