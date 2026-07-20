@@ -1082,6 +1082,10 @@ body {
   max-height: 200px;
   overflow-y: auto;
   padding: 4px 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .radar-chips::-webkit-scrollbar { width: 4px; }
 .radar-chips::-webkit-scrollbar-track { background: transparent; }
@@ -2832,12 +2836,21 @@ body {
         <div class="sidebar-panel">
           <div class="panel-title">快速洞察</div>
           <div style="font-size:0.84rem;line-height:1.8;color:var(--a-text-secondary)">
-     CHAPTER 3: 头号通缉
+            <p><strong style="color:var(--a-highlight)">云南</strong> 以 321 种居首，占全国近半</p>
+            <p><strong style="color:var(--a-highlight)">南北梯度</strong> 明显：南方平均 150+ 种 vs 北方 70 种以下</p>
+            <p><strong style="color:var(--a-highlight)">台湾</strong> 动物占比最高（33.7%）</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- ==============================
+     CHAPTER 2: 头号通缉
      ============================== -->
 <section class="section section-dark" id="chapter-species">
   <div class="section-inner">
     <div class="section-header reveal">
-      <div class="section-number">Chapter 03</div>
+      <div class="section-number">Chapter 02</div>
       <h2 class="section-title">头号通缉：1级恶性入侵物种图鉴</h2>
       <p class="section-subtitle">61种重点入侵物种全景图谱 — 点击、搜索、翻转探索每一张"通缉令"</p>
       <div class="section-divider"></div>
@@ -2893,15 +2906,7 @@ body {
   </div>
 </section>
 
-<!-- ==============================
-     CHAPTER 4: 代价几何
-            <p><strong style="color:var(--a-highlight)">云南</strong> 以 321 种居首，占全国近半</p>
-            <p><strong style="color:var(--a-highlight)">南北梯度</strong> 明显：南方平均 150+ 种 vs 北方 70 种以下</p>
-            <p><strong style="color:var(--a-highlight)">台湾</strong> 动物占比最高（33.7%）</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Chapter 1 supplementary sections -->
 
     <div class="trend-section reveal">
       <h3 style="font-size:1.15rem;margin-bottom:12px;font-weight:700;">14年入侵物种增长趋势</h3>
@@ -2910,6 +2915,7 @@ body {
       </p>
       <div id="trend-chart"></div>
       <div class="chart-source">数据来源：海关总署动植物检疫司 · 全国口岸截获年度统计</div>
+    </div>
 
     <div class="insight-box reveal">
       <div class="insight-card">
@@ -2961,13 +2967,13 @@ body {
 </section>
 
 <!-- ==============================
-     CHAPTER 2: 红线推进
+     CHAPTER 3: 红线推进
      ============================== -->
 <section class="section section-dark" id="chapter-spread">
   <!-- Chapter Gate -->
   <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch2.png');">
     <div class="gate-content">
-      <div class="gate-number">02</div>
+      <div class="gate-number">03</div>
       <h2 class="gate-title">时空扩散</h2>
       <p class="gate-subtitle">从原产地到中国，从1省到13省 — 一场跨越数十年的隐秘征程</p>
       <div class="gate-divider"></div>
@@ -3663,10 +3669,10 @@ async function renderChapter(idx) {
   await loadData();
   
   // Pre-load China GeoJSON if needed for map chapters
-  if (!_chinaMapRegistered && (idx === 1 || idx === 2 || idx === 4)) {
+  if (!_chinaMapRegistered && (idx === 1 || idx === 3 || idx === 4)) {
     await loadChinaGeoJSON();
   }
-  if (!_worldMapRegistered && idx === 2) {
+  if (!_worldMapRegistered && idx === 3) {
     await loadWorldGeoJSON();
   }
   
@@ -3689,6 +3695,16 @@ async function renderChapter(idx) {
         }
         break;
       case 2:
+        if (Data.species && !_sectionInitFlags._species) {
+          _sectionInitFlags._species = true;
+          renderSunburst();
+          renderSpeciesRadar();
+          renderPlantFamilies();
+          initRadarSearch();
+          initRadarFilters();
+        }
+        break;
+      case 3:
         if (!window.spreadChart) renderSpreadMap('红火蚁');
         if (Data.species && !_sectionInitFlags._worldFlow) {
           _sectionInitFlags._worldFlow = true;
@@ -3698,12 +3714,6 @@ async function renderChapter(idx) {
         if (Data.invasionTimeline && !_sectionInitFlags._timeline) {
           _sectionInitFlags._timeline = true;
           renderInvasionTimeline();
-        }
-        break;
-      case 3:
-        if (Data.species && !_sectionInitFlags._species) {
-          _sectionInitFlags._species = true;
-          renderSpeciesGallery();
         }
         break;
       case 4:
@@ -4255,7 +4265,7 @@ async function renderMapByFilter(mode) {
             if (!p.data) return p.name;
             return `<strong>${p.name}</strong><br/>` +
               `${labelMap[mode]}：${p.data.value}种<br/>` +
-              `动物：${p.data.animal} | 植物：${p.data.plant}<br/>` +
+              `动物：${p.data.animal || 0} | 植物：${p.data.plant || 0}<br/>` +
               `1级恶性：${p.data.level1}种`;
           },
           backgroundColor: '#fff',
@@ -4513,7 +4523,7 @@ window.addEventListener('resize', () => {
 });
 
 // ============================================
-// CHAPTER 2: SPREAD TIMELINE (Core Interactive)
+// CHAPTER 3: SPREAD TIMELINE (Core Interactive)
 // ============================================
 let timelineSlider = null;
 let currentSpeciesIndex = 0;
@@ -5322,7 +5332,7 @@ renderReserveDots();
 
 // ============================================
 // ============================================
-// CHAPTER 3: SUNBURST CHART
+// CHAPTER 2: SUNBURST CHART
 // ============================================
 let _sunburstChart = null;
 
@@ -5455,7 +5465,7 @@ function renderSunburst() {
 }
 
 // ============================================
-// CHAPTER 3: SPECIES RADAR CHART
+// CHAPTER 2: SPECIES RADAR CHART
 // ============================================
 let _radarSpeciesList = [];
 let _radarSelected = new Set();
@@ -5536,9 +5546,9 @@ async function renderSpeciesRadar() {
   // Build chip UI
   const chipsEl = document.getElementById('radarChips');
   chipsEl.innerHTML = list.map((sp, i) => {
-    const sel = _radarSelected.has(i);
+    const sel = _radarSelected.has(sp.name);
     const color = _getRadarColor(sp);
-    return `<span class="rc-chip${sel ? ' active' : ''}" data-idx="${i}"
+    return `<span class="rc-chip${sel ? ' active' : ''}" data-name="${sp.name}" data-idx="${i}"
       style="${sel ? 'background:' + color + ';color:#fff;border-color:' + color : 'border-color:' + color + ';color:' + color}">
       <span class="rc-dot" style="background:${color}"></span>${sp.name}
     </span>`;
@@ -5546,22 +5556,24 @@ async function renderSpeciesRadar() {
 
   // Chip click events
   chipsEl.querySelectorAll('.rc-chip').forEach(chip => {
+    chip.addEventListener('mousedown', function(e) { e.preventDefault(); });
     chip.addEventListener('click', function() {
+      const name = this.dataset.name;
       const idx = parseInt(this.dataset.idx);
-      if (_radarSelected.has(idx)) {
-        _radarSelected.delete(idx);
+      if (_radarSelected.has(name)) {
+        _radarSelected.delete(name);
       } else {
         if (_radarSelected.size >= _RADAR_MAX) {
           const first = _radarSelected.values().next().value;
           _radarSelected.delete(first);
         }
-        _radarSelected.add(idx);
+        _radarSelected.add(name);
       }
       // Rebuild chip states
       _radarSpeciesList.forEach((sp, i) => {
-        const c = chipsEl.querySelector(`[data-idx="${i}"]`);
+        const c = chipsEl.querySelector(`[data-name="${sp.name}"]`);
         if (!c) return;
-        const sel = _radarSelected.has(i);
+        const sel = _radarSelected.has(sp.name);
         const color = _getRadarColor(sp);
         c.className = 'rc-chip' + (sel ? ' active' : '');
         c.style.cssText = sel
@@ -5577,15 +5589,14 @@ async function renderSpeciesRadar() {
   if (_radarSelected.size === 0) {
     const defaults = _getRadarDefaultSelection(list);
     defaults.forEach(sp => {
-      const idx = list.indexOf(sp);
-      if (idx >= 0) _radarSelected.add(idx);
+      if (sp && sp.name) _radarSelected.add(sp.name);
     });
     // Update chip visual state
     setTimeout(() => {
       _radarSpeciesList.forEach((sp, i) => {
-        const c = chipsEl.querySelector(`[data-idx="${i}"]`);
+        const c = chipsEl.querySelector(`[data-name="${sp.name}"]`);
         if (!c) return;
-        const sel = _radarSelected.has(i);
+        const sel = _radarSelected.has(sp.name);
         const color = _getRadarColor(sp);
         c.className = 'rc-chip' + (sel ? ' active' : '');
         c.style.cssText = sel
@@ -5604,7 +5615,7 @@ function _renderRadarChart() {
   if (!dom) return;
 
   const selected = Array.from(_radarSelected)
-    .map(i => _radarSpeciesList[i])
+    .map(name => _radarSpeciesList.find(s => s.name === name))
     .filter(Boolean);
 
   if (selected.length === 0) {
@@ -5666,15 +5677,13 @@ function _renderRadarChart() {
   _radarChart.on('legendselectchanged', function(params) {
     // ECharts handles legend toggle natively, sync back to our selection
     const toRemove = [];
-    const toAdd = [];
-    selected.forEach((sp, i) => {
+    selected.forEach((sp) => {
       const isVisible = params.selected[sp.name];
       if (!isVisible) {
-        const idx = _radarSpeciesList.indexOf(sp);
-        if (idx >= 0) toRemove.push(idx);
+        toRemove.push(sp.name);
       }
     });
-    toRemove.forEach(idx => _radarSelected.delete(idx));
+    toRemove.forEach(name => _radarSelected.delete(name));
     // Re-render chips
     renderSpeciesRadar();
   });
@@ -5726,879 +5735,10 @@ async function renderPlantFamilies() {
 }
 
 // ============================================
+// ============================================
 // CHAPTER 4: IMPACT & CUSTOMS
 // ============================================
 var icebergChart = null;
-var lossDistChart = null;
-var lossProvChart = null;
-
-async function renderImpactChapter() {
-  await loadData();
-  if (!Data.economicLoss) return;
-  
-  // Iceberg chart
-  icebergChart = echarts.init(document.getElementById('iceberg-chart'));
-  const el = Data.economicLoss;
-  icebergChart.setOption({
-    title: { text: '显性损失 vs 隐性损失 —— 冰山效应', left: 'center', textStyle:{fontSize:14,color:'#1B3A2F'} },
-    tooltip: { trigger: 'item', formatter: '{b}: {c}亿元 ({d}%)' },
-    legend: { bottom: 0 },
-    series: [{
-      type: 'pie',
-      radius: ['38%', '65%'],
-      center: ['50%', '48%'],
-      avoidLabelOverlap: false,
-      itemStyle: { borderRadius: 8, borderColor: '#fff', borderWidth: 2 },
-      label: { show: true, fontSize: 13, fontWeight: 'bold', formatter: '{b}\n{d}%' },
-      data: [
-        { value: 103.3, name: '显性损失', itemStyle: { color: '#D62828' } },
-        { value: 2232.5, name: '隐性损失\n(生态退化+防治成本+间接)', itemStyle: { color: '#94A3B8' } }
-      ]
-    }]
-  });
-  
-  // Distribution pie
-  lossDistChart = echarts.init(document.getElementById('loss-distribution-chart'));
-  lossDistChart.setOption({
-    title: { text: '农林分布', textStyle:{fontSize:12,color:'#1B3A2F'} },
-    tooltip: { trigger: 'item' },
-    series: [{
-      type: 'pie', radius: ['40%', '68%'],
-      label: { formatter: '{b}\n{d}%' },
-      data: [
-        { value: 82, name: '农业', itemStyle:{color:'#D62828'} },
-        { value: 18, name: '林业', itemStyle:{color:'#1B3A2F'} }
-      ]
-    }]
-  });
-  
-  // Province loss bar
-  lossProvChart = echarts.init(document.getElementById('loss-province-chart'));
-  lossProvChart.setOption({
-    title: { text: '损失最大三省', textStyle:{fontSize:12,color:'#1B3A2F'} },
-    grid: { left: '3%', right: '12%', top: '18%', bottom: '12%', containLabel: true },
-    xAxis: { type: 'value', axisLabel:{formatter:'{value}亿'} },
-    yAxis: { type: 'category', data:['陕西','辽宁','广东'], inverse:true },
-    series: [{
-      type: 'bar', data: [33.1,42.6,54.7],
-      itemStyle: { color: function(p) { return ['#FBBF24','#F97316','#D62828'][p.dataIndex]; }, borderRadius:[0,4,4,0] },
-      barMaxWidth: 24,
-      label: { show:true, position:'right', formatter:'{c}亿美元', fontSize:11 }
-    }]
-  });
-  
-  // Disguise game
-  initDisguiseGame();
-  
-  // Top cases
-  renderTopCases();
-  
-  // Full case database
-  if (Data.customs_cases) renderCustomsCaseDB();
-  
-  // Pet trade chart
-  renderPetTradeChart();
-}
-
-// Disguise game
-const disguiseCases = [
-  { declare: '口香糖', real: '北美巨人蜈蚣', icon: '🐜', count: '13只' },
-  { declare: '塑料玩具', real: '甲虫', icon: '🪲', count: '10只' },
-  { declare: '海沙', real: '沙漠蝗卵', icon: '🥚', count: '363粒' },
-  { declare: '枕头', real: '活体蚂蚁', icon: '🐜', count: '42只' },
-  { declare: '折纸艺术', real: '有毒捕鸟蛛', icon: '🕷️', count: '504只' },
-  { declare: '化妆品原料', real: '巨人恐蚁', icon: '🐜', count: '807只' }
-];
-let currentCaseIdx = 0;
-
-function initDisguiseGame() {
-  loadDisguiseCase(0);
-}
-
-function loadDisguiseCase(idx) {
-  const c = disguiseCases[idx % disguiseCases.length];
-  currentCaseIdx = idx % disguiseCases.length;
-  document.getElementById('declareName').textContent = c.declare;
-  document.getElementById('realIcon').textContent = c.icon;
-  document.getElementById('realName').textContent = c.real;
-  document.getElementById('realCount').textContent = `截获 ${c.count}`;
-  document.getElementById('resultName').textContent = '???';
-  document.getElementById('gameCard').classList.remove('flipped');
-  document.getElementById('gameCardResult').classList.remove('flipped');
-  document.getElementById('gameScore').textContent = `案例 ${idx % disguiseCases.length + 1} / ${disguiseCases.length}`;
-}
-
-function flipGameCard() {
-  document.getElementById('gameCard').classList.toggle('flipped');
-  if (document.getElementById('gameCard').classList.contains('flipped')) {
-    const c = disguiseCases[currentCaseIdx];
-    document.getElementById('resultName').textContent = c.real;
-    setTimeout(() => {
-      document.getElementById('gameCardResult').classList.add('flipped');
-    }, 400);
-  }
-}
-
-function nextDisguiseCase() {
-  loadDisguiseCase(currentCaseIdx + 1);
-}
-
-function resetDisguiseGame() {
-  loadDisguiseCase(0);
-}
-
-// Top cases list
-function renderTopCases() {
-  const cases = Data.customsCases?.cases_2025_top10 || [
-    { rank:1, name:'巨人恐蚁', port:'厦门', count:807, method:'化妆品原料' },
-    { rank:2, name:'捕鸟蛛', port:'大连', count:504, method:'折纸艺术' },
-    { rank:3, name:'沙漠蝗卵', port:'北京', count:363, method:'海沙' },
-    { rank:4, name:'巨人蜈蚣', port:'成都', count:13, method:'口香糖' },
-    { rank:5, name:'甲虫', port:'广州', count:10, method:'塑料玩具' },
-    { rank:6, name:'活体蚂蚁', port:'深圳', count:42, method:'枕芯填充' },
-    { rank:7, name:'守宫', port:'上海', count:28, method:'宠物饲料' },
-    { rank:8, name:'陆龟', port:'杭州', count:9, method:'工艺摆件' },
-    { rank:9, name:'蛇类', port:'宁波', count:7, method:'皮革制品' },
-    { rank:10, name:'蛙类', port:'青岛', count:15, method:'食品罐头' }
-  ];
-  
-  document.getElementById('topCasesList').innerHTML = cases.map(c => `
-    <div class="tc-item">
-      <span class="tc-rank ${c.rank<=3?'top3':''}">#${c.rank}</span>
-      <div class="tc-info">
-        <div class="tc-name">${c.name}</div>
-        <div class="tc-meta">${c.port}${c.method ? ' · 伪装：'+c.method:''}</div>
-      </div>
-      <span class="tc-count">×</span>
-      <span class="tc-count">${c.count}</span>
-    </div>
-  `).join('');
-}
-
-// Pet trade chart
-function renderPetTradeChart() {
-  petTradeChart = echarts.init(document.getElementById('pet-trade-chart'));
-  petTradeChart.setOption({
-    tooltip: { trigger: 'axis' },
-    grid: { left: '3%', right: '4%', top: '10%', bottom: '12%', containLabel: true },
-    xAxis: { type: 'category', data: ['2019','2020','2021','2022','2023','2024','2025'], axisLabel:{fontSize:11} },
-    yAxis: [
-      { type: 'value', name: '快递量(亿件)', position: 'left', axisLabel:{fontSize:11} },
-      { type: 'value', name: '截获批次', position: 'right', axisLabel:{fontSize:11} }
-    ],
-    series: [
-      { name: '快递量', type: 'bar', data: [14.4,21.2,29.9,35.8,39.4,41.2,42.2], itemStyle:{color:'#3B82F6'}, barMaxWidth:24 },
-      { name: '海关截获', type: 'line', yAxisIndex: 1, data: [2100,3500,4270,5100,5800,6300,6800], smooth:true, lineStyle:{width:3,color:'#EF4444'}, itemStyle:{color:'#EF4444'}, areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'rgba(239,68,68,0.2)'},{offset:1,color:'rgba(239,68,68,0)'}])} }
-    ]
-  });
-}
-
-// ============================================
-// CUSTOMS CASE DATABASE
-// ============================================
-const CASE_PAGE_SIZE = 20;
-let _filteredCases = [];
-let _currentPage = 0;
-let _portMapChart = null;
-let _caseStatsComputed = null;
-
-function renderCustomsCaseDB() {
-  const cases = Data.customs_cases || [];
-  if (!cases.length) return;
-
-  _filteredCases = [...cases];
-  _caseStatsComputed = computeCaseStats(cases);
-
-  // Count display
-  const cd = document.getElementById('case-count-display');
-  if (cd) cd.textContent = `（共${cases.length}条）`;
-
-  // Stats bar
-  animateStatNumbers(_caseStatsComputed);
-
-  // Port map
-  renderCasePortMap(cases);
-
-  // Initial card render
-  _currentPage = 0;
-  renderCaseCards();
-}
-
-function computeCaseStats(cases) {
-  const speciesSet = new Set();
-  const portSet = new Set();
-  const declareSet = new Set();
-  cases.forEach(c => {
-    if (c.species_cn) speciesSet.add(c.species_cn);
-    if (c.port && c.port !== '未标注') portSet.add(c.port);
-    if (c.declared && c.declared !== '未申报' && c.declared !== '无') declareSet.add(c.declared);
-  });
-  return { total: cases.length, species: speciesSet.size, ports: portSet.size, disguise: declareSet.size };
-}
-
-function animateStatNumbers(stats) {
-  ['csbTotal', 'csbSpecies', 'csbPorts', 'csbDisguise'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = '0';
-  });
-
-  const targets = [
-    { id: 'csbTotal', val: stats.total },
-    { id: 'csbSpecies', val: stats.species },
-    { id: 'csbPorts', val: stats.ports },
-    { id: 'csbDisguise', val: stats.disguise }
-  ];
-
-  targets.forEach(({ id, val }, idx) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const duration = 800;
-    const start = performance.now();
-    function step(ts) {
-      const p = Math.min((ts - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.floor(eased * val);
-      if (p < 1) requestAnimationFrame(step);
-    }
-    setTimeout(() => requestAnimationFrame(step), idx * 120);
-  });
-}
-
-function renderCasePortMap(cases) {
-  const container = document.getElementById('case-port-map');
-  if (!container) return;
-  if (_portMapChart) _portMapChart.dispose();
-
-  _portMapChart = echarts.init(container);
-  window._portMapChart = _portMapChart;
-
-  // Port → province mapping (comprehensive)
-  const portProv = {
-    '北京': '北京', '大兴': '北京', '首都': '北京',
-    '天津': '天津', '滨海': '天津',
-    '上海': '上海', '浦东': '上海', '虹桥': '上海', '洋山': '上海',
-    '重庆': '重庆', '江北': '重庆',
-    '广州': '广东', '深圳': '广东', '珠海': '广东', '汕头': '广东', '湛江': '广东',
-    '皇岗': '广东', '福田': '广东', '蛇口': '广东', '盐田': '广东', '白云': '广东',
-    '罗湖': '广东', '文锦渡': '广东', '沙头角': '广东', '惠州': '广东', '东莞': '广东',
-    '厦门': '福建', '福州': '福建', '泉州': '福建', '高崎': '福建', '长乐': '福建',
-    '宁波': '浙江', '杭州': '浙江', '温州': '浙江', '义乌': '浙江', '萧山': '浙江',
-    '南京': '江苏', '苏州': '江苏', '无锡': '江苏', '连云港': '江苏', '禄口': '江苏', '硕放': '江苏',
-    '青岛': '山东', '济南': '山东', '烟台': '山东', '威海': '山东', '胶东': '山东', '流亭': '山东',
-    '大连': '辽宁', '沈阳': '辽宁', '周水子': '辽宁',
-    '成都': '四川', '双流': '四川', '天府': '四川',
-    '武汉': '湖北', '天河': '湖北',
-    '长沙': '湖南', '黄花': '湖南',
-    '郑州': '河南', '新郑': '河南',
-    '昆明': '云南', '瑞丽': '云南', '长水': '云南', '磨憨': '云南',
-    '南宁': '广西', '凭祥': '广西', '东兴': '广西', '吴圩': '广西',
-    '海口': '海南', '三亚': '海南', '美兰': '海南',
-    '哈尔滨': '黑龙江', '太平': '黑龙江', '绥芬河': '黑龙江', '黑河': '黑龙江',
-    '长春': '吉林', '龙嘉': '吉林', '珲春': '吉林',
-    '西安': '陕西', '咸阳': '陕西',
-    '合肥': '安徽', '新桥': '安徽',
-    '南昌': '江西', '昌北': '江西',
-    '贵阳': '贵州', '龙洞堡': '贵州',
-    '拉萨': '西藏', '贡嘎': '西藏', '吉隆': '西藏', '聂拉木': '西藏',
-    '乌鲁木齐': '新疆', '地窝堡': '新疆',
-    '呼和浩特': '内蒙古', '白塔': '内蒙古', '满洲里': '内蒙古', '二连浩特': '内蒙古',
-    '石家庄': '河北', '正定': '河北',
-    '太原': '山西', '武宿': '山西',
-    '兰州': '甘肃', '中川': '甘肃',
-    '西宁': '青海', '曹家堡': '青海',
-    '银川': '宁夏', '河东': '宁夏',
-    '台北': '台湾', '高雄': '台湾',
-    '香港': '香港',
-    '澳门': '澳门'
-  };
-
-  const provCounts = {};
-  cases.forEach(c => {
-    const p = c.port || '';
-    let matched = null;
-    for (const [k, v] of Object.entries(portProv)) {
-      if (p.includes(k)) { matched = v; break; }
-    }
-    if (matched) provCounts[matched] = (provCounts[matched] || 0) + 1;
-  });
-
-  const mapData = Object.entries(provCounts).map(([name, value]) => ({ name, value }));
-  const maxVal = Math.max(...mapData.map(d => d.value), 1);
-
-  _portMapChart.setOption({
-    backgroundColor: 'transparent',
-    tooltip: {
-      trigger: 'item',
-      formatter: function(p) {
-        const portList = cases.filter(c => {
-          for (const [k, v] of Object.entries(portProv)) {
-            if ((c.port||'').includes(k) && v === p.name) return true;
-          }
-          return false;
-        });
-        const topPorts = {};
-        portList.forEach(c => { const k = c.port; topPorts[k] = (topPorts[k]||0)+1; });
-        const tops = Object.entries(topPorts).sort((a,b)=>b[1]-a[1]).slice(0,5)
-          .map(([k,v]) => `${k}: ${v}条`).join('<br/>');
-        return `<strong>${p.name}</strong><br/>共 ${p.value} 条案例<br/>${tops}`;
-      },
-      backgroundColor: 'rgba(19,40,32,0.95)',
-      borderColor: '#1F3D30',
-      textStyle: { color: '#E8F0EB', fontSize: 12 }
-    },
-    visualMap: {
-      min: 0,
-      max: maxVal,
-      left: 8,
-      bottom: 8,
-      text: ['多', '少'],
-      inRange: { color: ['#132820', '#1d4a32', '#2a6e42', '#3d9252', '#55b865', '#7cda78'] },
-      textStyle: { color: '#8BA99A', fontSize: 10 }
-    },
-    series: [{
-      type: 'map',
-      map: 'china',
-      roam: false,
-      label: { show: false },
-      emphasis: {
-        label: { show: true, color: '#fff', fontSize: 12 },
-        itemStyle: { areaColor: '#EF4444' }
-      },
-      itemStyle: {
-        borderColor: '#1a2a1f',
-        borderWidth: 0.5,
-        areaColor: '#0f1e16'
-      },
-      data: mapData
-    }]
-  });
-}
-
-function renderCaseCards() {
-  const grid = document.getElementById('caseCardsGrid');
-  const loadMore = document.getElementById('caseLoadMore');
-  const pageInfo = document.getElementById('casePageInfo');
-  if (!grid) return;
-
-  const totalCases = _filteredCases.length;
-  const start = 0;
-  const end = Math.min((_currentPage + 1) * CASE_PAGE_SIZE, totalCases);
-  const pageCases = _filteredCases.slice(start, end);
-
-  grid.innerHTML = pageCases.map(c => {
-    const typeClass = c.declared && c.declared !== '未申报' && c.declared !== '无' ? 'warn' : '';
-    return `
-    <div class="case-card" onclick="openCaseDetail(${c.id})">
-      <div class="case-card-arrow">→</div>
-      <div class="case-card-species">${c.species_cn || '未知物种'}</div>
-      <div class="case-card-port">${c.port || '未知口岸'} · ${c.date || ''}</div>
-      ${c.declared && c.declared !== '未申报' && c.declared !== '无' ? `
-      <div class="case-card-declare">
-        <span class="case-card-declare-val">${c.declared}</span>
-        <span class="case-card-arrow-icon">→</span>
-        <strong>${c.species_cn}</strong>
-      </div>` : ''}
-      <div class="case-card-tags">
-        <span class="case-tag">${c.type || '未知'}</span>
-        <span class="case-tag">${c.channel || '未知渠道'}</span>
-        <span class="case-tag ${typeClass}">${c.declared && c.declared !== '未申报' && c.declared !== '无' ? '伪装破获' : (c.method || '查获')}</span>
-      </div>
-    </div>`;
-  }).join('');
-
-  // Show/hide load more
-  if (end < totalCases) {
-    loadMore.style.display = 'flex';
-    pageInfo.textContent = `已显示 ${end} / ${totalCases} 条`;
-  } else {
-    loadMore.style.display = 'none';
-    if (totalCases > CASE_PAGE_SIZE) {
-      loadMore.style.display = 'flex';
-      pageInfo.textContent = `全部 ${totalCases} 条已加载`;
-      loadMore.querySelector('button').textContent = '已加载全部';
-      loadMore.querySelector('button').disabled = true;
-    }
-  }
-}
-
-function loadMoreCases() {
-  _currentPage++;
-  const totalCases = _filteredCases.length;
-  const start = _currentPage * CASE_PAGE_SIZE;
-  const end = Math.min((_currentPage + 1) * CASE_PAGE_SIZE, totalCases);
-  const newCases = _filteredCases.slice(start, end);
-
-  const grid = document.getElementById('caseCardsGrid');
-  const loadMore = document.getElementById('caseLoadMore');
-  const pageInfo = document.getElementById('casePageInfo');
-  if (!grid) return;
-
-  const frag = document.createElement('template');
-  frag.innerHTML = newCases.map(c => {
-    const typeClass = c.declared && c.declared !== '未申报' && c.declared !== '无' ? 'warn' : '';
-    return `
-    <div class="case-card" onclick="openCaseDetail(${c.id})" style="animation: fadeInUp 0.35s ease both;">
-      <div class="case-card-arrow">→</div>
-      <div class="case-card-species">${c.species_cn || '未知物种'}</div>
-      <div class="case-card-port">${c.port || '未知口岸'} · ${c.date || ''}</div>
-      ${c.declared && c.declared !== '未申报' && c.declared !== '无' ? `
-      <div class="case-card-declare">
-        <span class="case-card-declare-val">${c.declared}</span>
-        <span class="case-card-arrow-icon">→</span>
-        <strong>${c.species_cn}</strong>
-      </div>` : ''}
-      <div class="case-card-tags">
-        <span class="case-tag">${c.type || '未知'}</span>
-        <span class="case-tag">${c.channel || '未知渠道'}</span>
-        <span class="case-tag ${typeClass}">${c.declared && c.declared !== '未申报' && c.declared !== '无' ? '伪装破获' : (c.method || '查获')}</span>
-      </div>
-    </div>`;
-  }).join('');
-  grid.appendChild(frag.content);
-
-  if (end >= totalCases) {
-    loadMore.style.display = 'flex';
-    pageInfo.textContent = `全部 ${totalCases} 条已加载`;
-    const btn = loadMore.querySelector('button');
-    btn.textContent = '已加载全部';
-    btn.disabled = true;
-  } else {
-    pageInfo.textContent = `已显示 ${end} / ${totalCases} 条`;
-  }
-}
-
-function filterCases() {
-  const allCases = Data.customs_cases || [];
-  if (!allCases.length) return;
-
-  const search = (document.getElementById('caseSearch')?.value || '').trim().toLowerCase();
-  const type = document.getElementById('caseFilterType')?.value || 'all';
-  const channel = document.getElementById('caseFilterChannel')?.value || 'all';
-  const method = document.getElementById('caseFilterMethod')?.value || 'all';
-
-  _filteredCases = allCases.filter(c => {
-    if (search) {
-      const haystack = [c.species_cn, c.port, c.declared, c.title, c.content, c.type, c.origin]
-        .filter(Boolean).join(' ').toLowerCase();
-      if (!haystack.includes(search)) return false;
-    }
-    if (type !== 'all' && c.type !== type) return false;
-    if (channel !== 'all' && c.channel !== channel) return false;
-    if (method !== 'all' && c.method !== method) return false;
-    return true;
-  });
-
-  // Update stats
-  const stats = computeCaseStats(_filteredCases);
-  document.getElementById('csbTotal').textContent = stats.total;
-  document.getElementById('csbSpecies').textContent = stats.species;
-  document.getElementById('csbPorts').textContent = stats.ports;
-  document.getElementById('csbDisguise').textContent = stats.disguise;
-
-  const cd = document.getElementById('case-count-display');
-  if (cd) cd.textContent = `（筛选结果：${_filteredCases.length}条）`;
-
-  // Re-render cards
-  _currentPage = 0;
-  renderCaseCards();
-
-  // Re-render port map for filtered data
-  renderCasePortMap(_filteredCases);
-}
-
-function openCaseDetail(id) {
-  const allCases = Data.customs_cases || [];
-  const c = allCases.find(x => x.id === id);
-  if (!c) return;
-
-  const modal = document.getElementById('caseModal');
-  const header = document.getElementById('caseModalHeader');
-  const body = document.getElementById('caseModalBody');
-
-  header.innerHTML = `
-    <div class="cmh-title">${c.species_cn || '未知物种'}</div>
-    <div class="cmh-sub">${c.date || ''} · ${c.port || '未知口岸'} · #${c.id}</div>
-  `;
-
-  const hasDisguise = c.declared && c.declared !== '未申报' && c.declared !== '无';
-
-  body.innerHTML = `
-    <div class="case-modal-photo">
-      ${c.has_photo ? '📸 现场查获照片' : '📋 暂无现场图片'}
-    </div>
-    ${hasDisguise ? `
-    <div class="case-modal-disguise">
-      <span class="cmd-badge">伪装破获</span>
-      <div class="cmd-text">
-        申报为 <span>"${c.declared}"</span>，实际查获 <span>${c.species_cn}</span>
-      </div>
-    </div>` : ''}
-    <div class="cmb-grid">
-      <div class="cmb-row"><span class="cmb-label">类型</span><span class="cmb-value">${c.type || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">数量</span><span class="cmb-value">${c.quantity || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">渠道</span><span class="cmb-value">${c.channel || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">查获方式</span><span class="cmb-value">${c.method || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">原产地</span><span class="cmb-value">${c.origin || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">类别</span><span class="cmb-value">${c.category || '未知'}</span></div>
-    </div>
-    <div style="margin-top:8px;padding:14px 16px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:0.84rem;line-height:1.7;color:var(--b-text-dim);">
-      ${c.content || '暂无详细描述'}
-    </div>
-    ${c.title ? `<div style="margin-top:10px;font-size:0.78rem;color:var(--b-text-dim);opacity:0.6;">原标题：${c.title}</div>` : ''}
-  `;
-
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeCaseModal(event) {
-  if (event && event.target !== document.getElementById('caseModal')) return;
-  const modal = document.getElementById('caseModal');
-  modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-// Keyboard close
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('caseModal');
-    if (modal && modal.classList.contains('active')) {
-      closeCaseModal();
-    }
-  }
-});
-
-// ============================================
-// CHAPTER 5: DEFENSE TIMELINE
-// ============================================
-
-async function renderDefenseChapter() {
-  await loadData();
-  if (!Data.timeline) return;
-  
-  // 六道防线环形图
-  if (Data.defenseRings) renderDefenseRings();
-  
-  // 发现后怎么办
-  if (Data.reportGuide) initReportGuide();
-  
-  timelineChart = echarts.init(document.getElementById('timeline-chart'));
-  
-  const events = (Data.timeline.events || Data.timeline || []).slice(0, 51).map((e, i) => {
-    const year = String(e.year || '').slice(0,4);
-    return {
-      value: [year, e.title || e.event || '', e.type || 'policy', i],
-      itemStyle: {
-        color: (e.type || e.category || '') === 'law' ? '#7F1D1D' :
-               (e.type || e.category || '') === 'survey' ? '#059669' :
-               (e.type || e.category || '') === 'action' ? '#D97706' : '#1B3A2F'
-      }
-    };
-  }).filter(e => e.value[0] && e.value[0].length === 4);
-  
-  timelineChart.setOption({
-    title: { text: '中国外来入侵物种防治时间线（2003-2025）', left: 'center', textStyle:{fontSize:15,color:'#1B3A2F'} },
-    tooltip: {
-      trigger: 'item',
-      formatter: function(p) {
-        return `<strong>${p.value[0]}年</strong><br/>${p.value[1]}` +
-          `<br/><span style="color:#888;font-size:11px">${{policy:'📜 政策', law:'⚖️ 法律', survey:'📊 调查', action:'🎯 行动'}[p.value[2]]||''}</span>`;
-      }
-    },
-    grid: { left: '8%', right: '6%', top: '14%', bottom: '20%', containLabel: true },
-    xAxis: {
-      type: 'time',
-      min: '2003-01-01',
-      max: '2025-12-31',
-      axisLabel: { formatter: '{yyyy}', fontSize: 11 }
-    },
-    yAxis: {
-      type: 'category',
-      data: ['事件'],
-      axisLine: { show: false },
-      axisTick: { show: false },
-      axisLabel: { show: false }
-    },
-    series: [{
-      type: 'scatter',
-      symbolSize: function(data) { return data[3] % 5 === 0 ? 16 : 10; },
-      data: events,
-      markLine: {
-        symbol: 'none',
-        data: [
-          { xAxis: '2003-06-01', label: { formatter:'首批名录', fontSize:10 } },
-          { xAxis: '2012-06-01', label: { formatter:'52种重点', fontSize:10 } },
-          { xAxis: '2021-04-15', label: { formatter:'生物安全法', fontSize:10, color:'#7F1D1D' } }
-        ],
-        lineStyle: { type: 'dashed', color: '#999' }
-      }
-    }],
-    legend: { data: ['政策','法律','调查','行动'], bottom: 0 }
-  });
-}
-
-// ============================================
-// 六道防线环形图
-// ============================================
-function renderDefenseRings() {
-  const container = document.getElementById('defenseRingsContainer');
-  const rings = Data.defenseRings.rings;
-  
-  const w = 680, h = 500, cx = w / 2, cy = h / 2 + 20;
-  const maxR = 220, minR = 50;
-  const step = (maxR - minR) / (rings.length - 1);
-  
-  let svgHTML = `<svg viewBox="0 0 ${w} ${h}" class="defense-rings-svg" xmlns="http://www.w3.org/2000/svg">`;
-  
-  // Background glow
-  svgHTML += `<defs>
-    <filter id="ringGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  </defs>`;
-  
-  // Draw rings from outside in
-  rings.forEach((ring, i) => {
-    const r = maxR - i * step;
-    const angle = -90 + i * 10; // slight rotation offset for visual interest
-    const dashLen = 2 * Math.PI * r * (ring.id === 6 ? 0.85 : 0.75);
-    const gapLen = 2 * Math.PI * r - dashLen;
-    
-    // Arc path (partial circle with gap at bottom)
-    const startAngle = -150;
-    const endAngle = 150;
-    const startRad = startAngle * Math.PI / 180;
-    const endRad = endAngle * Math.PI / 180;
-    const x1 = cx + r * Math.cos(startRad);
-    const y1 = cy + r * Math.sin(startRad);
-    const x2 = cx + r * Math.cos(endRad);
-    const y2 = cy + r * Math.sin(endRad);
-    const largeArc = (endAngle - startAngle) > 180 ? 1 : 0;
-    
-    const pathD = `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2}`;
-    
-    // Ring label position (left side of arc)
-    const labelAngle = startRad + 0.15;
-    const lx = cx + (r + 8) * Math.cos(labelAngle);
-    const ly = cy + (r + 8) * Math.sin(labelAngle);
-    
-    svgHTML += `<g class="ring-group" onclick="showRingDetail(${ring.id})" style="cursor:pointer;transform-origin:${cx}px ${cy}px">
-      <path d="${pathD}" fill="none" stroke="${ring.color}" stroke-width="${6 + (rings.length - i) * 1.5}" 
-            stroke-linecap="round" opacity="${0.3 + i * 0.12}" class="ring-arc"
-            filter="url(#ringGlow)"/>
-      <text x="${lx}" y="${ly}" fill="${ring.color}" font-size="12" font-weight="700" 
-            text-anchor="end" dominant-baseline="middle" class="ring-label-text">
-        环${ring.id} ${ring.short}
-      </text>
-    </g>`;
-  });
-  
-  // Center text
-  svgHTML += `<text x="${cx}" y="${cy - 10}" text-anchor="middle" font-size="15" font-weight="900" fill="#1B3A2F" font-family="var(--font-serif)">六道防线</text>
-    <text x="${cx}" y="${cy + 14}" text-anchor="middle" font-size="11" fill="#5A7D6E">外防输入 · 内防扩散</text>`;
-  
-  svgHTML += `</svg>`;
-  
-  container.innerHTML = svgHTML;
-  
-  // Show first ring detail by default
-  showRingDetail(1);
-}
-
-function showRingDetail(id) {
-  const ring = Data.defenseRings.rings.find(r => r.id === id);
-  if (!ring) return;
-  
-  const panel = document.getElementById('ringDetailPanel');
-  panel.style.borderLeftColor = ring.color;
-  
-  panel.innerHTML = `
-    <div style="flex:1;min-width:240px;">
-      <div class="ring-detail-name" style="color:${ring.color}">${ring.icon} 第${ring.id}环：${ring.name}</div>
-      <div class="ring-detail-row"><span class="ring-detail-label">位置：</span><span class="ring-detail-value">${ring.place}</span></div>
-      <div class="ring-detail-row"><span class="ring-detail-label">风险：</span><span class="ring-detail-value" style="color:#DC2626">${ring.risk}</span></div>
-      <div class="ring-detail-row"><span class="ring-detail-label">措施：</span><span class="ring-detail-value">${ring.measures}</span></div>
-    </div>
-    <div style="flex:1;min-width:200px;">
-      <div class="ring-detail-row"><span class="ring-detail-label">责任方：</span><span class="ring-detail-value">${ring.actors}</span></div>
-      <div class="ring-detail-row"><span class="ring-detail-label">数据：</span><span class="ring-detail-value">${ring.data_note}</span></div>
-      <div class="ring-detail-row"><span class="ring-detail-label">缺口：</span><span class="ring-detail-value" style="color:#D97706">${ring.gap}</span></div>
-      <div class="ring-detail-row"><span class="ring-detail-label">评级：</span><span class="ring-detail-value" style="font-weight:700;color:${ring.grade.includes('A')?'#059669':'#D97706'}">${ring.grade}</span></div>
-    </div>
-    ${ring.highlight ? `<div class="ring-detail-highlight" style="flex-basis:100%;">📌 ${ring.highlight}</div>` : ''}
-  `;
-}
-
-// ============================================
-// 发现后怎么办 — 场景导航
-// ============================================
-let currentGuideScene = 'farm';
-
-function initReportGuide() {
-  const scenes = Data.reportGuide.scenes;
-  const tabsContainer = document.getElementById('guideSceneTabs');
-  
-  // Render tabs
-  tabsContainer.innerHTML = scenes.map(s => `
-    <button class="guide-scene-tab ${s.id === currentGuideScene ? 'active' : ''}" 
-            data-scene="${s.id}" onclick="switchGuideScene('${s.id}')">
-      ${s.icon} ${s.scene}
-    </button>
-  `).join('');
-  
-  // Render initial scene
-  renderGuideScene(currentGuideScene);
-}
-
-function switchGuideScene(id) {
-  currentGuideScene = id;
-  
-  // Update tab active states
-  document.querySelectorAll('.guide-scene-tab').forEach(tab => {
-    tab.classList.toggle('active', tab.dataset.scene === id);
-  });
-  
-  renderGuideScene(id);
-}
-
-function renderGuideScene(id) {
-  const scene = Data.reportGuide.scenes.find(s => s.id === id);
-  if (!scene) return;
-  
-  const card = document.getElementById('guideSceneCard');
-  card.style.borderTop = `3px solid ${scene.color}`;
-  
-  card.innerHTML = `
-    <div class="guide-card-section warn">
-      <div class="guide-section-title warn-color">⚠️ 千万不要</div>
-      <div class="guide-section-content">
-        <ul>${scene.avoid.map(a => `<li>${a}</li>`).join('')}</ul>
-      </div>
-    </div>
-    <div class="guide-card-section record">
-      <div class="guide-section-title record-color">📸 立即记录</div>
-      <div class="guide-section-content">${scene.record}</div>
-    </div>
-    <div class="guide-card-section dept">
-      <div class="guide-section-title dept-color">🏛️ 联系部门</div>
-      <div class="guide-section-content">${scene.department}</div>
-    </div>
-    <div class="guide-card-section fallback">
-      <div class="guide-section-title fallback-color">📞 兜底方案</div>
-      <div class="guide-section-content">${scene.fallback}</div>
-      ${scene.verify_note ? `<div style="margin-top:6px;font-size:0.75rem;color:var(--a-text-secondary);">⚠ ${scene.verify_note}</div>` : ''}
-    </div>
-  `;
-}
-
-// CTA checkbox toggle
-let checkCount = 0;
-function toggleCheck(el) {
-  el.classList.toggle('checked');
-  el.textContent = el.classList.contains('checked') ? '✓' : '';
-  checkCount = document.querySelectorAll('.cta-check.checked').length;
-  const result = document.getElementById('ctaResult');
-  if (checkCount === 0) {
-    result.textContent = '勾选上方承诺，成为生态守门人';
-  } else if (checkCount === 3) {
-    result.textContent = `🎉 你是第 ${Math.floor(Math.random()*90000)+10000} 位生态守门人！`;
-  } else {
-    result.textContent = `已承诺 ${checkCount}/3 项，继续加油！`;
-  }
-}
-
-// ============================================
-// INITIALIZATION
-// ============================================
-
-// ---- Audio Player ----
-(function initAudioPlayer() {
-  const audio = new Audio();
-  // 音乐文件路径 — 放在项目 assets/ 目录下即可
-  audio.src = 'assets/bgm.mp3';
-  audio.loop = true;
-  audio.volume = 0.3;
-  audio.preload = 'auto';
-
-  const btn = document.getElementById('audioBtn');
-  const label = document.getElementById('audioLabel');
-  const volume = document.getElementById('audioVolume');
-  const tooltip = document.getElementById('audioTooltip');
-  const player = document.getElementById('audioPlayer');
-  let playing = false;
-  let firstInteraction = true;
-
-  // 尝试自动播放（浏览器通常拦截，只做尝试）
-  function tryAutoPlay() {
-    audio.play().then(() => {
-      playing = true;
-      btn.classList.add('playing');
-      btn.textContent = '♪';
-      label.textContent = 'BGM 播放中';
-    }).catch(() => {
-      // 自动播放被拦截 — 显示提示
-      tooltip.classList.add('show');
-      setTimeout(() => tooltip.classList.remove('show'), 4000);
-    });
-  }
-
-  // 首次用户交互后尝试
-  document.addEventListener('click', function onFirstClick() {
-    if (firstInteraction) {
-      firstInteraction = false;
-      tryAutoPlay();
-      document.removeEventListener('click', onFirstClick);
-    }
-  }, { once: false });
-
-  // 播放/暂停切换
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (playing) {
-      audio.pause();
-      playing = false;
-      btn.classList.remove('playing');
-      btn.textContent = '♪';
-      label.textContent = 'BGM 暂停';
-    } else {
-      audio.play().then(() => {
-        playing = true;
-        btn.classList.add('playing');
-        btn.textContent = '♪';
-        label.textContent = 'BGM 播放中';
-        tooltip.classList.remove('show');
-      }).catch(() => {
-        // 仍然被拦截
-        label.textContent = '点击启用';
-        setTimeout(() => { if (!playing) label.textContent = 'BGM 暂停'; }, 2000);
-      });
-    }
-  });
-
-  // 音量调节
-  volume.addEventListener('input', () => {
-    audio.volume = volume.value / 100;
-  });
-
-  // 暗色/亮色模式跟随
-  const darkSections = document.querySelectorAll('.section-dark');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        player.classList.add('dark-mode');
-      } else {
-        player.classList.remove('dark-mode');
-      }
-    });
-  }, { threshold: 0.3 });
-  darkSections.forEach(s => observer.observe(s));
-
-  // 暴露到全局便于外部控制
-  window._bgm = { audio, play: () => audio.play(), pause: () => audio.pause(), get playing() { return playing; } };
-})();
-
-</script>
-</body>
-</html>var icebergChart = null;
 var lossDistChart = null;
 var lossProvChart = null;
 
@@ -7458,6 +6598,7 @@ function toggleCheck(el) {
 }
 
 // ============================================
+
 // INITIALIZATION
 // ============================================
 
@@ -7547,7 +6688,7 @@ function toggleCheck(el) {
   window._bgm = { audio, play: () => audio.play(), pause: () => audio.pause(), get playing() { return playing; } };
 })();
 
-// ===== 滚动动效系统（安全版：默认可见，JS加载后才隐藏）=====
+
 (function initScrollAnimations() {
   var observer = null;
 
@@ -7675,6 +6816,7 @@ function toggleCheck(el) {
     setTimeout(window._observeChartReplay, 400);
   };
 })();
+
 
 </script>
 </body>
