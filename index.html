@@ -5182,10 +5182,12 @@ async function renderWorldFlow() {
     const linesData = flowLinks.map(d => ({
       coords: [originCoords[d.source], originCoords[d.target]],
       lineStyle: {
-        width: Math.max(2, d.value / 5),
+        width: Math.max(1.5, d.value / 2),
         color: d.color,
-        opacity: 0.7,
-        curveness: 0.2
+        opacity: 0.85,
+        curveness: 0.2,
+        shadowBlur: Math.max(6, d.value / 1.5),
+        shadowColor: d.color
       }
     }));
 
@@ -5346,7 +5348,7 @@ async function renderWorldFlow() {
             source: d.source,
             target: d.target,
             value: d.value,
-            lineStyle: { width: Math.max(2, d.value / 5), color: d.color },
+            lineStyle: { width: Math.max(1.5, d.value / 2), color: d.color },
             label: {
               show: true,
               formatter: '{c}种',
