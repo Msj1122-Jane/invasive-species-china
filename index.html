@@ -3705,6 +3705,9 @@ async function renderChapter(idx) {
   } catch(e) {
     console.error('Render chapter', idx, 'failed:', e);
   }
+  
+  // 章节渲染完成后刷新动效系统
+  if (window._refreshSA) window._refreshSA();
 }
 
 // Nav dot click: scroll to section
@@ -6457,6 +6460,22 @@ function toggleCheck(el) {
     document.querySelectorAll('.chart-container, .sidebar-panel, .insight-card, .loss-item, .gate-content').forEach(function(el) {
       if (!el.classList.contains('sa-pre')) {
         el.classList.add('sa-pre', 'sa-scale');
+      }
+    });
+
+    // 时间线项、图鉴卡片、统计项、海关卡片等：交错上浮
+    document.querySelectorAll('.tl-item, .gc-card, .defense-stat-item, .case-card, .evidence-card, .port-rank-row, .tech-step, .sankey-section, .flow-section, .reserve-section, .trend-section, .county-section, .bubble-section, .customs-section, .case-db-section, .disguise-section, .chart-source, .audio-control').forEach(function(el, i) {
+      if (!el.classList.contains('sa-pre')) {
+        el.classList.add('sa-pre');
+        el.style.transitionDelay = ((i % 4) * 100) + 'ms';
+      }
+    });
+
+    // 引言段落：交错上浮
+    document.querySelectorAll('.intro-narrative-inner p').forEach(function(el, i) {
+      if (!el.classList.contains('sa-pre')) {
+        el.classList.add('sa-pre');
+        el.style.transitionDelay = (i * 150) + 'ms';
       }
     });
 
