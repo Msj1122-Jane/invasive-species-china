@@ -5141,201 +5141,160 @@ async function renderWorldFlow() {
   const container = document.getElementById('world-flow-chart');
   worldFlowChart = echarts.init(container);
 
-  // Count origins
-  const totalSpecies = Data.species.length;
-  const americaCount = Data.species.filter(s => s.origin && (s.origin.includes('美洲') || s.origin.includes('北美') || s.origin.includes('南美'))).length;
-  const europeCount = Data.species.filter(s => s.origin && s.origin.includes('欧')).length;
-  const asiaCount = Data.species.filter(s => s.origin && s.origin.includes('亚') && !s.origin.includes('南美')).length;
-  const africaCount = Data.species.filter(s => s.origin && s.origin.includes('非')).length;
-
-  // Geographic coordinates for each origin
   const originCoords = {
-    '北美洲': [-100, 45],
-    '南美洲': [-60, -15],
-    '欧洲': [10, 50],
-    '非洲': [20, 10],
-    '东南亚': [110, 10],
-    '中亚': [65, 40],
-    '中国': [105, 35]
+    '北美洲': [-100, 40], '北美': [-100, 38], '美洲': [-80, 25],
+    '南美洲': [-60, -15], '南美': [-55, -12],
+    '巴西': [-50, -15], '南美洲（巴西等）': [-55, -10],
+    '墨西哥': [-100, 23], '中美洲': [-90, 15], '中美洲（墨西哥等）': [-88, 14],
+    '中美和北美': [-95, 30], '中美洲和南美洲': [-70, 0],
+    '墨西哥和美国西南部': [-105, 28], '美国东南部海岸': [-82, 28], '美国西南部': [-110, 33],
+    '西印度群岛': [-75, 20], '热带美洲': [-70, 10],
+    '欧洲': [10, 50], '欧洲和地中海沿岸': [12, 42], '欧洲地中海地区': [15, 40],
+    '南欧地中海地区': [15, 38], '欧洲、亚洲西南部': [35, 38], '地中海地区': [18, 38],
+    '印度': [78, 20], '不丹、印度及中亚': [80, 25],
+    '热带亚洲': [105, 5], '热带非洲': [20, 5], '热带非洲、热带亚洲': [30, 10],
+    '北美洲、中美洲': [-95, 32],
+  };
+  const originColors = {
+    '北美洲': '#3B82F6', '北美': '#3B82F6', '美洲': '#3B82F6',
+    '南美洲': '#EC4899', '南美': '#EC4899',
+    '巴西': '#EC4899', '南美洲（巴西等）': '#EC4899',
+    '墨西哥': '#F59E0B', '中美洲': '#F59E0B', '中美洲（墨西哥等）': '#F59E0B',
+    '中美和北美': '#3B82F6', '中美洲和南美洲': '#EC4899',
+    '墨西哥和美国西南部': '#F59E0B', '美国东南部海岸': '#3B82F6', '美国西南部': '#3B82F6',
+    '西印度群岛': '#EC4899', '热带美洲': '#EC4899',
+    '欧洲': '#8B5CF6', '欧洲和地中海沿岸': '#8B5CF6', '欧洲地中海地区': '#8B5CF6',
+    '南欧地中海地区': '#8B5CF6', '欧洲、亚洲西南部': '#8B5CF6', '地中海地区': '#8B5CF6',
+    '印度': '#10B981', '不丹、印度及中亚': '#10B981',
+    '热带亚洲': '#10B981', '热带非洲': '#F59E0B', '热带非洲、热带亚洲': '#F59E0B',
+    '北美洲、中美洲': '#3B82F6',
   };
 
-  const colors = {
-    '北美洲': '#3B82F6',
-    '南美洲': '#EC4899',
-    '欧洲': '#8B5CF6',
-    '非洲': '#F59E0B',
-    '东南亚': '#10B981',
-    '中亚': '#06B6D4',
-    '中国': '#EF4444'
-  };
+  const originCounts = {};
+  Data.species.forEach(s => {
+    if (!s.origin || ['中国','未知','不详'].includes(s.origin)) return;
+    originCounts[s.origin] = (originCounts[s.origin] || 0) + 1;
+  });
 
-  // Build origin counts with detail
-  const originCounts = {
-    '北美洲': americaCount,
-    '南美洲': Math.round(americaCount * 0.6),
-    '欧洲': europeCount,
-    '东南亚': asiaCount,
-    '非洲': africaCount,
-    '中亚': Math.round(asiaCount * 0.4),
-    '中国': totalSpecies
-  };
-
-  // Update flow stats dynamically
-  const americas = americaCount + Math.round(americaCount * 0.6);
-  const asias = asiaCount + Math.round(asiaCount * 0.4);
-  const other = totalSpecies - americas - europeCount - asias;
-  const stats = [
-    { num: americas, lbl: '来自美洲' },
-    { num: europeCount, lbl: '来自欧洲' },
-    { num: asias, lbl: '来自亚洲其他地区' },
-    { num: Math.max(0, other), lbl: '其他' }
-  ];
+  const americas = Data.species.filter(s => s.origin && (s.origin.includes('美洲') || s.origin.includes('北美') || s.origin.includes('南美'))).length;
+  const europeCount = Data.species.filter(s => s.origin && s.origin.includes('欧')).length;
+  const asias = Data.species.filter(s => s.origin && s.origin.includes('亚') && !s.origin.includes('南美')).length;
+  const other = Math.max(0, Data.species.length - americas - europeCount - asias);
   const flowInsight = document.querySelector('.flow-insight');
   if (flowInsight) {
-    flowInsight.innerHTML = stats.map(s => `
-      <div class="flow-stat"><div class="fs-num">${s.num}</div><div class="fs-lbl">${s.lbl}</div></div>
-    `).join('');
+    flowInsight.innerHTML = [
+      { num: americas, lbl: '来自美洲' },
+      { num: europeCount, lbl: '来自欧洲' },
+      { num: asias, lbl: '来自亚洲' },
+      { num: other, lbl: '其他' }
+    ].map(s => '<div class="flow-stat"><div class="fs-num">' + s.num + '</div><div class="fs-lbl">' + s.lbl + '</div></div>').join('');
   }
 
-  // Flow data
-  const flowLinks = [
-    { source: '北美洲', target: '中国', value: originCounts['北美洲'], color: '#3B82F6' },
-    { source: '南美洲', target: '中国', value: originCounts['南美洲'], color: '#EC4899' },
-    { source: '欧洲', target: '中国', value: originCounts['欧洲'], color: '#8B5CF6' },
-    { source: '东南亚', target: '中国', value: originCounts['东南亚'], color: '#10B981' },
-    { source: '非洲', target: '中国', value: originCounts['非洲'], color: '#F59E0B' },
-    { source: '中亚', target: '中国', value: originCounts['中亚'], color: '#06B6D4' }
-  ];
+  const linesData = [];
+  Data.species.forEach(s => {
+    if (!s.origin || ['中国','未知','不详'].includes(s.origin)) return;
+    const coord = originCoords[s.origin];
+    if (!coord) return;
+    const jx = (Math.random() - 0.5) * 3;
+    const jy = (Math.random() - 0.5) * 3;
+    const from = [coord[0] + jx, coord[1] + jy];
+    const to = [105 + (Math.random() - 0.5) * 2, 35 + (Math.random() - 0.5) * 2];
+    linesData.push({
+      coords: [from, to],
+      lineStyle: {
+        width: 1.5, color: originColors[s.origin] || '#94A3B8',
+        opacity: 0.65, curveness: 0.2,
+        shadowBlur: 3, shadowColor: originColors[s.origin] || '#94A3B8'
+      },
+      name: s.name_cn
+    });
+  });
 
-  // Try to load world map GeoJSON
+  const scatterData = Object.entries(originCounts).map(([origin, count]) => {
+    const coord = originCoords[origin] || [0, 0];
+    return {
+      name: origin,
+      value: [...coord, count],
+      itemStyle: { color: originColors[origin] || '#888' },
+      label: {
+        show: true,
+        formatter: '{name|' + origin + '}
+{val|' + count + '种}',
+        rich: {
+          name: { color: '#E8F0EB', fontSize: 10, lineHeight: 16, fontWeight: 700 },
+          val: { color: '#F59E0B', fontSize: 9, lineHeight: 14, fontWeight: 600 }
+        },
+        position: 'bottom', distance: 6
+      }
+    };
+  });
+  scatterData.push({
+    name: '中国', value: [105, 35, Data.species.length],
+    itemStyle: { color: '#EF4444' },
+    label: {
+      show: true,
+      formatter: '{name|中国}\n{val|' + Data.species.length + '种}',
+      rich: {
+        name: { color: '#E8F0EB', fontSize: 12, lineHeight: 18, fontWeight: 700 },
+        val: { color: '#F59E0B', fontSize: 11, lineHeight: 16 }
+      },
+      position: 'right', distance: 8
+    }
+  });
+
   const hasWorldMap = await loadWorldGeoJSON();
 
   if (hasWorldMap) {
-    // Real world map visualization
-    const linesData = flowLinks.map(d => ({
-      coords: [originCoords[d.source], originCoords[d.target]],
-      lineStyle: {
-        width: Math.max(1.5, d.value / 2),
-        color: d.color,
-        opacity: 0.85,
-        curveness: 0.2,
-        shadowBlur: Math.max(6, d.value / 1.5),
-        shadowColor: d.color
-      }
-    }));
-
-    const scatterData = Object.keys(originCoords).map(name => ({
-      name: name,
-      value: [...originCoords[name], originCounts[name]],
-      itemStyle: { color: colors[name] },
-      label: {
-        show: true,
-        formatter: function(p) {
-          const val = originCounts[p.name] || 0;
-          return `{name|${p.name}}\n{val|${val}种}`;
-        },
-        rich: {
-          name: { color: '#E8F0EB', fontSize: 12, lineHeight: 18, fontWeight: 700 },
-          val: { color: '#F59E0B', fontSize: 11, lineHeight: 16, fontWeight: 600 }
-        },
-        position: name === '中国' ? 'right' : 'bottom',
-        distance: 8
-      }
-    }));
-
     worldFlowChart.setOption({
       backgroundColor: 'transparent',
       tooltip: {
         trigger: 'item',
         formatter: function(p) {
           if (p.seriesType === 'effectScatter') {
-            const val = originCounts[p.name] || 0;
-            return `<strong>${p.name}</strong><br/>` +
-              (p.name === '中国' ? '入侵物种目标地' : `原产地：${val}种`);
+            return p.name === '中国'
+              ? '<strong>中国</strong><br/>入侵物种目标地：' + Data.species.length + '种'
+              : '<strong>' + p.name + '</strong><br/>物种数量：' + (originCounts[p.name] || 0) + '种';
           }
           if (p.seriesType === 'lines') {
-            const link = flowLinks[p.dataIndex];
-            return `<strong>${link.source} → ${link.target}</strong><br/>物种数量：${link.value}种`;
+            return '<strong>' + p.data.name + '</strong><br/>来自原产地';
           }
           return '';
         }
       },
       geo: {
-        map: 'world',
-        roam: true,
-        silent: true,
-        itemStyle: {
-          areaColor: '#132820',
-          borderColor: '#1F3D30',
-          borderWidth: 0.5
-        },
+        map: 'world', roam: true, silent: true,
+        itemStyle: { areaColor: '#132820', borderColor: '#1F3D30', borderWidth: 0.5 },
         emphasis: { disabled: true },
-        center: [30, 20],
-        zoom: 1.2
+        center: [30, 20], zoom: 1.2
       },
       series: [
         {
-          type: 'lines',
-          coordinateSystem: 'geo',
-          data: linesData,
-          effect: {
-            show: true,
-            period: 4,
-            trailLength: 0.5,
-            color: '#F59E0B',
-            symbol: 'arrow',
-            symbolSize: 8
-          },
-          lineStyle: {
-            curveness: 0.2,
-            opacity: 0.6
-          }
+          type: 'lines', coordinateSystem: 'geo', data: linesData,
+          effect: { show: true, period: 4, trailLength: 0.5, color: '#F59E0B', symbol: 'arrow', symbolSize: 5 },
+          lineStyle: { curveness: 0.2, opacity: 0.6 }
         },
         {
-          type: 'effectScatter',
-          coordinateSystem: 'geo',
-          data: scatterData,
-          symbolSize: function(val) {
-            return val[2] > 20 ? Math.min(val[2] / 3, 40) : 20;
-          },
-          label: {
-            show: true,
-            formatter: function(p) {
-              const val = originCounts[p.name] || 0;
-              return `{name|${p.name}}\n{val|${val}种}`;
-            },
-            rich: {
-              name: { color: '#E8F0EB', fontSize: 12, lineHeight: 18, fontWeight: 700 },
-              val: { color: '#F59E0B', fontSize: 11, lineHeight: 16, fontWeight: 600 }
-            },
-            position: function(p) {
-              return p.name === '中国' ? 'right' : 'bottom';
-            },
-            distance: 8
-          },
-          itemStyle: {
-            color: function(p) {
-              return colors[p.name] || '#888';
-            }
-          },
-          rippleEffect: {
-            brushType: 'stroke',
-            scale: 3
-          }
+          type: 'effectScatter', coordinateSystem: 'geo', data: scatterData,
+          symbolSize: function(val) { return Math.min(val[2] * 2 + 8, 35); },
+          label: { show: true },
+          itemStyle: { color: function(p) { return p.data.itemStyle.color; } },
+          rippleEffect: { brushType: 'stroke', scale: 2 }
         }
       ]
     });
   } else {
-    // Fallback: graph layout with geographic-like coordinates
-    const regions = [
-      { name: '北美洲', x: 80, y: 130, color: '#3B82F6' },
-      { name: '南美洲', x: 150, y: 300, color: '#EC4899' },
-      { name: '欧洲', x: 380, y: 110, color: '#8B5CF6' },
-      { name: '非洲', x: 390, y: 260, color: '#F59E0B' },
-      { name: '东南亚', x: 620, y: 280, color: '#10B981' },
-      { name: '中亚', x: 520, y: 140, color: '#06B6D4' },
-      { name: '中国', x: 680, y: 180, color: '#EF4444' }
-    ];
+    const regions = Object.entries(originCoords).map(([name, coord]) => ({
+      name: name,
+      x: (coord[0] + 180) / 360 * 800,
+      y: (90 - coord[1]) / 180 * 400,
+      color: originColors[name] || '#888'
+    }));
+    regions.push({ name: '中国', x: 680, y: 180, color: '#EF4444' });
+
+    const graphLinks = Object.entries(originCounts).map(([origin, count]) => ({
+      source: origin, target: '中国', value: count,
+      lineStyle: { width: Math.max(1.5, count / 2), color: originColors[origin] || '#888' }
+    }));
 
     worldFlowChart.setOption({
       backgroundColor: 'transparent',
@@ -5343,61 +5302,44 @@ async function renderWorldFlow() {
         trigger: 'item',
         formatter: function(p) {
           if (p.dataType === 'node') {
-            const val = originCounts[p.name] || 0;
-            return `<strong>${p.name}</strong><br/>` +
-              (p.name === '中国' ? '入侵物种目标地' : `原产地：${val}种`);
+            return '<strong>' + p.name + '</strong><br/>' + (p.name === '中国' ? '入侵物种目标地' : '物种数量：' + (originCounts[p.name] || 0) + '种');
           }
           if (p.dataType === 'edge') {
-            return `<strong>${p.data.source} → ${p.data.target}</strong><br/>物种数量：${p.data.value}种`;
+            return '<strong>' + p.data.source + ' -> ' + p.data.target + '</strong><br/>物种数量：' + p.data.value + '种';
           }
           return '';
         }
       },
       xAxis: { show: false, min: 0, max: 800 },
       yAxis: { show: false, min: 0, max: 400 },
-      series: [
-        {
-          type: 'graph',
-          layout: 'none',
-          coordinateSystem: 'cartesian2d',
-          data: regions.map(r => ({
-            name: r.name,
-            value: [r.x, r.y],
-            symbolSize: r.name === '中国' ? 60 : 35,
-            itemStyle: { color: r.color },
-            label: {
-              show: true,
-              formatter: function(p) {
-                const val = originCounts[p.name] || 0;
-                return `{name|${p.name}}\n{val|${val}种}`;
-              },
-              rich: {
-                name: { color: '#E8F0EB', fontSize: 12, lineHeight: 18, fontWeight: 700 },
-                val: { color: '#F59E0B', fontSize: 11, lineHeight: 16, fontWeight: 600 }
-              }
+      series: [{
+        type: 'graph', layout: 'none', coordinateSystem: 'cartesian2d',
+        data: regions.map(r => ({
+          name: r.name,
+          value: [r.x, r.y],
+          symbolSize: r.name === '中国' ? 50 : Math.min((originCounts[r.name] || 1) * 3 + 10, 30),
+          itemStyle: { color: r.color },
+          label: {
+            show: true,
+            formatter: function(p) {
+              const c = originCounts[p.name] || 0;
+              return '{name|' + p.name + '}\n{val|' + c + '种}';
+            },
+            rich: {
+              name: { color: '#E8F0EB', fontSize: 10, lineHeight: 16 },
+              val: { color: '#F59E0B', fontSize: 9, lineHeight: 14 }
             }
-          })),
-          links: flowLinks.map(d => ({
-            source: d.source,
-            target: d.target,
-            value: d.value,
-            lineStyle: { width: Math.max(1.5, d.value / 2), color: d.color },
-            label: {
-              show: true,
-              formatter: '{c}种',
-              fontSize: 10,
-              color: '#F59E0B'
-            }
-          })),
-          lineStyle: { curveness: 0.3, opacity: 0.6 },
-          emphasis: { focus: 'adjacent', lineStyle: { width: 4 } },
-          label: { show: true, fontSize: 11, color: '#E8F0EB' },
-          animationDuration: 2000,
-          animationEasing: 'elasticOut'
-        }
-      ]
+          }
+        })),
+        links: graphLinks,
+        lineStyle: { curveness: 0.3, opacity: 0.6 },
+        emphasis: { focus: 'adjacent', lineStyle: { width: 4 } },
+        label: { show: true, fontSize: 10, color: '#E8F0EB' },
+        animationDuration: 2000, animationEasing: 'elasticOut'
+      }]
     });
   }
+
 }
 
 // Reserve dots
