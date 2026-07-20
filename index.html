@@ -219,6 +219,20 @@ body {
 .section-light .section-subtitle { color: var(--a-text-secondary); }
 .section-light .section-divider { background: var(--a-highlight); }
 
+/* 各浅色章节独立渐变背景 —— 避免全篇纯白单调 */
+/* Ch1 数据全景：白→淡薄荷绿 */
+#chapter-map.section-light {
+  background: linear-gradient(180deg, #FAFBF9 0%, #EFF5EC 50%, #E8F0E3 100%);
+}
+/* Ch4 代价几何：白→淡暖灰（经济损失的沉重感） */
+#chapter-impact.section-light {
+  background: linear-gradient(180deg, #FAFBF9 0%, #F5F1EC 50%, #EFE9E2 100%);
+}
+/* Ch5 防治之路：淡绿→深绿（越来越重视的递进感） */
+#chapter-defense.section-light {
+  background: linear-gradient(180deg, #EFF5EC 0%, #DDE9D4 40%, #C5D9B8 80%, #B0CCA0 100%);
+}
+
 /* Dark section (Route B) */
 .section-dark {
   background: var(--b-bg);
@@ -227,6 +241,20 @@ body {
 .section-dark .section-title { color: var(--b-text); }
 .section-dark .section-subtitle { color: var(--b-text-dim); }
 .section-dark .section-divider { background: linear-gradient(90deg, var(--b-accent), var(--b-gold)); }
+
+/* 各深色章节独立渐变背景 */
+/* Ch0 序章：深绿黑→更深 */
+#chapter-intro.section-dark {
+  background: linear-gradient(180deg, #0B1410 0%, #091210 100%);
+}
+/* Ch2 时空轨迹：深绿→稍亮 */
+#chapter-spread.section-dark {
+  background: linear-gradient(180deg, #0B1410 0%, #0E1A14 50%, #102018 100%);
+}
+/* Ch3 物种图鉴：深色带绿调 */
+#chapter-species.section-dark {
+  background: linear-gradient(180deg, #0B1410 0%, #0D1812 100%);
+}
 
 /* ============================================
    CHAPTER GATE — 全屏章节封面
