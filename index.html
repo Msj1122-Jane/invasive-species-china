@@ -2661,6 +2661,24 @@ body {
   .audio-volume { width: 48px; }
   .audio-label { font-size: 0.7rem; }
 }
+
+/* ===== 滚动动效系统（安全版：默认可见，JS加载后才隐藏）===== */
+.sa-pre {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.sa-pre.sa-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.sa-pre.sa-left { transform: translateX(-40px); }
+.sa-pre.sa-left.sa-in { transform: translateX(0); }
+.sa-pre.sa-right { transform: translateX(40px); }
+.sa-pre.sa-right.sa-in { transform: translateX(0); }
+.sa-pre.sa-scale { transform: scale(0.9); }
+.sa-pre.sa-scale.sa-in { transform: scale(1); }
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -6401,6 +6419,69 @@ function toggleCheck(el) {
 
   // 暴露到全局便于外部控制
   window._bgm = { audio, play: () => audio.play(), pause: () => audio.pause(), get playing() { return playing; } };
+})();
+
+// ===== 滚动动效系统（安全版：默认可见，JS加载后才隐藏）=====
+(function initScrollAnimations() {
+  var observer = null;
+
+  function setupAnimations() {
+    if (!observer) {
+      observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('sa-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px 60px 0px' });
+    }
+
+    // section-inner 子元素：交错上浮入场
+    document.querySelectorAll('.section-inner').forEach(function(inner) {
+      var children = inner.children;
+      var idx = 0;
+      for (var i = 0; i < children.length; i++) {
+        var el = children[i];
+        if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE') continue;
+        if (el.classList.contains('section-header')) continue;
+        if (!el.classList.contains('sa-pre')) {
+          el.classList.add('sa-pre');
+          el.style.transitionDelay = ((idx % 5) * 80) + 'ms';
+          idx++;
+        }
+      }
+    });
+
+    // 图表容器、面板、卡片：缩放入场
+    document.querySelectorAll('.chart-container, .sidebar-panel, .insight-card, .loss-item, .gate-content').forEach(function(el) {
+      if (!el.classList.contains('sa-pre')) {
+        el.classList.add('sa-pre', 'sa-scale');
+      }
+    });
+
+    // 观察所有 sa-pre 元素
+    document.querySelectorAll('.sa-pre:not(.sa-in)').forEach(function(el) {
+      observer.observe(el);
+    });
+
+    // 安全兜底：3秒后强制显示所有未显示的元素
+    setTimeout(function() {
+      document.querySelectorAll('.sa-pre:not(.sa-in)').forEach(function(el) {
+        el.classList.add('sa-in');
+      });
+    }, 3000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupAnimations);
+  } else {
+    setupAnimations();
+  }
+
+  window._refreshSA = function() {
+    setTimeout(setupAnimations, 200);
+  };
 })();
 
 </script>
