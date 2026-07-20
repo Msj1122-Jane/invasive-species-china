@@ -1,0 +1,149 @@
+{
+  "actions": [
+    {
+      "year": 2006,
+      "provinces": 10,
+      "area_mw": 1443,
+      "species": 8,
+      "people_m": null,
+      "effect": null,
+      "note": null
+    },
+    {
+      "year": 2007,
+      "provinces": null,
+      "area_mw": 1200,
+      "species": 10,
+      "people_m": null,
+      "effect": 70,
+      "note": "灭除率70%+, 示范区30万亩"
+    },
+    {
+      "year": 2008,
+      "provinces": 15,
+      "area_mw": 3200,
+      "species": 14,
+      "people_m": 5.5,
+      "effect": 75,
+      "note": "550万人次"
+    },
+    {
+      "year": 2009,
+      "provinces": 17,
+      "area_mw": 3615,
+      "species": 15,
+      "people_m": null,
+      "effect": null,
+      "note": "241万公顷"
+    },
+    {
+      "year": 2011,
+      "provinces": null,
+      "area_mw": 1350,
+      "species": 10,
+      "people_m": 3.34,
+      "effect": 75,
+      "note": "直接增收4亿, 间接45亿"
+    },
+    {
+      "year": 2015,
+      "provinces": 30,
+      "area_mw": null,
+      "species": null,
+      "people_m": null,
+      "effect": null,
+      "note": "30省开展+卫星遥感监测"
+    }
+  ],
+  "catalog_system": [
+    {
+      "label": "第一批名单(2012)",
+      "value": 52,
+      "note": "国家重点管理外来入侵物种名录"
+    },
+    {
+      "label": "三批合计(2014)",
+      "value": 71,
+      "note": "71种列入中国外来入侵物种名单"
+    },
+    {
+      "label": "应急防控(2013)",
+      "value": 40,
+      "note": "40种应急防控技术指南"
+    }
+  ],
+  "specific_species_control": [
+    {
+      "species": "紫茎泽兰",
+      "note": "2006年西南最严重入侵植物"
+    },
+    {
+      "species": "互花米草",
+      "note": "2013年沿海分布35995.2公顷；威胁红树林"
+    },
+    {
+      "species": "松材线虫病",
+      "note": "2012年4.08万公顷，疫区减少；持续向西向北扩散"
+    },
+    {
+      "species": "美国白蛾",
+      "note": "2012年68.20万公顷，沿渤海湾跳跃式扩散"
+    },
+    {
+      "species": "薇甘菊",
+      "note": "2012年4省25地市76县，4.66万公顷"
+    },
+    {
+      "species": "红脂大小蠹",
+      "note": "2012年4省5.47万公顷，同比+17.14%"
+    },
+    {
+      "species": "水花生/福寿螺",
+      "note": "20种农业入侵物种年损失840亿元(2014)"
+    }
+  ],
+  "invasive_plant_families": [
+    {
+      "family": "菊科 Asteraceae",
+      "representative": "紫茎泽兰、加拿大一枝黄花",
+      "traits": "种子细小带冠毛，扩散极快",
+      "quote": "入侵植物头号家族"
+    },
+    {
+      "family": "苋科 Amaranthaceae",
+      "representative": "空心莲子草",
+      "traits": "生命力极强，极端环境适应性高",
+      "quote": "顽强的生存专家"
+    },
+    {
+      "family": "禾本科 Poaceae",
+      "representative": "互花米草",
+      "traits": "长相酷似谷物难以辨别",
+      "quote": "隐蔽的农田潜伏者"
+    },
+    {
+      "family": "旋花科 Convolvulaceae",
+      "representative": "五爪金龙",
+      "traits": "缠绕藤本，覆盖宿主遮光致死",
+      "quote": "森林的致命缠绕绞杀者"
+    },
+    {
+      "family": "豆科 Fabaceae",
+      "representative": "银合欢",
+      "traits": "最初作为优良牧草引入，后演变为入侵",
+      "quote": "伪装成优良牧草的刺客"
+    },
+    {
+      "family": "茄科 Solanaceae",
+      "representative": "银叶茄",
+      "traits": "带刺、抗旱耐盐碱，近年新现",
+      "quote": "带刺的荒地霸主"
+    }
+  ],
+  "summary": {
+    "first_catalog": "2003年第一批外来入侵物种名单",
+    "key_law": "2021年《生物安全法》施行",
+    "managed_species": "52种国家重点管理外来入侵物种",
+    "control_scale": "累计灭除面积数百万亩，灭除率70%+"
+  }
+}

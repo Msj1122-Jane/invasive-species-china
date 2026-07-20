@@ -1,0 +1,93 @@
+{
+  "study_2025": {
+    "total_loss": "2363.5亿美元",
+    "period": "1980-2020 (40年)",
+    "species_count": 11,
+    "explicit_loss": "103.3亿美元",
+    "hidden_loss": "2232.5亿美元",
+    "agriculture_pct": "82%",
+    "forestry_pct": "18%",
+    "policies_count": 352,
+    "source": "中国农科院植保所×巴黎萨克雷大学, Entomologia Generalis (2025)"
+  },
+  "historical_estimates": [
+    {
+      "year": "2011",
+      "value": 1198.8,
+      "note": "初步估计年直接或间接损失1198.8亿元",
+      "source": "生态环境部公报"
+    },
+    {
+      "year": "2014",
+      "value": 840,
+      "note": "仅20种主要农业入侵物种年损失840亿元",
+      "source": "生态环境部公报"
+    },
+    {
+      "label": "外来入侵物种造成经济损失",
+      "value": "约2000亿元/年",
+      "source": "整合数据"
+    },
+    {
+      "label": "补充说明",
+      "value": "2012年中国因外来物种入侵年损失1200亿（链接：）",
+      "source": "整合数据"
+    },
+    {
+      "label": "研究标题",
+      "value": "Escalating economic costs of invasive species in China driven by hidden impacts and policy gaps",
+      "source": "整合数据"
+    },
+    {
+      "label": "总经济损失（1980-2020）",
+      "value": "2,363.5亿美元（约¥1.7万亿元）",
+      "source": "整合数据"
+    },
+    {
+      "label": "显性损失",
+      "value": "103.3亿美元（占13%）",
+      "source": "整合数据"
+    },
+    {
+      "label": "隐藏损失",
+      "value": "2,232.5亿美元（占87%）",
+      "source": "整合数据"
+    },
+    {
+      "label": "行业分布",
+      "value": "农业82%（2,037亿美元）/ 林业18%（439亿美元）",
+      "source": "整合数据"
+    },
+    {
+      "label": "三省损失最大",
+      "value": "广东54.7亿 / 辽宁42.6亿 / 陕西33.1亿美元",
+      "source": "整合数据"
+    },
+    {
+      "label": "管理政策数量",
+      "value": "352项（国家级270+省级82）截至2020年",
+      "source": "整合数据"
+    },
+    {
+      "label": "关键发现",
+      "value": "政策数量与经济损失呈正相关，2006年后政策快速增加→防控仍处\"被动防御\"状态",
+      "source": "整合数据"
+    },
+    {
+      "label": "使用限制",
+      "value": "仅评估11种重大农林入侵物种，未涵盖所有660+种。异宠相关物种可能未充分纳入",
+      "source": "整合数据"
+    },
+    {
+      "label": "年均显性损失",
+      "value": "约59亿美元/年 ≈ ¥430亿元/年（仅11种重大物种的显性损失）",
+      "source": "整合数据"
+    }
+  ],
+  "summary": {
+    "annual_estimate": "约2000亿元/年",
+    "key_finding": "11种重大入侵物种1980-2020年造成2363.5亿美元总损失，其中隐性损失占94.6%",
+    "agriculture_share": "82%",
+    "forestry_share": "18%"
+  }
+}

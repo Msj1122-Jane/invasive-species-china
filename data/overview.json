@@ -1,0 +1,103 @@
+{
+  "total_species": {
+    "value": 660,
+    "desc": "中国已记录外来入侵物种约660种（2020年生态环境部公报）",
+    "source": "生态环境部《中国生态环境状况公报》"
+  },
+  "level_distribution": {
+    "1级": {
+      "count": 37,
+      "desc": "恶性入侵，危害极大"
+    },
+    "2级": {
+      "count": 45,
+      "desc": "严重入侵"
+    },
+    "3级": {
+      "count": 52,
+      "desc": "局部入侵"
+    },
+    "4级": {
+      "count": 59,
+      "desc": "一般入侵"
+    },
+    "5级": {
+      "count": 148,
+      "desc": "有待观察"
+    },
+    "7级": {
+      "count": 2,
+      "desc": null
+    },
+    "很严重": {
+      "count": 1,
+      "desc": null
+    },
+    "无级别": {
+      "count": 8137,
+      "desc": "尚未评级"
+    },
+    "严重": {
+      "count": 3,
+      "desc": null
+    },
+    "一般": {
+      "count": 34,
+      "desc": null
+    },
+    "有待观察": {
+      "count": 4,
+      "desc": null
+    }
+  },
+  "economic_loss": {
+    "annual_estimate": "约2000亿元/年",
+    "details": [
+      {
+        "year": 2011,
+        "value": 1198.8,
+        "unit": "亿元",
+        "scope": "直接或间接损失",
+        "source": "生态环境部公报"
+      },
+      {
+        "year": 2014,
+        "value": 840,
+        "unit": "亿元",
+        "scope": "仅20种主要农业入侵物种年损失",
+        "source": "农业农村部"
+      },
+      {
+        "value": "2363.5亿美元",
+        "period": "1980-2020(40年)",
+        "scope": "11种重大入侵物种总损失",
+        "source": "中国农科院植保所×巴黎萨克雷大学, Entomologia Generalis 2025"
+      }
+    ]
+  },
+  "customs_intercept": {
+    "latest": {
+      "year": 2025,
+      "value": 5439,
+      "unit": "批次",
+      "note": "全年全国海关查获"
+    },
+    "trend_note": "2021年寄递+旅客携带截获8473批次，同比增长98.43%"
+  },
+  "reserve_invasion": {
+    "2006": "131种（26个保护区调查）",
+    "2018": "213种入侵国家级保护区",
+    "2019": "215种入侵国家级保护区"
+  },
+  "red_fire_ant": {
+    "start_year": 2003,
+    "latest_province_count": 13,
+    "latest_year": 2025,
+    "note": "从台湾1省扩散至13省"
+  },
+  "extra_metrics": {
+    "ports": "311个（水运125个/空运85个/陆路101个+）",
+    "border_crossing_2025": "6.97亿人次（创历史新高，同比+14.2%）",
+    "iucn_listed": "中国有51种列入IUCN百种恶性入侵物种"
+  }
+}

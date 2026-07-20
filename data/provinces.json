@@ -1,0 +1,492 @@
+[
+  {
+    "name": "云南",
+    "total": 321,
+    "risk_score": 725,
+    "levels": {
+      "1级": 31,
+      "2级": 41,
+      "3级": 50,
+      "4级": 57,
+      "5级": 142
+    },
+    "animal_count": 35,
+    "plant_count": 86
+  },
+  {
+    "name": "广东",
+    "total": 259,
+    "risk_score": 626,
+    "levels": {
+      "1级": 32,
+      "2级": 37,
+      "3级": 40,
+      "4级": 48,
+      "5级": 102
+    },
+    "animal_count": 33,
+    "plant_count": 86
+  },
+  {
+    "name": "广西",
+    "total": 257,
+    "risk_score": 625,
+    "levels": {
+      "1级": 32,
+      "2级": 39,
+      "3级": 38,
+      "4级": 47,
+      "5级": 101
+    },
+    "animal_count": 32,
+    "plant_count": 71
+  },
+  {
+    "name": "福建",
+    "total": 252,
+    "risk_score": 613,
+    "levels": {
+      "1级": 33,
+      "2级": 37,
+      "3级": 34,
+      "4级": 50,
+      "5级": 98
+    },
+    "animal_count": 27,
+    "plant_count": 80
+  },
+  {
+    "name": "台湾",
+    "total": 245,
+    "risk_score": 605,
+    "levels": {
+      "1级": 30,
+      "2级": 37,
+      "3级": 40,
+      "4级": 49,
+      "5级": 89
+    },
+    "animal_count": 38,
+    "plant_count": 75
+  },
+  {
+    "name": "江西",
+    "total": 213,
+    "risk_score": 531,
+    "levels": {
+      "1级": 30,
+      "2级": 31,
+      "3级": 30,
+      "4级": 45,
+      "5级": 77
+    },
+    "animal_count": 12,
+    "plant_count": 50
+  },
+  {
+    "name": "四川",
+    "total": 212,
+    "risk_score": 520,
+    "levels": {
+      "1级": 27,
+      "2级": 36,
+      "3级": 22,
+      "4级": 48,
+      "5级": 79
+    },
+    "animal_count": 15,
+    "plant_count": 61
+  },
+  {
+    "name": "海南",
+    "total": 210,
+    "risk_score": 524,
+    "levels": {
+      "1级": 30,
+      "2级": 31,
+      "3级": 33,
+      "4级": 35,
+      "5级": 81
+    },
+    "animal_count": 29,
+    "plant_count": 59
+  },
+  {
+    "name": "浙江",
+    "total": 204,
+    "risk_score": 493,
+    "levels": {
+      "1级": 24,
+      "2级": 31,
+      "3级": 27,
+      "4级": 46,
+      "5级": 76
+    },
+    "animal_count": 12,
+    "plant_count": 63
+  },
+  {
+    "name": "江苏",
+    "total": 198,
+    "risk_score": 492,
+    "levels": {
+      "1级": 28,
+      "2级": 27,
+      "3级": 27,
+      "4级": 47,
+      "5级": 69
+    },
+    "animal_count": 15,
+    "plant_count": 55
+  },
+  {
+    "name": "湖南",
+    "total": 189,
+    "risk_score": 481,
+    "levels": {
+      "1级": 27,
+      "2级": 31,
+      "3级": 25,
+      "4级": 41,
+      "5级": 65
+    },
+    "animal_count": 12,
+    "plant_count": 44
+  },
+  {
+    "name": "贵州",
+    "total": 188,
+    "risk_score": 478,
+    "levels": {
+      "1级": 28,
+      "2级": 31,
+      "3级": 22,
+      "4级": 41,
+      "5级": 66
+    },
+    "animal_count": 14,
+    "plant_count": 55
+  },
+  {
+    "name": "香港",
+    "total": 172,
+    "risk_score": 451,
+    "levels": {
+      "1级": 28,
+      "2级": 27,
+      "3级": 28,
+      "4级": 30,
+      "5级": 59
+    },
+    "animal_count": 14,
+    "plant_count": 48
+  },
+  {
+    "name": "湖北",
+    "total": 171,
+    "risk_score": 420,
+    "levels": {
+      "1级": 23,
+      "2级": 25,
+      "3级": 18,
+      "4级": 46,
+      "5级": 59
+    },
+    "animal_count": 5,
+    "plant_count": 43
+  },
+  {
+    "name": "重庆",
+    "total": 168,
+    "risk_score": 425,
+    "levels": {
+      "1级": 24,
+      "2级": 27,
+      "3级": 19,
+      "4级": 42,
+      "5级": 56
+    },
+    "animal_count": 4,
+    "plant_count": 32
+  },
+  {
+    "name": "上海",
+    "total": 166,
+    "risk_score": 412,
+    "levels": {
+      "1级": 23,
+      "2级": 25,
+      "3级": 18,
+      "4级": 43,
+      "5级": 57
+    },
+    "animal_count": 13,
+    "plant_count": 25
+  },
+  {
+    "name": "安徽",
+    "total": 160,
+    "risk_score": 408,
+    "levels": {
+      "1级": 23,
+      "2级": 23,
+      "3级": 21,
+      "4级": 45,
+      "5级": 48
+    },
+    "animal_count": 6,
+    "plant_count": 47
+  },
+  {
+    "name": "山东",
+    "total": 156,
+    "risk_score": 395,
+    "levels": {
+      "1级": 22,
+      "2级": 25,
+      "3级": 16,
+      "4级": 44,
+      "5级": 49
+    },
+    "animal_count": 10,
+    "plant_count": 36
+  },
+  {
+    "name": "北京",
+    "total": 155,
+    "risk_score": 402,
+    "levels": {
+      "1级": 22,
+      "2级": 25,
+      "3级": 19,
+      "4级": 46,
+      "5级": 43
+    },
+    "animal_count": 12,
+    "plant_count": 41
+  },
+  {
+    "name": "河北",
+    "total": 150,
+    "risk_score": 394,
+    "levels": {
+      "1级": 24,
+      "2级": 26,
+      "3级": 15,
+      "4级": 40,
+      "5级": 45
+    },
+    "animal_count": 11,
+    "plant_count": 36
+  },
+  {
+    "name": "陕西",
+    "total": 146,
+    "risk_score": 365,
+    "levels": {
+      "1级": 21,
+      "2级": 25,
+      "3级": 11,
+      "4级": 38,
+      "5级": 51
+    },
+    "animal_count": 11,
+    "plant_count": 28
+  },
+  {
+    "name": "河南",
+    "total": 143,
+    "risk_score": 364,
+    "levels": {
+      "1级": 21,
+      "2级": 23,
+      "3级": 14,
+      "4级": 40,
+      "5级": 45
+    },
+    "animal_count": 11,
+    "plant_count": 36
+  },
+  {
+    "name": "澳门",
+    "total": 133,
+    "risk_score": 363,
+    "levels": {
+      "1级": 24,
+      "2级": 25,
+      "3级": 18,
+      "4级": 23,
+      "5级": 43
+    },
+    "animal_count": 3,
+    "plant_count": 14
+  },
+  {
+    "name": "辽宁",
+    "total": 122,
+    "risk_score": 320,
+    "levels": {
+      "1级": 20,
+      "2级": 22,
+      "3级": 11,
+      "4级": 30,
+      "5级": 39
+    },
+    "animal_count": 13,
+    "plant_count": 37
+  },
+  {
+    "name": "天津",
+    "total": 119,
+    "risk_score": 303,
+    "levels": {
+      "1级": 19,
+      "2级": 18,
+      "3级": 12,
+      "4级": 30,
+      "5级": 40
+    },
+    "animal_count": 4,
+    "plant_count": 11
+  },
+  {
+    "name": "山西",
+    "total": 112,
+    "risk_score": 280,
+    "levels": {
+      "1级": 16,
+      "2级": 18,
+      "3级": 10,
+      "4级": 30,
+      "5级": 38
+    },
+    "animal_count": 6,
+    "plant_count": 23
+  },
+  {
+    "name": "内蒙古",
+    "total": 102,
+    "risk_score": 245,
+    "levels": {
+      "1级": 8,
+      "2级": 20,
+      "3级": 12,
+      "4级": 27,
+      "5级": 35
+    },
+    "animal_count": 9,
+    "plant_count": 17
+  },
+  {
+    "name": "新疆",
+    "total": 100,
+    "risk_score": 232,
+    "levels": {
+      "1级": 9,
+      "2级": 17,
+      "3级": 7,
+      "4级": 31,
+      "5级": 36
+    },
+    "animal_count": 11,
+    "plant_count": 23
+  },
+  {
+    "name": "黑龙江",
+    "total": 96,
+    "risk_score": 242,
+    "levels": {
+      "1级": 12,
+      "2级": 16,
+      "3级": 11,
+      "4级": 28,
+      "5级": 29
+    },
+    "animal_count": 8,
+    "plant_count": 26
+  },
+  {
+    "name": "甘肃",
+    "total": 92,
+    "risk_score": 229,
+    "levels": {
+      "1级": 14,
+      "2级": 15,
+      "3级": 4,
+      "4级": 28,
+      "5级": 31
+    },
+    "animal_count": 6,
+    "plant_count": 23
+  },
+  {
+    "name": "西藏",
+    "total": 91,
+    "risk_score": 234,
+    "levels": {
+      "1级": 13,
+      "2级": 16,
+      "3级": 6,
+      "4级": 31,
+      "5级": 25
+    },
+    "animal_count": 3,
+    "plant_count": 31
+  },
+  {
+    "name": "吉林",
+    "total": 84,
+    "risk_score": 224,
+    "levels": {
+      "1级": 13,
+      "2级": 14,
+      "3级": 9,
+      "4级": 28,
+      "5级": 20
+    },
+    "animal_count": 9,
+    "plant_count": 27
+  },
+  {
+    "name": "青海",
+    "total": 65,
+    "risk_score": 152,
+    "levels": {
+      "1级": 7,
+      "2级": 9,
+      "3级": 5,
+      "4级": 22,
+      "5级": 22
+    },
+    "animal_count": 2,
+    "plant_count": 14
+  },
+  {
+    "name": "宁夏",
+    "total": 49,
+    "risk_score": 121,
+    "levels": {
+      "1级": 6,
+      "2级": 9,
+      "3级": 2,
+      "4级": 17,
+      "5级": 15
+    },
+    "animal_count": 4,
+    "plant_count": 11
+  },
+  {
+    "name": "南海",
+    "total": 1,
+    "risk_score": 5,
+    "levels": {
+      "1级": 1,
+      "2级": 0,
+      "3级": 0,
+      "4级": 0,
+      "5级": 0
+    },
+    "animal_count": null,
+    "plant_count": null
+  }
+]
