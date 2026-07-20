@@ -2973,7 +2973,7 @@ body {
         物种流向图：从原产地到入侵级别
       </h3>
       <p style="text-align:center;font-size:0.85rem;color:var(--b-text-dim);margin-bottom:16px;">
-        左侧为原产地大洲，右侧为入侵级别（1级最严重），流线粗细代表物种数量
+        左侧为原产地大洲，右侧为入侵级别（1级最严重），连线展示物种流向与数量
       </p>
       <div class="sankey-chart" id="sankeyChart"></div>
       <div class="chart-source">数据来源：iPlant植物智外来入侵物种数据库(iflora)</div>
@@ -4956,27 +4956,29 @@ function renderSankeyFlow() {
     return (map[m[1]] || m[1] + '级');
   }
 
-  // Group: origin → species → level
-  const links = [];
-  const speciesSet = new Set();
-
+  // Two-level flow: origin → level (no intermediate species nodes)
+  const flowMap = {};
   Data.species.forEach(s => {
     const origin = normalizeOrigin(s.origin);
     const lvl = normalizeLevel(s.level);
-    const sp = s.name_cn;
-    speciesSet.add(sp);
-    links.push({ source: origin, target: sp, value: s.province_count || 1 });
-    links.push({ source: sp, target: lvl, value: s.province_count || 1 });
+    const key = origin + '→' + lvl;
+    flowMap[key] = (flowMap[key] || 0) + 1;
   });
 
-  // Build node list
+  const links = [];
   const nodeSet = new Set();
-  links.forEach(l => { nodeSet.add(l.source); nodeSet.add(l.target); });
+  Object.entries(flowMap).forEach(([key, count]) => {
+    const [origin, lvl] = key.split('→');
+    nodeSet.add(origin);
+    nodeSet.add(lvl);
+    links.push({ source: origin, target: lvl, value: count });
+  });
+
+  const levelOrder = ['1级', '2级', '3级', '4级', '5级', '未定级'];
   const nodes = [...nodeSet].map(name => {
     let color = '#94a3b8';
-    if (['北美洲','南美洲','美洲','欧洲','亚洲','非洲','未知'].includes(name)) color = '#D62828';
-    if (speciesSet.has(name)) color = '#118AB2';
-    if (name.includes('级')) color = '#059669';
+    if (['北美洲','南美洲','美洲','欧洲','亚洲','非洲','未知','其他'].includes(name)) color = '#D62828';
+    if (name.includes('级') || name === '未定级') color = '#059669';
     return { name, itemStyle: { color } };
   });
 
@@ -4986,7 +4988,7 @@ function renderSankeyFlow() {
       triggerOn: 'mousemove',
       formatter: function(p) {
         if (p.dataType === 'edge') {
-          return `${p.data.source} → ${p.data.target}<br/>流通量：${p.data.value}`;
+          return `${p.data.source} → ${p.data.target}<br/>物种数量：${p.data.value}种`;
         }
         return `${p.name}`;
       }
@@ -4996,24 +4998,22 @@ function renderSankeyFlow() {
       layout: 'none',
       emphasis: { focus: 'adjacency' },
       nodeAlign: 'left',
-      layoutIterations: 32,
+      layoutIterations: 0,
       data: nodes,
       links: links,
       lineStyle: {
         color: 'gradient',
         curveness: 0.5,
-        opacity: 0.3
+        opacity: 0.35
       },
       label: {
-        fontSize: 9,
+        fontSize: 11,
         color: 'var(--b-text)',
-        formatter: function(p) {
-          if (p.name.length > 6 && speciesSet.has(p.name)) return p.name.slice(0, 5) + '…';
-          return p.name;
-        }
+        fontFamily: 'var(--font-sans)',
+        fontWeight: 500
       },
-      nodeWidth: 16,
-      nodeGap: 10
+      nodeWidth: 22,
+      nodeGap: 14
     }]
   });
 }
