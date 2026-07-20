@@ -1,0 +1,105 @@
+{
+  "pyramid": {
+    "1级": {
+      "count": 37,
+      "description": "恶性入侵，危害极大"
+    },
+    "2级": {
+      "count": 45,
+      "description": "严重入侵"
+    },
+    "3级": {
+      "count": 52,
+      "description": "局部入侵"
+    },
+    "4级": {
+      "count": 59,
+      "description": "一般入侵"
+    },
+    "5级": {
+      "count": 148,
+      "description": "有待观察"
+    },
+    "7级": {
+      "count": 2,
+      "description": ""
+    },
+    "很严重": {
+      "count": 1,
+      "description": ""
+    },
+    "无级别": {
+      "count": 8137,
+      "description": "尚未评级"
+    },
+    "严重": {
+      "count": 3,
+      "description": ""
+    },
+    "一般": {
+      "count": 34,
+      "description": ""
+    },
+    "有待观察": {
+      "count": 4,
+      "description": ""
+    }
+  },
+  "levels": [
+    {
+      "level": "1级",
+      "count": 37,
+      "description": "恶性入侵，危害极大"
+    },
+    {
+      "level": "2级",
+      "count": 45,
+      "description": "严重入侵"
+    },
+    {
+      "level": "3级",
+      "count": 52,
+      "description": "局部入侵"
+    },
+    {
+      "level": "4级",
+      "count": 59,
+      "description": "一般入侵"
+    },
+    {
+      "level": "5级",
+      "count": 148,
+      "description": "有待观察"
+    },
+    {
+      "level": "7级",
+      "count": 2,
+      "description": ""
+    },
+    {
+      "level": "很严重",
+      "count": 1,
+      "description": ""
+    },
+    {
+      "level": "无级别",
+      "count": 8137,
+      "description": "尚未评级"
+    },
+    {
+      "level": "严重",
+      "count": 3,
+      "description": ""
+    },
+    {
+      "level": "一般",
+      "count": 34,
+      "description": ""
+    },
+    {
+      "level": "有待观察",
+      "count": 4,
+      "description": ""
+    }
+  ]
+}

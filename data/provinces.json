@@ -11,7 +11,10 @@
       "5级": 142
     },
     "animal_count": 35,
-    "plant_count": 86
+    "plant_count": 86,
+    "animal": 132,
+    "plant": 189,
+    "level1": 26
   },
   {
     "name": "广东",
@@ -25,7 +28,10 @@
       "5级": 102
     },
     "animal_count": 33,
-    "plant_count": 86
+    "plant_count": 86,
+    "animal": 97,
+    "plant": 162,
+    "level1": 23
   },
   {
     "name": "广西",
@@ -39,7 +45,10 @@
       "5级": 101
     },
     "animal_count": 32,
-    "plant_count": 71
+    "plant_count": 71,
+    "animal": 108,
+    "plant": 149,
+    "level1": 27
   },
   {
     "name": "福建",
@@ -53,7 +62,10 @@
       "5级": 98
     },
     "animal_count": 27,
-    "plant_count": 80
+    "plant_count": 80,
+    "animal": 110,
+    "plant": 142,
+    "level1": 21
   },
   {
     "name": "台湾",
@@ -67,7 +79,10 @@
       "5级": 89
     },
     "animal_count": 38,
-    "plant_count": 75
+    "plant_count": 75,
+    "animal": 96,
+    "plant": 149,
+    "level1": 14
   },
   {
     "name": "江西",
@@ -81,7 +96,10 @@
       "5级": 77
     },
     "animal_count": 12,
-    "plant_count": 50
+    "plant_count": 50,
+    "animal": 79,
+    "plant": 134,
+    "level1": 17
   },
   {
     "name": "四川",
@@ -95,7 +113,10 @@
       "5级": 79
     },
     "animal_count": 15,
-    "plant_count": 61
+    "plant_count": 61,
+    "animal": 74,
+    "plant": 138,
+    "level1": 10
   },
   {
     "name": "海南",
@@ -109,7 +130,10 @@
       "5级": 81
     },
     "animal_count": 29,
-    "plant_count": 59
+    "plant_count": 59,
+    "animal": 87,
+    "plant": 123,
+    "level1": 17
   },
   {
     "name": "浙江",
@@ -123,7 +147,10 @@
       "5级": 76
     },
     "animal_count": 12,
-    "plant_count": 63
+    "plant_count": 63,
+    "animal": 75,
+    "plant": 129,
+    "level1": 17
   },
   {
     "name": "江苏",
@@ -137,7 +164,10 @@
       "5级": 69
     },
     "animal_count": 15,
-    "plant_count": 55
+    "plant_count": 55,
+    "animal": 65,
+    "plant": 133,
+    "level1": 7
   },
   {
     "name": "湖南",
@@ -151,7 +181,10 @@
       "5级": 65
     },
     "animal_count": 12,
-    "plant_count": 44
+    "plant_count": 44,
+    "animal": 81,
+    "plant": 108,
+    "level1": 16
   },
   {
     "name": "贵州",
@@ -165,7 +198,10 @@
       "5级": 66
     },
     "animal_count": 14,
-    "plant_count": 55
+    "plant_count": 55,
+    "animal": 72,
+    "plant": 116,
+    "level1": 12
   },
   {
     "name": "香港",
@@ -179,7 +215,10 @@
       "5级": 59
     },
     "animal_count": 14,
-    "plant_count": 48
+    "plant_count": 48,
+    "animal": 42,
+    "plant": 130,
+    "level1": 9
   },
   {
     "name": "湖北",
@@ -193,7 +232,10 @@
       "5级": 59
     },
     "animal_count": 5,
-    "plant_count": 43
+    "plant_count": 43,
+    "animal": 35,
+    "plant": 136,
+    "level1": 7
   },
   {
     "name": "重庆",
@@ -207,7 +249,10 @@
       "5级": 56
     },
     "animal_count": 4,
-    "plant_count": 32
+    "plant_count": 32,
+    "animal": 47,
+    "plant": 121,
+    "level1": 10
   },
   {
     "name": "上海",
@@ -221,7 +266,10 @@
       "5级": 57
     },
     "animal_count": 13,
-    "plant_count": 25
+    "plant_count": 25,
+    "animal": 54,
+    "plant": 112,
+    "level1": 11
   },
   {
     "name": "安徽",
@@ -235,7 +283,10 @@
       "5级": 48
     },
     "animal_count": 6,
-    "plant_count": 47
+    "plant_count": 47,
+    "animal": 40,
+    "plant": 120,
+    "level1": 12
   },
   {
     "name": "山东",
@@ -249,7 +300,10 @@
       "5级": 49
     },
     "animal_count": 10,
-    "plant_count": 36
+    "plant_count": 36,
+    "animal": 44,
+    "plant": 112,
+    "level1": 9
   },
   {
     "name": "北京",
@@ -263,7 +317,10 @@
       "5级": 43
     },
     "animal_count": 12,
-    "plant_count": 41
+    "plant_count": 41,
+    "animal": 51,
+    "plant": 104,
+    "level1": 10
   },
   {
     "name": "河北",
@@ -277,7 +334,10 @@
       "5级": 45
     },
     "animal_count": 11,
-    "plant_count": 36
+    "plant_count": 36,
+    "animal": 50,
+    "plant": 100,
+    "level1": 9
   },
   {
     "name": "陕西",
@@ -291,7 +351,10 @@
       "5级": 51
     },
     "animal_count": 11,
-    "plant_count": 28
+    "plant_count": 28,
+    "animal": 39,
+    "plant": 107,
+    "level1": 6
   },
   {
     "name": "河南",
@@ -305,7 +368,10 @@
       "5级": 45
     },
     "animal_count": 11,
-    "plant_count": 36
+    "plant_count": 36,
+    "animal": 31,
+    "plant": 112,
+    "level1": 7
   },
   {
     "name": "澳门",
@@ -319,7 +385,10 @@
       "5级": 43
     },
     "animal_count": 3,
-    "plant_count": 14
+    "plant_count": 14,
+    "animal": 21,
+    "plant": 112,
+    "level1": 6
   },
   {
     "name": "辽宁",
@@ -333,7 +402,10 @@
       "5级": 39
     },
     "animal_count": 13,
-    "plant_count": 37
+    "plant_count": 37,
+    "animal": 31,
+    "plant": 91,
+    "level1": 6
   },
   {
     "name": "天津",
@@ -347,7 +419,10 @@
       "5级": 40
     },
     "animal_count": 4,
-    "plant_count": 11
+    "plant_count": 11,
+    "animal": 37,
+    "plant": 82,
+    "level1": 6
   },
   {
     "name": "山西",
@@ -361,7 +436,10 @@
       "5级": 38
     },
     "animal_count": 6,
-    "plant_count": 23
+    "plant_count": 23,
+    "animal": 26,
+    "plant": 86,
+    "level1": 5
   },
   {
     "name": "内蒙古",
@@ -375,7 +453,10 @@
       "5级": 35
     },
     "animal_count": 9,
-    "plant_count": 17
+    "plant_count": 17,
+    "animal": 18,
+    "plant": 84,
+    "level1": 7
   },
   {
     "name": "新疆",
@@ -389,7 +470,10 @@
       "5级": 36
     },
     "animal_count": 11,
-    "plant_count": 23
+    "plant_count": 23,
+    "animal": 21,
+    "plant": 79,
+    "level1": 6
   },
   {
     "name": "黑龙江",
@@ -403,7 +487,10 @@
       "5级": 29
     },
     "animal_count": 8,
-    "plant_count": 26
+    "plant_count": 26,
+    "animal": 16,
+    "plant": 80,
+    "level1": 6
   },
   {
     "name": "甘肃",
@@ -417,7 +504,10 @@
       "5级": 31
     },
     "animal_count": 6,
-    "plant_count": 23
+    "plant_count": 23,
+    "animal": 15,
+    "plant": 77,
+    "level1": 5
   },
   {
     "name": "西藏",
@@ -431,7 +521,10 @@
       "5级": 25
     },
     "animal_count": 3,
-    "plant_count": 31
+    "plant_count": 31,
+    "animal": 22,
+    "plant": 69,
+    "level1": 5
   },
   {
     "name": "吉林",
@@ -445,7 +538,10 @@
       "5级": 20
     },
     "animal_count": 9,
-    "plant_count": 27
+    "plant_count": 27,
+    "animal": 17,
+    "plant": 67,
+    "level1": 5
   },
   {
     "name": "青海",
@@ -459,7 +555,10 @@
       "5级": 22
     },
     "animal_count": 2,
-    "plant_count": 14
+    "plant_count": 14,
+    "animal": 15,
+    "plant": 50,
+    "level1": 4
   },
   {
     "name": "宁夏",
@@ -473,7 +572,10 @@
       "5级": 15
     },
     "animal_count": 4,
-    "plant_count": 11
+    "plant_count": 11,
+    "animal": 8,
+    "plant": 41,
+    "level1": 2
   },
   {
     "name": "南海",
@@ -487,6 +589,9 @@
       "5级": 0
     },
     "animal_count": null,
-    "plant_count": null
+    "plant_count": null,
+    "animal": 0,
+    "plant": 1,
+    "level1": 0
   }
 ]

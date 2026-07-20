@@ -1,0 +1,547 @@
+{
+  "source": "中国外来入侵植物物种高分辨率分布数据库(IPSD)",
+  "description": "406种入侵植物在2684个县级行政区的物种丰富度",
+  "scope": "仅限入侵植物，不包含动物、昆虫等",
+  "top_counties": [
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710165,
+      "species_count": 228
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710163,
+      "species_count": 221
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710108,
+      "species_count": 217
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710166,
+      "species_count": 216
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710115,
+      "species_count": 199
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710110,
+      "species_count": 198
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710164,
+      "species_count": 198
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710102,
+      "species_count": 194
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710105,
+      "species_count": 193
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710167,
+      "species_count": 188
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710113,
+      "species_count": 186
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710168,
+      "species_count": 185
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710114,
+      "species_count": 184
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710104,
+      "species_count": 182
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710109,
+      "species_count": 181
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710107,
+      "species_count": 167
+    },
+    {
+      "province": "北京",
+      "province_code": 11,
+      "county_code": 110108,
+      "species_count": 166
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440117,
+      "species_count": 163
+    },
+    {
+      "province": "江苏",
+      "province_code": 32,
+      "county_code": 320102,
+      "species_count": 160
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440106,
+      "species_count": 157
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440304,
+      "species_count": 156
+    },
+    {
+      "province": "福建",
+      "province_code": 35,
+      "county_code": 350203,
+      "species_count": 150
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710118,
+      "species_count": 144
+    },
+    {
+      "province": "云南",
+      "province_code": 53,
+      "county_code": 530103,
+      "species_count": 139
+    },
+    {
+      "province": "云南",
+      "province_code": 53,
+      "county_code": 532801,
+      "species_count": 139
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 441581,
+      "species_count": 134
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440113,
+      "species_count": 132
+    },
+    {
+      "province": "云南",
+      "province_code": 53,
+      "county_code": 532823,
+      "species_count": 130
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440104,
+      "species_count": 129
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710120,
+      "species_count": 129
+    },
+    {
+      "province": "福建",
+      "province_code": 35,
+      "county_code": 350681,
+      "species_count": 123
+    },
+    {
+      "province": "广西",
+      "province_code": 45,
+      "county_code": 450103,
+      "species_count": 123
+    },
+    {
+      "province": "北京",
+      "province_code": 11,
+      "county_code": 110114,
+      "species_count": 117
+    },
+    {
+      "province": "湖北",
+      "province_code": 42,
+      "county_code": 420106,
+      "species_count": 117
+    },
+    {
+      "province": "浙江",
+      "province_code": 33,
+      "county_code": 330112,
+      "species_count": 116
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440305,
+      "species_count": 116
+    },
+    {
+      "province": "台湾",
+      "province_code": 71,
+      "county_code": 710117,
+      "species_count": 116
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 441302,
+      "species_count": 115
+    },
+    {
+      "province": "广西",
+      "province_code": 45,
+      "county_code": 450312,
+      "species_count": 115
+    },
+    {
+      "province": "重庆",
+      "province_code": 50,
+      "county_code": 500119,
+      "species_count": 114
+    },
+    {
+      "province": "山东",
+      "province_code": 37,
+      "county_code": 371702,
+      "species_count": 113
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440303,
+      "species_count": 113
+    },
+    {
+      "province": "福建",
+      "province_code": 35,
+      "county_code": 350121,
+      "species_count": 110
+    },
+    {
+      "province": "湖北",
+      "province_code": 42,
+      "county_code": 420111,
+      "species_count": 110
+    },
+    {
+      "province": "湖南",
+      "province_code": 43,
+      "county_code": 430121,
+      "species_count": 110
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440111,
+      "species_count": 110
+    },
+    {
+      "province": "北京",
+      "province_code": 11,
+      "county_code": 110105,
+      "species_count": 109
+    },
+    {
+      "province": "海南",
+      "province_code": 46,
+      "county_code": 460203,
+      "species_count": 109
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 441322,
+      "species_count": 107
+    },
+    {
+      "province": "广东",
+      "province_code": 44,
+      "county_code": 440307,
+      "species_count": 106
+    }
+  ],
+  "province_summary": {
+    "广东": {
+      "counties": 124,
+      "total": 5981,
+      "max": 163,
+      "avg": 48.2,
+      "max_county": "440117"
+    },
+    "云南": {
+      "counties": 127,
+      "total": 4011,
+      "max": 139,
+      "avg": 31.6,
+      "max_county": "530103"
+    },
+    "广西": {
+      "counties": 109,
+      "total": 3987,
+      "max": 123,
+      "avg": 36.6,
+      "max_county": "450103"
+    },
+    "四川": {
+      "counties": 179,
+      "total": 3622,
+      "max": 81,
+      "avg": 20.2,
+      "max_county": "510104"
+    },
+    "台湾": {
+      "counties": 20,
+      "total": 3616,
+      "max": 228,
+      "avg": 180.8,
+      "max_county": "710165"
+    },
+    "福建": {
+      "counties": 85,
+      "total": 2964,
+      "max": 150,
+      "avg": 34.9,
+      "max_county": "350203"
+    },
+    "浙江": {
+      "counties": 90,
+      "total": 2755,
+      "max": 116,
+      "avg": 30.6,
+      "max_county": "330112"
+    },
+    "山东": {
+      "counties": 128,
+      "total": 2680,
+      "max": 113,
+      "avg": 20.9,
+      "max_county": "371702"
+    },
+    "江苏": {
+      "counties": 95,
+      "total": 2476,
+      "max": 160,
+      "avg": 26.1,
+      "max_county": "320102"
+    },
+    "湖南": {
+      "counties": 117,
+      "total": 2299,
+      "max": 110,
+      "avg": 19.6,
+      "max_county": "430121"
+    },
+    "贵州": {
+      "counties": 86,
+      "total": 2132,
+      "max": 100,
+      "avg": 24.8,
+      "max_county": "520111"
+    },
+    "江西": {
+      "counties": 97,
+      "total": 2109,
+      "max": 97,
+      "avg": 21.7,
+      "max_county": "360402"
+    },
+    "河南": {
+      "counties": 140,
+      "total": 2001,
+      "max": 78,
+      "avg": 14.3,
+      "max_county": "411502"
+    },
+    "湖北": {
+      "counties": 99,
+      "total": 1939,
+      "max": 117,
+      "avg": 19.6,
+      "max_county": "420106"
+    },
+    "安徽": {
+      "counties": 100,
+      "total": 1718,
+      "max": 76,
+      "avg": 17.2,
+      "max_county": "341002"
+    },
+    "陕西": {
+      "counties": 97,
+      "total": 1600,
+      "max": 71,
+      "avg": 16.5,
+      "max_county": "610403"
+    },
+    "河北": {
+      "counties": 122,
+      "total": 1576,
+      "max": 59,
+      "avg": 12.9,
+      "max_county": "130209"
+    },
+    "海南": {
+      "counties": 25,
+      "total": 1560,
+      "max": 109,
+      "avg": 62.4,
+      "max_county": "460203"
+    },
+    "辽宁": {
+      "counties": 91,
+      "total": 1330,
+      "max": 67,
+      "avg": 14.6,
+      "max_county": "210211"
+    },
+    "重庆": {
+      "counties": 38,
+      "total": 1315,
+      "max": 114,
+      "avg": 34.6,
+      "max_county": "500119"
+    },
+    "新疆": {
+      "counties": 99,
+      "total": 1169,
+      "max": 48,
+      "avg": 11.8,
+      "max_county": "654002"
+    },
+    "北京": {
+      "counties": 16,
+      "total": 1130,
+      "max": 166,
+      "avg": 70.6,
+      "max_county": "110108"
+    },
+    "香港": {
+      "counties": 18,
+      "total": 1098,
+      "max": 105,
+      "avg": 61.0,
+      "max_county": "810306"
+    },
+    "甘肃": {
+      "counties": 82,
+      "total": 955,
+      "max": 75,
+      "avg": 11.6,
+      "max_county": "620123"
+    },
+    "上海": {
+      "counties": 16,
+      "total": 952,
+      "max": 102,
+      "avg": 59.5,
+      "max_county": "310115"
+    },
+    "内蒙古": {
+      "counties": 96,
+      "total": 934,
+      "max": 35,
+      "avg": 9.7,
+      "max_county": "150702"
+    },
+    "黑龙江": {
+      "counties": 108,
+      "total": 911,
+      "max": 33,
+      "avg": 8.4,
+      "max_county": "230109"
+    },
+    "吉林": {
+      "counties": 57,
+      "total": 696,
+      "max": 39,
+      "avg": 12.2,
+      "max_county": "220102"
+    },
+    "山西": {
+      "counties": 96,
+      "total": 673,
+      "max": 42,
+      "avg": 7.0,
+      "max_county": "140107"
+    },
+    "西藏": {
+      "counties": 51,
+      "total": 394,
+      "max": 90,
+      "avg": 7.7,
+      "max_county": "540102"
+    },
+    "青海": {
+      "counties": 39,
+      "total": 328,
+      "max": 28,
+      "avg": 8.4,
+      "max_county": "630103"
+    },
+    "天津": {
+      "counties": 16,
+      "total": 314,
+      "max": 61,
+      "avg": 19.6,
+      "max_county": "120116"
+    },
+    "宁夏": {
+      "counties": 19,
+      "total": 224,
+      "max": 27,
+      "avg": 11.8,
+      "max_county": "640106"
+    },
+    "澳门": {
+      "counties": 2,
+      "total": 51,
+      "max": 28,
+      "avg": 25.5,
+      "max_county": "820102"
+    }
+  }
+}

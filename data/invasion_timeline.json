@@ -1,0 +1,1118 @@
+{
+  "title": "外来入侵植物447年首次记录时间线",
+  "source": "中国外来入侵植物物种高分辨率分布数据库(IPSD)",
+  "year_range": [
+    1571,
+    2018
+  ],
+  "total_species": 400,
+  "by_year": [
+    {
+      "year": 1571,
+      "new_species": 1,
+      "cumulative": 1
+    },
+    {
+      "year": 1578,
+      "new_species": 2,
+      "cumulative": 3
+    },
+    {
+      "year": 1600,
+      "new_species": 0,
+      "cumulative": 3
+    },
+    {
+      "year": 1607,
+      "new_species": 1,
+      "cumulative": 4
+    },
+    {
+      "year": 1625,
+      "new_species": 1,
+      "cumulative": 5
+    },
+    {
+      "year": 1645,
+      "new_species": 4,
+      "cumulative": 9
+    },
+    {
+      "year": 1650,
+      "new_species": 0,
+      "cumulative": 9
+    },
+    {
+      "year": 1661,
+      "new_species": 1,
+      "cumulative": 10
+    },
+    {
+      "year": 1688,
+      "new_species": 2,
+      "cumulative": 12
+    },
+    {
+      "year": 1700,
+      "new_species": 0,
+      "cumulative": 12
+    },
+    {
+      "year": 1711,
+      "new_species": 1,
+      "cumulative": 13
+    },
+    {
+      "year": 1720,
+      "new_species": 1,
+      "cumulative": 14
+    },
+    {
+      "year": 1740,
+      "new_species": 2,
+      "cumulative": 16
+    },
+    {
+      "year": 1750,
+      "new_species": 0,
+      "cumulative": 16
+    },
+    {
+      "year": 1751,
+      "new_species": 1,
+      "cumulative": 17
+    },
+    {
+      "year": 1757,
+      "new_species": 1,
+      "cumulative": 18
+    },
+    {
+      "year": 1766,
+      "new_species": 1,
+      "cumulative": 19
+    },
+    {
+      "year": 1777,
+      "new_species": 1,
+      "cumulative": 20
+    },
+    {
+      "year": 1782,
+      "new_species": 1,
+      "cumulative": 21
+    },
+    {
+      "year": 1800,
+      "new_species": 1,
+      "cumulative": 22
+    },
+    {
+      "year": 1805,
+      "new_species": 1,
+      "cumulative": 23
+    },
+    {
+      "year": 1825,
+      "new_species": 1,
+      "cumulative": 24
+    },
+    {
+      "year": 1827,
+      "new_species": 1,
+      "cumulative": 25
+    },
+    {
+      "year": 1830,
+      "new_species": 2,
+      "cumulative": 27
+    },
+    {
+      "year": 1836,
+      "new_species": 1,
+      "cumulative": 28
+    },
+    {
+      "year": 1840,
+      "new_species": 3,
+      "cumulative": 31
+    },
+    {
+      "year": 1843,
+      "new_species": 1,
+      "cumulative": 32
+    },
+    {
+      "year": 1844,
+      "new_species": 2,
+      "cumulative": 34
+    },
+    {
+      "year": 1848,
+      "new_species": 1,
+      "cumulative": 35
+    },
+    {
+      "year": 1850,
+      "new_species": 2,
+      "cumulative": 37
+    },
+    {
+      "year": 1851,
+      "new_species": 1,
+      "cumulative": 38
+    },
+    {
+      "year": 1853,
+      "new_species": 1,
+      "cumulative": 39
+    },
+    {
+      "year": 1854,
+      "new_species": 2,
+      "cumulative": 41
+    },
+    {
+      "year": 1855,
+      "new_species": 1,
+      "cumulative": 42
+    },
+    {
+      "year": 1856,
+      "new_species": 9,
+      "cumulative": 51
+    },
+    {
+      "year": 1857,
+      "new_species": 2,
+      "cumulative": 53
+    },
+    {
+      "year": 1860,
+      "new_species": 1,
+      "cumulative": 54
+    },
+    {
+      "year": 1861,
+      "new_species": 5,
+      "cumulative": 59
+    },
+    {
+      "year": 1862,
+      "new_species": 2,
+      "cumulative": 61
+    },
+    {
+      "year": 1863,
+      "new_species": 1,
+      "cumulative": 62
+    },
+    {
+      "year": 1864,
+      "new_species": 5,
+      "cumulative": 67
+    },
+    {
+      "year": 1865,
+      "new_species": 1,
+      "cumulative": 68
+    },
+    {
+      "year": 1866,
+      "new_species": 1,
+      "cumulative": 69
+    },
+    {
+      "year": 1867,
+      "new_species": 1,
+      "cumulative": 70
+    },
+    {
+      "year": 1870,
+      "new_species": 1,
+      "cumulative": 71
+    },
+    {
+      "year": 1872,
+      "new_species": 1,
+      "cumulative": 72
+    },
+    {
+      "year": 1875,
+      "new_species": 2,
+      "cumulative": 74
+    },
+    {
+      "year": 1877,
+      "new_species": 3,
+      "cumulative": 77
+    },
+    {
+      "year": 1881,
+      "new_species": 1,
+      "cumulative": 78
+    },
+    {
+      "year": 1882,
+      "new_species": 2,
+      "cumulative": 80
+    },
+    {
+      "year": 1884,
+      "new_species": 2,
+      "cumulative": 82
+    },
+    {
+      "year": 1886,
+      "new_species": 2,
+      "cumulative": 84
+    },
+    {
+      "year": 1890,
+      "new_species": 1,
+      "cumulative": 85
+    },
+    {
+      "year": 1891,
+      "new_species": 2,
+      "cumulative": 87
+    },
+    {
+      "year": 1892,
+      "new_species": 1,
+      "cumulative": 88
+    },
+    {
+      "year": 1893,
+      "new_species": 1,
+      "cumulative": 89
+    },
+    {
+      "year": 1894,
+      "new_species": 1,
+      "cumulative": 90
+    },
+    {
+      "year": 1895,
+      "new_species": 1,
+      "cumulative": 91
+    },
+    {
+      "year": 1896,
+      "new_species": 2,
+      "cumulative": 93
+    },
+    {
+      "year": 1897,
+      "new_species": 1,
+      "cumulative": 94
+    },
+    {
+      "year": 1898,
+      "new_species": 3,
+      "cumulative": 97
+    },
+    {
+      "year": 1899,
+      "new_species": 4,
+      "cumulative": 101
+    },
+    {
+      "year": 1900,
+      "new_species": 12,
+      "cumulative": 113
+    },
+    {
+      "year": 1901,
+      "new_species": 7,
+      "cumulative": 120
+    },
+    {
+      "year": 1902,
+      "new_species": 2,
+      "cumulative": 122
+    },
+    {
+      "year": 1903,
+      "new_species": 2,
+      "cumulative": 124
+    },
+    {
+      "year": 1904,
+      "new_species": 4,
+      "cumulative": 128
+    },
+    {
+      "year": 1905,
+      "new_species": 6,
+      "cumulative": 134
+    },
+    {
+      "year": 1906,
+      "new_species": 2,
+      "cumulative": 136
+    },
+    {
+      "year": 1907,
+      "new_species": 7,
+      "cumulative": 143
+    },
+    {
+      "year": 1908,
+      "new_species": 4,
+      "cumulative": 147
+    },
+    {
+      "year": 1909,
+      "new_species": 6,
+      "cumulative": 153
+    },
+    {
+      "year": 1910,
+      "new_species": 8,
+      "cumulative": 161
+    },
+    {
+      "year": 1911,
+      "new_species": 1,
+      "cumulative": 162
+    },
+    {
+      "year": 1912,
+      "new_species": 2,
+      "cumulative": 164
+    },
+    {
+      "year": 1913,
+      "new_species": 4,
+      "cumulative": 168
+    },
+    {
+      "year": 1914,
+      "new_species": 3,
+      "cumulative": 171
+    },
+    {
+      "year": 1915,
+      "new_species": 5,
+      "cumulative": 176
+    },
+    {
+      "year": 1916,
+      "new_species": 1,
+      "cumulative": 177
+    },
+    {
+      "year": 1917,
+      "new_species": 4,
+      "cumulative": 181
+    },
+    {
+      "year": 1918,
+      "new_species": 4,
+      "cumulative": 185
+    },
+    {
+      "year": 1919,
+      "new_species": 2,
+      "cumulative": 187
+    },
+    {
+      "year": 1920,
+      "new_species": 4,
+      "cumulative": 191
+    },
+    {
+      "year": 1921,
+      "new_species": 6,
+      "cumulative": 197
+    },
+    {
+      "year": 1922,
+      "new_species": 4,
+      "cumulative": 201
+    },
+    {
+      "year": 1923,
+      "new_species": 4,
+      "cumulative": 205
+    },
+    {
+      "year": 1924,
+      "new_species": 7,
+      "cumulative": 212
+    },
+    {
+      "year": 1925,
+      "new_species": 12,
+      "cumulative": 224
+    },
+    {
+      "year": 1926,
+      "new_species": 8,
+      "cumulative": 232
+    },
+    {
+      "year": 1927,
+      "new_species": 1,
+      "cumulative": 233
+    },
+    {
+      "year": 1928,
+      "new_species": 3,
+      "cumulative": 236
+    },
+    {
+      "year": 1929,
+      "new_species": 1,
+      "cumulative": 237
+    },
+    {
+      "year": 1930,
+      "new_species": 9,
+      "cumulative": 246
+    },
+    {
+      "year": 1931,
+      "new_species": 2,
+      "cumulative": 248
+    },
+    {
+      "year": 1932,
+      "new_species": 2,
+      "cumulative": 250
+    },
+    {
+      "year": 1933,
+      "new_species": 2,
+      "cumulative": 252
+    },
+    {
+      "year": 1934,
+      "new_species": 2,
+      "cumulative": 254
+    },
+    {
+      "year": 1935,
+      "new_species": 4,
+      "cumulative": 258
+    },
+    {
+      "year": 1936,
+      "new_species": 11,
+      "cumulative": 269
+    },
+    {
+      "year": 1937,
+      "new_species": 1,
+      "cumulative": 270
+    },
+    {
+      "year": 1939,
+      "new_species": 1,
+      "cumulative": 271
+    },
+    {
+      "year": 1940,
+      "new_species": 3,
+      "cumulative": 274
+    },
+    {
+      "year": 1942,
+      "new_species": 2,
+      "cumulative": 276
+    },
+    {
+      "year": 1943,
+      "new_species": 2,
+      "cumulative": 278
+    },
+    {
+      "year": 1946,
+      "new_species": 1,
+      "cumulative": 279
+    },
+    {
+      "year": 1949,
+      "new_species": 1,
+      "cumulative": 280
+    },
+    {
+      "year": 1950,
+      "new_species": 6,
+      "cumulative": 286
+    },
+    {
+      "year": 1951,
+      "new_species": 3,
+      "cumulative": 289
+    },
+    {
+      "year": 1953,
+      "new_species": 1,
+      "cumulative": 290
+    },
+    {
+      "year": 1955,
+      "new_species": 2,
+      "cumulative": 292
+    },
+    {
+      "year": 1956,
+      "new_species": 2,
+      "cumulative": 294
+    },
+    {
+      "year": 1957,
+      "new_species": 1,
+      "cumulative": 295
+    },
+    {
+      "year": 1958,
+      "new_species": 8,
+      "cumulative": 303
+    },
+    {
+      "year": 1959,
+      "new_species": 1,
+      "cumulative": 304
+    },
+    {
+      "year": 1960,
+      "new_species": 2,
+      "cumulative": 306
+    },
+    {
+      "year": 1961,
+      "new_species": 2,
+      "cumulative": 308
+    },
+    {
+      "year": 1962,
+      "new_species": 3,
+      "cumulative": 311
+    },
+    {
+      "year": 1963,
+      "new_species": 2,
+      "cumulative": 313
+    },
+    {
+      "year": 1965,
+      "new_species": 1,
+      "cumulative": 314
+    },
+    {
+      "year": 1967,
+      "new_species": 1,
+      "cumulative": 315
+    },
+    {
+      "year": 1968,
+      "new_species": 1,
+      "cumulative": 316
+    },
+    {
+      "year": 1969,
+      "new_species": 1,
+      "cumulative": 317
+    },
+    {
+      "year": 1970,
+      "new_species": 1,
+      "cumulative": 318
+    },
+    {
+      "year": 1972,
+      "new_species": 2,
+      "cumulative": 320
+    },
+    {
+      "year": 1976,
+      "new_species": 1,
+      "cumulative": 321
+    },
+    {
+      "year": 1979,
+      "new_species": 4,
+      "cumulative": 325
+    },
+    {
+      "year": 1980,
+      "new_species": 3,
+      "cumulative": 328
+    },
+    {
+      "year": 1981,
+      "new_species": 5,
+      "cumulative": 333
+    },
+    {
+      "year": 1982,
+      "new_species": 3,
+      "cumulative": 336
+    },
+    {
+      "year": 1983,
+      "new_species": 1,
+      "cumulative": 337
+    },
+    {
+      "year": 1984,
+      "new_species": 4,
+      "cumulative": 341
+    },
+    {
+      "year": 1985,
+      "new_species": 2,
+      "cumulative": 343
+    },
+    {
+      "year": 1986,
+      "new_species": 1,
+      "cumulative": 344
+    },
+    {
+      "year": 1987,
+      "new_species": 3,
+      "cumulative": 347
+    },
+    {
+      "year": 1988,
+      "new_species": 1,
+      "cumulative": 348
+    },
+    {
+      "year": 1990,
+      "new_species": 1,
+      "cumulative": 349
+    },
+    {
+      "year": 1992,
+      "new_species": 2,
+      "cumulative": 351
+    },
+    {
+      "year": 1993,
+      "new_species": 3,
+      "cumulative": 354
+    },
+    {
+      "year": 1994,
+      "new_species": 2,
+      "cumulative": 356
+    },
+    {
+      "year": 1995,
+      "new_species": 2,
+      "cumulative": 358
+    },
+    {
+      "year": 1996,
+      "new_species": 3,
+      "cumulative": 361
+    },
+    {
+      "year": 1997,
+      "new_species": 2,
+      "cumulative": 363
+    },
+    {
+      "year": 1998,
+      "new_species": 1,
+      "cumulative": 364
+    },
+    {
+      "year": 1999,
+      "new_species": 6,
+      "cumulative": 370
+    },
+    {
+      "year": 2000,
+      "new_species": 5,
+      "cumulative": 375
+    },
+    {
+      "year": 2001,
+      "new_species": 5,
+      "cumulative": 380
+    },
+    {
+      "year": 2002,
+      "new_species": 3,
+      "cumulative": 383
+    },
+    {
+      "year": 2003,
+      "new_species": 1,
+      "cumulative": 384
+    },
+    {
+      "year": 2005,
+      "new_species": 1,
+      "cumulative": 385
+    },
+    {
+      "year": 2006,
+      "new_species": 1,
+      "cumulative": 386
+    },
+    {
+      "year": 2007,
+      "new_species": 2,
+      "cumulative": 388
+    },
+    {
+      "year": 2008,
+      "new_species": 1,
+      "cumulative": 389
+    },
+    {
+      "year": 2009,
+      "new_species": 2,
+      "cumulative": 391
+    },
+    {
+      "year": 2011,
+      "new_species": 1,
+      "cumulative": 392
+    },
+    {
+      "year": 2013,
+      "new_species": 2,
+      "cumulative": 394
+    },
+    {
+      "year": 2014,
+      "new_species": 1,
+      "cumulative": 395
+    },
+    {
+      "year": 2015,
+      "new_species": 2,
+      "cumulative": 397
+    },
+    {
+      "year": 2017,
+      "new_species": 1,
+      "cumulative": 398
+    },
+    {
+      "year": 2018,
+      "new_species": 2,
+      "cumulative": 400
+    }
+  ],
+  "by_decade": [
+    {
+      "decade": 1570,
+      "new_species": 3
+    },
+    {
+      "decade": 1600,
+      "new_species": 1
+    },
+    {
+      "decade": 1620,
+      "new_species": 1
+    },
+    {
+      "decade": 1640,
+      "new_species": 4
+    },
+    {
+      "decade": 1660,
+      "new_species": 1
+    },
+    {
+      "decade": 1680,
+      "new_species": 2
+    },
+    {
+      "decade": 1710,
+      "new_species": 1
+    },
+    {
+      "decade": 1720,
+      "new_species": 1
+    },
+    {
+      "decade": 1740,
+      "new_species": 2
+    },
+    {
+      "decade": 1750,
+      "new_species": 2
+    },
+    {
+      "decade": 1760,
+      "new_species": 1
+    },
+    {
+      "decade": 1770,
+      "new_species": 1
+    },
+    {
+      "decade": 1780,
+      "new_species": 1
+    },
+    {
+      "decade": 1800,
+      "new_species": 2
+    },
+    {
+      "decade": 1820,
+      "new_species": 2
+    },
+    {
+      "decade": 1830,
+      "new_species": 3
+    },
+    {
+      "decade": 1840,
+      "new_species": 7
+    },
+    {
+      "decade": 1850,
+      "new_species": 18
+    },
+    {
+      "decade": 1860,
+      "new_species": 17
+    },
+    {
+      "decade": 1870,
+      "new_species": 7
+    },
+    {
+      "decade": 1880,
+      "new_species": 7
+    },
+    {
+      "decade": 1890,
+      "new_species": 17
+    },
+    {
+      "decade": 1900,
+      "new_species": 52
+    },
+    {
+      "decade": 1910,
+      "new_species": 34
+    },
+    {
+      "decade": 1920,
+      "new_species": 50
+    },
+    {
+      "decade": 1930,
+      "new_species": 34
+    },
+    {
+      "decade": 1940,
+      "new_species": 9
+    },
+    {
+      "decade": 1950,
+      "new_species": 24
+    },
+    {
+      "decade": 1960,
+      "new_species": 13
+    },
+    {
+      "decade": 1970,
+      "new_species": 8
+    },
+    {
+      "decade": 1980,
+      "new_species": 23
+    },
+    {
+      "decade": 1990,
+      "new_species": 22
+    },
+    {
+      "decade": 2000,
+      "new_species": 21
+    },
+    {
+      "decade": 2010,
+      "new_species": 9
+    }
+  ],
+  "by_century": [
+    {
+      "century": 1500,
+      "new_species": 3,
+      "label": "16世纪"
+    },
+    {
+      "century": 1600,
+      "new_species": 9,
+      "label": "17世纪"
+    },
+    {
+      "century": 1700,
+      "new_species": 9,
+      "label": "18世纪"
+    },
+    {
+      "century": 1800,
+      "new_species": 80,
+      "label": "19世纪"
+    },
+    {
+      "century": 1900,
+      "new_species": 269,
+      "label": "20世纪"
+    },
+    {
+      "century": 2000,
+      "new_species": 30,
+      "label": "21世纪"
+    }
+  ],
+  "earliest_species": [
+    {
+      "species": "Mirabilis jalapa",
+      "family": "Nyctaginaceae",
+      "growth_form": "Annual",
+      "year": 1571,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Datura stramonium",
+      "family": "Solanaceae",
+      "growth_form": "Annual",
+      "year": 1578,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Physalis angulata",
+      "family": "Solanaceae",
+      "growth_form": "Annual",
+      "year": 1578,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Galinsoga parviflora",
+      "family": "Asteraceae",
+      "growth_form": "Annual",
+      "year": 1607,
+      "first_record_site": "Heilongjiang"
+    },
+    {
+      "species": "Opuntia monacantha",
+      "family": "Cactaceae",
+      "growth_form": "Perennial",
+      "year": 1625,
+      "first_record_site": "Yunnan"
+    },
+    {
+      "species": "Agave americana",
+      "family": "Asparagaceae",
+      "growth_form": "Perennial",
+      "year": 1645,
+      "first_record_site": "Taiwan"
+    },
+    {
+      "species": "Opuntia ficus-indica",
+      "family": "Cactaceae",
+      "growth_form": "Perennial",
+      "year": 1645,
+      "first_record_site": "Taiwan"
+    },
+    {
+      "species": "Leucaena leucocephala",
+      "family": "Fabaceae",
+      "growth_form": "Perennial",
+      "year": 1645,
+      "first_record_site": "Taiwan"
+    },
+    {
+      "species": "Lantana camara",
+      "family": "Verbenaceae",
+      "growth_form": "Perennial",
+      "year": 1645,
+      "first_record_site": "Taiwan"
+    },
+    {
+      "species": "Catharanthus roseus",
+      "family": "Apocynaceae",
+      "growth_form": "Perennial",
+      "year": 1661,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Tagetes erecta",
+      "family": "Asteraceae",
+      "growth_form": "Annual",
+      "year": 1688,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Opuntia dillenii",
+      "family": "Cactaceae",
+      "growth_form": "Perennial",
+      "year": 1688,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Solanum erianthum",
+      "family": "Solanaceae",
+      "growth_form": "Perennial",
+      "year": 1711,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Dysphania ambrosioides",
+      "family": "Amaranthaceae",
+      "growth_form": "Annual/Perennial",
+      "year": 1720,
+      "first_record_site": "Guangdong"
+    },
+    {
+      "species": "Euphorbia hirta",
+      "family": "Euphorbiaceae",
+      "growth_form": "Annual",
+      "year": 1740,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Euphorbia tirucalli",
+      "family": "Euphorbiaceae",
+      "growth_form": "Annual",
+      "year": 1740,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Senna sophera",
+      "family": "Fabaceae",
+      "growth_form": "Perennial",
+      "year": 1751,
+      "first_record_site": "Guangdong"
+    },
+    {
+      "species": "Bidens pilosa",
+      "family": "Asteraceae",
+      "growth_form": "Annual",
+      "year": 1757,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Solanum diphyllum",
+      "family": "Solanaceae",
+      "growth_form": "Perennial",
+      "year": 1766,
+      "first_record_site": NaN
+    },
+    {
+      "species": "Mimosa pudica",
+      "family": "Fabaceae",
+      "growth_form": "Annual/Perennial",
+      "year": 1777,
+      "first_record_site": NaN
+    }
+  ]
+}

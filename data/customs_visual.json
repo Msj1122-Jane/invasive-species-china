@@ -1,0 +1,1000 @@
+{
+  "sankey": {
+    "nodes": [
+      {
+        "name": "东亚"
+      },
+      {
+        "name": "东南亚"
+      },
+      {
+        "name": "东南亚/非洲"
+      },
+      {
+        "name": "两栖动物"
+      },
+      {
+        "name": "中东"
+      },
+      {
+        "name": "中东/北非"
+      },
+      {
+        "name": "中东/南亚"
+      },
+      {
+        "name": "中东/非洲"
+      },
+      {
+        "name": "中亚"
+      },
+      {
+        "name": "中南美洲"
+      },
+      {
+        "name": "乌克兰"
+      },
+      {
+        "name": "也门/沙特"
+      },
+      {
+        "name": "亚太"
+      },
+      {
+        "name": "亚洲/非洲"
+      },
+      {
+        "name": "其他"
+      },
+      {
+        "name": "加勒比海"
+      },
+      {
+        "name": "北太平洋"
+      },
+      {
+        "name": "北美洲"
+      },
+      {
+        "name": "北美洲/欧洲"
+      },
+      {
+        "name": "北非/中东"
+      },
+      {
+        "name": "南亚"
+      },
+      {
+        "name": "南亚/东南亚"
+      },
+      {
+        "name": "南欧"
+      },
+      {
+        "name": "南美洲"
+      },
+      {
+        "name": "南美洲/东南亚"
+      },
+      {
+        "name": "印度洋-太平洋"
+      },
+      {
+        "name": "哺乳动物"
+      },
+      {
+        "name": "塞舌尔"
+      },
+      {
+        "name": "大洋洲"
+      },
+      {
+        "name": "微生物"
+      },
+      {
+        "name": "新几内亚/澳大利亚"
+      },
+      {
+        "name": "旅检"
+      },
+      {
+        "name": "日本"
+      },
+      {
+        "name": "日本/东南亚"
+      },
+      {
+        "name": "昆虫"
+      },
+      {
+        "name": "未明确"
+      },
+      {
+        "name": "未知"
+      },
+      {
+        "name": "植物"
+      },
+      {
+        "name": "欧洲"
+      },
+      {
+        "name": "欧洲/北非"
+      },
+      {
+        "name": "欧洲/非洲"
+      },
+      {
+        "name": "澳洲"
+      },
+      {
+        "name": "爬行动物"
+      },
+      {
+        "name": "甲壳动物"
+      },
+      {
+        "name": "美洲"
+      },
+      {
+        "name": "船舶"
+      },
+      {
+        "name": "节肢动物"
+      },
+      {
+        "name": "菲律宾"
+      },
+      {
+        "name": "货运"
+      },
+      {
+        "name": "软体动物"
+      },
+      {
+        "name": "邮递"
+      },
+      {
+        "name": "非洲"
+      },
+      {
+        "name": "非洲/中东"
+      },
+      {
+        "name": "非洲/欧洲"
+      },
+      {
+        "name": "马来西亚"
+      },
+      {
+        "name": "鱼类"
+      },
+      {
+        "name": "鸟类"
+      }
+    ],
+    "links": [
+      {
+        "source": 28,
+        "target": 42,
+        "value": 9
+      },
+      {
+        "source": 42,
+        "target": 31,
+        "value": 35
+      },
+      {
+        "source": 17,
+        "target": 46,
+        "value": 7
+      },
+      {
+        "source": 46,
+        "target": 50,
+        "value": 22
+      },
+      {
+        "source": 1,
+        "target": 34,
+        "value": 45
+      },
+      {
+        "source": 34,
+        "target": 31,
+        "value": 44
+      },
+      {
+        "source": 35,
+        "target": 36,
+        "value": 19
+      },
+      {
+        "source": 36,
+        "target": 14,
+        "value": 19
+      },
+      {
+        "source": 23,
+        "target": 34,
+        "value": 17
+      },
+      {
+        "source": 34,
+        "target": 50,
+        "value": 47
+      },
+      {
+        "source": 38,
+        "target": 42,
+        "value": 3
+      },
+      {
+        "source": 23,
+        "target": 42,
+        "value": 8
+      },
+      {
+        "source": 54,
+        "target": 42,
+        "value": 1
+      },
+      {
+        "source": 1,
+        "target": 42,
+        "value": 9
+      },
+      {
+        "source": 4,
+        "target": 46,
+        "value": 1
+      },
+      {
+        "source": 46,
+        "target": 31,
+        "value": 25
+      },
+      {
+        "source": 54,
+        "target": 34,
+        "value": 1
+      },
+      {
+        "source": 51,
+        "target": 34,
+        "value": 17
+      },
+      {
+        "source": 51,
+        "target": 46,
+        "value": 16
+      },
+      {
+        "source": 46,
+        "target": 48,
+        "value": 17
+      },
+      {
+        "source": 17,
+        "target": 42,
+        "value": 13
+      },
+      {
+        "source": 42,
+        "target": 50,
+        "value": 27
+      },
+      {
+        "source": 38,
+        "target": 49,
+        "value": 3
+      },
+      {
+        "source": 49,
+        "target": 14,
+        "value": 1
+      },
+      {
+        "source": 49,
+        "target": 31,
+        "value": 2
+      },
+      {
+        "source": 41,
+        "target": 34,
+        "value": 6
+      },
+      {
+        "source": 23,
+        "target": 46,
+        "value": 17
+      },
+      {
+        "source": 51,
+        "target": 56,
+        "value": 3
+      },
+      {
+        "source": 56,
+        "target": 31,
+        "value": 8
+      },
+      {
+        "source": 17,
+        "target": 3,
+        "value": 5
+      },
+      {
+        "source": 3,
+        "target": 31,
+        "value": 9
+      },
+      {
+        "source": 2,
+        "target": 34,
+        "value": 1
+      },
+      {
+        "source": 34,
+        "target": 14,
+        "value": 1
+      },
+      {
+        "source": 40,
+        "target": 34,
+        "value": 1
+      },
+      {
+        "source": 38,
+        "target": 34,
+        "value": 7
+      },
+      {
+        "source": 25,
+        "target": 43,
+        "value": 1
+      },
+      {
+        "source": 43,
+        "target": 31,
+        "value": 6
+      },
+      {
+        "source": 1,
+        "target": 55,
+        "value": 8
+      },
+      {
+        "source": 55,
+        "target": 31,
+        "value": 9
+      },
+      {
+        "source": 17,
+        "target": 34,
+        "value": 4
+      },
+      {
+        "source": 35,
+        "target": 34,
+        "value": 3
+      },
+      {
+        "source": 35,
+        "target": 56,
+        "value": 1
+      },
+      {
+        "source": 52,
+        "target": 34,
+        "value": 1
+      },
+      {
+        "source": 21,
+        "target": 34,
+        "value": 1
+      },
+      {
+        "source": 35,
+        "target": 55,
+        "value": 1
+      },
+      {
+        "source": 35,
+        "target": 42,
+        "value": 1
+      },
+      {
+        "source": 39,
+        "target": 42,
+        "value": 1
+      },
+      {
+        "source": 1,
+        "target": 43,
+        "value": 13
+      },
+      {
+        "source": 51,
+        "target": 42,
+        "value": 14
+      },
+      {
+        "source": 34,
+        "target": 45,
+        "value": 1
+      },
+      {
+        "source": 23,
+        "target": 55,
+        "value": 12
+      },
+      {
+        "source": 55,
+        "target": 48,
+        "value": 17
+      },
+      {
+        "source": 4,
+        "target": 42,
+        "value": 2
+      },
+      {
+        "source": 7,
+        "target": 46,
+        "value": 1
+      },
+      {
+        "source": 32,
+        "target": 34,
+        "value": 1
+      },
+      {
+        "source": 52,
+        "target": 46,
+        "value": 1
+      },
+      {
+        "source": 55,
+        "target": 50,
+        "value": 5
+      },
+      {
+        "source": 1,
+        "target": 46,
+        "value": 10
+      },
+      {
+        "source": 16,
+        "target": 43,
+        "value": 1
+      },
+      {
+        "source": 43,
+        "target": 50,
+        "value": 9
+      },
+      {
+        "source": 22,
+        "target": 46,
+        "value": 1
+      },
+      {
+        "source": 35,
+        "target": 37,
+        "value": 2
+      },
+      {
+        "source": 37,
+        "target": 31,
+        "value": 3
+      },
+      {
+        "source": 13,
+        "target": 34,
+        "value": 1
+      },
+      {
+        "source": 34,
+        "target": 48,
+        "value": 28
+      },
+      {
+        "source": 10,
+        "target": 29,
+        "value": 1
+      },
+      {
+        "source": 29,
+        "target": 48,
+        "value": 1
+      },
+      {
+        "source": 0,
+        "target": 34,
+        "value": 8
+      },
+      {
+        "source": 47,
+        "target": 34,
+        "value": 2
+      },
+      {
+        "source": 8,
+        "target": 34,
+        "value": 4
+      },
+      {
+        "source": 9,
+        "target": 46,
+        "value": 3
+      },
+      {
+        "source": 42,
+        "target": 48,
+        "value": 19
+      },
+      {
+        "source": 20,
+        "target": 42,
+        "value": 2
+      },
+      {
+        "source": 27,
+        "target": 42,
+        "value": 2
+      },
+      {
+        "source": 6,
+        "target": 42,
+        "value": 2
+      },
+      {
+        "source": 41,
+        "target": 42,
+        "value": 6
+      },
+      {
+        "source": 11,
+        "target": 42,
+        "value": 2
+      },
+      {
+        "source": 9,
+        "target": 42,
+        "value": 4
+      },
+      {
+        "source": 30,
+        "target": 42,
+        "value": 2
+      },
+      {
+        "source": 41,
+        "target": 3,
+        "value": 2
+      },
+      {
+        "source": 3,
+        "target": 50,
+        "value": 7
+      },
+      {
+        "source": 9,
+        "target": 3,
+        "value": 4
+      },
+      {
+        "source": 51,
+        "target": 3,
+        "value": 2
+      },
+      {
+        "source": 23,
+        "target": 3,
+        "value": 4
+      },
+      {
+        "source": 3,
+        "target": 48,
+        "value": 5
+      },
+      {
+        "source": 0,
+        "target": 3,
+        "value": 2
+      },
+      {
+        "source": 38,
+        "target": 3,
+        "value": 2
+      },
+      {
+        "source": 5,
+        "target": 46,
+        "value": 2
+      },
+      {
+        "source": 19,
+        "target": 46,
+        "value": 2
+      },
+      {
+        "source": 0,
+        "target": 46,
+        "value": 2
+      },
+      {
+        "source": 9,
+        "target": 55,
+        "value": 2
+      },
+      {
+        "source": 24,
+        "target": 55,
+        "value": 2
+      },
+      {
+        "source": 51,
+        "target": 55,
+        "value": 3
+      },
+      {
+        "source": 12,
+        "target": 43,
+        "value": 4
+      },
+      {
+        "source": 43,
+        "target": 48,
+        "value": 10
+      },
+      {
+        "source": 23,
+        "target": 43,
+        "value": 2
+      },
+      {
+        "source": 33,
+        "target": 43,
+        "value": 2
+      },
+      {
+        "source": 44,
+        "target": 43,
+        "value": 2
+      },
+      {
+        "source": 41,
+        "target": 56,
+        "value": 3
+      },
+      {
+        "source": 9,
+        "target": 56,
+        "value": 1
+      },
+      {
+        "source": 23,
+        "target": 56,
+        "value": 2
+      },
+      {
+        "source": 56,
+        "target": 48,
+        "value": 2
+      },
+      {
+        "source": 53,
+        "target": 56,
+        "value": 1
+      },
+      {
+        "source": 56,
+        "target": 50,
+        "value": 1
+      },
+      {
+        "source": 9,
+        "target": 37,
+        "value": 1
+      },
+      {
+        "source": 37,
+        "target": 50,
+        "value": 2
+      },
+      {
+        "source": 17,
+        "target": 37,
+        "value": 4
+      },
+      {
+        "source": 37,
+        "target": 48,
+        "value": 2
+      },
+      {
+        "source": 17,
+        "target": 55,
+        "value": 3
+      },
+      {
+        "source": 51,
+        "target": 26,
+        "value": 1
+      },
+      {
+        "source": 26,
+        "target": 50,
+        "value": 2
+      },
+      {
+        "source": 41,
+        "target": 26,
+        "value": 1
+      },
+      {
+        "source": 26,
+        "target": 31,
+        "value": 2
+      },
+      {
+        "source": 23,
+        "target": 26,
+        "value": 1
+      },
+      {
+        "source": 26,
+        "target": 48,
+        "value": 1
+      },
+      {
+        "source": 17,
+        "target": 26,
+        "value": 1
+      },
+      {
+        "source": 18,
+        "target": 26,
+        "value": 1
+      },
+      {
+        "source": 51,
+        "target": 49,
+        "value": 1
+      },
+      {
+        "source": 49,
+        "target": 50,
+        "value": 3
+      },
+      {
+        "source": 23,
+        "target": 49,
+        "value": 3
+      },
+      {
+        "source": 49,
+        "target": 48,
+        "value": 1
+      },
+      {
+        "source": 9,
+        "target": 34,
+        "value": 1
+      },
+      {
+        "source": 15,
+        "target": 46,
+        "value": 1
+      }
+    ]
+  },
+  "methods": [
+    [
+      "行李夹带",
+      71
+    ],
+    [
+      "伪报品名",
+      57
+    ],
+    [
+      "货物夹带",
+      45
+    ],
+    [
+      "瞒报",
+      35
+    ],
+    [
+      "随船入境",
+      32
+    ],
+    [
+      "集装箱夹带",
+      30
+    ],
+    [
+      "随身携带",
+      27
+    ],
+    [
+      "伪报价值",
+      26
+    ],
+    [
+      "未申报",
+      25
+    ],
+    [
+      "人身绑藏",
+      23
+    ],
+    [
+      "其他",
+      21
+    ],
+    [
+      "随货物入境",
+      1
+    ]
+  ],
+  "types": [
+    [
+      "昆虫",
+      121
+    ],
+    [
+      "爬行动物",
+      81
+    ],
+    [
+      "节肢动物",
+      64
+    ],
+    [
+      "鱼类",
+      31
+    ],
+    [
+      "甲壳动物",
+      25
+    ],
+    [
+      "两栖动物",
+      21
+    ],
+    [
+      "未知",
+      19
+    ],
+    [
+      "鸟类",
+      11
+    ],
+    [
+      "软体动物",
+      7
+    ],
+    [
+      "植物",
+      7
+    ],
+    [
+      "哺乳动物",
+      5
+    ],
+    [
+      "微生物",
+      1
+    ]
+  ],
+  "featured_cases": [
+    {
+      "title": "你守宫我守门",
+      "date": "2026年7月6日",
+      "port": "皇岗海关",
+      "species_cn": "睫角守宫",
+      "type": "爬行动物",
+      "origin": "新喀里多尼亚",
+      "category": "异宠",
+      "quantity": 1,
+      "channel": "旅检",
+      "method": "行李夹带",
+      "content": "近日，皇岗海关查获一名进境旅客携带外来物种睫角守宫10只。 海关关员在福田口岸对进境旅客及其行李物品进行监管时，发现一名男性旅客进入海关监管区时未向海关主动申报，且身穿的衣服较为臃肿，随即对其进行拦截检查。经进一步检查，海关关员在该旅客上衣外套的口袋及背包内各发现2个透明塑封袋，袋内均装有用白色布袋包裹的活体动物，共计10只。后经深圳海关动植物检验检疫技术中心鉴定，上述活体动物均为睫角守宫，属于外来物种。 你吓到我啦"
+    },
+    {
+      "title": "你吓到我啦",
+      "date": "2026年7月8日",
+      "port": "未标注",
+      "species_cn": "北美巨人蜈蚣",
+      "type": "节肢动物",
+      "origin": "北美洲",
+      "category": "异宠",
+      "quantity": 3,
+      "channel": "邮递",
+      "method": "行李夹带",
+      "content": "近日，深圳邮局海关查获活体蜈蚣13只。 海关关员在对进境快件开展监管时，发现一票申报为“口香糖”的快件包裹机检图像异常，随即对其开箱查验。经开拆，关员在该票包裹中发现四盒口香糖，且口香糖外包装有明显二次包装痕迹，经进一步开拆，海关关员在该票包裹中查获藏匿在口香糖罐内的活体蜈蚣13只。 后经专业机构鉴定，该批蜈蚣均为北美巨人蜈蚣，属于外来物种。目前，该案件已移交海关缉私部门处理。 我是蚂蚁 不是生意"
+    },
+    {
+      "title": "我是蚂蚁 不是生意",
+      "date": "2026年6月28日",
+      "port": "成都海关",
+      "species_cn": "血斑弓背蚁",
+      "type": "昆虫",
+      "origin": "东南亚",
+      "category": "异宠",
+      "quantity": 1,
+      "channel": "旅检",
+      "method": "行李夹带",
+      "content": "近日，成都海关所属成都双流机场海关在监管自泰国入境航班过程中，发现一名旅客行李机检图像异常，经现场关员开箱查验，在其行李内查获活体蚂蚁共计140只。经询问，当事人承认该批蚂蚁是作为“异宠”准备带回国谋利。 经成都海关技术中心鉴定，该批蚂蚁确认为血斑弓背蚁、迅捷弓背蚁、暗足弓背蚁，其中血斑弓背蚁属于外来物种。 好了，你们不要再打了"
+    },
+    {
+      "title": "我是蚂蚁 不是生意",
+      "date": "2026年6月28日",
+      "port": "成都海关",
+      "species_cn": "迅捷弓背蚁",
+      "type": "昆虫",
+      "origin": "东南亚",
+      "category": "异宠",
+      "quantity": 1,
+      "channel": "旅检",
+      "method": "行李夹带",
+      "content": "近日，成都海关所属成都双流机场海关在监管自泰国入境航班过程中，发现一名旅客行李机检图像异常，经现场关员开箱查验，在其行李内查获活体蚂蚁共计140只。经询问，当事人承认该批蚂蚁是作为“异宠”准备带回国谋利。 经成都海关技术中心鉴定，该批蚂蚁确认为血斑弓背蚁、迅捷弓背蚁、暗足弓背蚁，其中血斑弓背蚁属于外来物种。 好了，你们不要再打了"
+    },
+    {
+      "title": "我是蚂蚁 不是生意",
+      "date": "2026年6月28日",
+      "port": "成都海关",
+      "species_cn": "暗足弓背蚁",
+      "type": "昆虫",
+      "origin": "东南亚",
+      "category": "异宠",
+      "quantity": 1,
+      "channel": "旅检",
+      "method": "行李夹带",
+      "content": "近日，成都海关所属成都双流机场海关在监管自泰国入境航班过程中，发现一名旅客行李机检图像异常，经现场关员开箱查验，在其行李内查获活体蚂蚁共计140只。经询问，当事人承认该批蚂蚁是作为“异宠”准备带回国谋利。 经成都海关技术中心鉴定，该批蚂蚁确认为血斑弓背蚁、迅捷弓背蚁、暗足弓背蚁，其中血斑弓背蚁属于外来物种。 好了，你们不要再打了"
+    },
+    {
+      "title": "不是塑料是活物，不信动给你看",
+      "date": "2026年7月5日",
+      "port": "未标注",
+      "species_cn": "大黑艳锹甲",
+      "type": "昆虫",
+      "origin": "南美洲",
+      "category": "异宠",
+      "quantity": 1,
+      "channel": "邮递",
+      "method": "行李夹带",
+      "content": "近日，深圳邮局海关查获活体甲虫10只。 深圳邮局海关关员在对进境邮件开展监管时，发现一票申报为“塑料玩具”的邮件包裹机检图像异常，随即对其开箱查验。经开拆，海关关员在该票包裹中发现透气饲养盒、保湿垫材等饲养装置，里面分装10只活体甲虫。后经专业机构鉴定，其中2只为大黑艳锹甲，属于外来物种；1只为巨锯锹甲，7只为大刀锹甲。目前，该案件已依法移交海关处置部门作进一步处理。 贩龟犯规"
+    },
+    {
+      "title": "不是塑料是活物，不信动给你看",
+      "date": "2026年7月5日",
+      "port": "未标注",
+      "species_cn": "巨锯锹甲",
+      "type": "昆虫",
+      "origin": "东南亚",
+      "category": "异宠",
+      "quantity": 1,
+      "channel": "邮递",
+      "method": "行李夹带",
+      "content": "近日，深圳邮局海关查获活体甲虫10只。 深圳邮局海关关员在对进境邮件开展监管时，发现一票申报为“塑料玩具”的邮件包裹机检图像异常，随即对其开箱查验。经开拆，海关关员在该票包裹中发现透气饲养盒、保湿垫材等饲养装置，里面分装10只活体甲虫。后经专业机构鉴定，其中2只为大黑艳锹甲，属于外来物种；1只为巨锯锹甲，7只为大刀锹甲。目前，该案件已依法移交海关处置部门作进一步处理。 贩龟犯规"
+    },
+    {
+      "title": "不是塑料是活物，不信动给你看",
+      "date": "2026年7月5日",
+      "port": "未标注",
+      "species_cn": "大刀锹甲",
+      "type": "昆虫",
+      "origin": "东南亚",
+      "category": "异宠",
+      "quantity": 1,
+      "channel": "邮递",
+      "method": "行李夹带",
+      "content": "近日，深圳邮局海关查获活体甲虫10只。 深圳邮局海关关员在对进境邮件开展监管时，发现一票申报为“塑料玩具”的邮件包裹机检图像异常，随即对其开箱查验。经开拆，海关关员在该票包裹中发现透气饲养盒、保湿垫材等饲养装置，里面分装10只活体甲虫。后经专业机构鉴定，其中2只为大黑艳锹甲，属于外来物种；1只为巨锯锹甲，7只为大刀锹甲。目前，该案件已依法移交海关处置部门作进一步处理。 贩龟犯规"
+    }
+  ]
+}

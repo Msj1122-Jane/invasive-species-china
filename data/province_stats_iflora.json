@@ -1,0 +1,308 @@
+[
+  {
+    "name": "云南",
+    "total": 321,
+    "level_1": 31,
+    "level_2": 41,
+    "level_3": 50,
+    "level_4": 57,
+    "level_5": 142
+  },
+  {
+    "name": "广东",
+    "total": 259,
+    "level_1": 32,
+    "level_2": 37,
+    "level_3": 40,
+    "level_4": 48,
+    "level_5": 102
+  },
+  {
+    "name": "广西",
+    "total": 257,
+    "level_1": 32,
+    "level_2": 39,
+    "level_3": 38,
+    "level_4": 47,
+    "level_5": 101
+  },
+  {
+    "name": "福建",
+    "total": 252,
+    "level_1": 33,
+    "level_2": 37,
+    "level_3": 34,
+    "level_4": 50,
+    "level_5": 98
+  },
+  {
+    "name": "中国台湾",
+    "total": 245,
+    "level_1": 30,
+    "level_2": 37,
+    "level_3": 40,
+    "level_4": 49,
+    "level_5": 89
+  },
+  {
+    "name": "江西",
+    "total": 213,
+    "level_1": 30,
+    "level_2": 31,
+    "level_3": 30,
+    "level_4": 45,
+    "level_5": 77
+  },
+  {
+    "name": "四川",
+    "total": 212,
+    "level_1": 27,
+    "level_2": 36,
+    "level_3": 22,
+    "level_4": 48,
+    "level_5": 79
+  },
+  {
+    "name": "海南",
+    "total": 211,
+    "level_1": 31,
+    "level_2": 31,
+    "level_3": 33,
+    "level_4": 35,
+    "level_5": 81
+  },
+  {
+    "name": "浙江",
+    "total": 204,
+    "level_1": 24,
+    "level_2": 31,
+    "level_3": 27,
+    "level_4": 46,
+    "level_5": 76
+  },
+  {
+    "name": "江苏",
+    "total": 198,
+    "level_1": 28,
+    "level_2": 27,
+    "level_3": 27,
+    "level_4": 47,
+    "level_5": 69
+  },
+  {
+    "name": "湖南",
+    "total": 189,
+    "level_1": 27,
+    "level_2": 31,
+    "level_3": 25,
+    "level_4": 41,
+    "level_5": 65
+  },
+  {
+    "name": "贵州",
+    "total": 188,
+    "level_1": 28,
+    "level_2": 31,
+    "level_3": 22,
+    "level_4": 41,
+    "level_5": 66
+  },
+  {
+    "name": "中国香港",
+    "total": 172,
+    "level_1": 28,
+    "level_2": 27,
+    "level_3": 28,
+    "level_4": 30,
+    "level_5": 59
+  },
+  {
+    "name": "湖北",
+    "total": 171,
+    "level_1": 23,
+    "level_2": 25,
+    "level_3": 18,
+    "level_4": 46,
+    "level_5": 59
+  },
+  {
+    "name": "重庆",
+    "total": 168,
+    "level_1": 24,
+    "level_2": 27,
+    "level_3": 19,
+    "level_4": 42,
+    "level_5": 56
+  },
+  {
+    "name": "上海",
+    "total": 166,
+    "level_1": 23,
+    "level_2": 25,
+    "level_3": 18,
+    "level_4": 43,
+    "level_5": 57
+  },
+  {
+    "name": "安徽",
+    "total": 160,
+    "level_1": 23,
+    "level_2": 23,
+    "level_3": 21,
+    "level_4": 45,
+    "level_5": 48
+  },
+  {
+    "name": "山东",
+    "total": 156,
+    "level_1": 22,
+    "level_2": 25,
+    "level_3": 16,
+    "level_4": 44,
+    "level_5": 49
+  },
+  {
+    "name": "北京",
+    "total": 155,
+    "level_1": 22,
+    "level_2": 25,
+    "level_3": 19,
+    "level_4": 46,
+    "level_5": 43
+  },
+  {
+    "name": "河北",
+    "total": 150,
+    "level_1": 24,
+    "level_2": 26,
+    "level_3": 15,
+    "level_4": 40,
+    "level_5": 45
+  },
+  {
+    "name": "陕西",
+    "total": 146,
+    "level_1": 21,
+    "level_2": 25,
+    "level_3": 11,
+    "level_4": 38,
+    "level_5": 51
+  },
+  {
+    "name": "河南",
+    "total": 143,
+    "level_1": 21,
+    "level_2": 23,
+    "level_3": 14,
+    "level_4": 40,
+    "level_5": 45
+  },
+  {
+    "name": "中国澳门",
+    "total": 133,
+    "level_1": 24,
+    "level_2": 25,
+    "level_3": 18,
+    "level_4": 23,
+    "level_5": 43
+  },
+  {
+    "name": "辽宁",
+    "total": 122,
+    "level_1": 20,
+    "level_2": 22,
+    "level_3": 11,
+    "level_4": 30,
+    "level_5": 39
+  },
+  {
+    "name": "天津",
+    "total": 119,
+    "level_1": 19,
+    "level_2": 18,
+    "level_3": 12,
+    "level_4": 30,
+    "level_5": 40
+  },
+  {
+    "name": "山西",
+    "total": 112,
+    "level_1": 16,
+    "level_2": 18,
+    "level_3": 10,
+    "level_4": 30,
+    "level_5": 38
+  },
+  {
+    "name": "内蒙古",
+    "total": 102,
+    "level_1": 8,
+    "level_2": 20,
+    "level_3": 12,
+    "level_4": 27,
+    "level_5": 35
+  },
+  {
+    "name": "新疆",
+    "total": 100,
+    "level_1": 9,
+    "level_2": 17,
+    "level_3": 7,
+    "level_4": 31,
+    "level_5": 36
+  },
+  {
+    "name": "黑龙江",
+    "total": 96,
+    "level_1": 12,
+    "level_2": 16,
+    "level_3": 11,
+    "level_4": 28,
+    "level_5": 29
+  },
+  {
+    "name": "甘肃",
+    "total": 92,
+    "level_1": 14,
+    "level_2": 15,
+    "level_3": 4,
+    "level_4": 28,
+    "level_5": 31
+  },
+  {
+    "name": "西藏",
+    "total": 91,
+    "level_1": 13,
+    "level_2": 16,
+    "level_3": 6,
+    "level_4": 31,
+    "level_5": 25
+  },
+  {
+    "name": "吉林",
+    "total": 84,
+    "level_1": 13,
+    "level_2": 14,
+    "level_3": 9,
+    "level_4": 28,
+    "level_5": 20
+  },
+  {
+    "name": "青海",
+    "total": 65,
+    "level_1": 7,
+    "level_2": 9,
+    "level_3": 5,
+    "level_4": 22,
+    "level_5": 22
+  },
+  {
+    "name": "宁夏",
+    "total": 49,
+    "level_1": 6,
+    "level_2": 9,
+    "level_3": 2,
+    "level_4": 17,
+    "level_5": 15
+  }
+]

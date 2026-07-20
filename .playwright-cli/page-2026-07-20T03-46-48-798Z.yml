@@ -1,0 +1,272 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]: 来者何物
+    - generic [ref=e5]:
+      - generic "序章" [ref=e6] [cursor=pointer]
+      - generic "全境" [ref=e7] [cursor=pointer]
+      - generic "扩散" [ref=e8] [cursor=pointer]
+      - generic "通缉" [ref=e9] [cursor=pointer]
+      - generic "代价" [ref=e10] [cursor=pointer]
+      - generic "防线" [ref=e11] [cursor=pointer]
+  - generic [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]: 中国外来入侵物种数据纪实
+      - heading "来者何物" [level=1] [ref=e15]
+      - paragraph [ref=e16]: 660+物种，2000亿年损失，无声入侵的国门叙事
+      - paragraph [ref=e17]: 它们没有护照，没有签证，却已遍布中国35个省级行政区
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - strong [ref=e20]: 660+
+          - text: 记录在册入侵物种
+        - generic [ref=e21]:
+          - strong [ref=e22]: "2000"
+          - text: 亿 年均经济损失
+    - generic [ref=e23]:
+      - img [ref=e25]
+      - generic [ref=e28]: 向下滚动探索
+  - generic [ref=e30]:
+    - generic [ref=e31]:
+      - generic [ref=e32]: Chapter 01
+      - heading "全境扫描：入侵物种的\"版图\"" [level=2] [ref=e33]
+      - paragraph [ref=e34]: 从南到北、从沿海到内陆，660余种外来物种在中国的分布格局
+    - generic [ref=e36]:
+      - button "全部物种" [ref=e37] [cursor=pointer]
+      - button "动物类" [ref=e38] [cursor=pointer]
+      - button "植物类" [ref=e39] [cursor=pointer]
+      - button "仅1级恶性" [ref=e40] [cursor=pointer]
+    - generic [ref=e44]:
+      - generic [ref=e46]: 省份排名 TOP 10
+      - generic [ref=e48]:
+        - generic [ref=e49]: 快速洞察
+        - generic [ref=e50]:
+          - paragraph [ref=e51]:
+            - strong [ref=e52]: 云南
+            - text: 以 321 种居首，占全国近半
+          - paragraph [ref=e53]:
+            - strong [ref=e54]: 南北梯度
+            - text: 明显：南方平均 150+ 种 vs 北方 70 种以下
+          - paragraph [ref=e55]:
+            - strong [ref=e56]: 台湾
+            - text: 动物占比最高（33.7%）
+    - generic [ref=e57]:
+      - heading "14年入侵物种增长趋势" [level=3] [ref=e58]
+      - paragraph [ref=e59]: 从2006年26个保护区调查的131种，增长至2019年的660种——增幅达403%
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - generic [ref=e63]: "321"
+        - generic [ref=e64]: 云南省入侵物种数（全国最多）
+        - generic [ref=e65]: 热带/亚热带气候 + 邻国边境线长 + 进出口贸易频繁
+      - generic [ref=e66]:
+        - generic [ref=e67]: "49"
+        - generic [ref=e68]: 宁夏回族自治区（全国最少）
+        - generic [ref=e69]: 干旱气候天然屏障 + 内陆地理位置
+      - generic [ref=e70]:
+        - generic [ref=e71]: 4.6x
+        - generic [ref=e72]: 南方与北方平均倍差
+        - generic [ref=e73]: 气候适应性是决定分布密度的核心因素
+      - generic [ref=e74]:
+        - generic [ref=e75]: 70%+
+        - generic [ref=e76]: 美洲来源占比
+        - generic [ref=e77]: 北美和南美是中国入侵物种最主要的原产地
+  - generic [ref=e79]:
+    - generic [ref=e80]:
+      - generic [ref=e81]: Chapter 02
+      - heading "红线推进：从1省到13省的扩散之路" [level=2] [ref=e82]
+      - paragraph [ref=e83]: 它们从全球各地而来，在中国境内步步为营、跳跃突袭
+    - generic [ref=e85]:
+      - button "🔥 红火蚁" [ref=e86] [cursor=pointer]
+      - button "🌾 互花米草" [ref=e87] [cursor=pointer]
+      - button "🐛 松材线虫" [ref=e88] [cursor=pointer]
+      - button "🦋 美国白蛾" [ref=e89] [cursor=pointer]
+      - button "🌿 薇甘菊" [ref=e90] [cursor=pointer]
+      - button "🌸 紫茎泽兰" [ref=e91] [cursor=pointer]
+    - generic [ref=e95]:
+      - generic [ref=e96]: 拖动时间轴，观察扩散进程 ▼
+      - generic [ref=e97]:
+        - generic [ref=e98]:
+          - generic [ref=e99]: "2003"
+          - generic [ref=e100]: 当前年份
+        - generic [ref=e101]:
+          - generic [ref=e102]: "1"
+          - generic [ref=e103]: 累计省份
+        - generic [ref=e104]:
+          - generic [ref=e105]: "+1"
+          - generic [ref=e106]: 本年新增
+    - generic [ref=e107]:
+      - generic [ref=e108]: 2003年
+      - generic [ref=e109]: 台湾首次发现红火蚁踪迹。这种来自南美洲的凶猛蚂蚁，即将开启它长达二十余年的中国之旅。
+    - generic [ref=e110]:
+      - heading "世界流向图：它们从哪里来？" [level=3] [ref=e111]
+      - paragraph [ref=e112]: 基于61种主要入侵物种原产地统计，弧线粗细代表物种数量
+      - generic [ref=e114]:
+        - generic [ref=e115]:
+          - generic [ref=e116]: "43"
+          - generic [ref=e117]: 来自美洲 (%)
+        - generic [ref=e118]:
+          - generic [ref=e119]: "20"
+          - generic [ref=e120]: 来自欧洲 (%)
+        - generic [ref=e121]:
+          - generic [ref=e122]: "25"
+          - generic [ref=e123]: 来自亚洲其他地区 (%)
+        - generic [ref=e124]:
+          - generic [ref=e125]: "12"
+          - generic [ref=e126]: 其他 (%)
+    - generic [ref=e127]:
+      - heading "保护区失守警报" [level=3] [ref=e128]
+      - paragraph [ref=e129]: 连国家级自然保护区——我们为生态留的最后自留地——也没能幸免
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - text: 2006年：
+          - strong [ref=e159]: 131种
+          - text: （26个保护区调查）
+        - generic [ref=e160]:
+          - text: 2019年：
+          - strong [ref=e161]: 215种
+          - text: 入侵国家级自然保护区
+  - generic [ref=e163]:
+    - generic [ref=e164]:
+      - generic [ref=e165]: Chapter 03
+      - heading "头号通缉：1级恶性入侵物种图鉴" [level=2] [ref=e166]
+      - paragraph [ref=e167]: 61种重点入侵物种全景图谱 — 点击、搜索、翻转探索每一张"通缉令"
+    - generic [ref=e169]:
+      - generic [ref=e170]: 🔍
+      - textbox "搜索物种名称...（如：红火蚁、福寿螺）" [ref=e171]
+    - generic [ref=e172]:
+      - button "全部 (61)" [ref=e173] [cursor=pointer]
+      - button "1级恶性 (37)" [ref=e174] [cursor=pointer]
+      - button "动物 (24)" [ref=e175] [cursor=pointer]
+      - button "植物 (37)" [ref=e176] [cursor=pointer]
+      - button "昆虫/病虫害 (13)" [ref=e177] [cursor=pointer]
+    - heading "物种卡片图鉴（点击翻转查看详情）" [level=3] [ref=e180]
+    - generic [ref=e182]: 六大入侵植物家族
+  - generic [ref=e184]:
+    - generic [ref=e185]:
+      - generic [ref=e186]: Chapter 04
+      - heading "代价几何：从2000亿到2363.5亿美元" [level=2] [ref=e187]
+      - paragraph [ref=e188]: 经济损失、海关前线、异宠贸易 — 入侵的真实账单
+    - generic [ref=e190]:
+      - heading "💰 经济损失：多口径数据演变" [level=3] [ref=e191]
+      - generic [ref=e192]:
+        - generic [ref=e193]:
+          - generic [ref=e194]: 1198.8亿
+          - generic [ref=e195]: 2011年评估 / 544种
+          - generic [ref=e196]: 含农林牧渔及间接损失
+        - generic [ref=e197]:
+          - generic [ref=e198]: 840亿
+          - generic [ref=e199]: 2014年仅农业 / 20种
+          - generic [ref=e200]: 保守口径：仅计算20种主要农业害物
+        - generic [ref=e201]:
+          - generic [ref=e202]: ~2000亿/年
+          - generic [ref=e203]: 综合估算
+          - generic [ref=e204]: 整合多源数据的年度均值
+        - generic [ref=e205]:
+          - generic [ref=e206]: 2363.5亿美元
+          - generic [ref=e207]: 40年累计 / 11种
+          - generic [ref=e208]: IUCN全球百种恶性入侵物种中的11种在华损失
+    - generic [ref=e213]:
+      - heading "🚨 海关前线：伪装大揭秘" [level=3] [ref=e214]
+      - generic [ref=e215]:
+        - paragraph [ref=e216]: 点击卡片翻转，看看申报品名背后藏着的真实物种 👇
+        - generic [ref=e217]:
+          - generic [ref=e219] [cursor=pointer]:
+            - generic [ref=e220]:
+              - generic [ref=e221]: 申报名称
+              - generic [ref=e222]: 口香糖
+              - generic [ref=e223]: 点击翻转揭晓
+            - generic [ref=e224]:
+              - generic [ref=e225]: 🐜
+              - generic [ref=e226]: 北美巨人蜈蚣
+              - generic [ref=e227]: 截获 13 只
+          - generic [ref=e228]: →
+          - generic [ref=e230] [cursor=pointer]:
+            - generic [ref=e231]:
+              - generic [ref=e232]: 真实物品
+              - generic [ref=e233]: "???"
+              - generic [ref=e234]: 等待揭秘...
+            - generic [ref=e235]:
+              - generic [ref=e236]: ✅
+              - generic [ref=e237]: 成功识别！
+              - generic [ref=e238]: 国门卫士 +1
+        - generic [ref=e239]:
+          - button "下一个案例 →" [ref=e240] [cursor=pointer]
+          - button "重置" [ref=e241] [cursor=pointer]
+        - generic [ref=e242]: 案例 1 / 6
+      - heading "2025 海关截获十大案例" [level=4] [ref=e243]
+    - generic [ref=e244]:
+      - heading "🐢 异宠贸易：屡禁不止的背后" [level=3] [ref=e245]
+      - generic [ref=e247]:
+        - generic [ref=e248]:
+          - generic [ref=e249]: "1619"
+          - generic [ref=e250]: 种异宠交易物种
+        - generic [ref=e251]:
+          - generic [ref=e252]: 1707万
+          - generic [ref=e253]: 饲养者规模
+        - generic [ref=e254]:
+          - generic [ref=e255]: 近百亿
+          - generic [ref=e256]: 市场规模(元)
+        - generic [ref=e257]:
+          - generic [ref=e258]: 78.6%
+          - generic [ref=e259]: 外来爬行类占比
+  - generic [ref=e261]:
+    - generic [ref=e262]:
+      - generic [ref=e263]: Chapter 05
+      - heading "国门防线：从\"被动拦截\"到\"主动出击\"" [level=2] [ref=e264]
+      - paragraph [ref=e265]: 政策演进、防治行动、名录更新 — 中国的应对之路
+    - generic [ref=e267]:
+      - heading "🛡️ 六道治理防线：外防输入 内防扩散" [level=3] [ref=e268]
+      - paragraph [ref=e269]: 从境外预警到生态修复，6环防线构成全链条防控体系
+      - generic [ref=e270]:
+        - generic [ref=e271]:
+          - generic [ref=e272]: "5439"
+          - generic [ref=e273]: 2025年全国海关截获批次
+        - generic [ref=e274]:
+          - generic [ref=e275]: 38.5×
+          - generic [ref=e276]: 宁波口岸同比增长
+        - generic [ref=e277]:
+          - generic [ref=e278]: 735种
+          - generic [ref=e279]: 北京海关累计截获物种
+        - generic [ref=e280]:
+          - generic [ref=e281]: 5600+
+          - generic [ref=e282]: 上海海关截获异宠数
+      - generic [ref=e285]: 点击上方环带查看各防线详情
+    - generic [ref=e287]:
+      - generic [ref=e288]:
+        - generic [ref=e289]: 🎯 重点管理名录
+        - generic [ref=e290]: 从2003年第一批名单到2021年《生物安全法》，管理范围从数十种扩展到百余种
+        - generic [ref=e291]: 52 → 71 → 40(应急指南)
+      - generic [ref=e292]:
+        - generic [ref=e293]: 🔥 灭除行动
+        - generic [ref=e294]: 2006-2015年全国性灭除行动，累计灭除数百万亩入侵植物
+        - generic [ref=e295]: 灭除率 70%+
+      - generic [ref=e296]:
+        - generic [ref=e297]: 📜 政策法规
+        - generic [ref=e298]: 2003年首批名录发布，2012年52种重点管理，2021年《生物安全法》施行
+        - generic [ref=e299]: 51条关键事件
+      - generic [ref=e300]:
+        - generic [ref=e301]: ⚔️ 典型战役
+        - generic [ref=e302]: 紫茎泽兰西南治理、互花米草红树林保卫战、松材线虫西进阻击
+        - generic [ref=e303]: 4大防治案例
+    - generic [ref=e304]:
+      - heading "🔍 发现后怎么办：5大场景行动指南" [level=3] [ref=e305]
+      - paragraph [ref=e306]: 无论在哪里发现疑似外来入侵物种，记住：不接触、不扩散、快记录、找部门
+      - generic [ref=e308]:
+        - text: 通用兜底：不确定归属部门时，统一拨打
+        - generic [ref=e309]: 📞 12345
+        - text: 政务服务便民热线
+    - generic [ref=e310]:
+      - generic [ref=e311]: 入侵没有终点，防线需要每个人
+      - generic [ref=e312]: 你的一小步，就是生态防线的一大步
+      - generic [ref=e313]:
+        - generic [ref=e314]:
+          - generic [ref=e315] [cursor=pointer]: ✓
+          - generic [ref=e316]: 不随意放生外来物种
+        - generic [ref=e317]:
+          - generic [ref=e318] [cursor=pointer]: ✓
+          - generic [ref=e319]: 不网购未经检疫的异宠
+        - generic [ref=e320]:
+          - generic [ref=e321] [cursor=pointer]: ✓
+          - generic [ref=e322]: 入境主动申报携带物品
+      - generic [ref=e323]: 勾选上方承诺，成为生态守门人
+    - generic [ref=e324]:
+      - text: 数据来源：《中国外来入侵物种名录》、生态环境部、农业农村部、海关总署、各省市生态环境厅
+      - text: IUCN、中国科学院、《生物多样性》期刊等 | 本作品仅供学习交流使用
