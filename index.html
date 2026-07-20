@@ -391,13 +391,13 @@ body {
 /* Big number: 660+ 先声夺人 */
 .intro-big-number {
   font-family: var(--font-serif);
-  font-size: clamp(5rem, 14vw, 12rem);
-  font-weight: 900;
+  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-weight: 800;
   line-height: 1.0;
   color: var(--b-text);
   opacity: 0;
   animation: fadeInUp 0.8s 0.1s forwards;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .intro-plus {
   color: var(--b-gold);
@@ -2754,7 +2754,7 @@ body {
     <p>我们脚下的草坪、路边的野花、河道里的水草——这些看似"理所当然"的本土风景，可能来自万里之外。</p>
     <p>红火蚁从南美到广东，只用了<span class="narrative-num">90</span>年。水葫芦从观赏植物到河道噩梦，只用了<span class="narrative-num">30</span>年。</p>
     <p>它们没有国界，没有签证，却以每年数百公里的速度，重写中国生态版图。</p>
-    <p><span class="narrative-num">660</span>余种外来物种已入侵中国<span class="narrative-num">35</span>个省级行政区。年均经济损失超过<span class="narrative-num">2000</span>亿元人民币。</p>
+    <p><span class="narrative-num">660</span>余种外来物种已入侵中国<span class="narrative-num">34</span>个省级行政区。年均经济损失超过<span class="narrative-num">2000</span>亿元人民币。</p>
     <p class="narrative-emphasis">这场无声的迁徙，正在我们眼前发生。</p>
   </div>
 </section>
@@ -5377,7 +5377,7 @@ function renderSpeciesGallery() {
         '<div class="gc-distro">' +
           '<span class="gc-distro-label">分布省份</span>' +
           '<div class="gc-distro-bar"><div class="gc-distro-fill" style="width:' + distroPct + '%"></div></div>' +
-          '<span class="gc-distro-num">' + (sp.province_count || 0) + '/35</span>' +
+          '<span class="gc-distro-num">' + (sp.province_count || 0) + '/34</span>' +
         '</div>' +
       '</div>';
     cardsContainer.appendChild(card);
