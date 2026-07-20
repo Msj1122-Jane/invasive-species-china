@@ -61,6 +61,7 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   overflow-x: hidden;
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -132,8 +133,10 @@ body {
 .section {
   min-height: var(--section-h);
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 .section-inner {
   max-width: 1200px;
@@ -146,6 +149,13 @@ body {
 .section-header {
   text-align: center;
   margin-bottom: 60px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.section.active .section-header {
+  opacity: 1;
+  transform: translateY(0);
 }
 .section-number {
   font-family: var(--font-mono);
@@ -202,28 +212,32 @@ body {
   color: var(--b-text);
   position: relative;
   overflow: hidden;
-  /* Background: deep dark with subtle topographic line texture */
+  /* Background: deep dark + cover illustration + subtle texture */
   background:
-    /* Subtle radial vignette */
-    radial-gradient(ellipse at 30% 40%, rgba(26,55,40,0.35) 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 30%, rgba(20,35,25,0.25) 0%, transparent 50%),
-    /* Topographic contour lines (CSS repeating pattern) */
+    /* Dark vignette overlay over the image to keep text readable */
+    radial-gradient(ellipse at 40% 35%, rgba(11,20,16,0) 0%, rgba(11,20,16,0.3) 40%, rgba(11,20,16,0.7) 100%),
+    /* Subtle grid texture */
     repeating-linear-gradient(
       0deg,
       transparent,
-      transparent 39px,
-      rgba(255,255,255,0.015) 39px,
-      rgba(255,255,255,0.015) 40px
+      transparent 59px,
+      rgba(255,255,255,0.008) 59px,
+      rgba(255,255,255,0.008) 60px
     ),
     repeating-linear-gradient(
       90deg,
       transparent,
-      transparent 79px,
-      rgba(255,255,255,0.01) 79px,
-      rgba(255,255,255,0.01) 80px
+      transparent 119px,
+      rgba(255,255,255,0.006) 119px,
+      rgba(255,255,255,0.006) 120px
     ),
+    /* Cover illustration */
+    url('assets/images/bg/cover.png'),
     /* Base */
     var(--b-bg);
+  background-size: auto, auto, auto, cover, auto;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 0 8vw;
   display: flex;
   flex-direction: column;
@@ -708,7 +722,7 @@ body {
 /* ============================================
    CHAPTER 3: 头号通缉 (Dark)
    ============================================ */
-#chapter-species { min-height: auto; padding-bottom: 60px; }
+#chapter-species { min-height: 100vh; padding-bottom: 60px; }
 .search-bar {
   max-width: 480px;
   margin: 0 auto 36px;
@@ -941,7 +955,7 @@ body {
 /* ============================================
    CHAPTER 4: 代价几何 (Mixed)
    ============================================ */
-#chapter-impact { min-height: auto; padding-bottom: 60px; }
+#chapter-impact { min-height: 100vh; padding-bottom: 60px; }
 
 /* Sub-section: Economic Loss (Light) */
 .loss-section {
@@ -1183,7 +1197,7 @@ body {
 /* ============================================
    CHAPTER 5: 国门防线 (Light)
    ============================================ */
-#chapter-defense { min-height: auto; padding-bottom: 60px; }
+#chapter-defense { min-height: 100vh; padding-bottom: 60px; }
 #timeline-chart {
   width: 100%;
   height: 450px;
@@ -1322,15 +1336,83 @@ body {
   .cards-grid { grid-template-columns: 1fr; }
 }
 
-/* Scroll animations */
-.reveal {
+/* Snapshot-driven entrance animations */
+.section .chart-container,
+.section .sidebar-panel,
+.section .insight-box,
+.section .spread-tabs,
+.section .species-filters,
+.section .search-bar,
+.section .cards-section,
+.section .families-section,
+.section .loss-section,
+.section .customs-section,
+.section .pet-trade-section,
+.section .defense-actions,
+.section .cta-section,
+.section .flow-section,
+.section .reserve-section,
+.section .trend-section,
+.section .story-panel,
+.section .data-footer,
+.section .filter-bar,
+.section .province-selector,
+.section .intro-quote,
+.section .intro-stats {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.7s cubic-bezier(0.4,0,0.2,1);
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22,0.61,0.36,1), transform 0.8s cubic-bezier(0.22,0.61,0.36,1);
 }
-.reveal.visible {
+.section.active .chart-container,
+.section.active .sidebar-panel,
+.section.active .insight-box,
+.section.active .spread-tabs,
+.section.active .species-filters,
+.section.active .search-bar,
+.section.active .cards-section,
+.section.active .families-section,
+.section.active .loss-section,
+.section.active .customs-section,
+.section.active .pet-trade-section,
+.section.active .defense-actions,
+.section.active .cta-section,
+.section.active .flow-section,
+.section.active .reserve-section,
+.section.active .trend-section,
+.section.active .story-panel,
+.section.active .data-footer,
+.section.active .filter-bar,
+.section.active .province-selector,
+.section.active .intro-quote,
+.section.active .intro-stats {
   opacity: 1;
   transform: translateY(0);
+}
+/* Stagger children */
+.section.active .sidebar-panel { transition-delay: 0.1s; }
+.section.active .insight-box { transition-delay: 0.15s; }
+.section.active .trend-section { transition-delay: 0.2s; }
+.section.active .data-footer { transition-delay: 0.25s; }
+.section.active .spread-tabs { transition-delay: 0.05s; }
+.section.active .spread-main { transition-delay: 0.1s; }
+.section.active .flow-section { transition-delay: 0.2s; }
+.section.active .reserve-section { transition-delay: 0.3s; }
+.section.active .cards-section { transition-delay: 0.1s; }
+.section.active .families-section { transition-delay: 0.2s; }
+.section.active .defense-actions { transition-delay: 0.15s; }
+.section.active .cta-section { transition-delay: 0.25s; }
+.section.active .loss-section > *:nth-child(1) { transition-delay: 0s; }
+.section.active .loss-section > *:nth-child(2) { transition-delay: 0.12s; }
+.section.active .loss-section > *:nth-child(3) { transition-delay: 0.24s; }
+.section.active .loss-section > *:nth-child(4) { transition-delay: 0.36s; }
+
+/* Nav always visible in snap mode */
+.nav-fixed {
+  transform: translateY(0);
+}
+/* Hide nav on cover, show after scroll */
+.nav-fixed.hidden-on-cover {
+  transform: translateY(-100%);
 }
 </style>
 </head>
@@ -1851,23 +1933,158 @@ navDots.forEach(dot => {
 });
 
 // ============================================
-// SCROLL REVEAL (with fallback)
+// SECTION OBSERVER — 逐屏故事板
 // ============================================
-const revealObserver = new IntersectionObserver(entries => {
+const sections = document.querySelectorAll('.section');
+const navDots = document.querySelectorAll('.nav-dot');
+const mainNav = document.getElementById('mainNav');
+let currentSection = -1;
+let _sectionInitFlags = {}; // track which sections have been initialized
+
+// IntersectionObserver to detect which section is in view
+const sectionObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
+    if (entry.isIntersecting) {
+      const idx = parseInt(entry.target.dataset.chapter);
+      if (idx !== currentSection) {
+        activateSection(idx, entry.target);
+      }
+    }
   });
-}, { threshold: 0.01, rootMargin: '0px 0px -5% 0px' });
+}, { threshold: 0.4 });
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+// Assign data-chapter to each section and observe
+sections.forEach((sec, i) => {
+  sec.dataset.chapter = i;
+  sectionObserver.observe(sec);
+});
 
-// Fallback: ensure all .reveal elements become visible after 2.5s
-// regardless of observer behavior
-setTimeout(() => {
-  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
-    el.classList.add('visible');
+// Activate a section: add active class, update nav, render charts
+async function activateSection(idx, sectionEl) {
+  currentSection = idx;
+  
+  // Remove old active states
+  sections.forEach(s => s.classList.remove('active'));
+  navDots.forEach(d => d.classList.remove('active'));
+  
+  // Set new active
+  sectionEl.classList.add('active');
+  if (navDots[idx]) navDots[idx].classList.add('active');
+  
+  // Nav visibility: hide on cover (idx=0), show on others
+  if (idx === 0) {
+    mainNav.classList.add('hidden-on-cover');
+  } else {
+    mainNav.classList.remove('hidden-on-cover');
+  }
+  
+  // Render chapter content if not already initialized
+  await renderChapter(idx);
+  
+  // Resize ECharts instances when section becomes visible
+  setTimeout(() => {
+    if (window.chinaMapChart) window.chinaMapChart.resize();
+    if (window.rankChart) window.rankChart.resize();
+    if (window.trendChart) window.trendChart.resize();
+    if (window.spreadChart) window.spreadChart.resize();
+    if (window.worldFlowChart) window.worldFlowChart.resize();
+    if (window.icebergChart) window.icebergChart.resize();
+    if (window.lossDistChart) window.lossDistChart.resize();
+    if (window.lossProvChart) window.lossProvChart.resize();
+    if (window.petTradeChart) window.petTradeChart.resize();
+    if (window.timelineChart) window.timelineChart.resize();
+  }, 100);
+}
+
+// Render a chapter's content on first activation
+async function renderChapter(idx) {
+  const key = 'ch_' + idx;
+  if (_sectionInitFlags[key]) return; // already rendered
+  
+  await loadData();
+  
+  // Pre-load China GeoJSON if needed for map chapters
+  if (!_sectionInitFlags._geoRegistered && (idx === 1 || idx === 2)) {
+    try {
+      const geoResp = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json');
+      if (geoResp.ok) {
+        echarts.registerMap('china', await geoResp.json());
+        _sectionInitFlags._geoRegistered = true;
+      }
+    } catch(e) { console.warn('GeoJSON failed', e); }
+  }
+  
+  _sectionInitFlags[key] = true;
+  
+  try {
+    switch(idx) {
+      case 0:
+        initProvinceSelector();
+        break;
+      case 1:
+        if (Data.provinces) renderMapChapter();
+        break;
+      case 2:
+        if (!window.spreadChart) renderSpreadMap('红火蚁');
+        if (Data.species && !_sectionInitFlags._worldFlow) {
+          _sectionInitFlags._worldFlow = true;
+          renderWorldFlow();
+        }
+        break;
+      case 3:
+        if (Data.species && !_sectionInitFlags._species) {
+          _sectionInitFlags._species = true;
+          renderSpeciesStarChart();
+          renderSpeciesCards();
+          renderPlantFamilies();
+        }
+        break;
+      case 4:
+        if (Data.economicLoss && !_sectionInitFlags._impact) {
+          _sectionInitFlags._impact = true;
+          renderImpactChapter();
+        }
+        break;
+      case 5:
+        if (Data.timeline && !_sectionInitFlags._defense) {
+          _sectionInitFlags._defense = true;
+          renderDefenseChapter();
+        }
+        break;
+    }
+  } catch(e) {
+    console.error('Render chapter', idx, 'failed:', e);
+  }
+}
+
+// Nav dot click: scroll to section
+navDots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    const idx = parseInt(dot.dataset.chapter);
+    if (sections[idx]) {
+      sections[idx].scrollIntoView({ behavior: 'smooth' });
+    }
   });
-}, 2500);
+});
+
+// Keyboard navigation: arrow keys / PageUp/PageDown
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+    e.preventDefault();
+    const next = Math.min(currentSection + 1, sections.length - 1);
+    sections[next].scrollIntoView({ behavior: 'smooth' });
+  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+    e.preventDefault();
+    const prev = Math.max(currentSection - 1, 0);
+    sections[prev].scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+// Initial activation: if cover is in view on load
+if (sections[0]) activateSection(0, sections[0]);
+initProvinceSelector();
+
+console.log('来者何物 — 逐屏故事板就绪');
 
 // Province selector
 async function initProvinceSelector() {
@@ -2902,53 +3119,6 @@ function toggleCheck(el) {
 // ============================================
 // INITIALIZATION
 // ============================================
-
-// Master initialization: load data and render all chapters on page load
-// This ensures charts render even if IntersectionObserver doesn't fire
-async function initAllChapters() {
-  // Load all data first
-  await loadData();
-  console.log('Master init: data loaded, keys =', Object.keys(Data));
-  
-  // Pre-load China GeoJSON for map chapters
-  try {
-    const geoResp = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json');
-    if (geoResp.ok) {
-      echarts.registerMap('china', await geoResp.json());
-      console.log('Master init: China GeoJSON registered');
-    }
-  } catch(e) {
-    console.warn('Master init: China GeoJSON failed', e);
-  }
-  
-  // Render each chapter with individual error handling
-  const chapters = [
-    { name: 'MapChapter', fn: () => renderMapChapter(), condition: () => !chinaMapChart && Data.provinces },
-    { name: 'SpreadMap', fn: () => renderSpreadMap('红火蚁'), condition: () => !spreadChart },
-    { name: 'WorldFlow', fn: () => { _worldFlowRendered = true; renderWorldFlow(); }, condition: () => Data.species },
-    { name: 'SpeciesStarChart', fn: () => { _speciesRendered = true; renderSpeciesStarChart(); }, condition: () => Data.species },
-    { name: 'SpeciesCards', fn: () => renderSpeciesCards(), condition: () => Data.species },
-    { name: 'PlantFamilies', fn: () => renderPlantFamilies(), condition: () => true },
-    { name: 'ImpactChapter', fn: () => renderImpactChapter(), condition: () => Data.economicLoss },
-    { name: 'DefenseChapter', fn: () => renderDefenseChapter(), condition: () => Data.timeline }
-  ];
-  
-  for (const ch of chapters) {
-    try {
-      if (ch.condition()) {
-        await ch.fn();
-        console.log(`Master init: ${ch.name} rendered`);
-      }
-    } catch(e) {
-      console.error(`Master init: ${ch.name} failed`, e);
-    }
-  }
-  
-  console.log('来者何物 - 初始化完成');
-}
-
-// Start master initialization immediately
-initAllChapters();
 
 </script>
 </body>
