@@ -2961,7 +2961,7 @@ body {
       <h3 style="font-size:1.15rem;margin-bottom:8px;font-weight:700;">物种多维分布：级别 × 扩散广度</h3>
       <p style="font-size:0.84rem;color:var(--a-text-secondary);margin-bottom:16px;line-height:1.8;">
         每个气泡代表一个物种。横轴为入侵级别（1级最严重），纵轴为分布省份数量。
-        气泡<strong style="color:var(--a-highlight);">颜色越深代表所属科的物种数越多</strong>（菊科15种最多，其次是苋科6种、禾本科3种）。
+        <strong style="color:var(--a-highlight);">气泡大小代表所属科的物种数量</strong>（菊科15种最大，苋科6种、禾本科3种次之）。
         悬停可查看物种名和具体数据。
       </p>
       <div class="bubble-chart" id="bubbleChart"></div>
@@ -3982,20 +3982,25 @@ function renderBubbleChart() {
     '伞形科': '#FB5607', '酢浆草科': '#3A86FF', '未知': '#94A3B8'
   };
 
+  // Size based on family species count (more dramatic scale)
+  const famSize = {};
+  Object.keys(famCount).forEach(f => {
+    famSize[f] = Math.max(4, Math.min(56, Math.pow(famCount[f], 0.7) * 8));
+  });
+
   // Build series by family
   const seriesByFam = {};
   Data.species.forEach(s => {
     const f = normFamily(s.family);
     const lvl = normLevel(s.level);
     const provinces = s.province_count || 1;
-    // Add jitter to avoid exact overlap
     const jx = (Math.random() - 0.5) * 0.2;
     const jy = (Math.random() - 0.5) * 1.5;
     if (!seriesByFam[f]) seriesByFam[f] = [];
     seriesByFam[f].push({
       name: s.name_cn,
       value: [lvl + jx, provinces + jy, provinces, s.name_latin || '', s.harm || ''],
-      symbolSize: Math.max(8, Math.min(40, Math.sqrt(provinces || 1) * 6))
+      symbolSize: famSize[f] || 12
     });
     if (!famColors[f]) {
       let hash = 0;
