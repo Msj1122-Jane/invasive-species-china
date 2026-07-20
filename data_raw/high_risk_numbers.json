@@ -1,0 +1,26 @@
+[
+  {
+    "id": "H01",
+    "number": "1707万人",
+    "description": "异宠饲养者数量",
+    "issue": "年份和口径冲突"
+  },
+  {
+    "id": "H02",
+    "number": "近百亿元",
+    "description": "异宠市场规模",
+    "issue": "缺定义和统计口径"
+  },
+  {
+    "id": "H04-CN",
+    "number": "2363.5亿美元/40年",
+    "description": "11种重大入侵物种总损失",
+    "issue": "已由Entomologia Generalis 2025解决"
+  },
+  {
+    "id": "H05",
+    "number": ">4230亿美元/年",
+    "description": "全球外来入侵物种年经济损失",
+    "issue": "已由IPBES 2023确认"
+  }
+]

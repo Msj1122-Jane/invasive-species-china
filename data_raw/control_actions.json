@@ -1,0 +1,56 @@
+[
+  {
+    "year": 2006,
+    "provinces": 10,
+    "area_mw": 1443,
+    "species": 8,
+    "people_m": null,
+    "effect": null,
+    "note": null
+  },
+  {
+    "year": 2007,
+    "provinces": null,
+    "area_mw": 1200,
+    "species": 10,
+    "people_m": null,
+    "effect": 70,
+    "note": "灭除率70%+, 示范区30万亩"
+  },
+  {
+    "year": 2008,
+    "provinces": 15,
+    "area_mw": 3200,
+    "species": 14,
+    "people_m": 5.5,
+    "effect": 75,
+    "note": "550万人次"
+  },
+  {
+    "year": 2009,
+    "provinces": 17,
+    "area_mw": 3615,
+    "species": 15,
+    "people_m": null,
+    "effect": null,
+    "note": "241万公顷"
+  },
+  {
+    "year": 2011,
+    "provinces": null,
+    "area_mw": 1350,
+    "species": 10,
+    "people_m": 3.34,
+    "effect": 75,
+    "note": "直接增收4亿, 间接45亿"
+  },
+  {
+    "year": 2015,
+    "provinces": 30,
+    "area_mw": null,
+    "species": null,
+    "people_m": null,
+    "effect": null,
+    "note": "30省开展+卫星遥感监测"
+  }
+]

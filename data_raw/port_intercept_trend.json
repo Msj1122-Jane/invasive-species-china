@@ -1,0 +1,93 @@
+[
+  {
+    "year": "2013",
+    "quarantine_times": 335,
+    "batches": null,
+    "species_count": null,
+    "species_times": null
+  },
+  {
+    "year": "2015",
+    "quarantine_times": 104.3,
+    "batches": null,
+    "species_count": null,
+    "species_times": null
+  },
+  {
+    "year": "2016",
+    "quarantine_times": 3600000,
+    "batches": null,
+    "species_count": null,
+    "species_times": null
+  },
+  {
+    "year": "2017",
+    "quarantine_times": 3790000,
+    "batches": null,
+    "species_count": null,
+    "species_times": null
+  },
+  {
+    "year": "2018",
+    "quarantine_times": 3350000,
+    "batches": null,
+    "species_count": null,
+    "species_times": null
+  },
+  {
+    "year": "2019",
+    "quarantine_times": 20200000,
+    "batches": null,
+    "species_count": null,
+    "species_times": null
+  },
+  {
+    "year": "2020",
+    "quarantine_times": 6.95,
+    "batches": 4270,
+    "species_count": 1258,
+    "species_times": null
+  },
+  {
+    "year": "2021",
+    "quarantine_times": 6.51,
+    "batches": 8473,
+    "species_count": null,
+    "species_times": null
+  },
+  {
+    "year": "2022",
+    "quarantine_times": null,
+    "batches": 2012,
+    "species_count": 991,
+    "species_times": null
+  },
+  {
+    "year": "2023",
+    "quarantine_times": 7.5,
+    "batches": 3123,
+    "species_count": 1186,
+    "species_times": null
+  },
+  {
+    "year": "2024",
+    "quarantine_times": 7.1,
+    "batches": null,
+    "species_count": null,
+    "species_times": 2071
+  },
+  {
+    "year": "2025",
+    "quarantine_times": 5.6,
+    "batches": 5439,
+    "species_count": null,
+    "species_times": null
+  },
+  {
+    "year": "2026Q1",
+    "quarantine_times": 1.2,
+    "batches": 1163,
+    "species_count": null,
+    "species_times": null
+  }
+]

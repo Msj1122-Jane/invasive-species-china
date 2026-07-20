@@ -1,0 +1,119 @@
+[
+  {
+    "name": "紫茎泽兰",
+    "latin": "Ageratina adenophora",
+    "family": "菊科 Asteraceae",
+    "level": "Ⅰ级恶性入侵（重点管理名录）",
+    "origin": "墨西哥",
+    "distribution": "云南、四川、贵州等西南地区",
+    "harm": "含毒素，牛羊误食中毒死亡；释放化感物质抑制周围植物，称'破坏草'（云南）"
+  },
+  {
+    "name": "加拿大一枝黄花",
+    "latin": "Solidago canadensis",
+    "family": "菊科 Asteraceae",
+    "level": "Ⅰ级恶性入侵",
+    "origin": "北美洲",
+    "distribution": "华东、华中地区（荒地/路边/农田）",
+    "harm": "根茎繁殖力极强，'黄花开处百花杀'，致本土植物缺乏阳光养分枯死"
+  },
+  {
+    "name": "空心莲子草",
+    "latin": "Alternanthera philoxeroides",
+    "family": "苋科 Amaranthaceae",
+    "level": "Ⅰ级恶性入侵",
+    "origin": "南美洲（巴西等）",
+    "distribution": "全国大部分水域/湿地/农田",
+    "harm": "水陆两栖，迅速覆盖水面堵塞河道，致水质恶化鱼类死亡"
+  },
+  {
+    "name": "互花米草",
+    "latin": "Spartina alterniflora",
+    "family": "禾本科 Poaceae",
+    "level": "Ⅰ级恶性入侵（重点管理名录）",
+    "origin": "北美大西洋沿岸",
+    "distribution": "全国沿海滩涂",
+    "harm": "改变泥滩性质，威胁红树林及滩涂底栖生物（蟹类/贝类）"
+  },
+  {
+    "name": "五爪金龙",
+    "latin": "Ipomoea cairica",
+    "family": "旋花科 Convolvulaceae",
+    "level": "Ⅱ级严重入侵",
+    "origin": "热带非洲或亚洲",
+    "distribution": "华南（两广、海南、福建、云南）",
+    "harm": "生长极快，覆盖果树/林木/灌木，遮挡阳光致宿主枯死，称林木'索命绳'"
+  },
+  {
+    "name": "银合欢",
+    "latin": "Leucaena leucocephala",
+    "family": "豆科 Fabaceae",
+    "level": "Ⅱ级严重入侵",
+    "origin": "中美洲（墨西哥等）",
+    "distribution": "华南及西南干热河谷地带",
+    "harm": "强化感作用，根部分泌有毒物质抑制其他植物；种子产量巨大寿命极长，难根除"
+  },
+  {
+    "name": "银叶茄",
+    "latin": "Solanum elaeagnifolium",
+    "family": "茄科 Solanaceae",
+    "level": "需关注·近年扩散风险高",
+    "origin": "北美洲",
+    "distribution": "华北、华东沿海地区（近年出现）",
+    "harm": "抗旱耐盐碱，极难对付的耕地杂草；浆果对家畜有毒，携带马铃薯腐烂茎线虫"
+  },
+  {
+    "name": "菊科 Asteraceae",
+    "latin": "紫茎泽兰、加拿大一枝黄花等",
+    "family": "种子细小带冠毛、如蒲公英随风飞，扩散极快",
+    "level": "入侵植物\"头号家族\"",
+    "origin": null,
+    "distribution": null,
+    "harm": null
+  },
+  {
+    "name": "苋科 Amaranthaceae",
+    "latin": "空心莲子草等",
+    "family": "生命力极强，盐碱/干旱等极端环境适应性高",
+    "level": "顽强的生存专家",
+    "origin": null,
+    "distribution": null,
+    "harm": null
+  },
+  {
+    "name": "禾本科 Poaceae",
+    "latin": "互花米草等",
+    "family": "长相酷似谷物难以辨别，常潜伏农田造成巨大经济损失",
+    "level": "隐蔽的农田潜伏者",
+    "origin": null,
+    "distribution": null,
+    "harm": null
+  },
+  {
+    "name": "旋花科 Convolvulaceae",
+    "latin": "五爪金龙等",
+    "family": "缠绕藤本，迅速覆盖宿主遮光致死",
+    "level": "森林的\"致命缠绕绞杀者\"",
+    "origin": null,
+    "distribution": null,
+    "harm": null
+  },
+  {
+    "name": "豆科 Fabaceae",
+    "latin": "银合欢等",
+    "family": "最初作为优良牧草引入，后演变为入侵",
+    "level": "伪装成'优良牧草'的刺客",
+    "origin": null,
+    "distribution": null,
+    "harm": null
+  },
+  {
+    "name": "茄科 Solanaceae",
+    "latin": "银叶茄等",
+    "family": "带刺、抗旱耐盐碱，近年新现扩散风险极高",
+    "level": "带刺的'荒地霸主'",
+    "origin": null,
+    "distribution": null,
+    "harm": null
+  }
+]

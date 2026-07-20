@@ -1,0 +1,137 @@
+[
+  {
+    "case": "皇岗海关未申报活体动物",
+    "year": 2021,
+    "direction": "出境",
+    "quantity": 1029,
+    "species_note": "蛇510+蜥蜴49+蝎4+蜘蛛36+龟430",
+    "method": "未申报货运",
+    "evidence": "B"
+  },
+  {
+    "case": "红耳彩龟藏匿运输",
+    "year": 2022,
+    "direction": "入境",
+    "quantity": 1760,
+    "species_note": "红耳彩龟(巴西龟)",
+    "method": "藏匿运输",
+    "evidence": "A"
+  },
+  {
+    "case": "广州邮局海关玩具案",
+    "year": 2021,
+    "direction": "入境邮件",
+    "quantity": 13,
+    "species_note": "布氏龙头螽+德哈尼蜈蚣+莱诺两栖蜗牛+大麦虫",
+    "method": "申报为玩具",
+    "evidence": "B"
+  },
+  {
+    "case": "姚某等走私异宠案",
+    "year": 2024,
+    "direction": "入境",
+    "quantity": 207,
+    "species_note": "蜘蛛+蜥蜴+蜈蚣+蛇+壁虎",
+    "method": "人体夹藏+仓库",
+    "evidence": "A"
+  },
+  {
+    "case": "北京邮局海关虫卵案",
+    "year": 2025,
+    "direction": "入境邮件",
+    "quantity": 1,
+    "species_note": "秘鲁食蕨竹节虫等3种(卵)",
+    "method": "申报为工艺品",
+    "evidence": "A"
+  },
+  {
+    "case": "南京金陵海关甲虫案",
+    "year": 2025,
+    "direction": "入境邮件",
+    "quantity": 5,
+    "species_note": "赫克力士长戟大兜虫(16cm)",
+    "method": "申报为教育玩具",
+    "evidence": "A"
+  },
+  {
+    "case": "青岛威海海关甲虫案",
+    "year": 2025,
+    "direction": "入境邮件",
+    "quantity": 1,
+    "species_note": "越南臂金龟(全国首次截获)",
+    "method": "申报为TOYS/玩具",
+    "evidence": "A"
+  },
+  {
+    "case": "广州白云机场蚂蚁案",
+    "year": 2025,
+    "direction": "入境邮件",
+    "quantity": 110,
+    "species_note": "紫彩虹臭蚁(澳大利亚特有)",
+    "method": "申报为空试管玩具",
+    "evidence": "A"
+  },
+  {
+    "case": "大连海关捕鸟蛛案",
+    "year": 2025,
+    "direction": "入境邮件",
+    "quantity": 504,
+    "species_note": "Psalmopoeus irminia(有毒)",
+    "method": "申报为折纸艺术/杂志",
+    "evidence": "A"
+  },
+  {
+    "case": "北京海关沙漠蝗卵案",
+    "year": 2025,
+    "direction": "入境快件",
+    "quantity": 363,
+    "species_note": "沙漠蝗(全球最具毁灭性农业害虫)",
+    "method": "申报为海沙",
+    "evidence": "A"
+  },
+  {
+    "case": "济南海关螳螂案",
+    "year": 2025,
+    "direction": "入境邮件",
+    "quantity": 341,
+    "species_note": "魔王幽灵螳+卵鞘25个",
+    "method": "申报为衣服",
+    "evidence": "A"
+  },
+  {
+    "case": "深圳海关活体龟案",
+    "year": 2025,
+    "direction": "入境",
+    "quantity": 68,
+    "species_note": "侏儒侧颈龟",
+    "method": "身体绑藏",
+    "evidence": "A"
+  },
+  {
+    "case": "厦门海关昆虫案",
+    "year": 2025,
+    "direction": "入境",
+    "quantity": 807,
+    "species_note": "巨人恐蚁+华丽金螳(52种)",
+    "method": "托运行李藏匿",
+    "evidence": "A"
+  },
+  {
+    "case": "深圳邮局蜈蚣案",
+    "year": 2026,
+    "direction": "入境快件",
+    "quantity": 13,
+    "species_note": "北美巨人蜈蚣(20cm+)",
+    "method": "口香糖罐藏匿",
+    "evidence": "A"
+  },
+  {
+    "case": "大兴机场最大案",
+    "year": 2026,
+    "direction": "入境",
+    "quantity": 295,
+    "species_note": "67种(昆虫152+虫卵96+两栖34+爬行10+蛛形3)",
+    "method": "托运行李夹藏",
+    "evidence": "A"
+  }
+]

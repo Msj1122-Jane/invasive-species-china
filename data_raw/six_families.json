@@ -1,0 +1,38 @@
+[
+  {
+    "family": "菊科 Asteraceae",
+    "representative": "紫茎泽兰、加拿大一枝黄花",
+    "traits": "种子细小带冠毛，扩散极快",
+    "quote": "入侵植物头号家族"
+  },
+  {
+    "family": "苋科 Amaranthaceae",
+    "representative": "空心莲子草",
+    "traits": "生命力极强，极端环境适应性高",
+    "quote": "顽强的生存专家"
+  },
+  {
+    "family": "禾本科 Poaceae",
+    "representative": "互花米草",
+    "traits": "长相酷似谷物难以辨别",
+    "quote": "隐蔽的农田潜伏者"
+  },
+  {
+    "family": "旋花科 Convolvulaceae",
+    "representative": "五爪金龙",
+    "traits": "缠绕藤本，覆盖宿主遮光致死",
+    "quote": "森林的致命缠绕绞杀者"
+  },
+  {
+    "family": "豆科 Fabaceae",
+    "representative": "银合欢",
+    "traits": "最初作为优良牧草引入，后演变为入侵",
+    "quote": "伪装成优良牧草的刺客"
+  },
+  {
+    "family": "茄科 Solanaceae",
+    "representative": "银叶茄",
+    "traits": "带刺、抗旱耐盐碱，近年新现",
+    "quote": "带刺的荒地霸主"
+  }
+]

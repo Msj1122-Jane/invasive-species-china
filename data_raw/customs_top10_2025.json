@@ -1,0 +1,82 @@
+[
+  {
+    "rank": 1,
+    "port": "福州海关",
+    "species": "甲虫52种",
+    "qty": 407,
+    "method": "托运行李藏匿",
+    "threat": "吸食植物汁液"
+  },
+  {
+    "rank": 2,
+    "port": "广州海关",
+    "species": "鹦鹉蛋5种",
+    "qty": 240,
+    "method": "随身+下水道冲走223枚",
+    "threat": "禽流感风险"
+  },
+  {
+    "rank": 3,
+    "port": "大连海关",
+    "species": "捕鸟蛛",
+    "qty": 504,
+    "method": "邮件/折纸艺术",
+    "threat": "毒腺致过敏性休克"
+  },
+  {
+    "rank": 4,
+    "port": "杭州海关",
+    "species": "睫角守宫",
+    "qty": 35,
+    "method": "行李箱藏匿",
+    "threat": "携带病原菌"
+  },
+  {
+    "rank": 5,
+    "port": "北京海关",
+    "species": "沙漠蝗卵",
+    "qty": 363,
+    "method": "快件/海沙",
+    "threat": "全球最毁灭性农业害虫"
+  },
+  {
+    "rank": 6,
+    "port": "南宁海关",
+    "species": "红棕象甲",
+    "qty": 36,
+    "method": "旅客携带",
+    "threat": "已入名录+检疫性有害生物"
+  },
+  {
+    "rank": 7,
+    "port": "济南海关",
+    "species": "魔王幽灵螳+卵鞘25个",
+    "qty": 366,
+    "method": "邮件/衣服",
+    "threat": "具繁殖能力"
+  },
+  {
+    "rank": 8,
+    "port": "拱北海关",
+    "species": "观赏鱼",
+    "qty": 192,
+    "method": "客车备胎格",
+    "threat": "威胁渔业"
+  },
+  {
+    "rank": 9,
+    "port": "深圳海关",
+    "species": "活体龟",
+    "qty": 68,
+    "method": "身体绑藏",
+    "threat": "携带病原菌"
+  },
+  {
+    "rank": 10,
+    "port": "厦门海关",
+    "species": "巨人恐蚁+华丽金螳(52种)",
+    "qty": 807,
+    "method": "托运行李+CT智能审图",
+    "threat": "酸性汁液灼伤"
+  }
+]

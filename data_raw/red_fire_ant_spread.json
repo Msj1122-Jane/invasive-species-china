@@ -1,0 +1,170 @@
+[
+  {
+    "year": 2003,
+    "province_count": 1,
+    "provinces": "台湾",
+    "new_added": 1,
+    "new_provinces": "台湾"
+  },
+  {
+    "year": 2004,
+    "province_count": 2,
+    "provinces": "台湾、广东",
+    "new_added": 1,
+    "new_provinces": "广东"
+  },
+  {
+    "year": 2005,
+    "province_count": 5,
+    "provinces": "台湾、广东、广西、福建、湖南",
+    "new_added": 3,
+    "new_provinces": "广西、福建、湖南"
+  },
+  {
+    "year": 2006,
+    "province_count": 5,
+    "provinces": "台湾、广东、广西、福建、湖南",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2007,
+    "province_count": 5,
+    "provinces": "台湾、广东、广西、福建、湖南",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2008,
+    "province_count": 5,
+    "provinces": "台湾、广东、广西、福建、湖南",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2009,
+    "province_count": 5,
+    "provinces": "台湾、广东、广西、福建、湖南",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2010,
+    "province_count": 5,
+    "provinces": "台湾、广东、广西、福建、湖南",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2011,
+    "province_count": 5,
+    "provinces": "台湾、广东、广西、福建、湖南",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2012,
+    "province_count": 8,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川",
+    "new_added": 3,
+    "new_provinces": "海南、江西、四川"
+  },
+  {
+    "year": 2013,
+    "province_count": 9,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南",
+    "new_added": 1,
+    "new_provinces": "云南"
+  },
+  {
+    "year": 2014,
+    "province_count": 10,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆",
+    "new_added": 1,
+    "new_provinces": "重庆"
+  },
+  {
+    "year": 2015,
+    "province_count": 12,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江",
+    "new_added": 2,
+    "new_provinces": "贵州、浙江"
+  },
+  {
+    "year": 2016,
+    "province_count": 12,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2017,
+    "province_count": 12,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2018,
+    "province_count": 13,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江、湖北",
+    "new_added": 1,
+    "new_provinces": "湖北"
+  },
+  {
+    "year": 2019,
+    "province_count": 13,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江、湖北",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2020,
+    "province_count": 13,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江、湖北",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2021,
+    "province_count": 13,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江、湖北",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2022,
+    "province_count": 13,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江、湖北",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2023,
+    "province_count": 12,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江、湖北",
+    "new_added": 0,
+    "new_provinces": "无（自2021年以来未增加新发省份）"
+  },
+  {
+    "year": 2024,
+    "province_count": 12,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江、湖北",
+    "new_added": 0,
+    "new_provinces": "无"
+  },
+  {
+    "year": 2025,
+    "province_count": 13,
+    "provinces": "台湾、广东、广西、福建、湖南、海南、江西、四川、云南、重庆、贵州、浙江、湖北、上海",
+    "new_added": 1,
+    "new_provinces": "上海（农业农村部2025年7月名录新增）"
+  },
+  {
+    "year": 2026,
+    "province_count": 13,
+    "provinces": "同2025年（截至2025年6月30日名录）",
+    "new_added": 0,
+    "new_provinces": "无"
+  }
+]

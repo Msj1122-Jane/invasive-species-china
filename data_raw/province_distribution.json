@@ -1,0 +1,206 @@
+[
+  {
+    "province": "云南",
+    "animal": 35,
+    "plant": 86,
+    "total": 121
+  },
+  {
+    "province": "广东",
+    "animal": 33,
+    "plant": 86,
+    "total": 119
+  },
+  {
+    "province": "台湾",
+    "animal": 38,
+    "plant": 75,
+    "total": 113
+  },
+  {
+    "province": "福建",
+    "animal": 27,
+    "plant": 80,
+    "total": 107
+  },
+  {
+    "province": "广西",
+    "animal": 32,
+    "plant": 71,
+    "total": 103
+  },
+  {
+    "province": "海南",
+    "animal": 29,
+    "plant": 59,
+    "total": 88
+  },
+  {
+    "province": "四川",
+    "animal": 15,
+    "plant": 61,
+    "total": 76
+  },
+  {
+    "province": "浙江",
+    "animal": 12,
+    "plant": 63,
+    "total": 75
+  },
+  {
+    "province": "江苏",
+    "animal": 15,
+    "plant": 55,
+    "total": 70
+  },
+  {
+    "province": "贵州",
+    "animal": 14,
+    "plant": 55,
+    "total": 69
+  },
+  {
+    "province": "香港",
+    "animal": 14,
+    "plant": 48,
+    "total": 62
+  },
+  {
+    "province": "江西",
+    "animal": 12,
+    "plant": 50,
+    "total": 62
+  },
+  {
+    "province": "湖南",
+    "animal": 12,
+    "plant": 44,
+    "total": 56
+  },
+  {
+    "province": "安徽",
+    "animal": 6,
+    "plant": 47,
+    "total": 53
+  },
+  {
+    "province": "北京",
+    "animal": 12,
+    "plant": 41,
+    "total": 53
+  },
+  {
+    "province": "辽宁",
+    "animal": 13,
+    "plant": 37,
+    "total": 50
+  },
+  {
+    "province": "湖北",
+    "animal": 5,
+    "plant": 43,
+    "total": 48
+  },
+  {
+    "province": "河南",
+    "animal": 11,
+    "plant": 36,
+    "total": 47
+  },
+  {
+    "province": "河北",
+    "animal": 11,
+    "plant": 36,
+    "total": 47
+  },
+  {
+    "province": "山东",
+    "animal": 10,
+    "plant": 36,
+    "total": 46
+  },
+  {
+    "province": "陕西",
+    "animal": 11,
+    "plant": 28,
+    "total": 39
+  },
+  {
+    "province": "上海",
+    "animal": 13,
+    "plant": 25,
+    "total": 38
+  },
+  {
+    "province": "重庆",
+    "animal": 4,
+    "plant": 32,
+    "total": 36
+  },
+  {
+    "province": "吉林",
+    "animal": 9,
+    "plant": 27,
+    "total": 36
+  },
+  {
+    "province": "新疆",
+    "animal": 11,
+    "plant": 23,
+    "total": 34
+  },
+  {
+    "province": "西藏",
+    "animal": 3,
+    "plant": 31,
+    "total": 34
+  },
+  {
+    "province": "黑龙江",
+    "animal": 8,
+    "plant": 26,
+    "total": 34
+  },
+  {
+    "province": "甘肃",
+    "animal": 6,
+    "plant": 23,
+    "total": 29
+  },
+  {
+    "province": "山西",
+    "animal": 6,
+    "plant": 23,
+    "total": 29
+  },
+  {
+    "province": "内蒙古",
+    "animal": 9,
+    "plant": 17,
+    "total": 26
+  },
+  {
+    "province": "澳门",
+    "animal": 3,
+    "plant": 14,
+    "total": 17
+  },
+  {
+    "province": "青海",
+    "animal": 2,
+    "plant": 14,
+    "total": 16
+  },
+  {
+    "province": "天津",
+    "animal": 4,
+    "plant": 11,
+    "total": 15
+  },
+  {
+    "province": "宁夏",
+    "animal": 4,
+    "plant": 11,
+    "total": 15
+  }
+]
