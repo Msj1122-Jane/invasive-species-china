@@ -4337,6 +4337,16 @@ sections.forEach((sec, i) => {
   window._refreshReveal = function() {
     setTimeout(autoReveal, 200);
   };
+
+  // 安全兜底：3秒后若仍有未显示的元素，强制显示
+  setTimeout(function() {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(function(el) {
+      if (!el.classList.contains('visible')) {
+        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        el.classList.add('visible');
+      }
+    });
+  }, 3000);
 })();
 
 // --- 2. Count-Up 数字跳动 ---
