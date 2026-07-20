@@ -217,47 +217,63 @@ body {
 
 /* --- Reveal: 交错入场动画 --- */
 .reveal {
-  opacity: 0;
-  transform: translateY(42px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.75s cubic-bezier(0.22, 0.61, 0.36, 1),
               transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.reveal.visible {
+.js .reveal {
+  opacity: 0;
+  transform: translateY(42px);
+}
+.js .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* 侧向滑入 */
 .reveal-left {
-  opacity: 0;
-  transform: translateX(-50px);
+  opacity: 1;
+  transform: translateX(0);
   transition: opacity 0.75s cubic-bezier(0.22, 0.61, 0.36, 1),
               transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.reveal-left.visible {
+.js .reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+.js .reveal-left.visible {
   opacity: 1;
   transform: translateX(0);
 }
 
 .reveal-right {
-  opacity: 0;
-  transform: translateX(50px);
+  opacity: 1;
+  transform: translateX(0);
   transition: opacity 0.75s cubic-bezier(0.22, 0.61, 0.36, 1),
               transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.reveal-right.visible {
+.js .reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+}
+.js .reveal-right.visible {
   opacity: 1;
   transform: translateX(0);
 }
 
 /* 缩放入场 */
 .reveal-scale {
-  opacity: 0;
-  transform: scale(0.88);
+  opacity: 1;
+  transform: scale(1);
   transition: opacity 0.75s cubic-bezier(0.22, 0.61, 0.36, 1),
               transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.reveal-scale.visible {
+.js .reveal-scale {
+  opacity: 0;
+  transform: scale(0.88);
+}
+.js .reveal-scale.visible {
   opacity: 1;
   transform: scale(1);
 }
@@ -4092,6 +4108,9 @@ body {
 </div>
 
 <script>
+// Mark JS as enabled for CSS fallback
+if (document.documentElement) document.documentElement.classList.add('js');
+
 // ============================================
 // DATA LOADING
 // ============================================
@@ -4267,7 +4286,7 @@ sections.forEach((sec, i) => {
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  }, { threshold: 0.05, rootMargin: '0px 0px 50px 0px' });
 
   // 自动为 .section-inner 的直接子元素添加 reveal + 交错延迟
   function autoReveal() {
@@ -4324,6 +4343,17 @@ sections.forEach((sec, i) => {
         revealObserver.observe(el);
       }
     });
+
+    // 安全兜底：autoReveal 执行后 3 秒，若仍有未显示的元素，强制显示
+    // 放在这里确保 .reveal 类已添加到所有元素上
+    setTimeout(function() {
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(function(el) {
+        if (!el.classList.contains('visible')) {
+          el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          el.classList.add('visible');
+        }
+      });
+    }, 3000);
   }
 
   // DOM 准备就绪后执行
@@ -4338,7 +4368,10 @@ sections.forEach((sec, i) => {
     setTimeout(autoReveal, 200);
   };
 
-  // 安全兜底：3秒后若仍有未显示的元素，强制显示
+})();
+
+// GLOBAL SAFETY NET: 强制显示所有 reveal 元素（不依赖 autoReveal）
+window.addEventListener('load', function() {
   setTimeout(function() {
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(function(el) {
       if (!el.classList.contains('visible')) {
@@ -4346,8 +4379,8 @@ sections.forEach((sec, i) => {
         el.classList.add('visible');
       }
     });
-  }, 3000);
-})();
+  }, 5000);
+});
 
 // --- 2. Count-Up 数字跳动 ---
 (function initCountUp() {
