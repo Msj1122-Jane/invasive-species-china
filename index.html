@@ -1261,6 +1261,7 @@ html { scroll-snap-type: y proximity; }
   border-radius: 12px;
   border: 1px solid rgba(239,68,68,.16);
   background: #f4f0e8;
+  cursor: pointer;
 }
 .spread-species-photo img {
   width: 100%;
@@ -1269,6 +1270,10 @@ html { scroll-snap-type: y proximity; }
   object-position: center 42%;
   display: block;
   mix-blend-mode: multiply;
+  transition: opacity 0.28s ease, transform 0.45s ease;
+}
+.spread-species-photo:hover img {
+  transform: scale(1.025);
 }
 .spread-species-photo figcaption {
   position: absolute;
@@ -3694,7 +3699,7 @@ html { scroll-snap-type: y proximity; }
         <canvas id="tentacleCanvas"></canvas>
         <div id="spread-map"></div>
       </div>
-      <div class="chart-source">数据来源：中国农业科学院植物保护研究所 · 红火蚁入侵扩散轨迹(2003-2024)</div>
+      <div class="chart-source" id="spreadSource">数据来源：中国农业科学院植物保护研究所 · 红火蚁入侵扩散轨迹(2003-2024)</div>
       <div class="timeline-container">
         <div class="timeline-label">拖动时间轴，查看公开记录出现顺序 ▼</div>
         <div id="spread-timeline"></div>
@@ -3711,10 +3716,10 @@ html { scroll-snap-type: y proximity; }
             <div class="ti-value" id="tiNew">+1</div>
             <div class="ti-label">本年新增</div>
           </div>
-          <figure class="spread-species-photo">
-            <img src="assets/images/species/red-fire-ant-april-nobile-cc-by-4.jpg"
+          <figure class="spread-species-photo" id="spreadSpeciesPhoto">
+            <img id="spreadPhoto" src="assets/images/species/red-fire-ant-april-nobile-cc-by-4.jpg"
               alt="红火蚁工蚁形态特写" loading="lazy">
-            <figcaption>红火蚁（Solenopsis invicta）工蚁形态。图：April Nobile / AntWeb，CC BY 4.0</figcaption>
+            <figcaption id="spreadPhotoCaption">红火蚁（Solenopsis invicta）工蚁形态。图：April Nobile / AntWeb，CC BY 4.0</figcaption>
           </figure>
         </div>
       </div>
@@ -5480,6 +5485,13 @@ const speciesSpreadData = {
       2023:'名录调整期。官方确认的受侵省份重新梳理为12个。',
       2025:'上海再次出现在名录上。农业农村部最新确认，红火蚁已影响13个省级行政区。'
     },
+    source: '数据来源：中国农业科学院植物保护研究所 · 红火蚁入侵扩散轨迹（2003—2024）',
+    photos: [{
+      province: '台湾',
+      src: 'assets/images/species/red-fire-ant-april-nobile-cc-by-4.jpg',
+      alt: '红火蚁工蚁形态特写',
+      caption: '红火蚁（Solenopsis invicta）工蚁形态。图：April Nobile / AntWeb，CC BY 4.0'
+    }],
     icon: '🔥',
     desc: '渐进式扩张·24年1→13省'
   },
@@ -5491,6 +5503,23 @@ const speciesSpreadData = {
     },
     story: { 1980:'互花米草作为"保滩护堤"植物引入福建，开始了它的海岸线蔓延之路。',
              2013:'沿海35995公顷互花米草威胁红树林生态系统。当初的"功臣"已成生态灾难。' },
+    source: '地图年份与省份：公开研究整理；地点影像：用户提供的互花米草观察照片',
+    photoDisclaimer: '地点影像不代表该年的首次记录，也不证明省际传播路线。',
+    photos: [
+      { year:1980, province:'福建', src:'assets/images/spread/spartina/fujian-ningde.jpg', alt:'福建宁德海岸互花米草地点影像', caption:'福建宁德｜互花米草地点影像' },
+      { year:1980, province:'福建', src:'assets/images/spread/spartina/fujian-zhangzhou.jpg', alt:'福建漳州海岸互花米草地点影像', caption:'福建漳州｜互花米草地点影像' },
+      { year:1990, province:'广东', src:'assets/images/spread/spartina/guangdong-zhuhai-qiao.jpg', alt:'广东珠海淇澳岛互花米草地点影像', caption:'广东珠海淇澳岛｜互花米草地点影像' },
+      { year:1990, province:'广东', src:'assets/images/spread/spartina/guangdong-yangjiang.jpg', alt:'广东阳江互花米草地点影像', caption:'广东阳江｜互花米草地点影像' },
+      { year:1990, province:'广西', src:'assets/images/spread/spartina/guangxi-hepu-dongxing.jpg', alt:'广西合浦至东兴海岸互花米草地点影像', caption:'广西合浦—东兴｜互花米草地点影像' },
+      { year:1990, province:'海南', src:'assets/images/spread/spartina/hainan-haikou-dongyinghe.jpg', alt:'海南海口东营河互花米草地点影像', caption:'海南海口东营河｜互花米草地点影像' },
+      { year:2000, province:'浙江', src:'assets/images/spread/spartina/zhejiang-wenzhou-damen.jpg', alt:'浙江温州大门岛互花米草地点影像', caption:'浙江温州大门岛｜互花米草地点影像' },
+      { year:2000, province:'浙江', src:'assets/images/spread/spartina/zhejiang-ningbo-haishu.jpg', alt:'浙江宁波海曙互花米草地点影像', caption:'浙江宁波海曙｜互花米草地点影像' },
+      { year:2000, province:'江苏', src:'assets/images/spread/spartina/jiangsu-yancheng.jpg', alt:'江苏盐城互花米草地点影像', caption:'江苏盐城｜互花米草地点影像' },
+      { year:2000, province:'江苏', src:'assets/images/spread/spartina/jiangsu-lianyungang-guanyun.jpg', alt:'江苏连云港灌云黄海湿地互花米草地点影像', caption:'江苏连云港灌云黄海湿地｜互花米草地点影像' },
+      { year:2000, province:'上海', src:'assets/images/spread/spartina/shanghai-chenshan.jpg', alt:'上海辰山植物园互花米草地点影像', caption:'上海辰山植物园｜互花米草地点影像' },
+      { year:2000, province:'山东', src:'assets/images/spread/spartina/shandong-weifang-rongcheng.jpg', alt:'山东潍坊至荣成海岸互花米草地点影像', caption:'山东潍坊—荣成｜互花米草地点影像' },
+      { year:2010, province:'河北', src:'assets/images/spread/spartina/hebei-tangshan-heiyanzi.jpg', alt:'河北唐山黑沿子互花米草地点影像', caption:'河北唐山黑沿子｜互花米草地点影像' }
+    ],
     icon: '🌾', desc: '沿海岸线蔓延·35995公顷'
   },
   '松材线虫病': {
@@ -5508,12 +5537,28 @@ const speciesSpreadData = {
     icon: '🦋', desc: '跳跃式扩散·68.20万公顷'
   },
   '薇甘菊': {
-    years: [1919,1990,2005,2012],
-    proportions_by_year: {},
-    provinces_by_year: { 1919:['香港'], 1990:['广东','深圳'], 2005:['云南','广西','福建','海南'], 2012:['湖南','江西','贵州'] },
-    story: { 1919:'薇甘菊作为观赏植物引入香港，百年后成为华南头号植物杀手。',
-             2012:'扩散至4省25地市76县。"植物杀手"名副其实。' },
-    icon: '🌿', desc: '多点爆发·4省76县'
+    years: [1919,2023],
+    provinces_by_year: {
+      1919:['香港'],
+      2023:['广东','广西','云南','海南','台湾']
+    },
+    story: {
+      1919:'约1919年，公开资料在香港记录到薇甘菊。这个节点只表示首次出现记录，不说明它此后的具体传播路线。',
+      2023:'农业农村主管部门发布的防控技术意见记载，薇甘菊目前主要分布于广东、广西、云南、海南、台湾以及香港等地。'
+    },
+    source: '时间与分布：东莞市林业局、薇甘菊防控技术指导意见（2023）；地点影像：用户提供的观察照片',
+    photoDisclaimer: '地点影像不等于首次发现记录，也不能单独证明当地已经定殖。',
+    photos: [
+      { year:2023, province:'广东', src:'assets/images/spread/mikania/guangdong-shenzhen.jpg', alt:'广东深圳薇甘菊地点影像', caption:'广东深圳｜薇甘菊地点影像' },
+      { year:2023, province:'广东', src:'assets/images/spread/mikania/guangdong-guangzhou-tianhe.jpg', alt:'广东广州天河薇甘菊地点影像', caption:'广东广州天河｜薇甘菊地点影像' },
+      { year:2023, province:'广东', src:'assets/images/spread/mikania/guangdong-zhongshan.jpg', alt:'广东中山薇甘菊地点影像', caption:'广东中山｜薇甘菊地点影像' },
+      { year:2023, province:'广东', src:'assets/images/spread/mikania/guangdong-zhaoqing.jpg', alt:'广东肇庆薇甘菊地点影像', caption:'广东肇庆｜薇甘菊地点影像' },
+      { year:2023, province:'广西', src:'assets/images/spread/mikania/guangxi-bobai.jpg', alt:'广西博白薇甘菊地点影像', caption:'广西玉林博白｜薇甘菊地点影像' },
+      { year:2023, province:'云南', src:'assets/images/spread/mikania/yunnan-yingjiang.jpg', alt:'云南盈江薇甘菊地点影像', caption:'云南德宏盈江｜薇甘菊地点影像' },
+      { year:2023, province:'海南', src:'assets/images/spread/mikania/hainan-sanya.jpg', alt:'海南三亚薇甘菊地点影像', caption:'海南三亚｜薇甘菊地点影像' },
+      { year:2023, province:'台湾', src:'assets/images/spread/mikania/taiwan.jpg', alt:'台湾薇甘菊地点影像', caption:'台湾｜薇甘菊地点影像' }
+    ],
+    icon: '🌿', desc: '首次记录—当前主要分布'
   },
   '紫茎泽兰': {
     years: [1935,1980,2000,2006,2015],
@@ -5618,6 +5663,10 @@ function renderSpreadMap(speciesKey) {
   
   const spd = speciesSpreadData[speciesKey] || speciesSpreadData['红火蚁'];
   const allYears = spd.yours || spd.years;
+  const spreadSource = document.getElementById('spreadSource');
+  if (spreadSource) {
+    spreadSource.textContent = spd.source || '地图为公开资料整理；不同物种的记录口径并不完全一致';
+  }
   
   // Simple timeline slider
   const tlContainer = document.getElementById('spread-timeline');
@@ -5642,6 +5691,41 @@ function renderSpreadMap(speciesKey) {
     document.getElementById('tiYear').textContent = year;
     document.getElementById('tiProvinces').textContent = provs.length;
     document.getElementById('tiNew').textContent = '+' + newThisYear.length;
+
+    // 地点影像随时间轴更新；它们不充当首次发现年份或传播路线证据。
+    const photoFigure = document.getElementById('spreadSpeciesPhoto');
+    const photoEl = document.getElementById('spreadPhoto');
+    const photoCaption = document.getElementById('spreadPhotoCaption');
+    const eligiblePhotos = (spd.photos || []).filter(photo =>
+      (!photo.year || photo.year <= year) && (!photo.province || provs.includes(photo.province))
+    );
+    const fallbackPhoto = (spd.photos || []).find(photo => !photo.year);
+    if (photoFigure && photoEl && photoCaption && (eligiblePhotos.length || fallbackPhoto)) {
+      photoFigure.hidden = false;
+      const gallery = eligiblePhotos.length ? eligiblePhotos : [fallbackPhoto];
+      let photoIndex = 0;
+      const showPhoto = index => {
+        const photo = gallery[index];
+        if (!photo) return;
+        photoEl.style.opacity = '0';
+        window.setTimeout(() => {
+          photoEl.src = photo.src;
+          photoEl.alt = photo.alt || `${speciesKey}地点影像`;
+          photoEl.style.opacity = '1';
+        }, 140);
+        const pager = gallery.length > 1 ? ` · ${index + 1}/${gallery.length} · 点击切换地点` : '';
+        photoCaption.textContent = `${photo.caption}${pager}${spd.photoDisclaimer ? `。${spd.photoDisclaimer}` : ''}`;
+      };
+      showPhoto(photoIndex);
+      photoFigure.onclick = () => {
+        if (gallery.length < 2) return;
+        photoIndex = (photoIndex + 1) % gallery.length;
+        showPhoto(photoIndex);
+      };
+    } else if (photoFigure) {
+      photoFigure.hidden = true;
+      photoFigure.onclick = null;
+    }
     
     // Story
     const storyYear = Object.keys(spd.story).filter(y => parseInt(y) <= year).pop();
