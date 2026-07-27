@@ -2479,6 +2479,38 @@ html { scroll-snap-type: y proximity; }
   box-shadow: 0 2px 20px rgba(0,0,0,0.05);
   border: 1px solid #E5E7EB;
 }
+.tl-card.has-image::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.tl-card-media {
+  float: right;
+  width: 126px;
+  margin: -4px -4px 8px 18px;
+}
+.tl-card-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 9px;
+  filter: grayscale(1) contrast(0.94);
+  opacity: 0.74;
+  box-shadow: 0 8px 22px rgba(20, 45, 36, 0.12);
+  transition: opacity 280ms ease, transform 280ms ease;
+}
+.tl-card-media:hover img {
+  opacity: 0.96;
+  transform: translateY(-2px);
+}
+.tl-card-media figcaption {
+  margin-top: 5px;
+  color: #8A938E;
+  font-size: 0.62rem;
+  line-height: 1.45;
+  text-align: right;
+}
 .tl-card-tag {
   display: inline-block;
   padding: 2px 10px;
@@ -2544,6 +2576,16 @@ html { scroll-snap-type: y proximity; }
   .tl-dot { left: 24px; }
   .tl-item.left .tl-ct-col,
   .tl-item.right .tl-ct-col { padding-left: 36px; padding-right: 0; }
+  .tl-card-media {
+    float: none;
+    width: 100%;
+    margin: 0 0 12px;
+  }
+  .tl-card-media img {
+    height: 150px;
+    aspect-ratio: auto;
+  }
+  .tl-card-media figcaption { text-align: left; }
 }
 .defense-actions {
   display: grid;
@@ -7539,7 +7581,16 @@ function renderTimeline() {
       label: '学科奠基', year: '1986–2002',
       desc: '从零星探索到系统学科，中国入侵生物学走了十六年',
       events: [
-        { year: '1986', title: '入侵生物学研究启航', desc: '邱式邦院士团队率先开展豚草、空心莲子草等外来入侵植物生物防治研究，标志着中国生物入侵学科的起点。', tag: '科学', tagClass: 'science' },
+        {
+          year: '1986',
+          title: '入侵生物学研究启航',
+          desc: '邱式邦院士团队率先开展豚草、空心莲子草等外来入侵植物生物防治研究，标志着中国生物入侵学科的起点。',
+          tag: '科学',
+          tagClass: 'science',
+          image: 'assets/images/timeline/qiu-shibang-laboratory-1986.png',
+          imageAlt: '邱式邦在实验室进行研究工作',
+          imageCaption: '邱式邦在实验室工作（资料图）'
+        },
         { year: '2002', title: '起步阶段完成', desc: '研究零星分散，集中于重大入侵种生物学特性与天敌利用，尚未形成系统学科体系。', tag: '里程碑', tagClass: 'milestone' }
       ]
     },
@@ -7593,10 +7644,14 @@ function renderTimeline() {
       globalIdx++;
       const item = document.createElement('div');
       item.className = 'tl-item ' + side;
+      const media = ev.image
+        ? '<figure class="tl-card-media"><img src="' + ev.image + '" alt="' + (ev.imageAlt || ev.title) + '" loading="lazy"><figcaption>' + (ev.imageCaption || '') + '</figcaption></figure>'
+        : '';
       item.innerHTML =
         '<div class="tl-yr-col"><span class="tl-year">' + ev.year + '</span></div>' +
         '<div class="tl-dot"></div>' +
-        '<div class="tl-ct-col"><div class="tl-card">' +
+        '<div class="tl-ct-col"><div class="tl-card' + (ev.image ? ' has-image' : '') + '">' +
+          media +
           '<span class="tl-card-tag ' + ev.tagClass + '">' + ev.tag + '</span>' +
           '<div class="tl-card-title">' + ev.title + '</div>' +
           '<div class="tl-card-desc">' + ev.desc + '</div>' +
