@@ -1681,7 +1681,7 @@ html { scroll-snap-type: y proximity; }
   flex-wrap: wrap;
   gap: 6px;
 }
-.fc-rep {
+.fc-rep {}
 .gallery-bottom {
   position: absolute;
   bottom: 20px;
@@ -3364,6 +3364,320 @@ html { scroll-snap-type: y proximity; }
   opacity: 1;
   transform: translateY(0);
 }
+
+/* =========================================================
+   2026-07 editorial motion + chart reliability pass
+   Content must remain readable after a scene stops being the
+   currently active viewport. Motion enhances; it never hides.
+   ========================================================= */
+.section.activated .chart-container,
+.section.activated .sidebar-panel,
+.section.activated .insight-box,
+.section.activated .spread-tabs,
+.section.activated .species-filters,
+.section.activated .search-bar,
+.section.activated .cards-section,
+.section.activated .families-section,
+.section.activated .loss-section,
+.section.activated .customs-section,
+.section.activated .pet-trade-section,
+.section.activated .defense-actions,
+.section.activated .cta-section,
+.section.activated .flow-section,
+.section.activated .sankey-section,
+.section.activated .reserve-section,
+.section.activated .trend-section,
+.section.activated .bubble-section,
+.section.activated .story-panel,
+.section.activated .defense-rings-section,
+.section.activated .report-guide-section,
+.section.activated .data-footer,
+.section.activated .filter-bar,
+.section.activated .province-selector,
+.section.activated .intro-quote,
+.section.activated .intro-stats {
+  opacity: 1;
+  transform: none;
+}
+.story-scene {
+  opacity: .68;
+  filter: saturate(.9);
+}
+.story-scene.is-active { opacity: 1; filter: none; }
+.story-scene.is-leaving { opacity: .5; }
+.story-scene .sa-pre:not(.sa-in) { opacity: .72; }
+
+/* Evidence chapter: one continuous evidentiary trail, not five cards. */
+#chapter-species {
+  background:
+    radial-gradient(circle at 12% 22%, rgba(50,105,78,.18), transparent 28%),
+    radial-gradient(circle at 88% 76%, rgba(194,165,91,.08), transparent 30%),
+    linear-gradient(155deg, #07110d 0%, #0a1b14 52%, #07110d 100%);
+}
+#chapter-species .story-scene:first-child::after {
+  content: "";
+  position: absolute;
+  width: min(46vw, 620px);
+  aspect-ratio: 1;
+  right: -12vw;
+  bottom: -20vh;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: .22;
+  background:
+    repeating-radial-gradient(circle, transparent 0 34px, rgba(174,198,181,.12) 35px 36px),
+    radial-gradient(circle, rgba(62,119,85,.26), transparent 68%);
+}
+.evidence-intro {
+  position: relative;
+  margin-bottom: 42px;
+}
+.evidence-intro::before {
+  content: "观察 ≠ 定殖 ≠ 危害";
+  display: block;
+  margin-bottom: 12px;
+  color: var(--b-gold);
+  font: 600 .68rem/1 var(--font-mono);
+  letter-spacing: .22em;
+}
+.evidence-steps {
+  position: relative;
+  gap: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+.evidence-steps::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 38px;
+  height: 2px;
+  background: linear-gradient(90deg, #8ba493, #d2b663 52%, #d55a49);
+  box-shadow: 0 0 24px rgba(210,182,99,.24);
+}
+.evidence-step {
+  position: relative;
+  min-height: 210px;
+  padding: 8px 16px 22px;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  background: transparent;
+}
+.evidence-step span {
+  z-index: 1;
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 24px;
+  border: 1px solid rgba(210,182,99,.52);
+  border-radius: 50%;
+  color: #f3e8c8;
+  background: #0b1b14;
+  box-shadow: 0 0 0 8px rgba(11,27,20,.92);
+  transition: transform .35s ease, background .35s ease;
+}
+.evidence-step:hover span {
+  transform: translateY(-5px) scale(1.07);
+  background: #4b3027;
+}
+.evidence-step strong { margin-bottom: 9px; }
+.evidence-step small { max-width: 170px; }
+
+.evidence-lab {
+  counter-reset: evidence-file;
+  gap: clamp(16px, 2.2vw, 30px);
+}
+.evidence-case {
+  counter-increment: evidence-file;
+  position: relative;
+  min-height: 420px;
+  padding: 32px 28px 26px;
+  overflow: hidden;
+  border: 1px solid rgba(178,199,184,.16);
+  border-top: 0;
+  border-radius: 2px 2px 18px 18px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(255,255,255,.025) 32px);
+  box-shadow: 0 24px 50px rgba(0,0,0,.18);
+  transition: transform .35s ease, border-color .35s ease;
+}
+.evidence-case:hover {
+  transform: translateY(-7px);
+  border-color: rgba(210,182,99,.4);
+}
+.evidence-case::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, #809f8b, #d4b35c, #d85a49);
+}
+.evidence-case::after {
+  content: "EVIDENCE / 0" counter(evidence-file);
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  color: rgba(232,240,234,.18);
+  font: 600 .62rem/1 var(--font-mono);
+  letter-spacing: .14em;
+}
+.evidence-case h3 { max-width: 85%; font-size: 1.32rem; }
+.evidence-case p { min-height: 116px; line-height: 1.9; }
+.evidence-options { display: grid; grid-template-columns: 1fr; }
+.evidence-options button {
+  position: relative;
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 999px;
+  text-align: left;
+  transition: background .25s, color .25s, border-color .25s, transform .25s;
+}
+.evidence-options button:hover { transform: translateX(4px); }
+.evidence-options button.selected {
+  color: #fff7df;
+  background: rgba(210,182,99,.15);
+  border-color: #d2b663;
+}
+.evidence-feedback {
+  transition: color .25s, border-color .25s;
+}
+.evidence-case.is-correct .evidence-feedback { color: #b9d9bf; border-color: rgba(117,181,132,.4); }
+.evidence-case.is-wrong .evidence-feedback { color: #efb5aa; border-color: rgba(216,90,73,.4); }
+
+/* Customs chapter: visible, bounded, coordinated data workstation. */
+.customs-section {
+  position: relative;
+  border: 1px solid rgba(132,170,148,.15);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(216,90,73,.10), transparent 28%),
+    linear-gradient(145deg, rgba(14,37,28,.98), rgba(5,18,13,.98));
+  box-shadow: 0 30px 70px rgba(0,0,0,.22);
+}
+.customs-section::before {
+  content: "CUSTOMS / OPEN RECORDS";
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  color: rgba(221,232,224,.32);
+  font: 600 .58rem/1 var(--font-mono);
+  letter-spacing: .17em;
+}
+.customs-overview-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.cos-item {
+  min-width: 0;
+  border: 0;
+  border-left: 1px solid rgba(225,235,228,.12);
+  border-radius: 0;
+  background: transparent;
+}
+.cos-item:first-child { border-left: 0; }
+.cos-num { font-family: var(--font-serif); font-size: clamp(2.1rem,4vw,3.6rem); }
+.customs-sankey-chart,
+.customs-mt-chart {
+  position: relative;
+  min-height: 340px;
+  border: 1px solid rgba(137,170,150,.13);
+  background: rgba(2,12,8,.32);
+}
+.customs-sankey-chart { min-height: 440px; }
+.customs-mt-row > div {
+  padding: 20px;
+  border: 1px solid rgba(137,170,150,.13);
+  background: rgba(2,12,8,.24);
+}
+
+/* Atlas fills the screen deliberately; no accidental lower-left island. */
+.atlas-ring-layout {
+  min-height: min(72vh, 720px);
+  grid-template-columns: minmax(520px, 1.4fr) minmax(290px, .6fr);
+}
+.atlas-ring-layout .sunburst-chart {
+  width: 100%;
+  min-height: 560px;
+  height: min(72vh, 720px);
+}
+
+@media (max-width: 900px) {
+  .evidence-steps::before { left: 30px; right: auto; top: 28px; bottom: 28px; width: 2px; height: auto; }
+  .evidence-step { min-height: auto; display: grid; grid-template-columns: 62px 1fr; text-align: left; column-gap: 18px; }
+  .evidence-step span { grid-row: 1 / 3; margin: 0; }
+  .evidence-step small { max-width: none; }
+  .customs-overview-stats { grid-template-columns: 1fr 1fr; }
+  .cos-item:nth-child(3) { border-left: 0; }
+  .atlas-ring-layout { min-height: 0; grid-template-columns: 1fr; }
+  .atlas-ring-layout .sunburst-chart { min-height: 430px; height: 58vh; }
+  .map-container,
+  .spread-main,
+  .map-sidebar,
+  .sidebar-panel,
+  .chart-container,
+  .map-canvas-wrap,
+  #china-map,
+  #province-rank-chart,
+  #spreadSource {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  .map-container,
+  .spread-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .map-container > *,
+  .spread-main > *,
+  #chapter-map .story-scene > *,
+  #chapter-spread .story-scene > * {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .map-sidebar { overflow: hidden; }
+  #chapter-map .story-scene,
+  #chapter-spread .story-scene { overflow-x: clip; }
+  .evidence-options button,
+  .guide-scene-tab,
+  .spread-tab { min-height: 42px; }
+}
+@media (max-width: 520px) {
+  .section-inner { padding-left: 18px; padding-right: 18px; }
+  .map-container,
+  .spread-main { gap: 18px; }
+  .sidebar-panel { padding: 16px; }
+  .customs-overview-stats { grid-template-columns: 1fr; }
+  .cos-item,
+  .cos-item:nth-child(3) { border-left: 0; border-top: 1px solid rgba(225,235,228,.12); }
+  .cos-item:first-child { border-top: 0; }
+  .customs-sankey-chart { min-height: 520px; }
+  .intro-content { padding: 0 18px; }
+  .intro-main-title {
+    font-size: clamp(2.7rem, 15vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .intro-en-title { letter-spacing: .18em; }
+  .intro-subtitle {
+    max-width: 22em;
+    font-size: .92rem;
+    line-height: 1.75;
+    padding: 0 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sa-pre,
+  .story-scene,
+  .section .section-inner,
+  .section .section-header { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -4221,7 +4535,7 @@ html { scroll-snap-type: y proximity; }
      ============================== -->
 <!-- Audio Player -->
 <div class="audio-tooltip" id="audioTooltip">点击 ♪ 开启背景音乐</div>
-<a href="assets/bgm.mp3" download id="bgmDownload" style="display:none;"></a>
+<a href="" download id="bgmDownload" style="display:none;"></a>
 <div class="audio-player" id="audioPlayer">
   <button class="audio-btn" id="audioBtn" title="播放/暂停背景音乐">♪</button>
   <span class="audio-label" id="audioLabel">BGM</span>
@@ -4439,6 +4753,15 @@ function replayChartsInScene(scene) {
   });
 }
 
+function resizeAllCharts() {
+  if (typeof echarts === 'undefined') return;
+  document.querySelectorAll('[_echarts_instance_]').forEach(dom => {
+    const chart = echarts.getInstanceByDom(dom);
+    if (chart) chart.resize({ animation: { duration: 320, easing: 'cubicOut' } });
+  });
+}
+window.resizeAllCharts = resizeAllCharts;
+
 const sceneObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     const scene = entry.target;
@@ -4613,11 +4936,8 @@ async function renderChapter(renderKey) {
   if (!_chinaMapRegistered && ['map', 'events', 'pathways'].includes(renderKey)) {
     await loadChinaGeoJSON();
   }
-  if (!_worldMapRegistered && renderKey === 'map') {
-    await loadWorldGeoJSON();
-  }
-  
-  _sectionInitFlags[key] = true;
+  // The world basemap is an optional remote enhancement. Never block the
+  // China map, ranking and archive while a public CDN is slow or unavailable.
   
   try {
     switch(renderKey) {
@@ -4644,8 +4964,16 @@ async function renderChapter(renderKey) {
         }
         if (Data.species && !_sectionInitFlags._worldFlow) {
           _sectionInitFlags._worldFlow = true;
-          renderWorldFlow();
-          renderSankeyFlow();
+          (async () => {
+            try {
+              const ready = _worldMapRegistered || await loadWorldGeoJSON();
+              if (ready) renderWorldFlow();
+              renderSankeyFlow();
+            } catch (error) {
+              _sectionInitFlags._worldFlow = false;
+              console.warn('World-flow enhancement unavailable:', error);
+            }
+          })();
         }
         if (Data.invasionTimeline && !_sectionInitFlags._timeline) {
           _sectionInitFlags._timeline = true;
@@ -4653,15 +4981,15 @@ async function renderChapter(renderKey) {
         }
         break;
       case 'pathways':
-        renderPathwaysChapter();
+        await renderPathwaysChapter();
         break;
       case 'events':
         if (!window.spreadChart) renderSpreadMap('红火蚁');
         break;
       case 'impact':
         if (Data.economicLoss && !_sectionInitFlags._impact) {
+          await renderImpactChapter();
           _sectionInitFlags._impact = true;
-          renderImpactChapter();
         }
         break;
       case 'defense':
@@ -4677,12 +5005,17 @@ async function renderChapter(renderKey) {
         }
         break;
     }
+    _sectionInitFlags[key] = true;
   } catch(e) {
+    _sectionInitFlags[key] = false;
     console.error('Render chapter', renderKey, 'failed:', e);
   }
   
   // 章节渲染完成后刷新动效系统
-  if (window._refreshSA) window._refreshSA();
+  requestAnimationFrame(() => {
+    resizeAllCharts();
+    if (window._refreshSA) window._refreshSA();
+  });
 }
 
 // Nav dot click: scroll to section
@@ -6948,6 +7281,8 @@ function initEvidenceJudgment() {
         button.classList.add('selected');
         const feedback = card.querySelector('.evidence-feedback');
         const correct = button.dataset.choice === expected[index];
+        card.classList.toggle('is-correct', correct);
+        card.classList.toggle('is-wrong', !correct);
         feedback.textContent = (correct ? '判断成立。' : '证据还不支持这一判断。') + explanations[index];
       });
     });
@@ -6960,17 +7295,18 @@ function initEvidenceJudgment() {
 async function renderPathwaysChapter() {
   await loadData();
   if (Data.customs_visual && !_sectionInitFlags._customsOverview) {
-    _sectionInitFlags._customsOverview = true;
     renderCustomsOverview();
+    _sectionInitFlags._customsOverview = true;
   }
   if (Data.customs_cases && !_sectionInitFlags._customsCases) {
-    _sectionInitFlags._customsCases = true;
     renderCustomsCaseDB();
+    _sectionInitFlags._customsCases = true;
   }
   if (!_sectionInitFlags._petTrade) {
-    _sectionInitFlags._petTrade = true;
     renderPetTradeChart();
+    _sectionInitFlags._petTrade = true;
   }
+  resizeAllCharts();
 }
 
 // ============================================
@@ -7068,6 +7404,7 @@ function renderCustomsSankey(sankeyData) {
   const dom = document.getElementById('customsSankeyChart');
   if (!dom) return;
   customsSankeyChart = echarts.init(dom);
+  window.customsSankeyChart = customsSankeyChart;
   customsSankeyChart.setOption({
     tooltip: { trigger: 'item', triggerOn: 'mousemove', formatter: p => p.dataType === 'edge'
       ? `${p.data.source} → ${p.data.target}<br/>${p.data.value} 宗案例` : `${p.name}<br/>${p.value || ''}` },
@@ -7079,7 +7416,7 @@ function renderCustomsSankey(sankeyData) {
       links: sankeyData.links,
       lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.35 },
       itemStyle: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
-      label: { position: 'right', fontSize: 11, color: 'var(--b-text)', formatter: '{b}' },
+      label: { position: 'right', fontSize: 11, color: '#dce8df', formatter: '{b}' },
       nodeWidth: 16, nodeGap: 14,
       levels: [
         { depth: 0, itemStyle: { color: '#F59E0B' }, label: { position: 'left' } },
@@ -7094,13 +7431,14 @@ function renderCustomsMethods(methodsData) {
   const dom = document.getElementById('customsMethodsChart');
   if (!dom) return;
   customsMethodsChart = echarts.init(dom);
+  window.customsMethodsChart = customsMethodsChart;
   const names = methodsData.map(m => m[0]).reverse();
   const values = methodsData.map(m => m[1]).reverse();
   customsMethodsChart.setOption({
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
     grid: { left: 80, right: 20, top: 8, bottom: 4 },
-    xAxis: { type: 'value', axisLabel: { fontSize: 10, color: 'var(--b-text-dim)' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } } },
-    yAxis: { type: 'category', data: names, axisLabel: { fontSize: 11, color: 'var(--b-text-dim)' }, axisLine: { show: false }, axisTick: { show: false } },
+    xAxis: { type: 'value', axisLabel: { fontSize: 10, color: '#8fa89a' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } } },
+    yAxis: { type: 'category', data: names, axisLabel: { fontSize: 11, color: '#a9bdb1' }, axisLine: { show: false }, axisTick: { show: false } },
     series: [{
       type: 'bar', data: values, barMaxWidth: 20,
       itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
@@ -7114,9 +7452,11 @@ function renderCustomsTypes(typesData) {
   const dom = document.getElementById('customsTypesChart');
   if (!dom) return;
   customsTypesChart = echarts.init(dom);
+  window.customsTypesChart = customsTypesChart;
   customsTypesChart.setOption({
     tooltip: { trigger: 'item', formatter: '{b}: {c} 宗 ({d}%)' },
-    legend: { orient: 'vertical', right: 5, top: 'center', textStyle: { color: 'var(--b-text-dim)', fontSize: 10 }, itemWidth: 10, itemHeight: 10 },
+    color: ['#d95b4c','#d5b55f','#7da28a','#77a8b4','#8c7db1','#bd7f86','#7390a5','#9d8b68'],
+    legend: { orient: 'vertical', right: 5, top: 'center', textStyle: { color: '#a9bdb1', fontSize: 10 }, itemWidth: 10, itemHeight: 10 },
     series: [{
       type: 'pie', radius: ['45%', '75%'], center: ['38%', '50%'], avoidLabelOverlap: false,
       itemStyle: { borderRadius: 4, borderColor: 'rgba(255,255,255,0.08)', borderWidth: 1 },
@@ -7640,7 +7980,16 @@ function renderTimeline() {
         { year: '2023', title: '中央一号文件锁定"异宠"', desc: '中央一号文件首次将"异宠"管理纳入；海关总署启动三年专项行动（2023.7-2026.7），严厉打击非法引进外来物种行为。', tag: '行动', tagClass: 'action' },
         { year: '2024', title: '全国首例非法引进外来入侵物种罪宣判', desc: '全国首例非法引进外来入侵物种罪案件宣判，标志着刑事责任追究机制的实质性落地。', tag: '法律', tagClass: 'law' },
         { year: '2025', title: '国家安全部首次发布异宠安全风险提示', desc: '国家安全部首次就"异宠"发布安全风险提示；中国农科院首次系统评估入侵物种经济损失——40年间高达2363.5亿美元。', tag: '行动', tagClass: 'action' },
-        { year: '2026', title: '六部门联合发布口岸重点管控名录', desc: '六部门联合发布《口岸重点管控外来物种名录》（39号公告），涵盖4类21科属种；第七届全国入侵生物学大会在福州召开，庆祝学科创建四十周年。', tag: '法律', tagClass: 'law' }
+        {
+          year: '2026',
+          title: '六部门联合发布口岸重点管控名录',
+          desc: '六部门联合发布《口岸重点管控外来物种名录》（39号公告），涵盖4类21科属种；第七届全国入侵生物学大会在福州召开，庆祝学科创建四十周年。',
+          tag: '法律',
+          tagClass: 'law',
+          image: 'assets/images/timeline/port-control-list-2026.png',
+          imageAlt: '《口岸重点管控外来物种名录》资料页',
+          imageCaption: '《口岸重点管控外来物种名录》资料页（2026）'
+        }
       ]
     }
   ];
@@ -7862,9 +8211,14 @@ function toggleCheck(el) {
 
 // ---- Audio Player ----
 (function initAudioPlayer() {
+  const BGM_SRC = '';
+  const player = document.getElementById('audioPlayer');
+  if (!BGM_SRC) {
+    if (player) player.hidden = true;
+    return;
+  }
   const audio = new Audio();
-  // 音乐文件路径 — 放在项目 assets/ 目录下即可
-  audio.src = 'assets/bgm.mp3';
+  audio.src = BGM_SRC;
   audio.loop = true;
   audio.volume = 0.3;
   audio.preload = 'auto';
@@ -7873,7 +8227,6 @@ function toggleCheck(el) {
   const label = document.getElementById('audioLabel');
   const volume = document.getElementById('audioVolume');
   const tooltip = document.getElementById('audioTooltip');
-  const player = document.getElementById('audioPlayer');
   let playing = false;
   let firstInteraction = true;
 
@@ -8076,12 +8429,6 @@ function toggleCheck(el) {
 })();
 
 
-</script>
-<script>
-async function loadJSON(f){try{return await(await fetch(`data/${f}`)).json()}catch(e){console.error('加载失败:',f);return null}}
-async function initAllCharts(){if(typeof echarts==='undefined')return;console.log('🎨 开始渲染图表');const sp=await loadJSON('species_341.json');if(sp&&document.getElementById('sunburstChart')){const c=echarts.init(document.getElementById('sunburstChart'));const fm={};sp.forEach(s=>{const f=s.family||'其他';if(!fm[f])fm[f]=[];fm[f].push(s)});const d=Object.keys(fm).map(f=>({name:f,value:fm[f].length,children:fm[f].slice(0,8).map(s=>({name:s.species_cn||s.species,value:1}))})).sort((a,b)=>b.value-a.value).slice(0,15);c.setOption({series:[{type:'sunburst',data:d,radius:[0,'90%'],label:{fontSize:10}}]});window.addEventListener('resize',()=>c.resize())}const pr=await loadJSON('province_stats_iflora.json');if(pr&&document.getElementById('province-rank-chart')){const c=echarts.init(document.getElementById('province-rank-chart'));const t=pr.provinces.sort((a,b)=>b.count-a.count).slice(0,12);c.setOption({grid:{left:'20%',right:'10%',bottom:'10%',top:'5%'},xAxis:{type:'value'},yAxis:{type:'category',data:t.map(p=>p.province).reverse()},series:[{type:'bar',data:t.map(p=>p.count).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#10b981'},{offset:1,color:'#34d399'}])},label:{show:true,position:'right'}}]});window.addEventListener('resize',()=>c.resize())}const tr=await loadJSON('total_species_trend.json');if(tr&&document.getElementById('trend-chart')){const c=echarts.init(document.getElementById('trend-chart'));c.setOption({tooltip:{trigger:'axis'},xAxis:{type:'category',data:tr.years,axisLabel:{rotate:30}},yAxis:{type:'value',name:'物种数'},series:[{type:'line',data:tr.counts,smooth:true,areaStyle:{opacity:0.3},lineStyle:{width:3,color:'#22c55e'},itemStyle:{color:'#22c55e'}}]});window.addEventListener('resize',()=>c.resize())}const co=await loadJSON('county_invasion.json');if(co&&document.getElementById('countyHotspotChart')){const c=echarts.init(document.getElementById('countyHotspotChart'));const t=co.province_summary.sort((a,b)=>b.total-a.total).slice(0,15);c.setOption({grid:{left:'15%',right:'8%',bottom:'8%',top:'5%'},xAxis:{type:'value'},yAxis:{type:'category',data:t.map(p=>p.province).reverse()},series:[{type:'bar',data:t.map(p=>p.total).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#8b5cf6'},{offset:1,color:'#a78bfa'}])}}]});window.addEventListener('resize',()=>c.resize())}if(sp&&document.getElementById('bubbleChart')){const c=echarts.init(document.getElementById('bubbleChart'));const lm={'1类':5,'2类':4,'3类':3,'4类':2,'5类':1};const d=sp.filter(s=>s.level&&s.provinces).map(s=>{const pc=s.provinces.split(',').length;return[lm[s.level]||3,pc,s.species_cn,Math.min(pc*3,50)]});c.setOption({tooltip:{formatter:p=>`${p.data[2]}<br/>等级:${p.data[0]} 省份:${p.data[1]}`},xAxis:{name:'危害等级',min:0,max:6},yAxis:{name:'分布省份'},series:[{type:'scatter',data:d,symbolSize:d=>d[3],itemStyle:{color:'rgba(139,92,246,0.6)'}}]});window.addEventListener('resize',()=>c.resize())}const pw=await loadJSON('pathway.json');if(pw&&document.getElementById('sankeyChart')){const c=echarts.init(document.getElementById('sankeyChart'));c.setOption({series:[{type:'sankey',data:pw.nodes||[],links:pw.links||[],lineStyle:{color:'gradient',curveness:0.5}}]});window.addEventListener('resize',()=>c.resize())}const ec=await loadJSON('economic_loss.json');if(ec){if(document.getElementById('iceberg-chart')){const c=echarts.init(document.getElementById('iceberg-chart'));c.setOption({series:[{type:'funnel',data:[{value:573,name:'2025年'},{value:340,name:'2020年'},{value:117,name:'2014年'}]}]});window.addEventListener('resize',()=>c.resize())}if(document.getElementById('loss-distribution-chart')&&ec.distribution){const c=echarts.init(document.getElementById('loss-distribution-chart'));c.setOption({series:[{type:'pie',radius:['40%','70%'],data:ec.distribution}]});window.addEventListener('resize',()=>c.resize())}if(document.getElementById('loss-province-chart')&&ec.provinces){const c=echarts.init(document.getElementById('loss-province-chart'));const t=ec.provinces.slice(0,10);c.setOption({grid:{left:'15%',right:'10%'},xAxis:{type:'value'},yAxis:{type:'category',data:t.map(p=>p.province).reverse()},series:[{type:'bar',data:t.map(p=>p.loss).reverse(),itemStyle:{color:'#ef4444'},label:{show:true,position:'right',formatter:'${c}亿'}}]});window.addEventListener('resize',()=>c.resize())}}const cu=await loadJSON('customs_visual.json');if(cu){if(document.getElementById('customsSankeyChart')&&cu.sankey){const c=echarts.init(document.getElementById('customsSankeyChart'));c.setOption({series:[{type:'sankey',data:cu.sankey.nodes.map(n=>({name:n})),links:cu.sankey.links,lineStyle:{color:'gradient',curveness:0.5}}]});window.addEventListener('resize',()=>c.resize())}if(document.getElementById('customsMethodsChart')&&cu.methods){const c=echarts.init(document.getElementById('customsMethodsChart'));c.setOption({series:[{type:'pie',radius:'65%',data:cu.methods.map(m=>({name:m.method,value:m.count}))}]});window.addEventListener('resize',()=>c.resize())}if(document.getElementById('customsTypesChart')&&cu.types){const c=echarts.init(document.getElementById('customsTypesChart'));c.setOption({series:[{type:'pie',radius:'65%',data:cu.types.map(t=>({name:t.type,value:t.count}))}]});window.addEventListener('resize',()=>c.resize())}}console.log('✅ 12个图表渲染完成')}
-window.addEventListener('load',()=>setTimeout(initAllCharts,1000));
-if(document.readyState==='complete')setTimeout(initAllCharts,500);
 </script>
 </body>
 </html>
