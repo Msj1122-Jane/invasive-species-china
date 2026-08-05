@@ -3678,6 +3678,85 @@ html { scroll-snap-type: y proximity; }
   .section .section-inner,
   .section .section-header { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+/* 2026 editorial rebuild: restrained data-news system */
+.editorial-retired { display: none !important; }
+.intro-content { z-index: 30 !important; }
+.intro-content > *, .intro-scroll-hint { opacity: 1 !important; animation-play-state: running; }
+.intro-main-title { text-shadow: 0 8px 42px rgba(0,0,0,.72); }
+.intro-subtitle { max-width: 760px; color: rgba(239,244,240,.78); }
+
+.overview-kpis {
+  min-height: min(880px, 100vh);
+  padding: clamp(72px, 9vw, 132px) clamp(22px, 5vw, 72px);
+  display: grid;
+  align-content: center;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(239,68,68,.13), transparent 32%),
+    radial-gradient(circle at 12% 82%, rgba(16,185,129,.12), transparent 34%),
+    linear-gradient(145deg, #071711 0%, #0b2018 54%, #102a20 100%);
+  color: #f3f7f4;
+  border-radius: 28px;
+  overflow: hidden;
+}
+.overview-kpis-head { max-width: 860px; margin: 0 auto 46px; text-align: center; }
+.overview-kpis-head span,
+.route-subhead > span { color: #f59e0b; letter-spacing: .24em; font-size: .72rem; font-weight: 800; }
+.overview-kpis-head h3 { margin: 14px 0 16px; font: 700 clamp(2rem, 4vw, 4.5rem)/1.12 var(--font-serif); }
+.overview-kpis-head p { max-width: 720px; margin: auto; color: #a9bdb3; line-height: 1.9; }
+.overview-kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; max-width: 1180px; margin: auto; }
+.overview-kpi-grid article {
+  min-height: 260px;
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px solid rgba(196,222,207,.15);
+  background: linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  transition: transform .45s ease, border-color .45s ease, background .45s ease;
+}
+.overview-kpi-grid article:hover { transform: translateY(-8px); border-color: rgba(245,158,11,.55); background: rgba(255,255,255,.085); }
+.overview-kpi-grid article div { display: flex; align-items: baseline; gap: 6px; color: #ff5a52; }
+.overview-kpi-grid strong { font: 700 clamp(2.35rem, 4.4vw, 4.8rem)/.95 var(--font-serif); letter-spacing: -.05em; }
+.overview-kpi-grid b { font-size: .82rem; color: #ffc665; }
+.overview-kpi-grid h4 { margin: 25px 0 9px; font-size: 1.03rem; color: #f5f7f5; }
+.overview-kpi-grid p { color: #91aa9e; font-size: .78rem; line-height: 1.7; }
+
+.atlas-gate {
+  background:
+    radial-gradient(circle at 18% 30%, rgba(175,207,149,.24), transparent 30%),
+    radial-gradient(circle at 82% 70%, rgba(159,201,218,.22), transparent 32%),
+    #f4f4ed;
+}
+.atlas-gate .gate-title { color: #10251d; }
+.atlas-gate .gate-subtitle { color: #60776c; }
+#chapter-species { background: linear-gradient(180deg, #f3f4ed 0%, #fbfaf4 56%, #eef5f0 100%); }
+#chapter-species .atlas-shell { margin-top: 0; }
+
+.route-subhead { max-width: 820px; margin: 100px auto 38px; text-align: center; }
+.route-subhead h3 { margin: 12px 0; font: 700 clamp(1.8rem,3.4vw,3.4rem)/1.18 var(--font-serif); color: #f1f5f2; }
+.route-subhead p { color: #91aa9e; line-height: 1.85; }
+
+#chapter-map .map-container,
+#chapter-map .county-hotspot-section,
+#chapter-pathways .spread-main,
+#chapter-pathways .customs-section,
+#chapter-impact .loss-section,
+#chapter-defense .defense-rings-section,
+#chapter-action .report-guide-section {
+  box-shadow: 0 28px 80px rgba(7,23,17,.12);
+}
+
+@media (max-width: 980px) {
+  .overview-kpi-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .overview-kpi-grid article { min-height: 220px; }
+}
+@media (max-width: 620px) {
+  .overview-kpis { padding: 68px 16px; border-radius: 0; }
+  .overview-kpi-grid { grid-template-columns: 1fr; }
+  .overview-kpi-grid article { min-height: 184px; }
+}
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -4660,6 +4739,176 @@ function rebuildEditorialStructure() {
 
 rebuildEditorialStructure();
 
+// Final editorial pass: one prologue and six plain-language news chapters.
+function rebuildEditorialStructureV2() {
+  const mapSection = document.getElementById('chapter-map');
+  const atlasSection = document.getElementById('chapter-species');
+  const pathwaySection = document.getElementById('chapter-pathways');
+  const pathwayContent = document.getElementById('pathwayContent');
+  const impactSection = document.getElementById('chapter-impact');
+  const eventsSection = document.getElementById('chapter-spread');
+  const defenseSection = document.getElementById('chapter-defense');
+  const actionSection = document.getElementById('chapter-action');
+  const actionContent = document.getElementById('actionContent');
+
+  const nav = document.querySelector('#mainNav .nav-chapters');
+  if (nav) {
+    nav.innerHTML = ['序章','入侵全景','物种图鉴','入侵路径','生态账单','攻防战线','我的身边']
+      .map((title, index) => `<span class="nav-dot${index === 0 ? ' active' : ''}" data-chapter="${index}" title="${title}"></span>`)
+      .join('');
+  }
+  const logo = document.querySelector('#mainNav .nav-logo');
+  if (logo) logo.textContent = '来者何物';
+  const introTitle = document.querySelector('.intro-main-title');
+  const introSubtitle = document.querySelector('.intro-subtitle');
+  const scrollHint = document.querySelector('.scroll-hint-text');
+  if (introTitle) introTitle.innerHTML = '来<span style="color:var(--b-gold)">者</span>何物';
+  if (introSubtitle) introSubtitle.textContent = '吃过、养过、见过：它们怎么成了“入侵者”？';
+  if (scrollHint) scrollHint.textContent = '向下滚动，进入调查';
+  const narrative = document.querySelector('.intro-narrative-inner');
+  if (narrative) narrative.innerHTML = `
+    <p>它可能在餐桌上，也可能在宠物盒、花园和城市河道里。</p>
+    <p>小龙虾、红耳龟、加拿大一枝黄花——熟悉的名字背后，藏着完全不同的进入路径和生态后果。</p>
+    <p>并非所有外来物种都会造成危害。真正需要警惕的，是那些在新环境中定殖、扩散，并威胁生态系统、生境或物种的外来入侵物种。</p>
+    <p class="narrative-emphasis">这一次，我们从数字、物种、路径、代价和防线出发，追踪它们怎样来到中国，又怎样进入自然。</p>`;
+
+  if (mapSection) {
+    const number = mapSection.querySelector('.gate-number');
+    const title = mapSection.querySelector('.gate-title');
+    const subtitle = mapSection.querySelector('.gate-subtitle');
+    if (number) number.textContent = '01';
+    if (title) title.textContent = '入侵全景：数字里的生态警报';
+    if (subtitle) subtitle.textContent = '先看中国已经记录了多少，再看这些记录落在何处。地图呈现数据库中的物种记录，不把记录数量包装成风险等级。';
+
+    const inner = mapSection.querySelector('.section-inner');
+    if (inner && !inner.querySelector('.overview-kpis')) {
+      const wall = document.createElement('section');
+      wall.className = 'overview-kpis reveal';
+      wall.innerHTML = `
+        <header class="overview-kpis-head">
+          <span>CHAPTER 01 · SCALE</span>
+          <h3>问题有多大？先把数字的口径说清楚</h3>
+          <p>全国生态环境公报给出总体判断，高分辨率数据库只统计外来入侵植物。它们回答不同问题，不能混为同一总量。</p>
+        </header>
+        <div class="overview-kpi-grid">
+          <article><div><strong data-counter="660">660</strong><b>余种</b></div><h4>已发现外来入侵物种</h4><p>《2020中国生态环境状况公报》公布的全国口径。</p></article>
+          <article><div><strong data-counter="1198.8">1198.8</strong><b>亿元/年</b></div><h4>直接或间接损失初步估计</h4><p>2011年自然生态状况公报中的历史估计，不代表当前年度值。</p></article>
+          <article><div><strong data-counter="400">400</strong><b>种植物</b></div><h4>县级数据库收录范围</h4><p>中国外来入侵植物高分辨率分布数据库的植物口径。</p></article>
+          <article><div><strong data-counter="2684">2684</strong><b>个县级区</b></div><h4>存在记录</h4><p>覆盖全国县级行政区的92.5%，表示有记录，不表示综合风险。</p></article>
+        </div>`;
+      inner.insertBefore(wall, inner.firstChild);
+    }
+    ['.trend-section', '.bubble-section', '.insight-box'].forEach(selector => {
+      const node = mapSection.querySelector(selector);
+      if (node) node.classList.add('editorial-retired');
+    });
+  }
+
+  if (mapSection && atlasSection) {
+    const atlas = mapSection.querySelector('.atlas-shell');
+    atlasSection.className = 'section section-light';
+    atlasSection.dataset.render = 'map';
+    atlasSection.innerHTML = `
+      <div class="chapter-gate atlas-gate"><div class="gate-content">
+        <div class="gate-number">02</div><h2 class="gate-title">物种图鉴：谁在入侵？</h2>
+        <p class="gate-subtitle">从61条重点物种记录中辨认名字、类群与管理等级，再进入一条具体档案。</p><div class="gate-divider"></div>
+      </div></div>
+      <div class="section-inner"><div class="reveal" id="atlasChapterHost"></div></div>`;
+    if (atlas) atlasSection.querySelector('#atlasChapterHost').appendChild(atlas);
+    mapSection.parentNode.insertBefore(atlasSection, mapSection.nextSibling);
+  }
+
+  if (pathwaySection && pathwayContent) {
+    const number = pathwaySection.querySelector('.gate-number');
+    const title = pathwaySection.querySelector('.gate-title');
+    const subtitle = pathwaySection.querySelector('.gate-subtitle');
+    const innerTitle = pathwaySection.querySelector('.section-title');
+    const innerSubtitle = pathwaySection.querySelector('.section-subtitle');
+    if (number) number.textContent = '03';
+    if (title) title.textContent = '入侵路径：它们怎么来的？';
+    if (subtitle) subtitle.textContent = '主动引进、观赏园艺、养殖逃逸、异宠交易、寄递携带和放生弃养，把物种一步步带到自然环境。';
+    if (innerTitle) innerTitle.textContent = '从入境压力，到进入自然';
+    if (innerSubtitle) innerSubtitle.textContent = '口岸记录告诉我们什么被拦下；境内事件记录继续追踪哪些物种离开人工环境并扩大出现范围。';
+  }
+
+  // Interception and pet-trade records describe pathways, not ecological loss.
+  if (pathwayContent && impactSection) {
+    impactSection.querySelectorAll('.customs-section').forEach(node => pathwayContent.appendChild(node));
+  }
+
+  // Fold the former standalone event chapter into the route chapter.
+  if (pathwayContent && eventsSection) {
+    const eventInner = eventsSection.querySelector('.section-inner');
+    const heading = document.createElement('header');
+    heading.className = 'route-subhead reveal';
+    heading.innerHTML = '<span>境内扩散记录</span><h3>进入之后，它们如何继续移动？</h3><p>拖动时间轴查看公开资料中的首次发现或报告年份。省份出现的先后不等于一条已经证实的传播路线。</p>';
+    pathwayContent.appendChild(heading);
+    if (eventInner) Array.from(eventInner.children).forEach(node => pathwayContent.appendChild(node));
+    eventsSection.remove();
+  }
+
+  // Origin associations and first-record years answer “how they came”.
+  if (pathwayContent) {
+    ['.flow-section', '.sankey-section', '.timeline-section'].forEach(selector => {
+      const node = document.querySelector(`#chapter-map ${selector}`);
+      if (node) pathwayContent.appendChild(node);
+    });
+  }
+
+  const chapterCopy = [
+    [impactSection, '04', '生态账单：代价有多大？', '影响不只落在经济数字上，也会改变物种关系、生态系统服务与人的生活。这里只比较口径清楚、来源可追溯的研究证据。'],
+    [defenseSection, '05', '攻防战线：我们在做什么？', '从口岸检疫到全国普查、监测预警和治理修复，一条防线需要多个部门和环节共同工作。'],
+    [actionSection, '06', '我的身边：你能做什么？', '不随意放生、不购买来源不明的异宠；发现异常物种时，先记录，再向主管部门报告。']
+  ];
+  chapterCopy.forEach(([section, numberText, titleText, subtitleText]) => {
+    if (!section) return;
+    const number = section.querySelector('.gate-number, .section-number');
+    const title = section.querySelector('.gate-title, .section-title');
+    const subtitle = section.querySelector('.gate-subtitle, .section-subtitle');
+    if (number) number.textContent = numberText;
+    if (title) title.textContent = titleText;
+    if (subtitle) subtitle.textContent = subtitleText;
+  });
+
+  if (actionContent && defenseSection) {
+    const guide = defenseSection.querySelector('.report-guide-section');
+    const cta = defenseSection.querySelector('.cta-section');
+    if (guide) actionContent.appendChild(guide);
+    if (cta) actionContent.appendChild(cta);
+  }
+}
+
+rebuildEditorialStructureV2();
+
+function initOverviewCounters() {
+  const counters = document.querySelectorAll('[data-counter]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting || entry.target.dataset.counted) return;
+      const node = entry.target;
+      const target = Number(node.dataset.counter);
+      const decimal = String(target).includes('.');
+      node.dataset.counted = 'true';
+      if (reduced) { node.textContent = target.toLocaleString('zh-CN'); return; }
+      const started = performance.now();
+      const duration = 1250;
+      const tick = now => {
+        const progress = Math.min((now - started) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = target * eased;
+        node.textContent = decimal ? value.toFixed(1) : Math.round(value).toLocaleString('zh-CN');
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      observer.unobserve(node);
+    });
+  }, { threshold: .45 });
+  counters.forEach(node => { node.textContent = '0'; observer.observe(node); });
+}
+
+initOverviewCounters();
+
 function buildStoryScenes() {
   function createScene(parent, nodes, label) {
     const usable = nodes.filter(node => node && node.parentNode === parent && !node.closest('.story-scene'));
@@ -4672,28 +4921,14 @@ function buildStoryScenes() {
     return scene;
   }
 
-  const evidence = document.querySelector('#chapter-species .section-inner');
-  if (evidence) {
-    createScene(evidence, [
-      evidence.querySelector('.section-header'),
-      evidence.querySelector('.evidence-intro'),
-      evidence.querySelector('.evidence-steps')
-    ], '01 / 怎样判断“入侵”');
-    createScene(evidence, [
-      evidence.querySelector('.evidence-lab'),
-      evidence.querySelector('.evidence-note')
-    ], '02 / 证据判断');
-  }
+  const atlas = document.querySelector('#chapter-species .section-inner');
+  if (atlas) createScene(atlas, [atlas.querySelector('#atlasChapterHost')], '物种图鉴');
 
   const map = document.querySelector('#chapter-map .section-inner');
   if (map) {
-    createScene(map, [map.querySelector('.county-hotspot-section')], '01 / 县级记录');
-    createScene(map, [map.querySelector('.filter-bar'), map.querySelector('.map-container')], '02 / 全国图谱');
-    createScene(map, [map.querySelector('.trend-section'), map.querySelector('.insight-box')], '03 / 时间变化');
-    createScene(map, [map.querySelector('.bubble-section')], '04 / 级别与记录广度');
-    createScene(map, [map.querySelector('.flow-section')], '05 / 原生分布关联');
-    createScene(map, [map.querySelector('.sankey-section')], '06 / 类群关联');
-    createScene(map, [map.querySelector('.timeline-section')], '07 / 最早记录');
+    createScene(map, [map.querySelector('.overview-kpis')], '01 / 核心数字');
+    createScene(map, [map.querySelector('.filter-bar'), map.querySelector('.map-container')], '02 / 省级记录');
+    createScene(map, [map.querySelector('.county-hotspot-section')], '03 / 县级植物记录');
   }
 
   const pathways = document.getElementById('pathwayContent');
@@ -4701,13 +4936,11 @@ function buildStoryScenes() {
     Array.from(pathways.querySelectorAll(':scope > .customs-section')).forEach((node, index) => {
       createScene(pathways, [node], `${String(index + 1).padStart(2, '0')} / 输入路径`);
     });
-  }
-
-  const events = document.querySelector('#chapter-spread .section-inner');
-  if (events) {
-    const tabs = events.querySelector('.spread-tabs');
+    const tabs = pathways.querySelector('.spread-tabs');
     const explainer = tabs && tabs.nextElementSibling?.classList.contains('reveal') ? tabs.nextElementSibling : null;
-    createScene(events, [tabs, explainer, events.querySelector('.spread-main'), events.querySelector('.story-panel')], '01 / 事件记录');
+    createScene(pathways, [pathways.querySelector('.route-subhead'), tabs, explainer, pathways.querySelector('.spread-main'), pathways.querySelector('.story-panel')], '境内扩散记录');
+    createScene(pathways, [pathways.querySelector('.flow-section'), pathways.querySelector('.sankey-section')], '原生分布关联');
+    createScene(pathways, [pathways.querySelector('.timeline-section')], '最早记录年份');
   }
 
   const impact = document.querySelector('#chapter-impact .section-inner');
@@ -7294,6 +7527,10 @@ function initEvidenceJudgment() {
 // ============================================
 async function renderPathwaysChapter() {
   await loadData();
+  if (!_chinaMapRegistered) await loadChinaGeoJSON();
+  if (document.getElementById('spread-map') && !window.spreadChart) {
+    renderSpreadMap('红火蚁');
+  }
   if (Data.customs_visual && !_sectionInitFlags._customsOverview) {
     renderCustomsOverview();
     _sectionInitFlags._customsOverview = true;
