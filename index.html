@@ -374,6 +374,23 @@ html { scroll-snap-type: y proximity; }
   max-width: 860px;
   padding: 0 32px;
 }
+/* 章节封面进入动效：滚动到封面时，内容逐行浮入 */
+.chapter-gate .gate-content > * {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.85s cubic-bezier(.22,.61,.36,1),
+    transform 0.85s cubic-bezier(.22,.61,.36,1);
+}
+.chapter-gate.gate-in .gate-content > * { opacity: 1; transform: none; }
+.chapter-gate.gate-in .gate-content > *:nth-child(1) { transition-delay: 0.05s; }
+.chapter-gate.gate-in .gate-content > *:nth-child(2) { transition-delay: 0.18s; }
+.chapter-gate.gate-in .gate-content > *:nth-child(3) { transition-delay: 0.32s; }
+.chapter-gate.gate-in .gate-content > *:nth-child(4) { transition-delay: 0.46s; }
+.chapter-gate.gate-in .gate-content > *:nth-child(5) { transition-delay: 0.60s; }
+@media (prefers-reduced-motion: reduce) {
+  .chapter-gate .gate-content > * { opacity: 1; transform: none; transition: none; }
+}
 .gate-number {
   font-family: var(--font-mono);
   font-size: clamp(6rem, 12vw, 11rem);
@@ -4979,6 +4996,25 @@ function buildStoryScenes() {
 }
 
 buildStoryScenes();
+
+// 章节封面进入动效：封面进入视口后触发一次逐行浮入
+(function initGateReveal() {
+  const gates = document.querySelectorAll('.chapter-gate');
+  if (!gates.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gates.forEach(g => g.classList.add('gate-in'));
+    return;
+  }
+  const gateObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('gate-in');
+        gateObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  gates.forEach(g => gateObserver.observe(g));
+})();
 
 function replayChartsInScene(scene) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
