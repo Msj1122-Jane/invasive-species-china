@@ -979,21 +979,21 @@
       "family": "Nyctaginaceae",
       "growth_form": "Annual",
       "year": 1571,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Datura stramonium",
       "family": "Solanaceae",
       "growth_form": "Annual",
       "year": 1578,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Physalis angulata",
       "family": "Solanaceae",
       "growth_form": "Annual",
       "year": 1578,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Galinsoga parviflora",
@@ -1042,28 +1042,28 @@
       "family": "Apocynaceae",
       "growth_form": "Perennial",
       "year": 1661,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Tagetes erecta",
       "family": "Asteraceae",
       "growth_form": "Annual",
       "year": 1688,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Opuntia dillenii",
       "family": "Cactaceae",
       "growth_form": "Perennial",
       "year": 1688,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Solanum erianthum",
       "family": "Solanaceae",
       "growth_form": "Perennial",
       "year": 1711,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Dysphania ambrosioides",
@@ -1077,14 +1077,14 @@
       "family": "Euphorbiaceae",
       "growth_form": "Annual",
       "year": 1740,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Euphorbia tirucalli",
       "family": "Euphorbiaceae",
       "growth_form": "Annual",
       "year": 1740,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Senna sophera",
@@ -1098,21 +1098,21 @@
       "family": "Asteraceae",
       "growth_form": "Annual",
       "year": 1757,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Solanum diphyllum",
       "family": "Solanaceae",
       "growth_form": "Perennial",
       "year": 1766,
-      "first_record_site": NaN
+      "first_record_site": null
     },
     {
       "species": "Mimosa pudica",
       "family": "Fabaceae",
       "growth_form": "Annual/Perennial",
       "year": 1777,
-      "first_record_site": NaN
+      "first_record_site": null
     }
   ]
 }
