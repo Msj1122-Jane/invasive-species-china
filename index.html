@@ -1294,9 +1294,9 @@ html { scroll-snap-type: y proximity; }
   overflow: hidden;
   color: #17231d;
   background:
-    radial-gradient(circle at 18% 20%, rgba(216,228,196,.52), transparent 30%),
-    radial-gradient(circle at 84% 74%, rgba(196,220,225,.48), transparent 32%),
-    #f6f5ef;
+    radial-gradient(circle at 18% 20%, rgba(190, 208, 184, .35), transparent 32%),
+    radial-gradient(circle at 84% 74%, rgba(168, 190, 178, .30), transparent 34%),
+    #fbfaf3;
 }
 .atlas-shell::before {
   content: "";
@@ -1326,8 +1326,8 @@ html { scroll-snap-type: y proximity; }
 }
 .atlas-head h3 {
   margin: 0 0 14px;
-  font: 500 clamp(2.25rem, 5vw, 5.4rem)/1.05 var(--font-serif);
-  letter-spacing: -.035em;
+  font: 700 clamp(2rem, 3.6vw, 3.4rem)/1.15 var(--font-serif);
+  letter-spacing: .04em;
 }
 .atlas-head p {
   max-width: 720px;
@@ -3833,7 +3833,7 @@ html { scroll-snap-type: y proximity; }
     <p>宠物店里的红耳龟标价二十元，夜市上的小龙虾论斤卖，路边的加拿大一枝黄花开得正盛。</p>
     <p>它们都是远道而来的"客"。有的来了上百年，与人相安无事；有的只用了几年，就挤走本土物种，改写整片湿地。</p>
     <p>并非所有外来物种都有害。真正需要追踪的，是那些完成"进入、定殖、扩散"三级跳，威胁生态系统、生境与本土物种的外来入侵物种。</p>
-    <p class="narrative-emphasis">这一次，我们用341份物种档案、393宗海关截获案和2684个县的分布记录，还原它们如何来到中国，又如何走进自然。</p>
+    <p class="narrative-emphasis">这一次，我们用341种入侵植物名录、393宗海关截获案和2684个县的分布记录，还原它们如何来到中国，又如何走进自然。</p>
   </div>
 </section>
 
@@ -3858,9 +3858,9 @@ html { scroll-snap-type: y proximity; }
 
     <div class="atlas-shell reveal" id="speciesAtlas">
       <header class="atlas-head">
-        <div class="atlas-kicker">Species archive · 61 records</div>
+        <div class="atlas-kicker">Curated archive · 61 species</div>
         <h3>物种图鉴</h3>
-        <p>先从全局结构辨认它们，再按图像或名称进入一条具体记录。环形图中的窄扇区不再强塞文字；悬停或点击后，名称、科属、等级与分布记录会在右侧清晰展开。</p>
+        <p>图鉴收录61种代表性外来入侵物种，覆盖植物、动物、昆虫等类群——它们是从341种入侵植物名录与全国普查记录中选出的"熟面孔"。先从全局结构辨认它们，再按图像或名称进入一条具体记录；悬停或点击后，名称、科属、等级与分布记录会在右侧清晰展开。</p>
       </header>
 
       <div class="atlas-toolbar" aria-label="物种图鉴视图与筛选">
@@ -3890,7 +3890,7 @@ html { scroll-snap-type: y proximity; }
           </div>
           <aside class="sunburst-inspector" id="sunburstInspector" aria-live="polite">
             <span class="si-eyebrow">当前选择</span>
-            <strong>61种记录</strong>
+            <strong>61种精选记录</strong>
             <p>将鼠标移到环形图上。科、等级和物种名称会在这里展开，不再挤在狭窄扇区中。</p>
           </aside>
         </div>
@@ -4772,7 +4772,7 @@ function rebuildEditorialStructureV2() {
     <p>宠物店里的红耳龟标价二十元，夜市上的小龙虾论斤卖，路边的加拿大一枝黄花开得正盛。</p>
     <p>它们都是远道而来的"客"。有的来了上百年，与人相安无事；有的只用了几年，就挤走本土物种，改写整片湿地。</p>
     <p>并非所有外来物种都有害。真正需要追踪的，是那些完成"进入、定殖、扩散"三级跳，威胁生态系统、生境与本土物种的外来入侵物种。</p>
-    <p class="narrative-emphasis">这一次，我们用341份物种档案、393宗海关截获案和2684个县的分布记录，还原它们如何来到中国，又如何走进自然。</p>`;
+    <p class="narrative-emphasis">这一次，我们用341种入侵植物名录、393宗海关截获案和2684个县的分布记录，还原它们如何来到中国，又如何走进自然。</p>`;
 
   if (mapSection) {
     const number = mapSection.querySelector('.gate-number');
@@ -4793,10 +4793,10 @@ function rebuildEditorialStructureV2() {
           <p>全国生态环境公报给出总体判断，高分辨率数据库只统计外来入侵植物。它们回答不同问题，不能混为同一总量。</p>
         </header>
         <div class="overview-kpi-grid">
-          <article><div><strong data-counter="660">660</strong><b>余种</b></div><h4>已发现外来入侵物种</h4><p>《2020中国生态环境状况公报》公布的全国口径。</p></article>
-          <article><div><strong data-counter="1198.8">1198.8</strong><b>亿元/年</b></div><h4>直接或间接损失初步估计</h4><p>2011年自然生态状况公报中的历史估计，不代表当前年度值。</p></article>
-          <article><div><strong data-counter="400">400</strong><b>种植物</b></div><h4>县级数据库收录范围</h4><p>中国外来入侵植物高分辨率分布数据库的植物口径。</p></article>
-          <article><div><strong data-counter="2684">2684</strong><b>个县级区</b></div><h4>存在记录</h4><p>覆盖全国县级行政区的92.5%，表示有记录，不表示综合风险。</p></article>
+          <article><div><strong data-counter="660">660</strong><b>余种</b></div><h4>全国已发现外来入侵物种</h4><p>据生态环境部《2020中国生态环境状况公报》。</p></article>
+          <article><div><strong data-counter="1198.8">1198.8</strong><b>亿元/年</b></div><h4>外来入侵物种年损失估计</h4><p>2011年全国公报的初步估计，此后再未更新，实际或更高。</p></article>
+          <article><div><strong data-counter="406">406</strong><b>种</b></div><h4>外来入侵植物·县级分布记录</h4><p>高分辨率分布数据库(IPSD)收录，覆盖全部34个省级行政区。</p></article>
+          <article><div><strong data-counter="2684">2684</strong><b>个县</b></div><h4>有它们的分布记录</h4><p>占全国县级行政区的92.5%——有记录，不等于高风险。</p></article>
         </div>`;
       inner.insertBefore(wall, inner.firstChild);
     }
@@ -4965,9 +4965,12 @@ function buildStoryScenes() {
   }
 
   // Any major module not explicitly paired above still becomes its own screen.
+  // Skip retired/hidden modules — wrapping them creates blank full-screen scenes.
   document.querySelectorAll('.section-inner').forEach(parent => {
     Array.from(parent.children).forEach(child => {
-      if (child.classList.contains('reveal') && !child.closest('.story-scene')) {
+      if (child.classList.contains('reveal') && !child.closest('.story-scene')
+          && !child.classList.contains('editorial-retired')
+          && getComputedStyle(child).display !== 'none') {
         createScene(parent, [child], '');
       }
     });
@@ -7028,20 +7031,20 @@ function renderSunburst() {
     }))
   }));
 
-  // Family color palette
+  // Family color palette — muted editorial tones, no candy rainbow
   function _famColor(fam) {
     const colors = {
-      '菊科': '#D62828', '苋科': '#F77F00', '禾本科': '#FCBF49',
-      '旋花科': '#06D6A0', '茄科': '#118AB2', '豆科': '#073B4C',
-      '十字花科': '#EF476F', '桑科': '#8338EC', '藜科': '#FFBE0B',
-      '伞形科': '#FB5607', '酢浆草科': '#3A86FF'
+      '菊科': '#B5493A', '苋科': '#C97C3B', '禾本科': '#A98B3F',
+      '旋花科': '#4E8D7C', '茄科': '#5B7FA6', '豆科': '#3E6B5C',
+      '十字花科': '#96624E', '桑科': '#7A6A94', '藜科': '#B08D57',
+      '伞形科': '#8C5B45', '酢浆草科': '#557A46'
     };
     if (colors[fam]) return colors[fam];
-    // Hash-based color
+    // Hash-based fallback: low saturation, mid lightness — stays cohesive
     let hash = 0;
     for (let i = 0; i < fam.length; i++) hash = fam.charCodeAt(i) + ((hash << 5) - hash);
     const h = Math.abs(hash) % 360;
-    return `hsl(${h}, 60%, 50%)`;
+    return `hsl(${h}, 32%, 45%)`;
   }
 
   _sunburstChart.setOption({
@@ -7114,7 +7117,7 @@ function renderSunburst() {
     const label = depth >= 3 ? '物种记录' : depth === 2 ? '等级' : '科';
     inspector.innerHTML = `
       <span class="si-eyebrow">${label}</span>
-      <strong>${params.name || '61种记录'}</strong>
+      <strong>${params.name || '61种精选记录'}</strong>
       <p>${trail.length ? trail.join(' · ') + '。' : ''}${depth >= 3
         ? `公开数据记录分布于${params.value || '—'}个省级行政区。`
         : `该扇区汇集${params.value || '—'}条下级记录；面积用于比较数量，不表示风险高低。`}</p>`;
