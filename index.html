@@ -981,6 +981,72 @@ html { scroll-snap-type: y proximity; }
   pointer-events: none;
   border-radius: 12px;
 }
+/* 漂浮地点照片层：随时间轴在地图上浮现 */
+.spread-photo-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: visible;
+}
+.spread-photo-card {
+  position: absolute;
+  width: 76px;
+  pointer-events: auto;
+  background: #fdfcf8;
+  padding: 4px 4px 0;
+  border-radius: 6px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.3);
+  transform: translate(-50%, -100%) rotate(var(--rot, 0deg));
+  transition: opacity .35s ease;
+  animation: spreadPhotoFloat 4.2s ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+  cursor: default;
+}
+.spread-photo-card img {
+  width: 100%;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 3px;
+  display: block;
+}
+.spread-photo-card span {
+  display: block;
+  font-size: 10px;
+  line-height: 1.6;
+  text-align: center;
+  color: #3f4a44;
+  letter-spacing: .05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.spread-photo-card.entering {
+  opacity: 0;
+  animation: spreadPhotoPop .55s cubic-bezier(.2,.9,.3,1.4) forwards,
+             spreadPhotoFloat 4.2s ease-in-out .6s infinite;
+}
+.spread-photo-card.leaving {
+  opacity: 0;
+  animation: none;
+  transform: translate(-50%, -100%) rotate(var(--rot, 0deg)) scale(.6);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.spread-photo-card.fresh {
+  outline: 2px solid #F59E0B;
+  outline-offset: 1px;
+}
+@keyframes spreadPhotoPop {
+  0% { opacity: 0; transform: translate(-50%, -100%) rotate(var(--rot, 0deg)) scale(.3); }
+  100% { opacity: 1; transform: translate(-50%, -100%) rotate(var(--rot, 0deg)) scale(1); }
+}
+@keyframes spreadPhotoFloat {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spread-photo-card, .spread-photo-card.entering { animation: none; }
+}
 .timeline-container {
   background: var(--b-bg-elevated);
   border-radius: 12px;
@@ -4149,6 +4215,7 @@ html { scroll-snap-type: y proximity; }
       <div class="spread-canvas-wrap">
         <canvas id="tentacleCanvas"></canvas>
         <div id="spread-map"></div>
+        <div class="spread-photo-layer" id="spreadPhotoLayer"></div>
       </div>
       <div class="chart-source" id="spreadSource">数据来源：中国农业科学院植物保护研究所 · 红火蚁入侵扩散轨迹(2003-2024)</div>
       <div class="timeline-container">
@@ -4167,11 +4234,6 @@ html { scroll-snap-type: y proximity; }
             <div class="ti-value" id="tiNew">+1</div>
             <div class="ti-label">本年新增</div>
           </div>
-          <figure class="spread-species-photo" id="spreadSpeciesPhoto">
-            <img id="spreadPhoto" src="assets/images/species/red-fire-ant-april-nobile-cc-by-4.jpg"
-              alt="红火蚁工蚁形态特写" loading="lazy">
-            <figcaption id="spreadPhotoCaption">红火蚁（Solenopsis invicta）工蚁形态。图：April Nobile / AntWeb，CC BY 4.0</figcaption>
-          </figure>
         </div>
       </div>
     </div>
@@ -6318,6 +6380,90 @@ function getAccumulatedProvinces(speciesKey, targetYear) {
   return acc;
 }
 
+// ============================================
+// 漂浮地点照片层：随扩散时间轴在地图上浮现/消失
+// ============================================
+const _spreadPhotoCards = new Map(); // src -> card element
+
+function clearSpreadPhotos() {
+  _spreadPhotoCards.forEach(card => card.remove());
+  _spreadPhotoCards.clear();
+}
+
+function renderSpreadPhotos(spd, year, provs, provinceCoords) {
+  const layer = document.getElementById('spreadPhotoLayer');
+  if (!layer) return;
+  const photos = (spd.photos || []).filter(ph =>
+    ph.province && provs.includes(ph.province) && (!ph.year || ph.year <= year));
+  const seen = new Set();
+  photos.forEach((ph, i) => {
+    const key = ph.src;
+    seen.add(key);
+    let card = _spreadPhotoCards.get(key);
+    if (!card) {
+      card = document.createElement('div');
+      card.className = 'spread-photo-card entering';
+      card.style.setProperty('--rot', (((i * 37) % 9) - 4) + 'deg');
+      card.style.setProperty('--float-delay', ((i * 0.7) % 3.5).toFixed(1) + 's');
+      const img = document.createElement('img');
+      img.src = ph.src;
+      img.alt = ph.alt || `${ph.province}地点影像`;
+      img.loading = 'lazy';
+      const label = document.createElement('span');
+      label.textContent = ph.year ? `${ph.province} · ${ph.year}` : ph.province;
+      card.appendChild(img);
+      card.appendChild(label);
+      card.title = ph.caption || '';
+      layer.appendChild(card);
+      _spreadPhotoCards.set(key, card);
+    }
+    card.dataset.province = ph.province;
+    card.dataset.offsetIndex = photos.filter(x => x.province === ph.province).indexOf(ph);
+    card.dataset.gi = i; // 全局序号：黄金角散开，避免沿海省份照片堆叠
+    card.classList.toggle('fresh', ph.year === year);
+  });
+  // 时间轴回拨时，晚于当前年份的照片淡出移除
+  for (const [key, card] of _spreadPhotoCards) {
+    if (!seen.has(key)) {
+      card.classList.add('leaving');
+      const stale = card;
+      setTimeout(() => stale.remove(), 320);
+      _spreadPhotoCards.delete(key);
+    }
+  }
+  // geo 换算需要等 setOption 布局完成
+  _lastSpreadCoords = provinceCoords;
+  requestAnimationFrame(() => positionSpreadPhotos(provinceCoords));
+}
+
+// 地图缩放/平移与窗口变化时，照片卡跟随重定位（只绑定一次）
+let _lastSpreadCoords = null;
+let _spreadPhotoFollowBound = false;
+function bindSpreadPhotoFollow() {
+  if (_spreadPhotoFollowBound) return;
+  _spreadPhotoFollowBound = true;
+  window.addEventListener('resize', () => positionSpreadPhotos(_lastSpreadCoords));
+}
+
+function positionSpreadPhotos(provinceCoords) {
+  if (!spreadChart || !provinceCoords) return;
+  for (const [, card] of _spreadPhotoCards) {
+    const coord = provinceCoords[card.dataset.province];
+    if (!coord) continue;
+    let px = null;
+    try { px = spreadChart.convertToPixel('geo', coord); } catch (e) { continue; }
+    if (!px || isNaN(px[0]) || isNaN(px[1])) continue;
+    const off = Number(card.dataset.offsetIndex || 0);
+    const gi = Number(card.dataset.gi || 0);
+    const ang = gi * 2.399; // 黄金角
+    const rad = 16 + (gi % 4) * 15;
+    const dx = off * 46 - 10 + Math.cos(ang) * rad;
+    const dy = off * 24 - 8 + Math.sin(ang) * rad * 0.7;
+    card.style.left = (px[0] + dx) + 'px';
+    card.style.top = (px[1] + dy) + 'px';
+  }
+}
+
 function renderSpreadMap(speciesKey) {
   const container = document.getElementById('spread-map');
   
@@ -6328,12 +6474,16 @@ function renderSpreadMap(speciesKey) {
   }
   
   spreadChart = echarts.init(container);
+  clearSpreadPhotos();
+  bindSpreadPhotoFollow();
+  spreadChart.on('georoam', () => positionSpreadPhotos(_lastSpreadCoords));
   
   const spd = speciesSpreadData[speciesKey] || speciesSpreadData['红火蚁'];
   const allYears = spd.yours || spd.years;
   const spreadSource = document.getElementById('spreadSource');
   if (spreadSource) {
-    spreadSource.textContent = spd.source || '地图为公开资料整理；不同物种的记录口径并不完全一致';
+    const base = spd.source || '地图为公开资料整理；不同物种的记录口径并不完全一致';
+    spreadSource.textContent = spd.photoDisclaimer ? `${base} · ${spd.photoDisclaimer}` : base;
   }
   
   // Simple timeline slider
@@ -6360,41 +6510,9 @@ function renderSpreadMap(speciesKey) {
     document.getElementById('tiProvinces').textContent = provs.length;
     document.getElementById('tiNew').textContent = '+' + newThisYear.length;
 
-    // 地点影像随时间轴更新；它们不充当首次发现年份或传播路线证据。
-    const photoFigure = document.getElementById('spreadSpeciesPhoto');
-    const photoEl = document.getElementById('spreadPhoto');
-    const photoCaption = document.getElementById('spreadPhotoCaption');
-    const eligiblePhotos = (spd.photos || []).filter(photo =>
-      (!photo.year || photo.year <= year) && (!photo.province || provs.includes(photo.province))
-    );
-    const fallbackPhoto = (spd.photos || []).find(photo => !photo.year);
-    if (photoFigure && photoEl && photoCaption && (eligiblePhotos.length || fallbackPhoto)) {
-      photoFigure.hidden = false;
-      const gallery = eligiblePhotos.length ? eligiblePhotos : [fallbackPhoto];
-      let photoIndex = 0;
-      const showPhoto = index => {
-        const photo = gallery[index];
-        if (!photo) return;
-        photoEl.style.opacity = '0';
-        window.setTimeout(() => {
-          photoEl.src = photo.src;
-          photoEl.alt = photo.alt || `${speciesKey}地点影像`;
-          photoEl.style.opacity = '1';
-        }, 140);
-        const pager = gallery.length > 1 ? ` · ${index + 1}/${gallery.length} · 点击切换地点` : '';
-        photoCaption.textContent = `${photo.caption}${pager}${spd.photoDisclaimer ? `。${spd.photoDisclaimer}` : ''}`;
-      };
-      showPhoto(photoIndex);
-      photoFigure.onclick = () => {
-        if (gallery.length < 2) return;
-        photoIndex = (photoIndex + 1) % gallery.length;
-        showPhoto(photoIndex);
-      };
-    } else if (photoFigure) {
-      photoFigure.hidden = true;
-      photoFigure.onclick = null;
-    }
-    
+    // 地点影像随时间轴在地图上浮现；它们不充当首次发现年份或传播路线证据。
+    // （实现见 renderSpreadPhotos，需 provinceCoords，在下方 setOption 后调用）
+
     // Story
     const storyYear = Object.keys(spd.story).filter(y => parseInt(y) <= year).pop();
     if (storyYear) {
@@ -6468,8 +6586,12 @@ function renderSpreadMap(speciesKey) {
       }],
       graphic: []
     }, true);
+
+    // 漂浮地点照片：时间轴走到哪一年，哪一年有影像的地点就把照片卡
+    // 浮现到地图对应位置（卡片定位依赖 geo 坐标换算，须在 setOption 之后）
+    renderSpreadPhotos(spd, year, provs, provinceCoords);
   }
-  
+
   slider.addEventListener('input', (e) => {
     try { updateMap(e.target.value); } catch(err) { console.warn('updateMap error', err); }
   });
