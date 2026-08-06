@@ -4050,13 +4050,13 @@ html { scroll-snap-type: y proximity; }
 
     <!-- County hotspot: plant invasion at county level -->
     <div class="county-hotspot-section reveal">
-      <h3 class="subsection-title" style="color:var(--a-text);">🔬 入侵植物县级热点</h3>
+      <h3 class="subsection-title" style="color:var(--a-text);">🔬 一个县最多能有多少种入侵植物？</h3>
       <p style="font-size:0.84rem;color:var(--a-text-secondary);margin-bottom:8px;line-height:1.8;text-align:center;">
-        基于<strong>406种外来入侵植物</strong>在2684个县级行政区的物种丰富度。
-        与上方全国地图（含动植物）互为补充：此处为纯植物界数据，精度下沉至县级。
+        县级尺度下，入侵不是均匀涂抹，而是<strong>点状爆发</strong>：浅柱是该省"最强县"的单县纪录，深绿点是该省的县均水平——
+        柱与点的距离，就是热点县超出背景水平的程度。与上方省级地图（含动植物）互为补充：此处为纯植物数据，精度下沉至县。
       </p>
       <div class="county-hotspot-chart" id="countyHotspotChart"></div>
-      <div class="chart-source">数据来源：中国外来入侵植物物种高分辨率分布数据库(IPSD) · 学术论文数据集</div>
+      <div class="chart-source">数据来源：中国外来入侵植物物种高分辨率分布数据库(IPSD) · 406种入侵植物 · 不含港澳台（统计口径不同）</div>
     </div>
 
     <!-- Bubble matrix: species multi-dimensional view -->
@@ -5192,7 +5192,7 @@ async function activateSection(idx, sectionEl) {
     window.icebergChart, window.lossDistChart, window.lossProvChart,
     window.petTradeChart,
     window._portMapChart, window._sankeyChart, window._bubbleChart,
-    window._sunburstChart
+    window._sunburstChart, window._countyHotspotChart
   ];
   const doResize = () => allCharts().forEach(c => { if (c && c.resize) c.resize(); });
   setTimeout(doResize, 100);
@@ -5579,26 +5579,18 @@ function renderCountyHotspot() {
   _countyHotspotChart = echarts.init(container);
   window._countyHotspotChart = _countyHotspotChart;
 
-  // Use province summary for the chart (more readable than raw county codes)
+  // Bullet 图：柱 = 该省最强县的单县纪录，深绿点 = 该省的县均水平。
+  // 柱与点之间的距离，就是"热点县"相对于背景水平的爆发程度——
+  // 这是县级数据独有的信息，省级地图无法呈现。
   const provData = Data.countyInvasion.province_summary;
   const items = Object.entries(provData)
     .filter(([name]) => name !== '台湾' && name !== '香港' && name !== '澳门')
-    .sort((a, b) => b[1].avg - a[1].avg)
-    .slice(0, 20);
+    .sort((a, b) => b[1].max - a[1].max)
+    .slice(0, 12);
 
-  const names = items.map(([n]) => n).reverse();
-  const avgs = items.map(([, v]) => v.avg).reverse();
-  const maxs = items.map(([, v]) => v.max).reverse();
-
-  // Bars: county-average species count (green value gradient);
-  // gold diamonds: single-county record — replaces the old red/green double bars
-  const maxAvg = Math.max(...avgs);
-  const lerp = (a, b, t) => Math.round(a + (b - a) * t);
-  const barColor = v => {
-    const t = maxAvg ? v / maxAvg : 0;
-    const lo = [154, 199, 171], hi = [33, 105, 63];
-    return `rgb(${lerp(lo[0], hi[0], t)},${lerp(lo[1], hi[1], t)},${lerp(lo[2], hi[2], t)})`;
-  };
+  const names = items.map(([n]) => n);
+  const maxs = items.map(([, v]) => v.max);
+  const avgs = items.map(([, v]) => v.avg);
 
   _countyHotspotChart.setOption({
     tooltip: {
@@ -5607,20 +5599,21 @@ function renderCountyHotspot() {
         const prov = ps[0].name;
         const info = provData[prov];
         return `<strong>${prov}</strong><br/>
-          县级平均入侵植物数：${info.avg} 种<br/>
-          单个县最高纪录：${info.max} 种<br/>
-          有数据县数：${info.counties} 个`;
+          最强县纪录：${info.max} 种<br/>
+          县均水平：${info.avg} 种<br/>
+          爆发倍差：${(info.max / info.avg).toFixed(1)} 倍<br/>
+          有记录县数：${info.counties} 个`;
       }
     },
     legend: {
       data: [
-        { name: '县均物种数', itemStyle: { color: '#3E8E68' } },
-        { name: '单县最高纪录', itemStyle: { color: '#E8A33D' } }
+        { name: '单县最高纪录', itemStyle: { color: '#B9D6C6' } },
+        { name: '县均水平', itemStyle: { color: '#1F4D3A' } }
       ],
       bottom: 0,
       textStyle: { fontSize: 11, color: '#64748b' }
     },
-    grid: { left: 56, right: 60, top: 14, bottom: 40 },
+    grid: { left: 56, right: 64, top: 14, bottom: 40 },
     xAxis: {
       type: 'value',
       name: '入侵植物物种数',
@@ -5638,20 +5631,22 @@ function renderCountyHotspot() {
     },
     series: [
       {
-        name: '县均物种数',
+        name: '单县最高纪录',
         type: 'bar',
-        data: avgs,
-        itemStyle: { color: function(p) { return barColor(p.value); }, borderRadius: [0, 4, 4, 0] },
-        barMaxWidth: 13,
-        label: { show: true, position: 'right', fontSize: 10, color: '#64748b' }
+        data: maxs,
+        itemStyle: { color: '#B9D6C6', borderRadius: [0, 7, 7, 0] },
+        barMaxWidth: 14,
+        label: { show: true, position: 'right', fontSize: 10, fontWeight: 700, color: '#1F4D3A' },
+        animationDelay: idx => idx * 60
       },
       {
-        name: '单县最高纪录',
+        name: '县均水平',
         type: 'scatter',
-        data: maxs.map((v, i) => [v, names[i]]),
-        symbol: 'diamond',
-        symbolSize: 11,
-        itemStyle: { color: '#E8A33D', borderColor: '#ffffff', borderWidth: 1 }
+        data: avgs.map((v, i) => [v, names[i]]),
+        symbol: 'circle',
+        symbolSize: 13,
+        itemStyle: { color: '#1F4D3A', borderColor: '#fbfaf3', borderWidth: 2 },
+        z: 10
       }
     ]
   });
