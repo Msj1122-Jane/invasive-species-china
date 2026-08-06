@@ -630,5 +630,155 @@
     "distribution": null,
     "harm": null,
     "category": "plant"
+  },
+  {
+    "name_cn": "红火蚁",
+    "name_latin": "Solenopsis invicta",
+    "family": "蚁科",
+    "origin": "南美洲",
+    "province_count": 13,
+    "level": "1级",
+    "category": "insect",
+    "harm": "攻击性强，蜇咬人畜可致过敏甚至休克；捕食本地昆虫与小型动物，破坏生态与农业生产。2003年在台湾、2004年在广东发现后持续扩散，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "美国白蛾",
+    "name_latin": "Hyphantria cunea",
+    "family": "灯蛾科",
+    "origin": "北美洲",
+    "province_count": 14,
+    "level": "1级",
+    "category": "insect",
+    "harm": "幼虫暴食阔叶树叶片，可危害300余种植物，繁殖力极强，是重大林业与园林害虫。1979年在辽宁首次发现，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "草地贪夜蛾",
+    "name_latin": "Spodoptera frugiperda",
+    "family": "夜蛾科",
+    "origin": "美洲热带地区",
+    "province_count": 20,
+    "level": "1级",
+    "category": "insect",
+    "harm": "2019年传入云南后迅速扩散，幼虫取食玉米等禾本科作物，迁飞能力强、繁殖快，是重大农业害虫，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "苹果蠹蛾",
+    "name_latin": "Cydia pomonella",
+    "family": "卷蛾科",
+    "origin": "欧亚大陆",
+    "province_count": 9,
+    "level": "1级",
+    "category": "insect",
+    "harm": "幼虫蛀食苹果、梨等果实，造成落果与品质下降，是水果产业重要检疫性害虫，主要分布于西北果区，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "红脂大小蠹",
+    "name_latin": "Dendroctonus valens",
+    "family": "小蠹科",
+    "origin": "北美洲",
+    "province_count": 6,
+    "level": "1级",
+    "category": "insect",
+    "harm": "蛀食油松等针叶树根部与树干基部，曾在山西等地造成大面积油松死亡，是重大林业检疫性害虫，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "稻水象甲",
+    "name_latin": "Lissorhoptrus oryzophilus",
+    "family": "象甲科",
+    "origin": "北美洲",
+    "province_count": 18,
+    "level": "1级",
+    "category": "insect",
+    "harm": "幼虫取食水稻根系造成减产，随稻作区不断扩散，是水稻生产上的重要检疫性害虫，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "松材线虫",
+    "name_latin": "Bursaphelenchus xylophilus",
+    "family": "伞滑刃线虫科",
+    "origin": "北美洲",
+    "province_count": 18,
+    "level": "1级",
+    "category": "disease",
+    "harm": "引起松材线虫病，被称为\"松树癌症\"：经松墨天牛传播，染病松树数月内枯死。1982年在南京首次发现，疫情持续西进北上，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "梨火疫病菌",
+    "name_latin": "Erwinia amylovora",
+    "family": "肠杆菌科",
+    "origin": "北美洲",
+    "province_count": 2,
+    "level": "1级",
+    "category": "disease",
+    "harm": "引起梨火疫病，危害梨、苹果等蔷薇科植物，枝条如花被火灼般枯死，可致整株死亡，是重大检疫性植物病原，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "红耳彩龟",
+    "name_latin": "Trachemys scripta elegans",
+    "family": "泽龟科",
+    "origin": "北美洲",
+    "province_count": 25,
+    "level": "1级",
+    "category": "animal",
+    "harm": "即\"巴西龟\"。宠物贸易与放生使其进入自然水体，与本土龟类竞争食物与晒背场所，可携带沙门氏菌，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "克氏原螯虾",
+    "name_latin": "Procambarus clarkii",
+    "family": "正螯虾科",
+    "origin": "北美洲",
+    "province_count": 23,
+    "level": "2级",
+    "category": "animal",
+    "harm": "即餐桌上的\"小龙虾\"。穴居习性破坏堤坝与梯田，摄食水生植物、鱼苗与底栖生物，已在长江流域及以南广泛定殖，列入《中国第二批外来入侵物种名单》。"
+  },
+  {
+    "name_cn": "福寿螺",
+    "name_latin": "Pomacea canaliculata",
+    "family": "瓶螺科",
+    "origin": "南美洲",
+    "province_count": 16,
+    "level": "1级",
+    "category": "animal",
+    "harm": "啃食水稻秧苗造成减产，粉红色卵块大量产于田埂与茎秆，可传播广州管圆线虫危害人体健康，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "非洲大蜗牛",
+    "name_latin": "Lissachatina fulica",
+    "family": "玛瑙螺科",
+    "origin": "东非",
+    "province_count": 8,
+    "level": "1级",
+    "category": "animal",
+    "harm": "可取食500余种植物，危害农作物、花卉与绿化苗木，并可携带寄生虫与病原菌，主要分布于华南，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "鳄雀鳝",
+    "name_latin": "Atractosteus spatula",
+    "family": "雀鳝科",
+    "origin": "北美洲",
+    "province_count": 10,
+    "level": "1级",
+    "category": "animal",
+    "harm": "大型肉食性鱼类，弃养进入自然水域后大量捕食本土鱼类，多地曾抽干水体围捕，是\"异宠弃养\"风险的典型，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "美洲牛蛙",
+    "name_latin": "Lithobates catesbeianus",
+    "family": "蛙科",
+    "origin": "北美洲",
+    "province_count": 12,
+    "level": "1级",
+    "category": "animal",
+    "harm": "体型大、食性广，捕食本土蛙类与小型水生动物，养殖逃逸后已在南方多省定殖，已列入《重点管理外来入侵物种名录》。"
+  },
+  {
+    "name_cn": "豹纹翼甲鲶",
+    "name_latin": "Pterygoplichthys pardalis",
+    "family": "骨甲鲶科",
+    "origin": "南美洲",
+    "province_count": 6,
+    "level": "1级",
+    "category": "animal",
+    "harm": "水族市场俗称\"清道夫\"。弃养后进入南方水系，啃食鱼卵与藻类、挤占本土鱼类生存空间，已列入《重点管理外来入侵物种名录》。"
   }
 ]

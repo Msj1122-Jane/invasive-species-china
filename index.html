@@ -3875,9 +3875,9 @@ html { scroll-snap-type: y proximity; }
 
     <div class="atlas-shell reveal" id="speciesAtlas">
       <header class="atlas-head">
-        <div class="atlas-kicker">Curated archive · 61 species</div>
+        <div class="atlas-kicker">Curated archive · 76 species</div>
         <h3>物种图鉴</h3>
-        <p>图鉴收录61种代表性外来入侵物种，覆盖植物、动物、昆虫等类群——它们是从341种入侵植物名录与全国普查记录中选出的"熟面孔"。先从全局结构辨认它们，再按图像或名称进入一条具体记录；悬停或点击后，名称、科属、等级与分布记录会在右侧清晰展开。</p>
+        <p>图鉴收录76种代表性外来入侵物种：61种植物取自341种入侵植物名录与全国普查记录，15种动物、昆虫与病害来自《重点管理外来入侵物种名录》等公开名录。先从全局结构辨认它们，再按图像或名称进入一条具体记录；悬停或点击后，名称、科属、等级与分布记录会在右侧清晰展开。植物等级来自iflora数据库；动物与昆虫/病害标注"1级"表示已列入国家重点管理名录。</p>
       </header>
 
       <div class="atlas-toolbar" aria-label="物种图鉴视图与筛选">
@@ -3907,7 +3907,7 @@ html { scroll-snap-type: y proximity; }
           </div>
           <aside class="sunburst-inspector" id="sunburstInspector" aria-live="polite">
             <span class="si-eyebrow">当前选择</span>
-            <strong>61种精选记录</strong>
+            <strong>76种精选记录</strong>
             <p>将鼠标移到环形图上。科、等级和物种名称会在这里展开，不再挤在狭窄扇区中。</p>
           </aside>
         </div>
@@ -4831,7 +4831,7 @@ function rebuildEditorialStructureV2() {
     atlasSection.innerHTML = `
       <div class="chapter-gate atlas-gate"><div class="gate-content">
         <div class="gate-number">02</div><h2 class="gate-title">物种图鉴：谁在入侵？</h2>
-        <p class="gate-subtitle">从61条重点物种记录中辨认名字、类群与管理等级，再进入一条具体档案。</p><div class="gate-divider"></div>
+        <p class="gate-subtitle">从76条重点物种记录中辨认名字、类群与管理等级，再进入一条具体档案。</p><div class="gate-divider"></div>
       </div></div>
       <div class="section-inner"><div class="reveal" id="atlasChapterHost"></div></div>`;
     if (atlas) atlasSection.querySelector('#atlasChapterHost').appendChild(atlas);
@@ -7149,7 +7149,7 @@ function renderSunburst() {
     const label = depth >= 3 ? '物种记录' : depth === 2 ? '等级' : '科';
     inspector.innerHTML = `
       <span class="si-eyebrow">${label}</span>
-      <strong>${params.name || '61种精选记录'}</strong>
+      <strong>${params.name || '76种精选记录'}</strong>
       <p>${trail.length ? trail.join(' · ') + '。' : ''}${depth >= 3
         ? `公开数据记录分布于${params.value || '—'}个省级行政区。`
         : `该扇区汇集${params.value || '—'}条下级记录；面积用于比较数量，不表示风险高低。`}</p>`;
@@ -7166,7 +7166,7 @@ let _atlasQuery = '';
 
 function atlasFilteredSpecies() {
   if (!Data.species) return [];
-  let list = Data.species.slice(0, 61).map(sp => ({
+  let list = Data.species.slice().map(sp => ({
     ...sp,
     _image: Data.speciesImages ? Data.speciesImages[sp.name_cn] || null : null
   }));
