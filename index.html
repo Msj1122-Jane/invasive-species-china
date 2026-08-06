@@ -689,7 +689,7 @@ html { scroll-snap-type: y proximity; }
 .intro-narrative-section {
   min-height: auto;
   padding: 18vh 24px 18vh;
-  background: linear-gradient(180deg, #0b1410 0%, #1a2520 15%, #f8fbf9 45%, #f8fbf9 100%);
+  background: linear-gradient(180deg, #0b1410 0%, #16211b 13%, #5f7268 24%, #c3d0c7 34%, #fbfaf3 44%, #fbfaf3 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -707,7 +707,7 @@ html { scroll-snap-type: y proximity; }
   font-weight: 400;
 }
 .intro-narrative-inner p:first-child {
-  color: #5a6660;
+  color: #d7e0da;
   font-size: clamp(0.95rem, 1.6vw, 1.15rem);
 }
 .narrative-num {
@@ -3830,11 +3830,10 @@ html { scroll-snap-type: y proximity; }
 <!-- 引言页 -->
 <section class="intro-narrative-section">
   <div class="intro-narrative-inner">
-    <p>我们脚下的草坪、路边的野花、河道里的水草——这些看似"理所当然"的本土风景，可能来自万里之外。</p>
-    <p>红火蚁从南美到广东，只用了<span class="narrative-num">90</span>年。水葫芦从观赏植物到河道噩梦，只用了<span class="narrative-num">30</span>年。</p>
-    <p>它们没有国界，没有签证，却以每年数百公里的速度，重写中国生态版图。</p>
-    <p><span class="narrative-num">660</span>余种外来物种已入侵中国<span class="narrative-num">34</span>个省级行政区。年均经济损失超过<span class="narrative-num">278</span>亿美元。</p>
-    <p class="narrative-emphasis">这场无声的迁徙，正在我们眼前发生。</p>
+    <p>宠物店里的红耳龟标价二十元，夜市上的小龙虾论斤卖，路边的加拿大一枝黄花开得正盛。</p>
+    <p>它们都是远道而来的"客"。有的来了上百年，与人相安无事；有的只用了几年，就挤走本土物种，改写整片湿地。</p>
+    <p>并非所有外来物种都有害。真正需要追踪的，是那些完成"进入、定殖、扩散"三级跳，威胁生态系统、生境与本土物种的外来入侵物种。</p>
+    <p class="narrative-emphasis">这一次，我们用341份物种档案、393宗海关截获案和2684个县的分布记录，还原它们如何来到中国，又如何走进自然。</p>
   </div>
 </section>
 
@@ -4770,10 +4769,10 @@ function rebuildEditorialStructureV2() {
   if (scrollHint) scrollHint.textContent = '向下滚动，进入调查';
   const narrative = document.querySelector('.intro-narrative-inner');
   if (narrative) narrative.innerHTML = `
-    <p>它可能在餐桌上，也可能在宠物盒、花园和城市河道里。</p>
-    <p>小龙虾、红耳龟、加拿大一枝黄花——熟悉的名字背后，藏着完全不同的进入路径和生态后果。</p>
-    <p>并非所有外来物种都会造成危害。真正需要警惕的，是那些在新环境中定殖、扩散，并威胁生态系统、生境或物种的外来入侵物种。</p>
-    <p class="narrative-emphasis">这一次，我们从数字、物种、路径、代价和防线出发，追踪它们怎样来到中国，又怎样进入自然。</p>`;
+    <p>宠物店里的红耳龟标价二十元，夜市上的小龙虾论斤卖，路边的加拿大一枝黄花开得正盛。</p>
+    <p>它们都是远道而来的"客"。有的来了上百年，与人相安无事；有的只用了几年，就挤走本土物种，改写整片湿地。</p>
+    <p>并非所有外来物种都有害。真正需要追踪的，是那些完成"进入、定殖、扩散"三级跳，威胁生态系统、生境与本土物种的外来入侵物种。</p>
+    <p class="narrative-emphasis">这一次，我们用341份物种档案、393宗海关截获案和2684个县的分布记录，还原它们如何来到中国，又如何走进自然。</p>`;
 
   if (mapSection) {
     const number = mapSection.querySelector('.gate-number');
