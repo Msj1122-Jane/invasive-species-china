@@ -3908,7 +3908,7 @@ html { scroll-snap-type: y proximity; }
       <button class="filter-btn active" data-filter="total">全部物种</button>
       <button class="filter-btn" data-filter="animal">动物类</button>
       <button class="filter-btn" data-filter="plant">植物类</button>
-      <button class="filter-btn" data-filter="level1">仅1级恶性</button>
+      <button class="filter-btn" data-filter="level1">仅1级·恶性入侵</button>
     </div>
 
     <div class="map-container reveal">
@@ -3928,7 +3928,7 @@ html { scroll-snap-type: y proximity; }
           <div style="font-size:0.84rem;line-height:1.8;color:var(--a-text-secondary)">
             <p><strong style="color:var(--a-highlight)">云南</strong> 以 321 种居首，占全国近半</p>
             <p><strong style="color:var(--a-highlight)">南北梯度</strong> 明显：南方平均 150+ 种 vs 北方 70 种以下</p>
-            <p><strong style="color:var(--a-highlight)">台湾</strong> 动物占比最高（33.7%）</p>
+            <p><strong style="color:var(--a-highlight)">动物占比</strong>最高的是福建：其入侵物种中 43.7% 为动物（种数最多的是云南，132 种）</p>
           </div>
         </div>
       </div>
@@ -5805,7 +5805,7 @@ function initMapFilter() {
 async function renderMapByFilter(mode) {
   _mapFilter = mode;
   const mapKey = mode === 'total' ? 'total' : mode === 'animal' ? 'animal' : mode === 'plant' ? 'plant' : 'level1';
-  const labelMap = { total: '全部物种', animal: '动物类', plant: '植物类', level1: '仅1级恶性' };
+  const labelMap = { total: '全部物种', animal: '动物类', plant: '植物类', level1: '仅1级·恶性入侵' };
   const colorMap = { total: '#1B3A2F', animal: '#D62828', plant: '#059669', level1: '#7F1D1D' };
 
   // Map value field
@@ -5849,7 +5849,7 @@ async function renderMapByFilter(mode) {
           text: ['多', '少'],
           calculable: true,
           inRange: {
-            color: mode === 'total' ? ['#e8f5e9', '#a5d6a7', '#66bb6a', '#43a047', '#2e7d32', '#1b5e20'] :
+            color: mode === 'total' ? ['#eaf2f8', '#b8d4ea', '#7fb2dd', '#4a90c9', '#2a6db0', '#144e86'] :
                    mode === 'animal' ? ['#fff0f0', '#ffc0c0', '#ff8a8a', '#ef5350', '#d62828', '#b71c1c'] :
                    mode === 'plant' ? ['#e8f5e9', '#a5d6a7', '#66bb6a', '#43a047', '#2e7d32', '#1b5e20'] :
                    ['#fff8e1', '#ffcc80', '#ffa726', '#f57c00', '#e65100', '#7f1d1d']
@@ -5890,7 +5890,7 @@ async function renderMapByFilter(mode) {
       data: topProvinces.map((p, i) => ({
         value: getValue(p),
         itemStyle: {
-          color: i < 3 ? (mode === 'animal' ? '#D62828' : mode === 'plant' ? '#059669' : mode === 'level1' ? '#7F1D1D' : '#D62828') : '#1B3A2F',
+          color: i < 3 ? (mode === 'animal' ? '#D62828' : mode === 'plant' ? '#059669' : mode === 'level1' ? '#7F1D1D' : '#2A6DB0') : '#1B3A2F',
           borderRadius: [0, 4, 4, 0]
         }
       })),
