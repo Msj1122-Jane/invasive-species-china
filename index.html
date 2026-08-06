@@ -4194,7 +4194,7 @@ html { scroll-snap-type: y proximity; }
         原生分布关联与名录状态
       </h3>
       <p style="text-align:center;font-size:0.85rem;color:var(--b-text-dim);margin-bottom:16px;">
-        左侧为原生分布区域，右侧为数据库中的状态分类；连线只表达分类单元关联
+        行为原生分布区域，列为数据库中的状态等级；色块深浅与数值表示对应的分类单元数量
       </p>
       <div class="sankey-chart" id="sankeyChart"></div>
       <div class="chart-source">数据来源：iPlant植物智外来入侵物种数据库(iflora)</div>
@@ -4395,7 +4395,7 @@ html { scroll-snap-type: y proximity; }
         异宠贸易已成为外来物种入侵的<strong style="color:var(--b-accent);">主要"扩散引擎"之一</strong>。
         中国养殖异宠规模已超1700万，其中近八成来自境外。
         从巴西龟到鳄雀鳝，从绿鬣蜥到巨人蜈蚣——这些"宠物"一旦被弃养或逃逸，
-        便可能在本土生态中引发连锁灾难。下方图表展示了主要异宠品类占比与监管风险。
+        便可能在本土生态中引发连锁灾难。下方图表展示了跨境快递业务量与海关年度截获批次的变化：包裹洪流之下，截获量连年攀升。
       </p>
       <div id="pet-trade-chart"></div>
       <div class="chart-source">数据来源：国家邮政局 · 国际邮件与跨境快件统计；海关总署 · 年度截获批次统计</div>
@@ -5548,6 +5548,16 @@ function renderCountyHotspot() {
   const avgs = items.map(([, v]) => v.avg).reverse();
   const maxs = items.map(([, v]) => v.max).reverse();
 
+  // Bars: county-average species count (green value gradient);
+  // gold diamonds: single-county record — replaces the old red/green double bars
+  const maxAvg = Math.max(...avgs);
+  const lerp = (a, b, t) => Math.round(a + (b - a) * t);
+  const barColor = v => {
+    const t = maxAvg ? v / maxAvg : 0;
+    const lo = [154, 199, 171], hi = [33, 105, 63];
+    return `rgb(${lerp(lo[0], hi[0], t)},${lerp(lo[1], hi[1], t)},${lerp(lo[2], hi[2], t)})`;
+  };
+
   _countyHotspotChart.setOption({
     tooltip: {
       trigger: 'axis',
@@ -5561,32 +5571,45 @@ function renderCountyHotspot() {
       }
     },
     legend: {
-      data: ['县均物种数', '单县最高'],
+      data: [
+        { name: '县均物种数', itemStyle: { color: '#3E8E68' } },
+        { name: '单县最高纪录', itemStyle: { color: '#E8A33D' } }
+      ],
       bottom: 0,
       textStyle: { fontSize: 11, color: '#64748b' }
     },
-    grid: { left: 80, right: 40, top: 10, bottom: 36 },
-    xAxis: { type: 'value', name: '入侵植物物种数', nameTextStyle: { fontSize: 11, color: '#94a3b8' } },
+    grid: { left: 56, right: 60, top: 14, bottom: 40 },
+    xAxis: {
+      type: 'value',
+      name: '入侵植物物种数',
+      nameTextStyle: { fontSize: 11, color: '#94a3b8' },
+      axisLabel: { fontSize: 10, color: '#94a3b8' },
+      splitLine: { lineStyle: { color: 'rgba(100,116,139,0.12)' } }
+    },
     yAxis: {
       type: 'category',
       data: names,
-      axisLabel: { fontSize: 11 },
-      inverse: true
+      axisLabel: { fontSize: 11, color: '#475569' },
+      inverse: true,
+      axisLine: { show: false },
+      axisTick: { show: false }
     },
     series: [
       {
         name: '县均物种数',
         type: 'bar',
         data: avgs,
-        itemStyle: { color: '#5B8C5A', borderRadius: [0, 4, 4, 0] },
-        barMaxWidth: 18
+        itemStyle: { color: function(p) { return barColor(p.value); }, borderRadius: [0, 4, 4, 0] },
+        barMaxWidth: 13,
+        label: { show: true, position: 'right', fontSize: 10, color: '#64748b' }
       },
       {
-        name: '单县最高',
-        type: 'bar',
-        data: maxs,
-        itemStyle: { color: '#D62828', borderRadius: [0, 4, 4, 0] },
-        barMaxWidth: 18
+        name: '单县最高纪录',
+        type: 'scatter',
+        data: maxs.map((v, i) => [v, names[i]]),
+        symbol: 'diamond',
+        symbolSize: 11,
+        itemStyle: { color: '#E8A33D', borderColor: '#ffffff', borderWidth: 1 }
       }
     ]
   });
@@ -6617,55 +6640,78 @@ function renderSankeyFlow() {
     flowMap[key] = (flowMap[key] || 0) + 1;
   });
 
-  const links = [];
-  const nodeSet = new Set();
-  Object.entries(flowMap).forEach(([key, count]) => {
-    const [origin, lvl] = key.split('→');
-    nodeSet.add(origin);
-    nodeSet.add(lvl);
-    links.push({ source: origin, target: lvl, value: count });
-  });
-
+  // Heatmap: origin region × status level
+  // (replaces the old two-column sankey — red/green nodes with tangled links)
   const levelOrder = ['1级', '2级', '3级', '4级', '5级', '未定级'];
-  const nodes = [...nodeSet].map(name => {
-    let color = '#94a3b8';
-    if (['北美洲','南美洲','美洲','欧洲','亚洲','非洲','未知','其他'].includes(name)) color = '#D62828';
-    if (name.includes('级') || name === '未定级') color = '#059669';
-    return { name, itemStyle: { color } };
+  const originTotals = {};
+  Object.entries(flowMap).forEach(([key, count]) => {
+    const o = key.split('→')[0];
+    originTotals[o] = (originTotals[o] || 0) + count;
+  });
+  const origins = Object.keys(originTotals).sort((a, b) => {
+    const tail = n => (n === '未知' || n === '其他') ? 1 : 0;
+    if (tail(a) !== tail(b)) return tail(a) - tail(b);
+    return originTotals[b] - originTotals[a];
+  });
+  const levels = levelOrder.filter(l => Object.keys(flowMap).some(k => k.split('→')[1] === l));
+  const maxVal = Math.max(...Object.values(flowMap));
+  const labelThreshold = maxVal * 0.55;
+  const heatData = [];
+  origins.forEach((o, yi) => {
+    levels.forEach((l, xi) => {
+      const v = flowMap[o + '→' + l] || 0;
+      if (v > 0) {
+        heatData.push({
+          value: [xi, yi, v],
+          label: { color: v > labelThreshold ? '#0E1F17' : '#E8F0EB' }
+        });
+      }
+    });
   });
 
   _sankeyChart.setOption({
     tooltip: {
-      trigger: 'item',
-      triggerOn: 'mousemove',
+      position: 'top',
       formatter: function(p) {
-        if (p.dataType === 'edge') {
-          return `${p.data.source} → ${p.data.target}<br/>物种数量：${p.data.value}种`;
-        }
-        return `${p.name}`;
+        return `${origins[p.value[1]]} × ${levels[p.value[0]]}<br/>分类单元：${p.value[2]} 个`;
       }
     },
+    grid: { left: 90, right: 24, top: 24, bottom: 80 },
+    xAxis: {
+      type: 'category',
+      data: levels,
+      axisLabel: { color: '#E8F0EB', fontSize: 12 },
+      axisLine: { lineStyle: { color: '#1F3D30' } },
+      axisTick: { show: false },
+      splitArea: { show: true, areaStyle: { color: ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0)'] } }
+    },
+    yAxis: {
+      type: 'category',
+      data: origins,
+      inverse: true,
+      axisLabel: { color: '#E8F0EB', fontSize: 12 },
+      axisLine: { lineStyle: { color: '#1F3D30' } },
+      axisTick: { show: false }
+    },
+    visualMap: {
+      min: 0,
+      max: maxVal,
+      calculable: false,
+      orient: 'horizontal',
+      left: 'center',
+      bottom: 14,
+      text: ['多', '少'],
+      textStyle: { color: '#8BA99A', fontSize: 11 },
+      itemWidth: 14,
+      itemHeight: 140,
+      inRange: { color: ['#152E24', '#1E4D33', '#2E7D4F', '#55A96F', '#A8D5A2'] }
+    },
     series: [{
-      type: 'sankey',
-      layout: 'none',
-      emphasis: { focus: 'adjacency' },
-      nodeAlign: 'left',
-      layoutIterations: 0,
-      data: nodes,
-      links: links,
-      lineStyle: {
-        color: 'gradient',
-        curveness: 0.5,
-        opacity: 0.35
-      },
-      label: {
-        fontSize: 11,
-        color: 'var(--b-text)',
-        fontFamily: 'var(--font-sans)',
-        fontWeight: 500
-      },
-      nodeWidth: 22,
-      nodeGap: 14
+      type: 'heatmap',
+      data: heatData,
+      label: { show: true, fontSize: 11, fontWeight: 600 },
+      itemStyle: { borderColor: '#0B1410', borderWidth: 3 },
+      emphasis: { itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.45)' } }
     }]
   });
 }
@@ -6696,13 +6742,15 @@ async function renderWorldFlow() {
     '中国': [105, 35]
   };
 
+  // Unified palette: muted teal origins, gold flow lines, red China accent
+  // (replaces the old fluorescent rainbow that clashed on the dark map)
   const colors = {
-    '北美洲': '#3B82F6',
-    '南美洲': '#EC4899',
-    '欧洲': '#8B5CF6',
-    '非洲': '#F59E0B',
-    '东南亚': '#10B981',
-    '中亚': '#06B6D4',
+    '北美洲': '#4E8D7C',
+    '南美洲': '#4E8D7C',
+    '欧洲': '#4E8D7C',
+    '非洲': '#4E8D7C',
+    '东南亚': '#4E8D7C',
+    '中亚': '#4E8D7C',
     '中国': '#EF4444'
   };
 
@@ -6734,14 +6782,14 @@ async function renderWorldFlow() {
     `).join('');
   }
 
-  // Flow data
+  // Flow data — single gold hue; only line width encodes volume
   const flowLinks = [
-    { source: '北美洲', target: '中国', value: originCounts['北美洲'], color: '#3B82F6' },
-    { source: '南美洲', target: '中国', value: originCounts['南美洲'], color: '#EC4899' },
-    { source: '欧洲', target: '中国', value: originCounts['欧洲'], color: '#8B5CF6' },
-    { source: '东南亚', target: '中国', value: originCounts['东南亚'], color: '#10B981' },
+    { source: '北美洲', target: '中国', value: originCounts['北美洲'], color: '#F59E0B' },
+    { source: '南美洲', target: '中国', value: originCounts['南美洲'], color: '#F59E0B' },
+    { source: '欧洲', target: '中国', value: originCounts['欧洲'], color: '#F59E0B' },
+    { source: '东南亚', target: '中国', value: originCounts['东南亚'], color: '#F59E0B' },
     { source: '非洲', target: '中国', value: originCounts['非洲'], color: '#F59E0B' },
-    { source: '中亚', target: '中国', value: originCounts['中亚'], color: '#06B6D4' }
+    { source: '中亚', target: '中国', value: originCounts['中亚'], color: '#F59E0B' }
   ];
 
   // Try to load world map GeoJSON
@@ -6754,9 +6802,9 @@ async function renderWorldFlow() {
       lineStyle: {
         width: Math.max(1.5, d.value / 2),
         color: d.color,
-        opacity: 0.85,
+        opacity: 0.6,
         curveness: 0.2,
-        shadowBlur: Math.max(6, d.value / 1.5),
+        shadowBlur: Math.max(4, d.value / 3),
         shadowColor: d.color
       }
     }));
@@ -6865,12 +6913,12 @@ async function renderWorldFlow() {
   } else {
     // Fallback: graph layout with geographic-like coordinates
     const regions = [
-      { name: '北美洲', x: 80, y: 130, color: '#3B82F6' },
-      { name: '南美洲', x: 150, y: 300, color: '#EC4899' },
-      { name: '欧洲', x: 380, y: 110, color: '#8B5CF6' },
-      { name: '非洲', x: 390, y: 260, color: '#F59E0B' },
-      { name: '东南亚', x: 620, y: 280, color: '#10B981' },
-      { name: '中亚', x: 520, y: 140, color: '#06B6D4' },
+      { name: '北美洲', x: 80, y: 130, color: '#4E8D7C' },
+      { name: '南美洲', x: 150, y: 300, color: '#4E8D7C' },
+      { name: '欧洲', x: 380, y: 110, color: '#4E8D7C' },
+      { name: '非洲', x: 390, y: 260, color: '#4E8D7C' },
+      { name: '东南亚', x: 620, y: 280, color: '#4E8D7C' },
+      { name: '中亚', x: 520, y: 140, color: '#4E8D7C' },
       { name: '中国', x: 680, y: 180, color: '#EF4444' }
     ];
 
@@ -7642,6 +7690,39 @@ function renderCustomsSankey(sankeyData) {
   if (!dom) return;
   customsSankeyChart = echarts.init(dom);
   window.customsSankeyChart = customsSankeyChart;
+
+  // Aggregate the long tail of origin regions (30+ cramped labels) into
+  // Top 8 + "其他地区", then re-merge the links this creates.
+  // NOTE: raw links reference nodes by index, resolve to names first.
+  const nodesArr = sankeyData.nodes;
+  const resolve = v => (/^\d+$/.test(String(v))) ? nodesArr[+v].name : v;
+  const namedLinks = sankeyData.links.map(l => ({
+    source: resolve(l.source), target: resolve(l.target), value: l.value
+  }));
+  const linkTargets = new Set(namedLinks.map(l => l.target));
+  const linkSources = new Set(namedLinks.map(l => l.source));
+  const originNames = new Set([...linkSources].filter(n => !linkTargets.has(n)));
+  const originTotals = {};
+  namedLinks.forEach(l => {
+    if (originNames.has(l.source)) originTotals[l.source] = (originTotals[l.source] || 0) + l.value;
+  });
+  const TOP_N = 8;
+  const kept = new Set(
+    Object.entries(originTotals).sort((a, b) => b[1] - a[1]).slice(0, TOP_N).map(([n]) => n)
+  );
+  const OTHER = '其他地区';
+  const merged = {};
+  namedLinks.forEach(l => {
+    const src = (originNames.has(l.source) && !kept.has(l.source)) ? OTHER : l.source;
+    const key = src + '→' + l.target;
+    merged[key] = (merged[key] || 0) + l.value;
+  });
+  const links = Object.entries(merged).map(([k, v]) => {
+    const [source, target] = k.split('→');
+    return { source, target, value: v };
+  });
+  const nodeNames = [...new Set(links.flatMap(l => [l.source, l.target]))];
+
   customsSankeyChart.setOption({
     tooltip: { trigger: 'item', triggerOn: 'mousemove', formatter: p => p.dataType === 'edge'
       ? `${p.data.source} → ${p.data.target}<br/>${p.data.value} 宗案例` : `${p.name}<br/>${p.value || ''}` },
@@ -7649,16 +7730,16 @@ function renderCustomsSankey(sankeyData) {
       type: 'sankey', layout: 'none', emphasis: { focus: 'adjacency' },
       nodeAlign: 'left',
       layoutIterations: 32,
-      data: sankeyData.nodes.map(n => ({ name: n.name })),
-      links: sankeyData.links,
-      lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.35 },
+      data: nodeNames.map(name => ({ name })),
+      links: links,
+      lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.3 },
       itemStyle: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
       label: { position: 'right', fontSize: 11, color: '#dce8df', formatter: '{b}' },
-      nodeWidth: 16, nodeGap: 14,
+      nodeWidth: 16, nodeGap: 12,
       levels: [
-        { depth: 0, itemStyle: { color: '#F59E0B' }, label: { position: 'left' } },
-        { depth: 1, itemStyle: { color: '#EF4444' } },
-        { depth: 2, itemStyle: { color: '#3B82F6' } }
+        { depth: 0, itemStyle: { color: '#C98A3D' }, label: { position: 'left' } },
+        { depth: 1, itemStyle: { color: '#4E8D7C' } },
+        { depth: 2, itemStyle: { color: '#5B7FA6' } }
       ]
     }]
   });
@@ -7744,16 +7825,57 @@ function openCaseFromFeatured(c) {
 function renderPetTradeChart() {
   petTradeChart = echarts.init(document.getElementById('pet-trade-chart'));
   petTradeChart.setOption({
-    tooltip: { trigger: 'axis' },
-    grid: { left: '3%', right: '4%', top: '10%', bottom: '12%', containLabel: true },
-    xAxis: { type: 'category', data: ['2019','2020','2021','2022','2023','2024','2025'], axisLabel:{fontSize:11} },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    legend: {
+      data: ['快递量', '海关截获'],
+      bottom: 0,
+      textStyle: { color: '#8BA99A', fontSize: 11 }
+    },
+    grid: { left: '3%', right: '4%', top: '14%', bottom: '18%', containLabel: true },
+    xAxis: {
+      type: 'category',
+      data: ['2019','2020','2021','2022','2023','2024','2025'],
+      axisLabel: { fontSize: 11, color: '#8BA99A' },
+      axisLine: { lineStyle: { color: '#1F3D30' } }
+    },
     yAxis: [
-      { type: 'value', name: '快递量(亿件)', position: 'left', axisLabel:{fontSize:11} },
-      { type: 'value', name: '截获批次', position: 'right', axisLabel:{fontSize:11} }
+      {
+        type: 'value', name: '快递量(亿件)', position: 'left',
+        nameTextStyle: { color: '#8BA99A', fontSize: 11 },
+        axisLabel: { fontSize: 11, color: '#8BA99A' },
+        splitLine: { lineStyle: { color: 'rgba(139,169,154,0.12)' } }
+      },
+      {
+        type: 'value', name: '截获批次', position: 'right',
+        nameTextStyle: { color: '#8BA99A', fontSize: 11 },
+        axisLabel: { fontSize: 11, color: '#8BA99A' },
+        splitLine: { show: false }
+      }
     ],
     series: [
-      { name: '快递量', type: 'bar', data: [14.4,21.2,29.9,35.8,39.4,41.2,42.2], itemStyle:{color:'#3B82F6'}, barMaxWidth:24 },
-      { name: '海关截获', type: 'line', yAxisIndex: 1, data: [2100,3500,4270,5100,5800,6300,6800], smooth:true, lineStyle:{width:3,color:'#EF4444'}, itemStyle:{color:'#EF4444'}, areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'rgba(239,68,68,0.2)'},{offset:1,color:'rgba(239,68,68,0)'}])} }
+      {
+        name: '快递量', type: 'bar',
+        data: [14.4,21.2,29.9,35.8,39.4,41.2,42.2],
+        barMaxWidth: 22,
+        itemStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: '#5FA88C' },
+            { offset: 1, color: '#2E6B52' }
+          ]),
+          borderRadius: [4, 4, 0, 0]
+        }
+      },
+      {
+        name: '海关截获', type: 'line', yAxisIndex: 1,
+        data: [2100,3500,4270,5100,5800,6300,6800],
+        smooth: true, symbol: 'circle', symbolSize: 6,
+        lineStyle: { width: 3, color: '#F59E0B' },
+        itemStyle: { color: '#F59E0B' },
+        areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(245,158,11,0.18)' },
+          { offset: 1, color: 'rgba(245,158,11,0)' }
+        ]) }
+      }
     ]
   });
 }
