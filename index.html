@@ -469,6 +469,34 @@ html { scroll-snap-type: y proximity; }
 }
 
 /* ============================================
+   3D 深度与层次（卡片倾斜 + 阴影分层）
+   仅 JS 检测 pointer:fine 后启用，触控设备不受影响
+   ============================================ */
+html.tilt-js .case-card,
+html.tilt-js .hq-tile,
+html.tilt-js .panel {
+  transform-style: preserve-3d;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+html.tilt-js .case-card:hover,
+html.tilt-js .hq-tile:hover,
+html.tilt-js .panel:hover {
+  box-shadow:
+    0 2px 6px rgba(12, 28, 22, 0.08),
+    0 18px 42px rgba(12, 28, 22, 0.18);
+}
+/* 倾斜进行时不走过渡，直接跟手；松手后由 transition 平滑回正 */
+html.tilt-js .tilt-moving {
+  transition: box-shadow 0.28s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.tilt-js .case-card,
+  html.tilt-js .hq-tile,
+  html.tilt-js .panel { transition: none; transform: none !important; }
+}
+
+/* ============================================
    CHAPTER 0: 序章 · 无声的战争
    ============================================ */
 #chapter-intro {
@@ -8830,7 +8858,7 @@ function toggleCheck(el) {
     });
 
     // 时间线项、图鉴卡片、统计项、海关卡片等：交错上浮
-    document.querySelectorAll('.tl-item, .gc-card, .defense-stat-item, .case-card, .evidence-card, .port-rank-row, .tech-step, .sankey-section, .flow-section, .reserve-section, .trend-section, .county-section, .bubble-section, .customs-section, .case-db-section, .disguise-section, .chart-source, .audio-control').forEach(function(el, i) {
+    document.querySelectorAll('.tl-item, .gc-card, .defense-stat-item, .case-card, .evidence-card, .port-rank-row, .tech-step, .sankey-section, .flow-section, .reserve-section, .trend-section, .county-section, .bubble-section, .customs-section, .case-db-section, .disguise-section, .chart-source, .audio-control, .reveal').forEach(function(el, i) {
       if (!el.classList.contains('sa-pre')) {
         el.classList.add('sa-pre');
         el.style.transitionDelay = ((i % 4) * 100) + 'ms';
@@ -8917,6 +8945,88 @@ function toggleCheck(el) {
     if (origRefresh) origRefresh();
     setTimeout(window._observeChartReplay, 400);
   };
+})();
+
+/* ============================================
+   封面视差 + 卡片 3D 倾斜
+   （滚动渐入由页面既有 sa-pre/sa-in 动效系统承担，此处不重复实现）
+   设计原则：动效服务于叙事节奏，不抢夺注意力
+   ============================================ */
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- 1. 章节封面视差 ---------- */
+  // 封面内容比背景滚动得稍慢，形成前后景层次；位移幅度刻意压低
+  if (!reduced) {
+    var gates = Array.prototype.slice.call(document.querySelectorAll('.chapter-gate .gate-content'));
+    if (gates.length) {
+      var parallaxTicking = false;
+      function updateParallax() {
+        parallaxTicking = false;
+        var vh = window.innerHeight;
+        gates.forEach(function (content) {
+          var rect = content.parentElement.getBoundingClientRect();
+          if (rect.bottom < 0 || rect.top > vh) return;
+          // 封面中心相对视口中心的偏移比例 → 最多约 ±36px
+          var ratio = (rect.top + rect.height / 2 - vh / 2) / vh;
+          content.style.transform = 'translateY(' + (ratio * -36).toFixed(1) + 'px)';
+        });
+      }
+      window.addEventListener('scroll', function () {
+        if (!parallaxTicking) {
+          parallaxTicking = true;
+          requestAnimationFrame(updateParallax);
+        }
+      }, { passive: true });
+      updateParallax();
+    }
+  }
+
+  /* ---------- 2. 卡片 3D 倾斜（pointer:fine 设备） ---------- */
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+  if (!reduced && finePointer) {
+    document.documentElement.classList.add('tilt-js');
+
+    var TILT_SELECTOR = '.case-card, .hq-tile, .panel';
+    var MAX_TILT = 5; // 度数压低：可感知但不眩晕
+    var currentCard = null;
+    var tiltRaf = 0;
+    var tiltEvent = null;
+
+    function applyTilt() {
+      tiltRaf = 0;
+      if (!currentCard || !tiltEvent) return;
+      var rect = currentCard.getBoundingClientRect();
+      var px = (tiltEvent.clientX - rect.left) / rect.width - 0.5;
+      var py = (tiltEvent.clientY - rect.top) / rect.height - 0.5;
+      currentCard.style.transform =
+        'perspective(900px) rotateX(' + (-py * MAX_TILT).toFixed(2) + 'deg)' +
+        ' rotateY(' + (px * MAX_TILT).toFixed(2) + 'deg) translateY(-3px)';
+    }
+
+    document.addEventListener('pointermove', function (e) {
+      var card = e.target.closest ? e.target.closest(TILT_SELECTOR) : null;
+      if (card !== currentCard) {
+        if (currentCard) {
+          currentCard.classList.remove('tilt-moving');
+          currentCard.style.transform = '';
+        }
+        currentCard = card;
+        if (card) card.classList.add('tilt-moving');
+      }
+      if (!card) return;
+      tiltEvent = e;
+      if (!tiltRaf) tiltRaf = requestAnimationFrame(applyTilt);
+    }, { passive: true });
+
+    document.addEventListener('pointerleave', function () {
+      if (currentCard) {
+        currentCard.classList.remove('tilt-moving');
+        currentCard.style.transform = '';
+        currentCard = null;
+      }
+    });
+  }
 })();
 
 
