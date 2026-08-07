@@ -1011,6 +1011,38 @@ html { scroll-snap-type: y proximity; }
   grid-template-columns: 1fr 340px;
   gap: 28px;
 }
+.spread-canvas-wrap { grid-column: 1; grid-row: 1; }
+.spread-main .timeline-container { grid-column: 1; grid-row: 2; }
+/* 右栏：地点影像停靠区，不遮挡地图轨迹 */
+.spread-side {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  background: var(--b-bg-elevated);
+  border: 1px solid var(--b-border);
+  border-radius: 12px;
+  padding: 16px 16px 12px;
+  min-height: 480px;
+}
+.spread-side-title {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--b-text);
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+}
+.spread-side-title span {
+  font-weight: 400;
+  font-size: 0.72rem;
+  color: var(--b-text-dim);
+  letter-spacing: 0.05em;
+  margin-left: 6px;
+}
+.spread-side .chart-source {
+  margin-top: auto;
+  padding-top: 10px;
+}
 #spread-map {
   width: 100%;
   height: 480px;
@@ -1023,31 +1055,23 @@ html { scroll-snap-type: y proximity; }
   width: 100%;
   height: 480px;
 }
-.spread-canvas-wrap canvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 2;
-  pointer-events: none;
-  border-radius: 12px;
-}
-/* 漂浮地点照片层：随时间轴在地图上浮现 */
+/* 地点影像停靠区：随时间轴在右栏浮现，不再遮挡地图 */
 .spread-photo-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  overflow: visible;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-content: flex-start;
+  overflow-y: auto;
+  min-height: 200px;
 }
 .spread-photo-card {
-  position: absolute;
-  width: 76px;
+  width: calc(50% - 5px);
   pointer-events: auto;
   background: #fdfcf8;
   padding: 4px 4px 0;
   border-radius: 6px;
   box-shadow: 0 10px 24px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.3);
-  transform: translate(-50%, -100%) rotate(var(--rot, 0deg));
+  transform: rotate(var(--rot, 0deg));
   transition: opacity .35s ease;
   animation: spreadPhotoFloat 4.2s ease-in-out infinite;
   animation-delay: var(--float-delay, 0s);
@@ -1055,7 +1079,7 @@ html { scroll-snap-type: y proximity; }
 }
 .spread-photo-card img {
   width: 100%;
-  height: 52px;
+  height: 78px;
   object-fit: cover;
   border-radius: 3px;
   display: block;
@@ -1079,7 +1103,7 @@ html { scroll-snap-type: y proximity; }
 .spread-photo-card.leaving {
   opacity: 0;
   animation: none;
-  transform: translate(-50%, -100%) rotate(var(--rot, 0deg)) scale(.6);
+  transform: rotate(var(--rot, 0deg)) scale(.6);
   transition: opacity .3s ease, transform .3s ease;
 }
 .spread-photo-card.fresh {
@@ -1087,15 +1111,22 @@ html { scroll-snap-type: y proximity; }
   outline-offset: 1px;
 }
 @keyframes spreadPhotoPop {
-  0% { opacity: 0; transform: translate(-50%, -100%) rotate(var(--rot, 0deg)) scale(.3); }
-  100% { opacity: 1; transform: translate(-50%, -100%) rotate(var(--rot, 0deg)) scale(1); }
+  0% { opacity: 0; transform: rotate(var(--rot, 0deg)) scale(.3); }
+  100% { opacity: 1; transform: rotate(var(--rot, 0deg)) scale(1); }
 }
 @keyframes spreadPhotoFloat {
-  0%, 100% { margin-top: 0; }
-  50% { margin-top: -7px; }
+  0%, 100% { transform: rotate(var(--rot, 0deg)) translateY(0); }
+  50% { transform: rotate(var(--rot, 0deg)) translateY(-6px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .spread-photo-card, .spread-photo-card.entering { animation: none; }
+}
+@media (max-width: 900px) {
+  .spread-main { grid-template-columns: 1fr; }
+  .spread-canvas-wrap { grid-row: 1; }
+  .spread-main .timeline-container { grid-column: 1; grid-row: 2; }
+  .spread-side { grid-column: 1; grid-row: 3; min-height: 0; }
+  .spread-photo-card { width: calc(33.3% - 7px); }
 }
 .timeline-container {
   background: var(--b-bg-elevated);
@@ -1108,10 +1139,6 @@ html { scroll-snap-type: y proximity; }
   color: var(--b-text-dim);
   margin-bottom: 12px;
   font-weight: 500;
-}
-#spread-timeline {
-  width: 100%;
-  margin-bottom: 16px;
 }
 .timeline-info {
   display: grid;
@@ -1130,6 +1157,11 @@ html { scroll-snap-type: y proximity; }
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--b-accent);
+}
+.ti-place {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--b-gold);
 }
 .ti-label {
   font-size: 0.72rem;
@@ -4300,38 +4332,38 @@ html { scroll-snap-type: y proximity; }
     <!-- Spread explainer -->
     <div class="reveal" style="max-width:700px;margin:0 auto 16px;text-align:center;">
       <p style="font-size:0.9rem;color:var(--b-text-dim);line-height:1.8;">
-        时间轴呈现的是公开资料中可核查的<strong style="color:var(--b-accent);">首次发现或报告年份</strong>。
-        省份先后出现并不自动证明物种沿相邻省份传播，也不能据此计算真实扩散速度。
-        拖动时间轴，可以查看记录如何增加；每个节点仍需回到事件日期、地点和证据来源判断。
+        对大多数物种而言，公开资料能核查的只有两端：<strong style="color:var(--b-accent);">第一次被记录的时间地点</strong>，和<strong style="color:var(--b-accent);">今天的分布范围</strong>。
+        中间如何一步步扩散，多数物种并没有逐年档案——所以我们只画起点和现状，不虚构路线。
       </p>
     </div>
 
     <!-- Main interactive area -->
     <div class="spread-main reveal">
       <div class="spread-canvas-wrap">
-        <canvas id="tentacleCanvas"></canvas>
         <div id="spread-map"></div>
-        <div class="spread-photo-layer" id="spreadPhotoLayer"></div>
       </div>
-      <div class="chart-source" id="spreadSource">数据来源：中国农业科学院植物保护研究所 · 红火蚁入侵扩散轨迹(2003-2024)</div>
       <div class="timeline-container">
-        <div class="timeline-label">拖动时间轴，查看公开记录出现顺序 ▼</div>
-        <div id="spread-timeline"></div>
+        <div class="timeline-label">起点与现状</div>
         <div class="timeline-info">
           <div class="ti-item">
             <div class="ti-value" id="tiYear">2003</div>
-            <div class="ti-label">当前年份</div>
+            <div class="ti-label">首次记录年份</div>
+          </div>
+          <div class="ti-item">
+            <div class="ti-value ti-place" id="tiFirst">台湾</div>
+            <div class="ti-label">首次记录地点</div>
           </div>
           <div class="ti-item">
             <div class="ti-value" id="tiProvinces">1</div>
-            <div class="ti-label">累计省份</div>
-          </div>
-          <div class="ti-item">
-            <div class="ti-value" id="tiNew">+1</div>
-            <div class="ti-label">本年新增</div>
+            <div class="ti-label">当前分布·省级行政区</div>
           </div>
         </div>
       </div>
+      <aside class="spread-side">
+        <div class="spread-side-title">地点影像 <span>实地观察照片</span></div>
+        <div class="spread-photo-layer" id="spreadPhotoLayer"></div>
+        <div class="chart-source" id="spreadSource">数据来源：中国农业科学院植物保护研究所 · 红火蚁入侵扩散轨迹(2003-2024)</div>
+      </aside>
     </div>
 
     <div class="story-panel reveal">
@@ -6302,27 +6334,12 @@ let currentSpeciesIndex = 0;
 
 const speciesSpreadData = {
   '红火蚁': {
-    years: [2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],
-    provinces_by_year: {
-      2003:['台湾'], 2004:['广东'], 2005:['广西','福建','湖南'], 2006:[],
-      2007:['香港','澳门'], 2008:['海南'], 2009:[], 2010:[], 2011:[],
-      2012:['江西','四川'], 2013:['重庆','贵州'], 2014:['云南','浙江'],
-      2015:['湖北','安徽'], 2016:['江苏'], 2017:['上海'], 2018:[], 2019:[], 2020:[],
-      2021:['河南','陕西'], 2022:[], 2023:['广东','广西','福建','海南','江西','四川','重庆','贵州','云南','浙江','湖北','安徽'],
-      2024:['江苏','上海','湖南','河南','陕西'], 2025:['上海']
-    },
-    story: {
-      2003:'台湾首次发现红火蚁踪迹。这种来自南美洲的凶猛蚂蚁，即将开启它长达二十余年的中国之旅。',
-      2004:'红火蚁登陆广东。一年之内，从台湾跨海而至华南大陆。',
-      2005:'爆发式扩张——一年新增3省：广西、福建、湖南。红火蚁展现出惊人的扩散速度。',
-      2012:'第二轮跳跃：江西、四川沦陷。红火蚁突破华南防线，进入内陆腹地。',
-      2014:'云南、浙江同时失守。从西南边陲到东部沿海，战线全面拉长。',
-      2017:'上海告急！国际大都市首次发现红火蚁，标志着一线城市防线被突破。',
-      2021:'河南、陕西沦陷——红火蚁越过秦岭，深入北方腹地。',
-      2023:'名录调整期。官方确认的受侵省份重新梳理为12个。',
-      2025:'上海再次出现在名录上。农业农村部最新确认，红火蚁已影响13个省级行政区。'
-    },
-    source: '数据来源：中国农业科学院植物保护研究所 · 红火蚁入侵扩散轨迹（2003—2024）',
+    first: { year: '2003', province: '台湾',
+      text: '2003年10月，台湾桃园报道发生红火蚁；次年9月，广东吴川发现——这种来自南美洲的蚂蚁登陆中国大陆。' },
+    current: { year: '2025',
+      provinces: ['台湾','广东','广西','福建','湖南','海南','江西','四川','云南','重庆','贵州','浙江','湖北','上海'],
+      text: '2025年7月农业农村部名录：13个省（区、市）703个县（不含台湾）。二十余年，它从南海之滨一路爬到了长江口。' },
+    source: '首次记录：《中国第二批外来入侵物种名单》（2010）；现状：农业农村部红火蚁发生名录（2025年7月）',
     photos: [{
       province: '台湾',
       src: 'assets/images/species/red-fire-ant-april-nobile-cc-by-4.jpg',
@@ -6330,165 +6347,138 @@ const speciesSpreadData = {
       caption: '红火蚁（Solenopsis invicta）工蚁形态。图：April Nobile / AntWeb，CC BY 4.0'
     }],
     icon: '🔥',
-    desc: '渐进式扩张·2003—2025，1省→13省'
+    desc: '登陆二十余年·13省703县'
   },
   '互花米草': {
-    years: [1980,1990,2000,2010,2013],
-    provinces_by_year: {
-      1980:['福建'], 1990:['广东','广西','海南'], 2000:['浙江','江苏','上海','山东'],
-      2010:['河北','天津','辽宁'], 2013:['福建','广东','浙江','江苏','上海']
-    },
-    story: { 1980:'互花米草作为"保滩护堤"植物引入福建，开始了它的海岸线蔓延之路。',
-             2013:'沿海35995公顷互花米草威胁红树林生态系统。当初的"功臣"已成生态灾难。' },
-    source: '地图年份与省份：公开研究整理；地点影像：用户提供的互花米草观察照片',
-    photoDisclaimer: '地点影像不代表该年的首次记录，也不证明省际传播路线。',
+    first: { year: '1979', province: '福建',
+      text: '1979年12月，南京大学仲崇信团队为"保滩护堤"从美国引入3个生态型；1980年秋，福建罗源湾试种成功。' },
+    current: { year: '2013',
+      provinces: ['辽宁','河北','天津','山东','江苏','上海','浙江','福建','广东','广西','海南'],
+      text: '四十年铺满中国海岸线：从辽宁到广西的滩涂都有它，2013年公报记录面积达35995公顷——当初的"功臣"成了红树林的威胁。' },
+    source: '首次记录：《中国第一批外来入侵物种名单》（2003）及公开研究；现状：全国生态环境状况公报（2013）；地点影像：用户提供的观察照片',
+    photoDisclaimer: '地点影像为近年观察照片，不代表首次记录年份。',
     photos: [
-      { year:1980, province:'福建', src:'assets/images/spread/spartina/fujian-ningde.jpg', alt:'福建宁德海岸互花米草地点影像', caption:'福建宁德｜互花米草地点影像' },
-      { year:1980, province:'福建', src:'assets/images/spread/spartina/fujian-zhangzhou.jpg', alt:'福建漳州海岸互花米草地点影像', caption:'福建漳州｜互花米草地点影像' },
-      { year:1990, province:'广东', src:'assets/images/spread/spartina/guangdong-zhuhai-qiao.jpg', alt:'广东珠海淇澳岛互花米草地点影像', caption:'广东珠海淇澳岛｜互花米草地点影像' },
-      { year:1990, province:'广东', src:'assets/images/spread/spartina/guangdong-yangjiang.jpg', alt:'广东阳江互花米草地点影像', caption:'广东阳江｜互花米草地点影像' },
-      { year:1990, province:'广西', src:'assets/images/spread/spartina/guangxi-hepu-dongxing.jpg', alt:'广西合浦至东兴海岸互花米草地点影像', caption:'广西合浦—东兴｜互花米草地点影像' },
-      { year:1990, province:'海南', src:'assets/images/spread/spartina/hainan-haikou-dongyinghe.jpg', alt:'海南海口东营河互花米草地点影像', caption:'海南海口东营河｜互花米草地点影像' },
-      { year:2000, province:'浙江', src:'assets/images/spread/spartina/zhejiang-wenzhou-damen.jpg', alt:'浙江温州大门岛互花米草地点影像', caption:'浙江温州大门岛｜互花米草地点影像' },
-      { year:2000, province:'浙江', src:'assets/images/spread/spartina/zhejiang-ningbo-haishu.jpg', alt:'浙江宁波海曙互花米草地点影像', caption:'浙江宁波海曙｜互花米草地点影像' },
-      { year:2000, province:'江苏', src:'assets/images/spread/spartina/jiangsu-yancheng.jpg', alt:'江苏盐城互花米草地点影像', caption:'江苏盐城｜互花米草地点影像' },
-      { year:2000, province:'江苏', src:'assets/images/spread/spartina/jiangsu-lianyungang-guanyun.jpg', alt:'江苏连云港灌云黄海湿地互花米草地点影像', caption:'江苏连云港灌云黄海湿地｜互花米草地点影像' },
-      { year:2000, province:'上海', src:'assets/images/spread/spartina/shanghai-chenshan.jpg', alt:'上海辰山植物园互花米草地点影像', caption:'上海辰山植物园｜互花米草地点影像' },
-      { year:2000, province:'山东', src:'assets/images/spread/spartina/shandong-weifang-rongcheng.jpg', alt:'山东潍坊至荣成海岸互花米草地点影像', caption:'山东潍坊—荣成｜互花米草地点影像' },
-      { year:2010, province:'河北', src:'assets/images/spread/spartina/hebei-tangshan-heiyanzi.jpg', alt:'河北唐山黑沿子互花米草地点影像', caption:'河北唐山黑沿子｜互花米草地点影像' }
+      { province:'福建', src:'assets/images/spread/spartina/fujian-ningde.jpg', alt:'福建宁德海岸互花米草地点影像', caption:'福建宁德｜互花米草地点影像' },
+      { province:'福建', src:'assets/images/spread/spartina/fujian-zhangzhou.jpg', alt:'福建漳州海岸互花米草地点影像', caption:'福建漳州｜互花米草地点影像' },
+      { province:'广东', src:'assets/images/spread/spartina/guangdong-zhuhai-qiao.jpg', alt:'广东珠海淇澳岛互花米草地点影像', caption:'广东珠海淇澳岛｜互花米草地点影像' },
+      { province:'广东', src:'assets/images/spread/spartina/guangdong-yangjiang.jpg', alt:'广东阳江互花米草地点影像', caption:'广东阳江｜互花米草地点影像' },
+      { province:'广西', src:'assets/images/spread/spartina/guangxi-hepu-dongxing.jpg', alt:'广西合浦至东兴海岸互花米草地点影像', caption:'广西合浦—东兴｜互花米草地点影像' },
+      { province:'海南', src:'assets/images/spread/spartina/hainan-haikou-dongyinghe.jpg', alt:'海南海口东营河互花米草地点影像', caption:'海南海口东营河｜互花米草地点影像' },
+      { province:'浙江', src:'assets/images/spread/spartina/zhejiang-wenzhou-damen.jpg', alt:'浙江温州大门岛互花米草地点影像', caption:'浙江温州大门岛｜互花米草地点影像' },
+      { province:'浙江', src:'assets/images/spread/spartina/zhejiang-ningbo-haishu.jpg', alt:'浙江宁波海曙互花米草地点影像', caption:'浙江宁波海曙｜互花米草地点影像' },
+      { province:'江苏', src:'assets/images/spread/spartina/jiangsu-yancheng.jpg', alt:'江苏盐城互花米草地点影像', caption:'江苏盐城｜互花米草地点影像' },
+      { province:'江苏', src:'assets/images/spread/spartina/jiangsu-lianyungang-guanyun.jpg', alt:'江苏连云港灌云黄海湿地互花米草地点影像', caption:'江苏连云港灌云黄海湿地｜互花米草地点影像' },
+      { province:'上海', src:'assets/images/spread/spartina/shanghai-chenshan.jpg', alt:'上海辰山植物园互花米草地点影像', caption:'上海辰山植物园｜互花米草地点影像' },
+      { province:'山东', src:'assets/images/spread/spartina/shandong-weifang-rongcheng.jpg', alt:'山东潍坊至荣成海岸互花米草地点影像', caption:'山东潍坊—荣成｜互花米草地点影像' },
+      { province:'河北', src:'assets/images/spread/spartina/hebei-tangshan-heiyanzi.jpg', alt:'河北唐山黑沿子互花米草地点影像', caption:'河北唐山黑沿子｜互花米草地点影像' }
     ],
-    icon: '🌾', desc: '沿海岸线蔓延·35995公顷'
+    icon: '🌾', desc: '引种反噬·35995公顷'
   },
   '松材线虫病': {
-    years: [1982,1995,2005,2012,2020],
-    provinces_by_year: { 1982:['江苏'], 1995:['安徽','浙江','广东'], 2005:['湖北','重庆','山东'], 2012:['四川','贵州','广西'], 2020:['西藏'] },
-    story: { 1982:'松材线虫病首次在南京中山陵被发现，随木材运输悄然入境。',
-             2012:'疫情蔓延至18个省，面积达4.08万公顷，持续西进北上。' },
-    icon: '🐛', desc: '持续西进北上·4.08万公顷'
+    first: { year: '1982', province: '江苏',
+      text: '1982年在南京中山陵首次发现，随疫木与包装材料的人为调运悄然扩散；香港的马尾松林几乎被它毁灭。' },
+    current: { year: '2020',
+      provinces: ['江苏','安徽','浙江','广东','湖北','重庆','山东','四川','贵州','广西','西藏'],
+      text: '持续西进北上：2012年疫情已达18个省份、4.08万公顷，2020年西藏也发现疫情（地图为本作品整理的分布记录，非官方疫区名单）。' },
+    source: '首次记录：《中国第二批外来入侵物种名单》（2010）；分布整理自公开资料，官方疫区口径见国家林草局公告',
+    icon: '🐛', desc: '持续西进北上·18省疫情'
   },
   '美国白蛾': {
-    years: [1979,1990,2005,2012,2020],
-    provinces_by_year: { 1979:['辽宁'], 1990:['山东','河北','天津'], 2005:['北京','山西','陕西','河南','安徽'], 2012:['江苏','上海','湖北'], 2020:['内蒙古','吉林'] },
-    story: { 1979:'美国白蛾随进口货物首次在辽宁被发现。',
-             2012:'渤海湾沿岸全线失守，疫情面积68.20万公顷。典型的跳跃式扩散。' },
-    icon: '🦋', desc: '跳跃式扩散·68.20万公顷'
+    first: { year: '1979', province: '辽宁',
+      text: '1979年传入辽宁丹东一带；1981年渔民自辽宁捎带木材，把它带到了山东荣成。' },
+    current: { year: '2020',
+      provinces: ['辽宁','山东','河北','天津','北京','山西','陕西','河南','安徽','江苏','上海','湖北','内蒙古','吉林'],
+      text: '从东北一路跳到长江下游：2003年进北京，2012年到安徽芜湖，14个省级行政区有发生记录，疫情面积一度达68.2万公顷。' },
+    source: '首次记录：《中国第一批外来入侵物种名单》（2003）及季荣等综述；分布整理自公开资料',
+    icon: '🦋', desc: '跳跃式扩散·68.2万公顷'
   },
   '薇甘菊': {
-    years: [1919,2023],
-    provinces_by_year: {
-      1919:['香港'],
-      2023:['广东','广西','云南','海南','台湾']
-    },
-    story: {
-      1919:'约1919年，公开资料在香港记录到薇甘菊。这个节点只表示首次出现记录，不说明它此后的具体传播路线。',
-      2023:'农业农村主管部门发布的防控技术意见记载，薇甘菊目前主要分布于广东、广西、云南、海南、台湾以及香港等地。'
-    },
-    source: '时间与分布：东莞市林业局、薇甘菊防控技术指导意见（2023）；地点影像：用户提供的观察照片',
-    photoDisclaimer: '地点影像不等于首次发现记录，也不能单独证明当地已经定殖。',
+    first: { year: '1919', province: '香港',
+      text: '1884年的标本已采自香港动植物公园；1919年在香港出现的记录，是它写进中国档案的第一页。' },
+    current: { year: '2023',
+      provinces: ['广东','广西','云南','海南','台湾','香港'],
+      text: '1984年在深圳银湖发现逸生植株，90年代内伶仃岛超过35%面积被它覆盖；如今主要分布于粤、桂、滇、琼、台、港。' },
+    source: '首次记录：《中国第一批外来入侵物种名单》（2003）、孔国辉等《薇甘菊在中国的传播》；现状：薇甘菊防控技术指导意见（2023）；地点影像：用户提供的观察照片',
+    photoDisclaimer: '地点影像为近年观察照片，不等于首次发现记录。',
     photos: [
-      { year:2023, province:'广东', src:'assets/images/spread/mikania/guangdong-shenzhen.jpg', alt:'广东深圳薇甘菊地点影像', caption:'广东深圳｜薇甘菊地点影像' },
-      { year:2023, province:'广东', src:'assets/images/spread/mikania/guangdong-guangzhou-tianhe.jpg', alt:'广东广州天河薇甘菊地点影像', caption:'广东广州天河｜薇甘菊地点影像' },
-      { year:2023, province:'广东', src:'assets/images/spread/mikania/guangdong-zhongshan.jpg', alt:'广东中山薇甘菊地点影像', caption:'广东中山｜薇甘菊地点影像' },
-      { year:2023, province:'广东', src:'assets/images/spread/mikania/guangdong-zhaoqing.jpg', alt:'广东肇庆薇甘菊地点影像', caption:'广东肇庆｜薇甘菊地点影像' },
-      { year:2023, province:'广西', src:'assets/images/spread/mikania/guangxi-bobai.jpg', alt:'广西博白薇甘菊地点影像', caption:'广西玉林博白｜薇甘菊地点影像' },
-      { year:2023, province:'云南', src:'assets/images/spread/mikania/yunnan-yingjiang.jpg', alt:'云南盈江薇甘菊地点影像', caption:'云南德宏盈江｜薇甘菊地点影像' },
-      { year:2023, province:'海南', src:'assets/images/spread/mikania/hainan-sanya.jpg', alt:'海南三亚薇甘菊地点影像', caption:'海南三亚｜薇甘菊地点影像' },
-      { year:2023, province:'台湾', src:'assets/images/spread/mikania/taiwan.jpg', alt:'台湾薇甘菊地点影像', caption:'台湾｜薇甘菊地点影像' }
+      { province:'广东', src:'assets/images/spread/mikania/guangdong-shenzhen.jpg', alt:'广东深圳薇甘菊地点影像', caption:'广东深圳｜薇甘菊地点影像' },
+      { province:'广东', src:'assets/images/spread/mikania/guangdong-guangzhou-tianhe.jpg', alt:'广东广州天河薇甘菊地点影像', caption:'广东广州天河｜薇甘菊地点影像' },
+      { province:'广东', src:'assets/images/spread/mikania/guangdong-zhongshan.jpg', alt:'广东中山薇甘菊地点影像', caption:'广东中山｜薇甘菊地点影像' },
+      { province:'广东', src:'assets/images/spread/mikania/guangdong-zhaoqing.jpg', alt:'广东肇庆薇甘菊地点影像', caption:'广东肇庆｜薇甘菊地点影像' },
+      { province:'广西', src:'assets/images/spread/mikania/guangxi-bobai.jpg', alt:'广西博白薇甘菊地点影像', caption:'广西玉林博白｜薇甘菊地点影像' },
+      { province:'云南', src:'assets/images/spread/mikania/yunnan-yingjiang.jpg', alt:'云南盈江薇甘菊地点影像', caption:'云南德宏盈江｜薇甘菊地点影像' },
+      { province:'海南', src:'assets/images/spread/mikania/hainan-sanya.jpg', alt:'海南三亚薇甘菊地点影像', caption:'海南三亚｜薇甘菊地点影像' },
+      { province:'台湾', src:'assets/images/spread/mikania/taiwan.jpg', alt:'台湾薇甘菊地点影像', caption:'台湾｜薇甘菊地点影像' }
     ],
-    icon: '🌿', desc: '首次记录—当前主要分布'
+    icon: '🌿', desc: '百年潜伏·一朝爆发'
   },
   '紫茎泽兰': {
-    years: [1935,1980,2000,2006,2015],
-    proportions_by_year: {},
-    provinces_by_year: { 1935:['云南'], 1980:['贵州','广西','四川'], 2000:['重庆','湖北','西藏','台湾'], 2006:['西藏'], 2015:['云南'] },
-    story: { 1935:'紫茎泽兰从中缅边境自然侵入云南。80余年持续向北推进。',
-             2006:'已成为西南地区最严重的入侵植物，大面积侵占农田牧场。' },
+    first: { year: '1935', province: '云南',
+      text: '1935年在云南南部被发现，可能经中缅边境自然传入（另有1940年代传入说）。' },
+    current: { year: '2000',
+      provinces: ['云南','贵州','广西','四川','重庆','西藏','台湾'],
+      text: '80余年持续向北推进，成为西南地区最严重的入侵植物，大面积侵占农田与牧场。' },
+    source: '首次记录：《中国第一批外来入侵物种名单》（2003）；分布整理自公开资料',
     icon: '🌸', desc: '西南最严重·持续北推'
   },
   '空心莲子草': {
-    years: [1892,1950,1980,2000,2010],
-    provinces_by_year: {
-      1892:['上海'], 1950:['上海','浙江','福建','广东','广西'],
-      1980:['上海','浙江','江苏','安徽','福建','江西','广东','广西','湖南','湖北','四川','云南','贵州'],
-      2000:['上海','浙江','江苏','安徽','福建','江西','广东','广西','湖南','湖北','四川','云南','贵州','重庆','山东','河南','陕西','山西','天津'],
-      2010:['上海','浙江','江苏','安徽','福建','江西','广东','广西','湖南','湖北','四川','云南','贵州','重庆','山东','河南','陕西','山西','天津','辽宁']
-    },
-    story: { 1892:'1892年在上海附近岛屿出现，后作为猪饲料推广。',
-             2010:'几乎遍及中国黄河流域以南各省，被称为"水花生"之王。' },
+    first: { year: '1892', province: '上海',
+      text: '1892年在上海附近岛屿首次记录；1930年代末被引种到上海郊区作马饲料，50年代又作为猪饲料大面积推广——两次"人为帮忙"让它逸生成灾。' },
+    current: { year: '2010',
+      provinces: ['上海','浙江','江苏','安徽','福建','江西','广东','广西','湖南','湖北','四川','云南','贵州','重庆','山东','河南','陕西','山西','天津','辽宁'],
+      text: '几乎遍及黄河流域以南：20个省级行政区有分布记录，堵塞河道、侵占农田，人称"水花生"。' },
+    source: '首次记录：《中国第一批外来入侵物种名单》（2003）；分布整理自公开资料',
     icon: '🌱', desc: '水陆两栖·几乎遍及全国'
   },
   '加拿大一枝黄花': {
-    years: [1935,1980,2000,2010],
-    provinces_by_year: {
-      1935:['上海'], 1980:['上海','浙江','江苏'],
-      2000:['上海','浙江','江苏','安徽','湖北','湖南','江西'],
-      2010:['上海','浙江','江苏','安徽','湖北','湖南','江西','河南','山东']
-    },
-    story: { 1935:'1935年作为观赏植物引入，被誉为"幸福花"。',
-             2010:'被称为"生态杀手"，单株年产2万粒种子，根状茎繁殖力惊人。' },
+    first: { year: '1935', province: '上海',
+      text: '1935年作为观赏植物引入上海、南京一带种植，50年代开始从栽培地逃逸为杂草。' },
+    current: { year: '2010',
+      provinces: ['上海','浙江','江苏','安徽','湖北','湖南','江西','河南','山东'],
+      text: '80年代在长三角蔓延成恶性杂草，如今9个省级行政区有分布记录；单株年产种子约2万粒，根状茎繁殖力惊人。' },
+    source: '首次记录：《中国第二批外来入侵物种名单》（2010）及新华网专家解读（2021）；分布整理自公开资料',
     icon: '🌻', desc: '生态杀手·2万粒种子/株'
   },
   '豚草': {
-    years: [1935,1950,1980,2000],
-    provinces_by_year: {
-      1935:['浙江'], 1950:['浙江','山东','辽宁','河北','北京'],
-      1980:['浙江','山东','辽宁','河北','北京','河南','湖北','江苏'],
-      2000:['浙江','山东','辽宁','河北','北京','河南','湖北','江苏','吉林','安徽','上海']
-    },
-    story: { 1935:'1935年发现于杭州，一种恶性杂草。',
-             2000:'花粉是人类花粉病的主要病原之一，每株产种子3000-62000粒。' },
+    first: { year: '1935', province: '浙江',
+      text: '1935年发现于杭州——一种恶性杂草就此写进中国植物档案。' },
+    current: { year: '2000',
+      provinces: ['浙江','山东','辽宁','河北','北京','河南','湖北','江苏','吉林','安徽','上海'],
+      text: '名单口径称其已蔓延东北、华北、华中和华东约15个省份；花粉是花粉病的主要病原之一，每株产种子3000—62000粒。' },
+    source: '首次记录：《中国第一批外来入侵物种名单》（2003）；分布整理自公开资料',
     icon: '🌾', desc: '花粉杀手·3000-62000粒/株'
   },
   '水葫芦': {
-    years: [1901,1950,1980,2000,2010],
-    provinces_by_year: {
-      1901:['台湾'], 1950:['台湾','上海','浙江','福建','广东','广西'],
-      1980:['台湾','上海','浙江','福建','广东','广西','江苏','安徽','湖南','湖北'],
-      2000:['台湾','上海','浙江','福建','广东','广西','江苏','安徽','湖南','湖北','江西','四川','云南','贵州'],
-      2010:['台湾','上海','浙江','福建','广东','广西','江苏','安徽','湖南','湖北','江西','四川','云南','贵州','重庆','河南','山东']
-    },
-    story: { 1901:'1901年从日本引入台湾作花卉。',
-             2010:'堵塞河道、威胁水生生态，是南方最严重的入侵水生植物。' },
+    first: { year: '1901', province: '台湾',
+      text: '1901年作为花卉从日本引入台湾；30年代作为畜禽饲料引入内地，50年代推广后大量逸生。' },
+    current: { year: '2010',
+      provinces: ['台湾','上海','浙江','福建','广东','广西','江苏','安徽','湖南','湖北','江西','四川','云南','贵州','重庆','河南','山东'],
+      text: '长江流域及其以南尽成它的水面：17个省级行政区有分布记录，堵塞河道、威胁水生生态，是南方最严重的入侵水生植物。' },
+    source: '首次记录：《中国第一批外来入侵物种名单》（2003）；分布整理自公开资料',
     icon: '🌊', desc: '水上霸主·堵塞河道'
   },
   '飞机草': {
-    years: [1934,1950,1980,2000],
-    provinces_by_year: {
-      1934:['云南'], 1950:['云南','广西','贵州'],
-      1980:['云南','广西','贵州','广东','海南','台湾'],
-      2000:['云南','广西','贵州','广东','海南','台湾','澳门','香港']
-    },
-    story: { 1934:'1934年在云南南部被发现。能产生化感物质，抑制邻近植物。',
-             2000:'叶有毒，人畜误食会引起中毒，在西南危害严重。' },
+    first: { year: '1934', province: '云南',
+      text: '1934年在云南南部被发现；此前它曾作为香料植物被引种到泰国栽培。' },
+    current: { year: '2000',
+      provinces: ['云南','广西','贵州','广东','海南','台湾','澳门','香港'],
+      text: '盘踞华南与西南8个省级行政区：分泌化感物质排挤本土植物，叶有毒，人畜误食会引起中毒。' },
+    source: '首次记录：《中国第一批外来入侵物种名单》（2003）；分布整理自公开资料',
     icon: '🌺', desc: '有毒入侵者·化感物质'
   },
   '三裂叶豚草': {
-    years: [1935,1950,1980,2000],
-    provinces_by_year: {
-      1935:['辽宁'], 1950:['辽宁','河北','北京'],
-      1980:['辽宁','河北','北京','吉林','天津'],
-      2000:['辽宁','河北','北京','吉林','天津','山东','河南']
-    },
-    story: { 1935:'20世纪30年代在辽宁铁岭地区发现。',
-             2000:'花粉致敏，遮盖和压制作物生长，危害小麦、大豆等。' },
+    first: { year: '1930年代', province: '辽宁',
+      text: '20世纪30年代在辽宁铁岭地区被发现，首先在辽宁蔓延。' },
+    current: { year: '2000',
+      provinces: ['辽宁','河北','北京','吉林','天津','山东','河南'],
+      text: '随后扩散至河北、北京、天津、吉林、山东、河南：花粉致敏，遮盖压制作物生长，危害小麦、大豆。' },
+    source: '首次记录：《中国第二批外来入侵物种名单》（2010）；分布整理自公开资料',
     icon: '🍂', desc: '北方蔓延·花粉致敏'
   }
 };
 
-function getAccumulatedProvinces(speciesKey, targetYear) {
-  const spd = speciesSpreadData[speciesKey];
-  if (!spd) return [];
-  let acc = [];
-  for (const y of spd.years) {
-    if (y > targetYear) break;
-    const provs = spd.proportions_by_year?.[y] || spd.provinces_by_year[y] || [];
-    provs.forEach(p => { if (!acc.includes(p)) acc.push(p); });
-  }
-  return acc;
-}
-
 // ============================================
-// 漂浮地点照片层：随扩散时间轴在地图上浮现/消失
+// 地点影像停靠区：随物种切换在右栏浮现/消失，不遮挡地图
 // ============================================
 const _spreadPhotoCards = new Map(); // src -> card element
 
@@ -6497,11 +6487,16 @@ function clearSpreadPhotos() {
   _spreadPhotoCards.clear();
 }
 
-function renderSpreadPhotos(spd, year, provs, provinceCoords) {
+function renderSpreadPhotos(spd, provs) {
   const layer = document.getElementById('spreadPhotoLayer');
   if (!layer) return;
   const photos = (spd.photos || []).filter(ph =>
-    ph.province && provs.includes(ph.province) && (!ph.year || ph.year <= year));
+    ph.province && provs.includes(ph.province));
+  if (photos.length === 0) {
+    layer.innerHTML = '<div style="font-size:0.8rem;color:var(--b-text-dim);line-height:1.8;padding:8px 2px;">该物种暂无实地观察照片。<br>左图金色标记为首次记录地，红色为当前有分布记录的省份。</div>';
+  } else if (layer.querySelector(':scope > div:not(.spread-photo-card)')) {
+    layer.innerHTML = '';
+  }
   const seen = new Set();
   photos.forEach((ph, i) => {
     const key = ph.src;
@@ -6517,19 +6512,16 @@ function renderSpreadPhotos(spd, year, provs, provinceCoords) {
       img.alt = ph.alt || `${ph.province}地点影像`;
       img.loading = 'lazy';
       const label = document.createElement('span');
-      label.textContent = ph.year ? `${ph.province} · ${ph.year}` : ph.province;
+      // 标签用拍摄地点（caption "地点｜说明" 的前半段），不再绑定年份
+      label.textContent = (ph.caption && ph.caption.split('｜')[0]) || ph.province;
       card.appendChild(img);
       card.appendChild(label);
       card.title = ph.caption || '';
       layer.appendChild(card);
       _spreadPhotoCards.set(key, card);
     }
-    card.dataset.province = ph.province;
-    card.dataset.offsetIndex = photos.filter(x => x.province === ph.province).indexOf(ph);
-    card.dataset.gi = i; // 全局序号：黄金角散开，避免沿海省份照片堆叠
-    card.classList.toggle('fresh', ph.year === year);
   });
-  // 时间轴回拨时，晚于当前年份的照片淡出移除
+  // 切换物种时，不属于当前物种的照片淡出移除
   for (const [key, card] of _spreadPhotoCards) {
     if (!seen.has(key)) {
       card.classList.add('leaving');
@@ -6538,299 +6530,126 @@ function renderSpreadPhotos(spd, year, provs, provinceCoords) {
       _spreadPhotoCards.delete(key);
     }
   }
-  // geo 换算需要等 setOption 布局完成
-  _lastSpreadCoords = provinceCoords;
-  requestAnimationFrame(() => positionSpreadPhotos(provinceCoords));
-}
-
-// 地图缩放/平移与窗口变化时，照片卡跟随重定位（只绑定一次）
-let _lastSpreadCoords = null;
-let _spreadPhotoFollowBound = false;
-function bindSpreadPhotoFollow() {
-  if (_spreadPhotoFollowBound) return;
-  _spreadPhotoFollowBound = true;
-  window.addEventListener('resize', () => positionSpreadPhotos(_lastSpreadCoords));
-}
-
-function positionSpreadPhotos(provinceCoords) {
-  if (!spreadChart || !provinceCoords) return;
-  for (const [, card] of _spreadPhotoCards) {
-    const coord = provinceCoords[card.dataset.province];
-    if (!coord) continue;
-    let px = null;
-    try { px = spreadChart.convertToPixel('geo', coord); } catch (e) { continue; }
-    if (!px || isNaN(px[0]) || isNaN(px[1])) continue;
-    const off = Number(card.dataset.offsetIndex || 0);
-    const gi = Number(card.dataset.gi || 0);
-    const ang = gi * 2.399; // 黄金角
-    const rad = 16 + (gi % 4) * 15;
-    const dx = off * 46 - 10 + Math.cos(ang) * rad;
-    const dy = off * 24 - 8 + Math.sin(ang) * rad * 0.7;
-    card.style.left = (px[0] + dx) + 'px';
-    card.style.top = (px[1] + dy) + 'px';
-  }
 }
 
 function renderSpreadMap(speciesKey) {
   const container = document.getElementById('spread-map');
-  
+
   // Guard: map data must be registered (ECharts 5.x removed getMap)
   if (!_chinaMapRegistered) {
     container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#8BA99A;font-size:0.9rem;">地图资源加载中...</div>';
     return;
   }
-  
+
   spreadChart = echarts.init(container);
   clearSpreadPhotos();
-  bindSpreadPhotoFollow();
-  spreadChart.on('georoam', () => positionSpreadPhotos(_lastSpreadCoords));
-  
+
   const spd = speciesSpreadData[speciesKey] || speciesSpreadData['红火蚁'];
-  const allYears = spd.yours || spd.years;
   const spreadSource = document.getElementById('spreadSource');
   if (spreadSource) {
     const base = spd.source || '地图为公开资料整理；不同物种的记录口径并不完全一致';
     spreadSource.textContent = spd.photoDisclaimer ? `${base} · ${spd.photoDisclaimer}` : base;
   }
-  
-  // Simple timeline slider
-  const tlContainer = document.getElementById('spread-timeline');
-  tlContainer.innerHTML = `
-    <input type="range" min="${allYears[0]}" max="${allYears[allYears.length-1]}" 
-           value="${allYears[0]}" step="1" id="yearSlider"
-           style="width:100%;accent-color:#EF4444;cursor:pointer;">
-    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--b-text-dim);margin-top:4px;">
-      <span>${allYears[0]}</span><span>${allYears[allYears.length-1]}</span>
-    </div>
-  `;
-  
-  const slider = document.getElementById('yearSlider');
-  
-  function updateMap(year) {
-    year = parseInt(year);
-    const provs = getAccumulatedProvinces(speciesKey, year);
-    const prevYear = allYears[Math.max(0, allYears.indexOf(year)-1)];
-    const prevProvs = getAccumulatedProvinces(speciesKey, prevYear);
-    const newThisYear = provs.filter(p => !prevProvs.includes(p));
-    
-    document.getElementById('tiYear').textContent = year;
-    document.getElementById('tiProvinces').textContent = provs.length;
-    document.getElementById('tiNew').textContent = '+' + newThisYear.length;
 
-    // 地点影像随时间轴在地图上浮现；它们不充当首次发现年份或传播路线证据。
-    // （实现见 renderSpreadPhotos，需 provinceCoords，在下方 setOption 后调用）
+  const provs = spd.current.provinces;
 
-    // Story
-    const storyYear = Object.keys(spd.story).filter(y => parseInt(y) <= year).pop();
-    if (storyYear) {
-      document.getElementById('storyYear').textContent = storyYear + '年';
-      document.getElementById('storyText').textContent = spd.story[storyYear];
-    }
-    
-    // Map visualization - use a scatter-like approach
-    // Approximate province coordinates for visual effect
-    const provinceCoords = {
-      '台湾':[121,24],'广东':[113.5,23], '广西':[108.5,23], '福建':[119.5,26],
-      '湖南':[112,28.5], '香港':[114.2,22.3], '澳门':[113.5,22.2],
-      '海南':[109.5,19], '江西':[115.8,28.5], '四川':[104,30.5],
-      '重庆':[106.5,29.5], '贵州':[106.5,26.5], '云南':[102.5,25],
-      '浙江':[120,30], '湖北':[112.2,31], '安徽':[117.2,31.8],
-      '江苏':[119.5,32.5], '上海':[121.5,31.2], '河南':[113.5,34],
-      '陕西':[108.5,34.5], '山东':[117,36.5], '辽宁':[123.4,41.8],
-      '河北':[114.5,38.0], '北京':[116.4,39.9], '天津':[117.2,39.1],
-      '吉林':[125.3,43.8], '山西':[112.5,37.9], '西藏':[91.1,29.7],
-      '内蒙古':[111.7,40.8], '黑龙江':[126.5,45.8], '甘肃':[103.8,36.1],
-      '青海':[101.8,36.6], '宁夏':[106.3,38.5], '新疆':[87.6,43.8]
-    };
-    
-    const scatterData = provs.map(p => ({
-      name: p,
-      value: provinceCoords[p] || [104, 30],
-      isNew: newThisYear.includes(p)
-    }));
-    
-    // 触须爬行动效 — 从已感染省份向新省份生长路径
-    if (newThisYear.length > 0 && prevProvs.length > 0) {
-      animateTentacles(newThisYear, prevProvs, provinceCoords);
-    }
-    
-    spreadChart.setOption({
-      backgroundColor: 'transparent',
-      tooltip: {
-        trigger: 'item',
-        formatter: function(p) {
-          return `<strong>${p.name}</strong>${p.data.isNew ? ' ⭐本年新发现' : ''}`;
-        },
-        backgroundColor: '#152A22',
-        borderColor: '#1F3D30',
-        textStyle: { color: '#E8F0EB' }
+  // 起点与现状面板
+  document.getElementById('tiYear').textContent = spd.first.year;
+  document.getElementById('tiFirst').textContent = spd.first.province;
+  document.getElementById('tiProvinces').textContent = provs.length;
+
+  // 故事面板：首次记录 + 现状两段
+  document.getElementById('storyYear').textContent = `首次记录 · ${spd.first.year} · ${spd.first.province}`;
+  document.getElementById('storyText').innerHTML =
+    `<p style="margin:0 0 10px;">${spd.first.text}</p>` +
+    `<p style="margin:0;color:var(--b-text);"><strong style="color:var(--b-gold);">现状：</strong>${spd.current.text}</p>`;
+
+  const provinceCoords = {
+    '台湾':[121,24],'广东':[113.5,23], '广西':[108.5,23], '福建':[119.5,26],
+    '湖南':[112,28.5], '香港':[114.2,22.3], '澳门':[113.5,22.2],
+    '海南':[109.5,19], '江西':[115.8,28.5], '四川':[104,30.5],
+    '重庆':[106.5,29.5], '贵州':[106.5,26.5], '云南':[102.5,25],
+    '浙江':[120,30], '湖北':[112.2,31], '安徽':[117.2,31.8],
+    '江苏':[119.5,32.5], '上海':[121.5,31.2], '河南':[113.5,34],
+    '陕西':[108.5,34.5], '山东':[117,36.5], '辽宁':[123.4,41.8],
+    '河北':[114.5,38.0], '北京':[116.4,39.9], '天津':[117.2,39.1],
+    '吉林':[125.3,43.8], '山西':[112.5,37.9], '西藏':[91.1,29.7],
+    '内蒙古':[111.7,40.8], '黑龙江':[126.5,45.8], '甘肃':[103.8,36.1],
+    '青海':[101.8,36.6], '宁夏':[106.3,38.5], '新疆':[87.6,43.8]
+  };
+
+  const firstProv = spd.first.province;
+  const otherProvs = provs.filter(p => p !== firstProv);
+
+  spreadChart.setOption({
+    backgroundColor: 'transparent',
+    tooltip: {
+      trigger: 'item',
+      formatter: function(p) {
+        const isFirst = p.name === firstProv;
+        return `<strong>${p.name}</strong>${isFirst ? ' · 首次记录地（' + spd.first.year + '）' : ' · 当前有分布记录'}`;
       },
-      geo: {
-        map: 'china',
-        roam: true,
-        silent: true,
-        itemStyle: { areaColor: '#132820', borderColor: '#1F3D30', borderWidth: 1 },
-        emphasis: { disabled: true },
-        regions: provs.map(p => ({
-          name: p.replace(/省|市|自治区|特别行政区/g,''),
-          itemStyle: {
-            areaColor: newThisYear.includes(p) ? '#EF4444' : '#DC2626',
-            opacity: 0.7
-          }
-        }))
-      },
-      series: [{
+      backgroundColor: '#152A22',
+      borderColor: '#1F3D30',
+      textStyle: { color: '#E8F0EB' }
+    },
+    geo: {
+      map: 'china',
+      roam: true,
+      silent: true,
+      itemStyle: { areaColor: '#132820', borderColor: '#1F3D30', borderWidth: 1 },
+      emphasis: { disabled: true },
+      regions: provs.map(p => ({
+        name: p.replace(/省|市|自治区|特别行政区/g,''),
+        itemStyle: {
+          areaColor: p === firstProv ? '#F59E0B' : '#DC2626',
+          opacity: 0.7
+        }
+      }))
+    },
+    series: [
+      {
+        name: 'current',
         type: 'effectScatter',
         coordinateSystem: 'geo',
-        data: scatterData,
-        symbolSize: function(val) { return val[2]?.isNew ? 18 : 12; },
+        data: otherProvs.map(p => ({ name: p, value: provinceCoords[p] || [104, 30] })),
+        symbolSize: 10,
+        rippleEffect: { brushType: 'stroke', scale: 3 },
+        itemStyle: { color: '#EF4444' },
+        label: { show: true, formatter: '{b}', fontSize: 10, color: '#fff', position: 'right' },
+        zlevel: 1
+      },
+      {
+        name: 'first',
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        data: [{ name: firstProv, value: provinceCoords[firstProv] || [104, 30] }],
+        symbolSize: 18,
         showEffectOn: 'render',
-        rippleEffect: { brushType: 'stroke', scale: 4 },
-        itemStyle: {
-          color: function(p) { return p.data.isNew ? '#F59E0B' : '#EF4444'; }
+        rippleEffect: { brushType: 'stroke', scale: 5 },
+        itemStyle: { color: '#F59E0B' },
+        label: {
+          show: true,
+          formatter: '首次记录 · ' + spd.first.year,
+          fontSize: 11,
+          fontWeight: 700,
+          color: '#F59E0B',
+          position: 'top',
+          backgroundColor: 'rgba(11,20,16,0.75)',
+          padding: [3, 6],
+          borderRadius: 4
         },
-        label: { show: true, formatter: '{b}', fontSize: 10, color: '#fff', position: 'right' }
-      }],
-      graphic: []
-    }, true);
-
-    // 漂浮地点照片：时间轴走到哪一年，哪一年有影像的地点就把照片卡
-    // 浮现到地图对应位置（卡片定位依赖 geo 坐标换算，须在 setOption 之后）
-    renderSpreadPhotos(spd, year, provs, provinceCoords);
-  }
-
-  slider.addEventListener('input', (e) => {
-    try { updateMap(e.target.value); } catch(err) { console.warn('updateMap error', err); }
-  });
-  updateMap(allYears[0]);
-  
-  // Auto-play button could be added here
-}
-
-// ============================================
-// 触须爬行动效
-// ============================================
-const _tentacleAnims = {}; // track running animations
-
-function animateTentacles(newProvinces, prevProvinces, provinceCoords) {
-  const canvas = document.getElementById('tentacleCanvas');
-  if (!canvas) return;
-  
-  const wrap = canvas.parentElement;
-  const rect = wrap.getBoundingClientRect();
-  const W = rect.width, H = rect.height;
-  
-  canvas.width = W * (window.devicePixelRatio || 1);
-  canvas.height = H * (window.devicePixelRatio || 1);
-  canvas.style.width = W + 'px';
-  canvas.style.height = H + 'px';
-  
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  ctx.scale(dpr, dpr);
-  ctx.clearRect(0, 0, W, H);
-  
-  // Map helper: lng/lat to canvas x/y
-  // China approx: lng 73-135, lat 18-54
-  const toX = lng => ((lng - 73) / 62) * W;
-  const toY = lat => ((54 - lat) / 36) * H;
-  
-  const color = '#EF4444';
-  const glowColor = '#F59E0B';
-  
-  // For each new province, find nearest prev province and draw tentacle
-  newProvinces.forEach(targetProv => {
-    const tc = provinceCoords[targetProv];
-    if (!tc) return;
-    const tx = toX(tc[0]), ty = toY(tc[1]);
-    
-    // Find nearest previous province
-    let nearest = null, nearestDist = Infinity;
-    prevProvinces.forEach(pp => {
-      const pc = provinceCoords[pp];
-      if (!pc) return;
-      const px = toX(pc[0]), py = toY(pc[1]);
-      const dist = Math.hypot(tx - px, ty - py);
-      if (dist < nearestDist) { nearestDist = dist; nearest = [px, py]; }
-    });
-    if (!nearest) return;
-    
-    const [sx, sy] = nearest;
-    
-    // Organic curved path (bezier) from source to target
-    const midX = (sx + tx) / 2 + (Math.random() - 0.5) * 60;
-    const midY = (sy + ty) / 2 + (Math.random() - 0.5) * 40;
-    
-    const pathLen = Math.hypot(tx - sx, ty - sy);
-    const duration = 400 + pathLen * 2.5; // proportional to distance
-    const startTime = performance.now();
-    
-    // Animate path growing
-    function drawTentacle(ts) {
-      const elapsed = ts - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 2); // ease-out quad
-      
-      // Outer glow
-      ctx.beginPath();
-      ctx.moveTo(sx, sy);
-      ctx.bezierCurveTo(midX, midY, midX, midY, sx + (tx - sx) * eased, sy + (ty - sy) * eased);
-      ctx.strokeStyle = `rgba(245,158,11,${0.35 * (1 - progress)})`;
-      ctx.lineWidth = 4;
-      ctx.lineCap = 'round';
-      ctx.stroke();
-      
-      // Main tentacle
-      ctx.beginPath();
-      ctx.moveTo(sx, sy);
-      ctx.bezierCurveTo(midX, midY, midX, midY, sx + (tx - sx) * eased, sy + (ty - sy) * eased);
-      ctx.strokeStyle = `rgba(239,68,68,${0.9 - progress * 0.3})`;
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.stroke();
-      
-      // Growing tip dot
-      const tipX = sx + (tx - sx) * eased;
-      const tipY = sy + (ty - sy) * eased;
-      
-      // Tip glow
-      ctx.beginPath();
-      ctx.arc(tipX, tipY, 6, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(245,158,11,${0.7 - progress * 0.3})`;
-      ctx.fill();
-      
-      // Tip core
-      ctx.beginPath();
-      ctx.arc(tipX, tipY, 3, 0, Math.PI * 2);
-      ctx.fillStyle = `#F59E0B`;
-      ctx.fill();
-      
-      if (progress < 1) {
-        requestAnimationFrame(drawTentacle);
+        zlevel: 2
       }
-    }
-    
-    requestAnimationFrame(drawTentacle);
-  });
-  
-  // Clear canvas after animation
-  const maxDur = newProvinces.reduce((max, p) => {
-    const tc = provinceCoords[p]; if (!tc) return max;
-    const tx = toX(tc[0]), ty = toY(tc[1]);
-    let nearestDist = Infinity;
-    prevProvinces.forEach(pp => {
-      const pc = provinceCoords[pp]; if (!pc) return;
-      nearestDist = Math.min(nearestDist, Math.hypot(tx - toX(pc[0]), ty - toY(pc[1])));
-    });
-    return Math.max(max, 400 + nearestDist * 2.5);
-  }, 400);
-  
-  setTimeout(() => {
-    ctx.clearRect(0, 0, W, H);
-  }, maxDur + 200);
+    ],
+    graphic: []
+  }, true);
+
+  // 地点影像：当前物种有观察照片的省份，照片卡浮现到右栏
+  renderSpreadPhotos(spd, provs);
 }
 
-// Update spread tab switching to also trigger tentacle animation on species switch
+// 物种切换
 document.querySelectorAll('.spread-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.spread-tab').forEach(t => t.classList.remove('active'));
@@ -6838,25 +6657,6 @@ document.querySelectorAll('.spread-tab').forEach(tab => {
     const species = tab.dataset.species;
     currentSpeciesIndex = [...document.querySelectorAll('.spread-tab')].indexOf(tab);
     renderSpreadMap(species);
-    
-    // 触须爬行：物种切换时也展示传播路径
-    setTimeout(() => {
-      const spd = speciesSpreadData[species] || speciesSpreadData['红火蚁'];
-      const firstYear = (spd.yours || spd.years)[0];
-      const allProvs = getAccumulatedProvinces(species, firstYear);
-      if (allProvs.length > 1) {
-        const coords = {
-          '台湾':[121,24],'广东':[113.5,23],'广西':[108.5,23],'福建':[119.5,26],
-          '湖南':[112,28.5],'香港':[114.2,22.3],'澳门':[113.5,22.2],
-          '海南':[109.5,19],'江西':[115.8,28.5],'四川':[104,30.5],
-          '重庆':[106.5,29.5],'贵州':[106.5,26.5],'云南':[102.5,25],
-          '浙江':[120,30],'湖北':[112.2,31],'安徽':[117.2,31.8],
-          '江苏':[119.5,32.5],'上海':[121.5,31.2],'河南':[113.5,34],
-          '陕西':[108.5,34.5]
-        };
-        animateTentacles(allProvs.slice(1), allProvs.slice(0,1), coords);
-      }
-    }, 300);
   });
 });
 
