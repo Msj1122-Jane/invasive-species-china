@@ -42,7 +42,7 @@
   {
     "name_cn": "蓖麻",
     "name_latin": "Ricinus communis",
-    "family": null,
+    "family": "大戟科",
     "origin": "美洲",
     "province_count": 34,
     "level": "2级",
@@ -62,7 +62,7 @@
   {
     "name_cn": "黑麦草",
     "name_latin": "Lolium perenne",
-    "family": null,
+    "family": "禾本科",
     "origin": "欧洲",
     "province_count": 34,
     "level": "4级",
@@ -162,7 +162,7 @@
   {
     "name_cn": "毒麦",
     "name_latin": "Lolium temulentum",
-    "family": null,
+    "family": "禾本科",
     "origin": "欧洲地中海地区",
     "province_count": 32,
     "level": "1级",
@@ -408,7 +408,7 @@
   {
     "name_cn": "肿柄菊",
     "name_latin": "Tithonia diversifolia",
-    "family": null,
+    "family": "菊科",
     "origin": "墨西哥",
     "province_count": 14,
     "level": "1级",
@@ -429,7 +429,7 @@
   {
     "name_cn": "假臭草",
     "name_latin": "Praxelis clematidea",
-    "family": null,
+    "family": "菊科",
     "origin": "南美洲",
     "province_count": 12,
     "level": "1级",
@@ -492,7 +492,7 @@
   {
     "name_cn": "黄顶菊",
     "name_latin": "Flaveria bidentis",
-    "family": null,
+    "family": "菊科",
     "origin": "南美",
     "province_count": 2,
     "level": "1级",
@@ -502,7 +502,7 @@
   {
     "name_cn": "苏门白酒草",
     "name_latin": "Erigeron sumatrensis",
-    "family": null,
+    "family": "菊科",
     "origin": "南美洲",
     "province_count": 0,
     "level": "1级",
@@ -512,7 +512,7 @@
   {
     "name_cn": "白花鬼针草",
     "name_latin": "Bidens alba",
-    "family": null,
+    "family": "菊科",
     "origin": "热带美洲",
     "province_count": 0,
     "level": "1级",
@@ -563,72 +563,6 @@
     "level_detail": "需关注·近年扩散风险高",
     "distribution": "华北、华东沿海地区（近年出现）",
     "harm": "抗旱耐盐碱，极难对付的耕地杂草；浆果对家畜有毒，携带马铃薯腐烂茎线虫",
-    "category": "plant"
-  },
-  {
-    "name_cn": "菊科 Asteraceae",
-    "name_latin": "紫茎泽兰、加拿大一枝黄花等",
-    "family": "种子细小带冠毛、如蒲公英随风飞，扩散极快",
-    "origin": null,
-    "level": "入侵植物\"头号家族\"",
-    "level_detail": "入侵植物\"头号家族\"",
-    "distribution": null,
-    "harm": null,
-    "category": "plant"
-  },
-  {
-    "name_cn": "苋科 Amaranthaceae",
-    "name_latin": "空心莲子草等",
-    "family": "生命力极强，盐碱/干旱等极端环境适应性高",
-    "origin": null,
-    "level": "顽强的生存专家",
-    "level_detail": "顽强的生存专家",
-    "distribution": null,
-    "harm": null,
-    "category": "plant"
-  },
-  {
-    "name_cn": "禾本科 Poaceae",
-    "name_latin": "互花米草等",
-    "family": "长相酷似谷物难以辨别，常潜伏农田造成巨大经济损失",
-    "origin": null,
-    "level": "隐蔽的农田潜伏者",
-    "level_detail": "隐蔽的农田潜伏者",
-    "distribution": null,
-    "harm": null,
-    "category": "plant"
-  },
-  {
-    "name_cn": "旋花科 Convolvulaceae",
-    "name_latin": "五爪金龙等",
-    "family": "缠绕藤本，迅速覆盖宿主遮光致死",
-    "origin": null,
-    "level": "森林的\"致命缠绕绞杀者\"",
-    "level_detail": "森林的\"致命缠绕绞杀者\"",
-    "distribution": null,
-    "harm": null,
-    "category": "plant"
-  },
-  {
-    "name_cn": "豆科 Fabaceae",
-    "name_latin": "银合欢等",
-    "family": "最初作为优良牧草引入，后演变为入侵",
-    "origin": null,
-    "level": "伪装成'优良牧草'的刺客",
-    "level_detail": "伪装成'优良牧草'的刺客",
-    "distribution": null,
-    "harm": null,
-    "category": "plant"
-  },
-  {
-    "name_cn": "茄科 Solanaceae",
-    "name_latin": "银叶茄等",
-    "family": "带刺、抗旱耐盐碱，近年新现扩散风险极高",
-    "origin": null,
-    "level": "带刺的'荒地霸主'",
-    "level_detail": "带刺的'荒地霸主'",
-    "distribution": null,
-    "harm": null,
     "category": "plant"
   },
   {
@@ -1042,7 +976,7 @@
     "name_cn": "尖齿胡子鲇",
     "alias": "革胡子鲇",
     "name_latin": "Clarias gariepinus",
-    "family": "塘虱鱼",
+    "family": "胡子鲇科",
     "origin": "非洲",
     "level": "2级",
     "category": "animal",

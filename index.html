@@ -4255,9 +4255,9 @@ a:focus-visible,
 
     <div class="atlas-shell reveal" id="speciesAtlas">
       <header class="atlas-head">
-        <div class="atlas-kicker">Curated archive · 186 species</div>
+        <div class="atlas-kicker">Curated archive · 180 species</div>
         <h3>物种图鉴</h3>
-        <p>图鉴收录186种外来入侵物种记录：61种植物取自341种入侵植物名录与全国普查记录；125种动物、昆虫与病害取自中国外来入侵物种数据库（iflora），其中15种已列入《重点管理外来入侵物种名录》。先从全局结构辨认它们，再按图像或名称进入一条具体记录；悬停或点击后，名称、科属、等级与分布记录会在右侧清晰展开。等级标注来自iflora数据库（1级恶性入侵至5级有待观察）；标注"重点管理"者，为已列入国家重点管理名录的物种。</p>
+        <p>图鉴收录180种外来入侵物种记录：55种植物取自341种入侵植物名录与全国普查记录；125种动物、昆虫与病害取自中国外来入侵物种数据库（iflora），其中15种已列入《重点管理外来入侵物种名录》。先从全局结构辨认它们，再按图像或名称进入一条具体记录；悬停或点击后，名称、科属、等级与分布记录会在右侧清晰展开。等级标注来自iflora数据库（1级恶性入侵至5级有待观察）；标注"重点管理"者，为已列入国家重点管理名录的物种。</p>
       </header>
 
       <div class="atlas-toolbar" aria-label="物种图鉴视图与筛选">
@@ -4283,11 +4283,11 @@ a:focus-visible,
         <div class="atlas-ring-layout">
           <div class="sunburst-container" id="sunburstContainer">
             <div class="sunburst-chart" id="sunburstChart"></div>
-            <div class="sunburst-hint">扇区面积表示记录数量；颜色区分类群，不表示风险高低。悬停查看，点击下钻。</div>
+            <div class="sunburst-hint">内环是类群，外推依次是科与物种；扇区面积表示记录数量，不表示风险高低。悬停查看，点击下钻。</div>
           </div>
           <aside class="sunburst-inspector" id="sunburstInspector" aria-live="polite">
             <span class="si-eyebrow">当前选择</span>
-            <strong>186种收录记录</strong>
+            <strong>180种收录记录</strong>
             <p>将鼠标移到环形图上。科、等级和物种名称会在这里展开，不再挤在狭窄扇区中。</p>
           </aside>
         </div>
@@ -5269,7 +5269,7 @@ function rebuildEditorialStructureV2() {
     atlasSection.innerHTML = `
       <div class="chapter-gate atlas-gate"><div class="gate-content">
         <div class="gate-number">02</div><h2 class="gate-title">名录：谁在入侵？</h2>
-        <p class="gate-subtitle">186条物种记录里，或许就有你见过的一种。先整体辨认，再点进一个名字，看它的科属、等级与分布。</p><div class="gate-divider"></div>
+        <p class="gate-subtitle">180条物种记录里，或许就有你见过的一种。先整体辨认，再点进一个名字，看它的科属、等级与分布。</p><div class="gate-divider"></div>
       </div></div>
       <div class="section-inner"><div class="reveal" id="atlasChapterHost"></div><p class="chapter-bridge">名字记住了。下一章，看它们怎么进来的。</p></div>`;
     if (atlas) atlasSection.querySelector('#atlasChapterHost').appendChild(atlas);
@@ -5502,6 +5502,110 @@ const sceneObserver = new IntersectionObserver(entries => {
 }, { threshold: [0.18, 0.34, 0.55, 0.75] });
 
 document.querySelectorAll('.story-scene').forEach(scene => sceneObserver.observe(scene));
+
+// ============================================
+// 逐屏滚动叙事（桌面端）：滚轮一次 = 推进一个信息层
+// 以 .chapter-gate / .story-scene 为"屏"；超高场景先在内部
+// 分段滚完再进入下一屏。触屏、减弱动效、弹窗开启、可缩放
+// 地图（ECharts roam）上不接管滚动。
+// ============================================
+(function initScrollPager() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let stops = [];
+  let animating = false;
+  let acc = 0;
+  let accTimer = null;
+
+  function computeStops() {
+    const vh = window.innerHeight;
+    const list = [0];
+    document.querySelectorAll('.chapter-gate, .story-scene').forEach(el => {
+      if (el.offsetParent === null) return;
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      const h = el.offsetHeight;
+      list.push(Math.round(top));
+      if (h > vh * 1.15) {
+        // 超高场景：内部按 0.85 屏步进，末尾贴齐场景底部
+        let y = top + vh * 0.85;
+        while (y < top + h - vh - 4) { list.push(Math.round(y)); y += vh * 0.85; }
+        list.push(Math.round(top + h - vh));
+      }
+    });
+    list.push(Math.round(document.body.scrollHeight - vh));
+    const sorted = [...new Set(list.filter(v => v >= 0 && isFinite(v)))].sort((a, b) => a - b);
+    // 合并相距过近的停靠点（如封面与紧随其后的场景），避免"滚一下只挪几十像素"
+    stops = [];
+    sorted.forEach(v => {
+      if (stops.length && v - stops[stops.length - 1] < 200) stops[stops.length - 1] = v;
+      else stops.push(v);
+    });
+  }
+
+  function animateTo(target) {
+    animating = true;
+    const root = document.documentElement;
+    const prevBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    const start = window.scrollY;
+    const delta = target - start;
+    const duration = 760;
+    const t0 = performance.now();
+    (function frame(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      window.scrollTo(0, start + delta * e);
+      if (p < 1) requestAnimationFrame(frame);
+      else {
+        root.style.scrollBehavior = prevBehavior;
+        setTimeout(() => { animating = false; }, 90);
+      }
+    })(t0);
+  }
+
+  function stepPage(dir) {
+    computeStops(); // 实时取位：懒加载内容会改变元素位置，缓存值会被 CSS snap 拉回造成死循环
+    const y = window.scrollY;
+    let target;
+    if (dir > 0) {
+      for (let i = 0; i < stops.length; i++) if (stops[i] > y + 4) { target = stops[i]; break; }
+    } else {
+      for (let j = stops.length - 1; j >= 0; j--) if (stops[j] < y - 4) { target = stops[j]; break; }
+    }
+    if (target === undefined) return;
+    animateTo(target);
+  }
+
+  window.addEventListener('wheel', e => {
+    if (e.ctrlKey) return;                                   // 触控板捏合缩放
+    if (window.innerWidth <= 720) return;                    // 窄屏走原生滚动
+    if (document.body.style.overflow === 'hidden') return;   // 弹窗开启时
+    if (e.target && e.target.closest &&
+        e.target.closest('#china-map, #spread-map, #world-flow-chart')) return; // 可缩放地图
+    e.preventDefault();
+    if (animating) return;
+    acc += e.deltaY;
+    clearTimeout(accTimer);
+    accTimer = setTimeout(() => { acc = 0; }, 180);
+    if (Math.abs(acc) < 50) return;                          // 触控板微滚动累积阈值
+    const dir = acc > 0 ? 1 : -1;
+    acc = 0;
+    stepPage(dir);
+  }, { passive: false });
+
+  function refresh() { computeStops(); }
+  window.addEventListener('load', refresh);
+  let rzTimer;
+  window.addEventListener('resize', () => { clearTimeout(rzTimer); rzTimer = setTimeout(refresh, 250); });
+  if ('ResizeObserver' in window) {
+    let roTimer;
+    new ResizeObserver(() => { clearTimeout(roTimer); roTimer = setTimeout(refresh, 400); })
+      .observe(document.body);
+  }
+  refresh();
+  setTimeout(refresh, 1500);
+})();
 
 const sections = document.querySelectorAll('.section');
 const nav = document.getElementById('mainNav');
@@ -7275,63 +7379,67 @@ function renderSunburst() {
 
   // Normalize families (merge duplicates like "菊科" and "菊科 Asteraceae")
   const normalizeFamily = (family) => {
-    if (!family) return '未知科';
+    if (!family) return '未注明科';
     // Extract the Chinese part
     const m = family.match(/^[\u4e00-\u9fff]+/);
-    return m ? m[0] : family;
+    return m ? m[0] : '未注明科';
   };
 
-  // Group by family → level → species
-  const tree = {};
-  Data.species.forEach(s => {
-    const fam = normalizeFamily(s.family);
-    const lvl = normalizeLevel(s.level);
-    if (!tree[fam]) tree[fam] = {};
-    if (!tree[fam][lvl]) tree[fam][lvl] = [];
-    tree[fam][lvl].push({
-      name: s.name_cn,
-      value: s.province_count || 1
-    });
-  });
+  // 类群 → 科 → 物种：每个物种计为一条记录，扇区面积即记录数
+  // （若按分布省份加权，植物会把动物/昆虫挤成看不见的细缝）
+  const CAT_META = [
+    ['plant', '植物', 152],
+    ['animal', '动物', 8],
+    ['insect', '昆虫', 32],
+    ['disease', '病害', 268]
+  ];
 
-  // Convert to ECharts sunburst data
-  const sunData = Object.entries(tree).map(([fam, levels]) => ({
-    name: fam,
-    itemStyle: { color: _famColor(fam) },
-    children: Object.entries(levels).map(([lvl, species]) => ({
-      name: lvl,
-      children: species.map(sp => ({
-        name: sp.name,
-        value: sp.value,
-        itemStyle: { opacity: lvl === '1级' ? 1 : 0.75 }
-      }))
-    }))
-  }));
-
-  // Family color palette — muted editorial tones, no candy rainbow
-  function _famColor(fam) {
-    const colors = {
-      '菊科': '#B5493A', '苋科': '#C97C3B', '禾本科': '#A98B3F',
-      '旋花科': '#4E8D7C', '茄科': '#5B7FA6', '豆科': '#3E6B5C',
-      '十字花科': '#96624E', '桑科': '#7A6A94', '藜科': '#B08D57',
-      '伞形科': '#8C5B45', '酢浆草科': '#557A46'
-    };
-    if (colors[fam]) return colors[fam];
-    // Hash-based fallback: low saturation, mid lightness — stays cohesive
+  // 同 hue 族色系：类群定 hue，科在饱和/亮度上微差，保持整体克制
+  function _shade(hue, seed) {
     let hash = 0;
-    for (let i = 0; i < fam.length; i++) hash = fam.charCodeAt(i) + ((hash << 5) - hash);
-    const h = Math.abs(hash) % 360;
-    return `hsl(${h}, 32%, 45%)`;
+    for (let i = 0; i < seed.length; i++) hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+    const l = 32 + (Math.abs(hash) % 6) * 4;
+    return `hsl(${hue}, 38%, ${l}%)`;
   }
+
+  const sunData = CAT_META.map(([key, label, hue]) => {
+    const fams = {};
+    Data.species.filter(s => s.category === key).forEach(s => {
+      const fam = normalizeFamily(s.family);
+      if (!fams[fam]) fams[fam] = [];
+      fams[fam].push(s);
+    });
+    return {
+      name: label,
+      itemStyle: { color: `hsl(${hue}, 40%, 42%)` },
+      children: Object.entries(fams).map(([fam, members]) => ({
+        name: fam,
+        itemStyle: { color: _shade(hue, fam) },
+        children: members.map(s => {
+          const lvl = normalizeLevel(s.level);
+          return {
+            name: s.name_cn,
+            value: 1,
+            fam: fam,
+            level: lvl,
+            provinces: s.province_count || 0,
+            itemStyle: { color: _shade(hue, fam + s.name_cn), opacity: lvl === '1级' ? 1 : 0.75 }
+          };
+        })
+      }))
+    };
+  }).filter(c => c.children.length);
 
   _sunburstChart.setOption({
     tooltip: {
       trigger: 'item',
       formatter: function(p) {
-        if (p.treePathInfo && p.treePathInfo.length >= 3) {
-          return `<strong>${p.name}</strong><br/>科属：${p.treePathInfo[1].name}<br/>级别：${p.treePathInfo[2].name}<br/>分布省份：${p.value || '未知'}个`;
+        const d = p.data || {};
+        if (d.level) {
+          return `<strong>${p.name}</strong><br/>科属：${d.fam}<br/>级别：${d.level}<br/>分布省份：${d.provinces || '未知'}个`;
         }
-        return `<strong>${p.name}</strong><br/>物种数：${p.value || '—'}`;
+        const depth = (p.treePathInfo || []).length - 1; // 1=类群 2=科
+        return `<strong>${p.name}</strong><br/>${depth === 1 ? '记录数' : '物种数'}：${p.value || '—'}`;
       }
     },
     series: [{
@@ -7354,30 +7462,30 @@ function renderSunburst() {
       },
       levels: [
         {},
-        { // Family ring
-          r0: '15%', r: '38%',
+        { // 类群环
+          r0: '15%', r: '34%',
           label: {
             show: true,
             rotate: 0,
             color: '#fff',
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 'bold',
-            minAngle: 16
+            formatter: (p) => `${p.name} ${p.value}`
           },
           itemStyle: { borderWidth: 2 }
         },
-        { // Level ring
-          r0: '38%', r: '62%',
+        { // 科环
+          r0: '34%', r: '62%',
           label: {
             show: true,
             rotate: 0,
             color: '#fff',
             fontSize: 10,
-            minAngle: 18
+            minAngle: 10
           },
           itemStyle: { borderWidth: 1 }
         },
-        { // Species ring
+        { // 物种环
           r0: '62%', r: '90%',
           label: { show: false },
           itemStyle: { borderWidth: 0.5 }
@@ -7387,16 +7495,18 @@ function renderSunburst() {
   });
 
   const inspector = document.getElementById('sunburstInspector');
+  const totalRecords = Data.species.length;
   const updateInspector = function(params) {
     if (!inspector || !params) return;
     const trail = (params.treePathInfo || []).slice(1).map(d => d.name).filter(Boolean);
     const depth = trail.length;
-    const label = depth >= 3 ? '物种记录' : depth === 2 ? '等级' : '科';
+    const label = depth >= 3 ? '物种记录' : depth === 2 ? '科' : '类群';
+    const d = params.data || {};
     inspector.innerHTML = `
       <span class="si-eyebrow">${label}</span>
-      <strong>${params.name || '186种收录记录'}</strong>
+      <strong>${params.name || totalRecords + '种收录记录'}</strong>
       <p>${trail.length ? trail.join(' · ') + '。' : ''}${depth >= 3
-        ? `公开数据记录分布于${params.value || '—'}个省级行政区。`
+        ? `${d.level || '未定级'}；公开数据记录分布于${d.provinces || '—'}个省级行政区。`
         : `该扇区汇集${params.value || '—'}条下级记录；面积用于比较数量，不表示风险高低。`}</p>`;
   };
   _sunburstChart.on('mouseover', updateInspector);
