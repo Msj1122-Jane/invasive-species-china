@@ -337,8 +337,7 @@ html { scroll-snap-type: y proximity; }
   filter: saturate(0.72);
   transition:
     opacity 0.72s cubic-bezier(.22,.61,.36,1),
-    transform 0.82s cubic-bezier(.22,.61,.36,1),
-    filter 0.72s ease;
+    transform 0.82s cubic-bezier(.22,.61,.36,1);
 }
 .story-scene.is-active {
   opacity: 1;
@@ -855,6 +854,7 @@ a:focus-visible,
   display: flex;
   align-items: center;
   justify-content: center;
+  scroll-snap-align: start;
 }
 /* 上段：承接序章的深色，讲红火蚁的迁徙 */
 .intro-narrative-dark {
@@ -5586,7 +5586,7 @@ document.querySelectorAll('.story-scene').forEach(scene => sceneObserver.observe
   function computeStops() {
     const vh = window.innerHeight;
     const list = [0];
-    document.querySelectorAll('.chapter-gate, .story-scene').forEach(el => {
+    document.querySelectorAll('.chapter-gate, .story-scene, .intro-narrative-section').forEach(el => {
       if (el.offsetParent === null) return;
       const top = el.getBoundingClientRect().top + window.scrollY;
       const h = el.offsetHeight;
@@ -5612,7 +5612,9 @@ document.querySelectorAll('.story-scene').forEach(scene => sceneObserver.observe
     animating = true;
     const root = document.documentElement;
     const prevBehavior = root.style.scrollBehavior;
+    const prevSnap = root.style.scrollSnapType;
     root.style.scrollBehavior = 'auto';
+    root.style.scrollSnapType = 'none';   // 动画期间关闭 CSS snap，避免吸附点与逐帧滚动互相拉扯造成卡顿
     const start = window.scrollY;
     const delta = target - start;
     const duration = 760;
@@ -5623,6 +5625,7 @@ document.querySelectorAll('.story-scene').forEach(scene => sceneObserver.observe
       window.scrollTo(0, start + delta * e);
       if (p < 1) requestAnimationFrame(frame);
       else {
+        root.style.scrollSnapType = prevSnap;
         root.style.scrollBehavior = prevBehavior;
         setTimeout(() => { animating = false; }, 90);
       }
@@ -5677,23 +5680,29 @@ const nav = document.getElementById('mainNav');
 const progressBar = document.getElementById('progressBar');
 const navItems = document.querySelectorAll('.nav-item');
 
+let _scrollTicking = false;
 window.addEventListener('scroll', () => {
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = Math.min(scrollTop / docHeight * 100, 100);
-  progressBar.style.width = progress + '%';
-  
-  // Show/hide nav
-  if (scrollTop > 100) nav.classList.add('visible');
-  else nav.classList.remove('visible');
-  
-  // Active dot
-  let current = 0;
-  sections.forEach((sec, i) => {
-    const rect = sec.getBoundingClientRect();
-    if (rect.top <= window.innerHeight / 2) current = i;
+  if (_scrollTicking) return;             // rAF 节流：每帧最多算一次，避免逐屏动画期间高频布局读取
+  _scrollTicking = true;
+  requestAnimationFrame(() => {
+    _scrollTicking = false;
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = Math.min(scrollTop / docHeight * 100, 100);
+    progressBar.style.width = progress + '%';
+
+    // Show/hide nav
+    if (scrollTop > 100) nav.classList.add('visible');
+    else nav.classList.remove('visible');
+
+    // Active item
+    let current = 0;
+    sections.forEach((sec, i) => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= window.innerHeight / 2) current = i;
+    });
+    navItems.forEach((item, i) => item.classList.toggle('active', i === current));
   });
-  navItems.forEach((item, i) => item.classList.toggle('active', i === current));
 });
 
 navItems.forEach(item => {
