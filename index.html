@@ -4186,6 +4186,8 @@ a:focus-visible,
   font-size: .74rem;
   line-height: 1.8;
 }
+/* 场景内 .reveal 有 width:100% 规则，这里用更高优先级恢复全幅出血 */
+.story-scene > .reveal.overview-kpis { width: 100vw; }
 
 .atlas-gate {
   background:
