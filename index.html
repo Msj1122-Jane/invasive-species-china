@@ -1949,7 +1949,95 @@ html { scroll-snap-type: y proximity; }
 /* County Hotspot */
 .county-hotspot-section { margin-top: 48px; }
 .county-hotspot-section .subsection-title { font-size: 1.15rem; margin-bottom: 4px; font-weight: 700; text-align: center; }
-.county-hotspot-chart { width: 100%; height: 380px; }
+/* 家乡查询互动 */
+.hq-panel {
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--a-card);
+  border: 1px solid var(--a-border);
+  border-radius: 14px;
+  padding: 20px 24px 22px;
+}
+.hq-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.hq-controls label { font-size: 0.85rem; color: var(--a-text-secondary); }
+.hq-controls select {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--a-text);
+  background: var(--a-bg);
+  border: 1px solid var(--a-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.hq-controls select:hover, .hq-controls select:focus { border-color: var(--a-highlight); outline: none; }
+.hq-result {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.hq-tile {
+  background: var(--a-bg);
+  border: 1px solid var(--a-border);
+  border-radius: 10px;
+  padding: 12px 10px;
+  text-align: center;
+}
+.hq-tile .hq-num {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--a-highlight);
+}
+.hq-tile .hq-num small { font-size: 0.72rem; font-weight: 400; color: var(--a-text-secondary); }
+.hq-tile .hq-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--a-text);
+  line-height: 1.4;
+}
+.hq-tile .hq-lbl { font-size: 0.7rem; color: var(--a-text-secondary); margin-top: 4px; }
+.hq-top-title {
+  max-width: 760px;
+  margin: 22px auto 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--a-text);
+  letter-spacing: 0.05em;
+}
+.hq-top-list { max-width: 760px; margin: 0 auto; }
+.hq-row {
+  display: grid;
+  grid-template-columns: 34px 170px 1fr 52px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--a-border);
+  font-size: 0.85rem;
+  color: var(--a-text);
+}
+.hq-row:last-child { border-bottom: none; }
+.hq-rank {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--a-text-secondary);
+  text-align: center;
+}
+.hq-row:nth-child(1) .hq-rank, .hq-row:nth-child(2) .hq-rank, .hq-row:nth-child(3) .hq-rank { color: var(--a-highlight); }
+.hq-bar { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #B9D6C6, #5A9E7E); }
+.hq-row:nth-child(1) .hq-bar { background: linear-gradient(90deg, #F59E0B, #D62828); }
+.hq-count { font-family: var(--font-mono); font-weight: 700; text-align: right; color: var(--a-text); }
+@media (max-width: 640px) {
+  .hq-result { grid-template-columns: repeat(2, 1fr); }
+  .hq-row { grid-template-columns: 28px 120px 1fr 44px; font-size: 0.78rem; }
+}
 
 /* Invasion Timeline */
 .timeline-section { margin-top: 24px; padding-bottom: 20px; }
@@ -4242,15 +4330,22 @@ html { scroll-snap-type: y proximity; }
       </div>
     </div>
 
-    <!-- County hotspot: plant invasion at county level -->
+    <!-- County query: 家乡查询互动 -->
     <div class="county-hotspot-section reveal">
-      <h3 class="subsection-title" style="color:var(--a-text);">🔬 一个县最多能有多少种入侵植物？</h3>
-      <p style="font-size:0.84rem;color:var(--a-text-secondary);margin-bottom:8px;line-height:1.8;text-align:center;">
-        县级尺度下，入侵不是均匀涂抹，而是<strong>点状爆发</strong>：浅柱是该省"最强县"的单县纪录，深绿点是该省的县均水平——
-        柱与点的距离，就是热点县超出背景水平的程度。与上方省级地图（含动植物）互为补充：此处为纯植物数据，精度下沉至县。
+      <h3 class="subsection-title" style="color:var(--a-text);">🔍 你的家乡被记录了多少种？</h3>
+      <p style="font-size:0.84rem;color:var(--a-text-secondary);margin-bottom:16px;line-height:1.8;text-align:center;">
+        县级尺度下，入侵不是均匀涂抹，而是<strong>点状爆发</strong>。选一个省份，看看它有多少个县留下了入侵植物记录、记录最密集的是哪个县。
       </p>
-      <div class="county-hotspot-chart" id="countyHotspotChart"></div>
-      <div class="chart-source">数据来源：中国外来入侵植物物种高分辨率分布数据库(IPSD) · 406种入侵植物 · 不含港澳台（统计口径不同）</div>
+      <div class="hq-panel">
+        <div class="hq-controls">
+          <label for="hqProvince">选择省份</label>
+          <select id="hqProvince"></select>
+        </div>
+        <div class="hq-result" id="hqResult"></div>
+      </div>
+      <div class="hq-top-title">全国单县纪录 Top 10</div>
+      <div class="hq-top-list" id="hqTopList"></div>
+      <div class="chart-source">数据来源：中国外来入侵植物物种高分辨率分布数据库(IPSD) · 406种入侵植物 · 不含港澳台（统计口径不同）· 记录数同时受各地调查强度影响，多不等于危害重</div>
     </div>
 
     <!-- Bubble matrix: species multi-dimensional view -->
@@ -5393,7 +5488,7 @@ async function activateSection(idx, sectionEl) {
     window.icebergChart, window.lossDistChart, window.lossProvChart,
     window.petTradeChart,
     window._portMapChart, window._sankeyChart, window._bubbleChart,
-    window._sunburstChart, window._countyHotspotChart
+    window._sunburstChart
   ];
   const doResize = () => allCharts().forEach(c => { if (c && c.resize) c.resize(); });
   setTimeout(doResize, 100);
@@ -5767,90 +5862,65 @@ function renderBubbleChart() {
   }
 }
 // ============================================
-// COUNTY HOTSPOT CHART
+// COUNTY QUERY: 家乡查询互动
 // ============================================
-let _countyHotspotChart = null;
-
 function renderCountyHotspot() {
   if (!Data.countyInvasion) return;
-  const container = document.getElementById('countyHotspotChart');
-  if (!container) return;
-  if (_countyHotspotChart) _countyHotspotChart.dispose();
+  const d = Data.countyInvasion;
+  const sel = document.getElementById('hqProvince');
+  const result = document.getElementById('hqResult');
+  const topList = document.getElementById('hqTopList');
+  if (!sel || !result) return;
 
-  _countyHotspotChart = echarts.init(container);
-  window._countyHotspotChart = _countyHotspotChart;
+  const names = d.county_names || {};
+  const excluded = ['台湾', '香港', '澳门'];
+  const provs = Object.keys(d.province_summary).filter(p => !excluded.includes(p));
 
-  // Bullet 图：柱 = 该省最强县的单县纪录，深绿点 = 该省的县均水平。
-  // 柱与点之间的距离，就是"热点县"相对于背景水平的爆发程度——
-  // 这是县级数据独有的信息，省级地图无法呈现。
-  const provData = Data.countyInvasion.province_summary;
-  const items = Object.entries(provData)
-    .filter(([name]) => name !== '台湾' && name !== '香港' && name !== '澳门')
-    .sort((a, b) => b[1].max - a[1].max)
-    .slice(0, 12);
+  // 市县名展示：直辖市/省直辖直接用「省+区县」，其余用「市+区县」
+  function placeName(code) {
+    const n = names[String(code)];
+    if (!n) return '（未命名县区）';
+    if (['市辖区', '县', '省直辖县级行政区划'].includes(n.city)) return n.prov + n.name;
+    return n.city + n.name;
+  }
 
-  const names = items.map(([n]) => n);
-  const maxs = items.map(([, v]) => v.max);
-  const avgs = items.map(([, v]) => v.avg);
+  // 各省最强县纪录的全国名次
+  const maxRank = {};
+  [...provs].sort((a, b) => d.province_summary[b].max - d.province_summary[a].max)
+    .forEach((p, i) => { maxRank[p] = i + 1; });
 
-  _countyHotspotChart.setOption({
-    tooltip: {
-      trigger: 'axis',
-      formatter: function(ps) {
-        const prov = ps[0].name;
-        const info = provData[prov];
-        return `<strong>${prov}</strong><br/>
-          最强县纪录：${info.max} 种<br/>
-          县均水平：${info.avg} 种<br/>
-          爆发倍差：${(info.max / info.avg).toFixed(1)} 倍<br/>
-          有记录县数：${info.counties} 个`;
-      }
-    },
-    legend: {
-      data: [
-        { name: '单县最高纪录', itemStyle: { color: '#B9D6C6' } },
-        { name: '县均水平', itemStyle: { color: '#1F4D3A' } }
-      ],
-      bottom: 0,
-      textStyle: { fontSize: 11, color: '#64748b' }
-    },
-    grid: { left: 56, right: 64, top: 14, bottom: 40 },
-    xAxis: {
-      type: 'value',
-      name: '入侵植物物种数',
-      nameTextStyle: { fontSize: 11, color: '#94a3b8' },
-      axisLabel: { fontSize: 10, color: '#94a3b8' },
-      splitLine: { lineStyle: { color: 'rgba(100,116,139,0.12)' } }
-    },
-    yAxis: {
-      type: 'category',
-      data: names,
-      axisLabel: { fontSize: 11, color: '#475569' },
-      inverse: true,
-      axisLine: { show: false },
-      axisTick: { show: false }
-    },
-    series: [
-      {
-        name: '单县最高纪录',
-        type: 'bar',
-        data: maxs,
-        itemStyle: { color: '#B9D6C6', borderRadius: [0, 7, 7, 0] },
-        barMaxWidth: 14,
-        label: { show: true, position: 'right', fontSize: 10, fontWeight: 700, color: '#1F4D3A' },
-        animationDelay: idx => idx * 60
-      },
-      {
-        name: '县均水平',
-        type: 'scatter',
-        data: avgs.map((v, i) => [v, names[i]]),
-        symbol: 'circle',
-        symbolSize: 13,
-        itemStyle: { color: '#1F4D3A', borderColor: '#fbfaf3', borderWidth: 2 },
-        z: 10
-      }
-    ]
-  });
+  function show(p) {
+    const s = d.province_summary[p];
+    if (!s) return;
+    const burst = s.avg > 0 ? (s.max / s.avg).toFixed(1) : '—';
+    result.innerHTML =
+      `<div class="hq-tile"><div class="hq-num">${s.counties}<small> 个</small></div><div class="hq-lbl">有入侵植物记录的县</div></div>` +
+      `<div class="hq-tile"><div class="hq-num">${s.avg}<small> 种</small></div><div class="hq-lbl">平均每县记录</div></div>` +
+      `<div class="hq-tile"><div class="hq-name">${placeName(s.max_county)}</div><div class="hq-num">${s.max}<small> 种</small></div><div class="hq-lbl">全省最热县 · 全国第${maxRank[p]}</div></div>` +
+      `<div class="hq-tile"><div class="hq-num">${burst}x</div><div class="hq-lbl">点状爆发：最热县 ÷ 县均</div></div>`;
+  }
+
+  sel.innerHTML = provs.map(p => `<option value="${p}">${p}</option>`).join('');
+  // 默认展示全国纪录保持省份
+  const defaultProv = [...provs].sort((a, b) => d.province_summary[b].max - d.province_summary[a].max)[0];
+  sel.value = defaultProv;
+  show(defaultProv);
+  sel.addEventListener('change', () => show(sel.value));
+
+  // 全国单县纪录 Top 10（大陆口径）
+  if (topList) {
+    const top = (d.top_counties || [])
+      .filter(c => !excluded.includes(c.province))
+      .slice(0, 10);
+    const peak = top.length ? top[0].species_count : 1;
+    topList.innerHTML = top.map((c, i) =>
+      `<div class="hq-row">
+        <div class="hq-rank">${i + 1}</div>
+        <div>${placeName(c.county_code)}</div>
+        <div class="hq-bar" style="width:${Math.max(6, Math.round(c.species_count / peak * 100))}%"></div>
+        <div class="hq-count">${c.species_count}</div>
+      </div>`).join('');
+  }
 }
 
 // ============================================
@@ -8799,7 +8869,7 @@ function toggleCheck(el) {
   window._observeChartReplay = function() {
     var containers = document.querySelectorAll(
       '#china-map, #province-rank-chart, #trend-chart, #bubble-chart, ' +
-      '#countyHotspotChart, #spread-chart, #sankey-chart, #world-flow-chart, ' +
+      '#spread-chart, #sankey-chart, #world-flow-chart, ' +
       '#invasion-timeline-chart, #iceberg-chart, #loss-distribution-chart, ' +
       '#loss-province-chart, #customsSankeyChart, #customsMethodsChart, ' +
       '#customsTypesChart, #pet-trade-chart, #port-map-chart, #radar-chart'
