@@ -4258,9 +4258,9 @@ a:focus-visible,
 
     <div class="atlas-shell reveal" id="speciesAtlas">
       <header class="atlas-head">
-        <div class="atlas-kicker">Curated archive · 76 species</div>
+        <div class="atlas-kicker">Curated archive · 186 species</div>
         <h3>物种图鉴</h3>
-        <p>图鉴收录76种代表性外来入侵物种：61种植物取自341种入侵植物名录与全国普查记录，15种动物、昆虫与病害来自《重点管理外来入侵物种名录》等公开名录。先从全局结构辨认它们，再按图像或名称进入一条具体记录；悬停或点击后，名称、科属、等级与分布记录会在右侧清晰展开。植物等级来自iflora数据库；动物与昆虫/病害标注"1级"表示已列入国家重点管理名录。</p>
+        <p>图鉴收录186种外来入侵物种记录：61种植物取自341种入侵植物名录与全国普查记录；125种动物、昆虫与病害取自中国外来入侵物种数据库（iflora），其中15种已列入《重点管理外来入侵物种名录》。先从全局结构辨认它们，再按图像或名称进入一条具体记录；悬停或点击后，名称、科属、等级与分布记录会在右侧清晰展开。等级标注来自iflora数据库（1级恶性入侵至5级有待观察）；标注"重点管理"者，为已列入国家重点管理名录的物种。</p>
       </header>
 
       <div class="atlas-toolbar" aria-label="物种图鉴视图与筛选">
@@ -4275,7 +4275,7 @@ a:focus-visible,
         </label>
         <div class="atlas-filters">
           <button class="atlas-filter active" data-atlas-filter="all">全部</button>
-          <button class="atlas-filter" data-atlas-filter="level1">1级</button>
+          <button class="atlas-filter" data-atlas-filter="level1">1级·名录</button>
           <button class="atlas-filter" data-atlas-filter="plant">植物</button>
           <button class="atlas-filter" data-atlas-filter="animal">动物</button>
           <button class="atlas-filter" data-atlas-filter="insect">昆虫/病害</button>
@@ -4290,7 +4290,7 @@ a:focus-visible,
           </div>
           <aside class="sunburst-inspector" id="sunburstInspector" aria-live="polite">
             <span class="si-eyebrow">当前选择</span>
-            <strong>76种精选记录</strong>
+            <strong>186种收录记录</strong>
             <p>将鼠标移到环形图上。科、等级和物种名称会在这里展开，不再挤在狭窄扇区中。</p>
           </aside>
         </div>
@@ -4327,7 +4327,7 @@ a:focus-visible,
           <div style="font-size:0.84rem;line-height:1.8;color:var(--a-text-secondary)">
             <p><strong style="color:var(--a-highlight)">云南</strong> 以 321 种居全国之首，广东（259）、广西（257）紧随其后</p>
             <p><strong style="color:var(--a-highlight)">南北梯度</strong> 明显：南方省份平均约 200 种，北方省份平均约 113 种</p>
-            <p><strong style="color:var(--a-highlight)">动物占比</strong>最高的是福建：其入侵物种中 43.7% 为动物（种数最多的是云南，132 种）</p>
+            <p><strong style="color:var(--a-highlight)">动物记录</strong>最多的是云南：iflora数据库119种入侵动物中，48种在云南有明确省级记录；广西（43）、广东（42）次之（按名录点名的省份计，为下限值）</p>
           </div>
         </div>
       </div>
@@ -7349,7 +7349,7 @@ function renderSunburst() {
     const label = depth >= 3 ? '物种记录' : depth === 2 ? '等级' : '科';
     inspector.innerHTML = `
       <span class="si-eyebrow">${label}</span>
-      <strong>${params.name || '76种精选记录'}</strong>
+      <strong>${params.name || '186种收录记录'}</strong>
       <p>${trail.length ? trail.join(' · ') + '。' : ''}${depth >= 3
         ? `公开数据记录分布于${params.value || '—'}个省级行政区。`
         : `该扇区汇集${params.value || '—'}条下级记录；面积用于比较数量，不表示风险高低。`}</p>`;
@@ -7370,12 +7370,12 @@ function atlasFilteredSpecies() {
     ...sp,
     _image: Data.speciesImages ? Data.speciesImages[sp.name_cn] || null : null
   }));
-  if (_atlasFilter === 'level1') list = list.filter(sp => /1|Ⅰ/.test(sp.level || ''));
+  if (_atlasFilter === 'level1') list = list.filter(sp => /1|Ⅰ/.test(sp.level || '') || sp.key_list);
   if (_atlasFilter === 'plant') list = list.filter(sp => sp.category === 'plant');
   if (_atlasFilter === 'animal') list = list.filter(sp => sp.category === 'animal');
   if (_atlasFilter === 'insect') list = list.filter(sp => sp.category === 'insect' || sp.category === 'disease');
   if (_atlasQuery) {
-    list = list.filter(sp => [sp.name_cn, sp.name_latin, sp.family, sp.origin]
+    list = list.filter(sp => [sp.name_cn, sp.name_latin, sp.family, sp.origin, sp.alias]
       .filter(Boolean).join(' ').toLowerCase().includes(_atlasQuery));
   }
   return list;
@@ -7395,7 +7395,8 @@ function openAtlasSpecies(sp) {
   document.getElementById('atlasModalLatin').textContent = sp.name_latin || '';
   document.getElementById('atlasModalFamily').textContent = sp.family || '未注明';
   document.getElementById('atlasModalOrigin').textContent = sp.origin || '未注明';
-  document.getElementById('atlasModalLevel').textContent = sp.level || '未定级';
+  document.getElementById('atlasModalLevel').textContent =
+    (sp.level || '未定级') + (sp.key_list ? ' · 已列入《重点管理外来入侵物种名录》' : '');
   document.getElementById('atlasModalProvince').textContent =
     sp.province_count ? `${sp.province_count}个省级行政区有记录` : '暂无可比记录';
   document.getElementById('atlasModalHarm').textContent = sp.harm || '暂无摘要';
@@ -7430,7 +7431,7 @@ function renderAtlasLists() {
     </button>`).join('')}`;
   names.innerHTML = list.map((sp, index) => `
     <button class="atlas-name" data-atlas-index="${index}">
-      <span>${sp.name_cn || '未命名'}</span><small>${sp.level || '未定级'}</small>
+      <span>${sp.name_cn || '未命名'}</span><small>${sp.level || (sp.key_list ? '重点管理' : '未定级')}${sp.key_list && sp.level ? '·名录' : ''}</small>
     </button>`).join('');
   visual.querySelectorAll('[data-atlas-visual-index]').forEach(button => {
     button.addEventListener('click', () => openAtlasSpecies(visualList[Number(button.dataset.atlasVisualIndex)]));
