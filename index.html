@@ -702,43 +702,93 @@ html { scroll-snap-type: y proximity; }
   50% { transform: translateY(8px); }
 }
 
-/* ===== 引言页：白底叙述区域 ===== */
+/* ===== 引言页：暗夜迁徙 → 纸面审视 ===== */
 .intro-narrative-section {
   min-height: auto;
-  padding: 18vh 24px 18vh;
-  background: linear-gradient(180deg, #0b1410 0%, #16211b 13%, #5f7268 24%, #c3d0c7 34%, #fbfaf3 44%, #fbfaf3 100%);
   display: flex;
   align-items: center;
   justify-content: center;
 }
+/* 上段：承接序章的深色，讲红火蚁的迁徙 */
+.intro-narrative-dark {
+  padding: 20vh 24px 14vh;
+  background: linear-gradient(180deg, #0b1410 0%, #0e1813 60%, #101b15 100%);
+}
+/* 下段：顶部渐变带从深色过渡到纸面，之后一直是纸面，内容高度变化也不露馅 */
+.intro-narrative-paper {
+  padding: 400px 24px 16vh;
+  background: linear-gradient(180deg, #101b15 0, #2c3c33 70px, #5f7268 150px, #9fb0a6 235px, #d9e0d6 305px, #fbfaf3 370px, #fbfaf3 100%);
+}
 .intro-narrative-inner {
-  max-width: 680px;
-  text-align: center;
+  max-width: 660px;
+  text-align: left;
 }
 .intro-narrative-inner p {
   font-family: var(--font-serif);
-  font-size: clamp(1.1rem, 2vw, 1.45rem);
-  line-height: 2.1;
+  font-size: clamp(1rem, 1.55vw, 1.22rem);
+  line-height: 2.15;
   color: #2a3530;
-  margin-bottom: 1.8em;
+  margin-bottom: 2em;
   font-weight: 400;
+  text-align: justify;
 }
-.intro-narrative-inner p:first-child {
-  color: #d7e0da;
-  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+.intro-narrative-dark .intro-narrative-inner p {
+  color: #dfe7e1;
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+}
+/* 首段首字下沉 */
+.narrative-lead::first-letter {
+  float: left;
+  font-size: 3.1em;
+  line-height: 0.92;
+  padding: 0.06em 0.16em 0 0;
+  font-weight: 700;
+  color: var(--b-gold);
 }
 .narrative-num {
   font-family: var(--font-mono);
   font-weight: 700;
-  color: var(--b-accent);
-  font-size: 1.1em;
+  color: var(--a-highlight);
+  font-size: 1.08em;
 }
+.intro-narrative-dark .narrative-num {
+  color: var(--b-gold);
+}
+.narrative-strong {
+  font-weight: 700;
+  color: var(--a-highlight);
+}
+/* 收束句：单独成行，上下留白，上方一道细金线 */
 .narrative-emphasis {
   font-weight: 700 !important;
-  font-size: clamp(1.25rem, 2.4vw, 1.7rem) !important;
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem) !important;
   color: #1a2520 !important;
-  margin-top: 0.5em;
-  letter-spacing: 0.02em;
+  text-align: center !important;
+  letter-spacing: 0.06em;
+  margin-top: 2.2em !important;
+  margin-bottom: 0 !important;
+  padding-top: 1.6em;
+  position: relative;
+}
+.narrative-emphasis::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 2px;
+  background: var(--b-gold);
+  opacity: 0.85;
+}
+/* 引言 → 第一章：纸面渐隐回深色，衔接章节封面 */
+.intro-outro-fade {
+  height: 26vh;
+  background: linear-gradient(180deg, #fbfaf3 0%, #8b9a90 30%, #3a4a41 62%, var(--b-bg) 100%);
+}
+@media (max-width: 640px) {
+  .intro-narrative-paper { padding-top: 330px; }
+  .intro-narrative-inner p { text-align: left; }
 }
 
 .province-selector select:hover { border-color: var(--b-gold); color: var(--b-text); }
@@ -3948,15 +3998,23 @@ html { scroll-snap-type: y proximity; }
   </div>
 </section>
 
-<!-- 引言页 -->
-<section class="intro-narrative-section">
+<!-- 引言 · 上：暗夜迁徙 -->
+<section class="intro-narrative-section intro-narrative-dark">
   <div class="intro-narrative-inner">
-    <p>宠物店里的红耳龟标价二十元，夜市上的小龙虾论斤卖，路边的加拿大一枝黄花开得正盛。</p>
-    <p>它们都是远道而来的"客"。有的来了上百年，与人相安无事；有的只用了几年，就挤走本土物种，改写整片湿地。</p>
-    <p>并非所有外来物种都有害。真正需要追踪的，是那些完成"进入、定殖、扩散"三级跳，威胁生态系统、生境与本土物种的外来入侵物种。</p>
-    <p class="narrative-emphasis">这一次，我们用341种入侵植物名录、393宗海关截获案和2684个县的分布记录，还原它们如何来到中国，又如何走进自然。</p>
+    <p class="narrative-lead">来自南美热带草原的一只红火蚁，大概不会知道自己正参与一场跨越半球的无声迁徙。它脚下的土壤，从阿根廷到广东，相隔<span class="narrative-num">一万八千公里</span>——而这段路程，人类用航班、集装箱和苗木贸易替它走完了。这不是孤例。仅过去一个世纪，超过<span class="narrative-num">660</span>种外来物种以类似方式抵达中国：水葫芦、福寿螺、豚草、巴西龟……它们共同的通行证，是全球化时代人类亲手搭建的物流网络。</p>
   </div>
 </section>
+
+<!-- 引言 · 下：纸面审视 -->
+<section class="intro-narrative-section intro-narrative-paper">
+  <div class="intro-narrative-inner">
+    <p>这些不请自来的"旅客"中，有些只是安静地占据路边一角，有些却在数十年间改写了整片生态。红火蚁登陆广东后以每年近百公里的速度向北推进；空心莲子草从一株观赏植物沦为堵塞河道的绿色痼疾；松材线虫则一棵树一棵树地吞噬着南方松林。在新的土地上，旧有制衡失效，天敌缺席，"物竞天择"被改写成一场没有裁判的竞赛——<strong class="narrative-strong">结果早已注定</strong>。</p>
+    <p>何为一道有效的防线？现实给出的数字令人不安：全国<span class="narrative-num">34</span>个省级行政区无一幸免，云南一省便记录<span class="narrative-num">321</span>种外来入侵物种，几占全国半壁；每年因入侵物种造成的经济损失，已从数十亿元攀升至逾<span class="narrative-num">两千亿元</span>。但更隐蔽的代价不在账面上——本土物种的退场、生态系统的简化、不可逆的基因污染——这些损失无法用货币计量，却在真实地改变我们赖以生存的环境。</p>
+    <p>物种的迁徙本是大自然的常态，但人类用前所未有的速度与规模，将这个过程压缩进了短短百年。当一只蚂蚁、一粒种子、一条线虫就能动摇一片生态系统时，"来者何物"不再只是一个古老的诘问，而是摆在每个人面前的现实考题。回答它，需要数据，需要科学，更需要我们重新审视那条被全球化冲淡的边界——</p>
+    <p class="narrative-emphasis">物种或许无界，但国门有疆。</p>
+  </div>
+</section>
+<div class="intro-outro-fade"></div>
 
 <!-- ==============================
      CHAPTER 1: 全境扫描
@@ -4578,15 +4636,14 @@ html { scroll-snap-type: y proximity; }
 
     <div class="reveal" style="max-width:680px;margin:0 auto 20px;text-align:center;">
       <p style="font-size:0.88rem;color:var(--a-text-secondary);line-height:1.9;">
-        中国的外来物种管理政策经历了从<strong style="color:var(--a-highlight);">"零散应对"到"全面法治"</strong>的演进。
-        下方时间轴跨越四十年，分为<strong style="color:var(--a-highlight);">学科奠基、体系构建、全面法治</strong>三个阶段，
-        记录了中国从1986年零星摸索到2026年六部门联合管控的完整历程。
+        从第一批名单到首例刑事宣判，中国的外来入侵物种防线经历了<strong style="color:var(--a-highlight);">"遭遇战、摸清家底、法治防线"</strong>三个阶段。
+        下方时间轴的二十个节点，记录入侵事件、灭除行动与政策立法怎样一步步织密这张网。
       </p>
     </div>
     <div id="timeline-container" class="reveal">
       <div class="tl-intro">
-        <div class="tl-phase-tag">学科奠基</div>
-        <p class="tl-phase-sub">从零星探索到系统学科，中国入侵生物学走了十六年</p>
+        <div class="tl-phase-tag">遭遇战</div>
+        <p class="tl-phase-sub">从第一批名单到全民灭除，防线在应对中起步</p>
       </div>
       <div class="tl-track" id="timelineTrack"></div>
     </div>
@@ -4605,7 +4662,7 @@ html { scroll-snap-type: y proximity; }
       <div class="da-card">
         <div class="da-title">📜 政策法规</div>
         <div class="da-desc">2003年首批名录发布，2013年52种重点管理，2021年《生物安全法》施行</div>
-        <div class="da-stat">51条关键事件</div>
+        <div class="da-stat">20个关键节点</div>
       </div>
       <div class="da-card">
         <div class="da-title">⚔️ 典型战役</div>
@@ -4654,24 +4711,25 @@ html { scroll-snap-type: y proximity; }
 
 
         <strong>一、名录与普查数据</strong><br>
-        ・《中国外来入侵物种名录》（2003、2012、2021三部）—— 生态环境部、农业农村部、中国科学院联合发布<br>
-        ・全国外来入侵物种普查数据 —— 生态环境部自然生态保护司<br>
-        ・农业外来入侵物种普查报告 —— 农业农村部科技教育司<br>
+        ・《中国外来入侵物种名单》（第一批2003年16种、第二批2010年19种、第三批2014年18种、第四批2016年18种，共71种）—— 原国家环保总局／生态环境部、中国科学院等联合发布<br>
+        ・《国家重点管理外来入侵物种名录（第一批）》（52种，2013年制定）—— 原农业部<br>
+        ・《重点管理外来入侵物种名录》（59种，2023年1月1日施行）—— 农业农村部等六部门<br>
+        ・第一次全国外来入侵物种普查（2021—2024）—— 农业农村部牵头，多部门参与<br>
+        ・历年《中国生态环境状况公报》（2006—2020）—— 生态环境部（原国家环保总局／环保部）<br>
         ・26个国家级自然保护区外来物种调查（2006-2019）—— 《生物多样性》期刊<br><br>
 
 
         <strong>二、海关截获与检疫数据</strong><br>
+        ・口岸查获案例数据库与查获现场图片（含2025年海关查获外来物种十大案例）—— 海关发布（海关总署官方发布平台）<br>
         ・2025年全国海关截获数据 —— 海关总署动植物检疫司<br>
-        ・口岸截获十大典型案例 —— 海关总署2025年公布<br>
-        ・口岸查获案例数据库与查获现场图片 —— 海关发布（海关总署官方发布平台）<br>
         ・北京、上海、深圳、广州、宁波等重点口岸年度统计公报<br>
         ・出境入境动植物检疫法实施数据 —— 中国海关杂志<br><br>
 
 
         <strong>三、经济损失评估</strong><br>
-        ・IUCN全球百种恶性入侵物种在华经济损失评估 —— IUCN/SSC入侵物种专家组<br>
-        ・中国外来入侵物种直接经济损失评估（2011）—— 中国科学院动物研究所，166.5亿美元口径（约1198.8亿人民币）<br>
+        ・中国外来入侵物种直接经济损失评估（2011）—— 中国科学院动物研究所，约1198.8亿人民币/年口径<br>
         ・农业外来入侵物种损失评估（2014）—— 中国农业科学院，117亿美元/20种口径（约840亿人民币）<br>
+        ・外来入侵物种40年经济损失系统评估（2025）—— 中国农业科学院，2363.5亿美元/40年口径<br>
         ・入侵物种生态服务损失研究 —— 《生态学报》、《应用生态学报》各期<br><br>
 
 
@@ -4683,8 +4741,11 @@ html { scroll-snap-type: y proximity; }
 
         <strong>五、政策法规</strong><br>
         ・《中华人民共和国生物安全法》（2021年4月15日起施行）<br>
+        ・《中华人民共和国刑法修正案（十一）》第三百四十四条之一（非法引进、释放、丢弃外来入侵物种罪）<br>
         ・《中华人民共和国进出境动植物检疫法》及其实施条例<br>
-        ・《外来入侵物种管理办法》（农业农村部令2022年第4号）<br>
+        ・《外来入侵物种管理办法》（农业农村部等四部门令2022年第4号，2022年8月1日起施行）<br>
+        ・《口岸重点管控外来物种名录》（海关总署等六部门2026年第39号公告，2026年5月1日施行）<br>
+        ・2023年中央一号文件（首次部署"异宠"交易与放生规范管理）<br>
         ・各省市外来物种管理地方法规<br><br>
 
 
@@ -4853,8 +4914,10 @@ function rebuildEditorialStructure() {
   if (actionContent && defenseSection) {
     const guide = defenseSection.querySelector('.report-guide-section');
     const cta = defenseSection.querySelector('.cta-section');
+    const footer = defenseSection.querySelector('.data-footer');
     if (guide) actionContent.appendChild(guide);
     if (cta) actionContent.appendChild(cta);
+    if (footer) actionContent.appendChild(footer);
   }
 }
 
@@ -4886,12 +4949,15 @@ function rebuildEditorialStructureV2() {
   if (introTitle) introTitle.innerHTML = '来<span style="color:var(--b-gold)">者</span>何物';
   if (introSubtitle) introSubtitle.textContent = '吃过、养过、见过：它们怎么成了“入侵者”？';
   if (scrollHint) scrollHint.textContent = '向下滚动，进入调查';
-  const narrative = document.querySelector('.intro-narrative-inner');
-  if (narrative) narrative.innerHTML = `
-    <p>宠物店里的红耳龟标价二十元，夜市上的小龙虾论斤卖，路边的加拿大一枝黄花开得正盛。</p>
-    <p>它们都是远道而来的"客"。有的来了上百年，与人相安无事；有的只用了几年，就挤走本土物种，改写整片湿地。</p>
-    <p>并非所有外来物种都有害。真正需要追踪的，是那些完成"进入、定殖、扩散"三级跳，威胁生态系统、生境与本土物种的外来入侵物种。</p>
-    <p class="narrative-emphasis">这一次，我们用341种入侵植物名录、393宗海关截获案和2684个县的分布记录，还原它们如何来到中国，又如何走进自然。</p>`;
+  const narrativeDark = document.querySelector('.intro-narrative-dark .intro-narrative-inner');
+  if (narrativeDark) narrativeDark.innerHTML = `
+    <p class="narrative-lead">来自南美热带草原的一只红火蚁，大概不会知道自己正参与一场跨越半球的无声迁徙。它脚下的土壤，从阿根廷到广东，相隔<span class="narrative-num">一万八千公里</span>——而这段路程，人类用航班、集装箱和苗木贸易替它走完了。这不是孤例。仅过去一个世纪，超过<span class="narrative-num">660</span>种外来物种以类似方式抵达中国：水葫芦、福寿螺、豚草、巴西龟……它们共同的通行证，是全球化时代人类亲手搭建的物流网络。</p>`;
+  const narrativePaper = document.querySelector('.intro-narrative-paper .intro-narrative-inner');
+  if (narrativePaper) narrativePaper.innerHTML = `
+    <p>这些不请自来的"旅客"中，有些只是安静地占据路边一角，有些却在数十年间改写了整片生态。红火蚁登陆广东后以每年近百公里的速度向北推进；空心莲子草从一株观赏植物沦为堵塞河道的绿色痼疾；松材线虫则一棵树一棵树地吞噬着南方松林。在新的土地上，旧有制衡失效，天敌缺席，"物竞天择"被改写成一场没有裁判的竞赛——<strong class="narrative-strong">结果早已注定</strong>。</p>
+    <p>何为一道有效的防线？现实给出的数字令人不安：全国<span class="narrative-num">34</span>个省级行政区无一幸免，云南一省便记录<span class="narrative-num">321</span>种外来入侵物种，几占全国半壁；每年因入侵物种造成的经济损失，已从数十亿元攀升至逾<span class="narrative-num">两千亿元</span>。但更隐蔽的代价不在账面上——本土物种的退场、生态系统的简化、不可逆的基因污染——这些损失无法用货币计量，却在真实地改变我们赖以生存的环境。</p>
+    <p>物种的迁徙本是大自然的常态，但人类用前所未有的速度与规模，将这个过程压缩进了短短百年。当一只蚂蚁、一粒种子、一条线虫就能动摇一片生态系统时，"来者何物"不再只是一个古老的诘问，而是摆在每个人面前的现实考题。回答它，需要数据，需要科学，更需要我们重新审视那条被全球化冲淡的边界——</p>
+    <p class="narrative-emphasis">物种或许无界，但国门有疆。</p>`;
 
   if (mapSection) {
     const number = mapSection.querySelector('.gate-number');
@@ -4994,8 +5060,10 @@ function rebuildEditorialStructureV2() {
   if (actionContent && defenseSection) {
     const guide = defenseSection.querySelector('.report-guide-section');
     const cta = defenseSection.querySelector('.cta-section');
+    const footer = defenseSection.querySelector('.data-footer');
     if (guide) actionContent.appendChild(guide);
     if (cta) actionContent.appendChild(cta);
+    if (footer) actionContent.appendChild(footer);
   }
 }
 
@@ -8452,74 +8520,64 @@ async function renderDefenseChapter() {
 function renderTimeline() {
   const phases = [
     {
-      label: '学科奠基', year: '1986–2002',
-      desc: '从零星探索到系统学科，中国入侵生物学走了十六年',
+      label: '遭遇战', year: '2003–2010',
+      desc: '名单点名、全民灭除，防线在应对中起步',
       events: [
-        {
-          year: '1986',
-          title: '入侵生物学研究启航',
-          desc: '邱式邦院士团队率先开展豚草、空心莲子草等外来入侵植物生物防治研究，标志着中国生物入侵学科的起点。',
-          tag: '科学',
-          tagClass: 'science',
-          image: 'assets/images/timeline/qiu-shibang-laboratory-1986.png',
-          imageAlt: '邱式邦在实验室进行研究工作',
-          imageCaption: '邱式邦在实验室工作（资料图）'
-        },
-        { year: '2002', title: '起步阶段完成', desc: '研究零星分散，集中于重大入侵种生物学特性与天敌利用，尚未形成系统学科体系。', tag: '里程碑', tagClass: 'milestone' }
+        { year: '2003', title: '第一批名单：16种被点名', desc: '原国家环保总局与中科院发布《中国第一批外来入侵物种名单》，紫茎泽兰、薇甘菊、互花米草、美国白蛾、福寿螺、牛蛙等16种上榜，外来入侵物种首次进入国家管理视野。', tag: '政策', tagClass: 'policy' },
+        { year: '2006', title: '"十省百县"灭毒除害行动', desc: '农业部对豚草、加拿大一枝黄花、紫茎泽兰等8种重大入侵生物集中铲除1443万亩，建成综合防治示范区53万亩；同年26个国家级自然保护区全部查到入侵物种，共131种。', tag: '行动', tagClass: 'action' },
+        { year: '2008', title: '550万人次的灭除大会战', desc: '15省（区、市）550万人次参与"灭毒除害"大行动，全年铲除14种重大农业外来入侵物种3200多万亩次，外来入侵物种数据库扩充至427种。', tag: '行动', tagClass: 'action' },
+        { year: '2010.1', title: '第二批名单：红火蚁、小龙虾上榜', desc: '《中国第二批外来入侵物种名单》发布，19种在列——红火蚁、松材线虫之外，夜市里的克氏原螯虾（小龙虾）也被正式点名。', tag: '政策', tagClass: 'policy' },
+        { year: '2010.9', title: '纳入国家生物多样性战略', desc: '国务院发布《中国生物多样性保护战略与行动计划（2011—2030年）》，外来入侵物种防控上升为国家战略。', tag: '政策', tagClass: 'policy' }
       ]
     },
     {
-      label: '体系构建', year: '2003–2015',
-      desc: '从名录发布到法律奠基，政策与科研并行推进',
+      label: '摸清家底', year: '2011–2019',
+      desc: '公报披露数字，名录不断扩容',
       events: [
-        { year: '2003', title: '首批外来入侵物种名单发布', desc: '原国家环保总局发布《中国第一批外来入侵物种名单》，首次从国家层面系统识别和管理外来入侵物种。', tag: '政策', tagClass: 'policy' },
-        { year: '2006', title: '26个保护区调查记录131种', desc: '全国自然保护区外来入侵物种调查，26个保护区共记录131种外来入侵物种。', tag: '科学', tagClass: 'science' },
-        { year: '2007', title: '首届全国入侵生物学大会', desc: '首届全国入侵生物学大会在福州举办，建立120种外来入侵物种数据库，学科交流平台初步形成。', tag: '里程碑', tagClass: 'milestone' },
-        { year: '2009', title: '15种重大入侵种灭除示范', desc: '完成15种重大外来入侵物种的灭除技术示范，验证了生物防治与物理防治相结合的可行性。', tag: '行动', tagClass: 'action' },
-        { year: '2010', title: '第二批入侵物种名单发布', desc: '发布《中国第二批外来入侵物种名单》，定性描述入侵危害为"严重"，引起社会各界广泛关注。', tag: '政策', tagClass: 'policy' },
-        { year: '2011', title: '首次公布全国入侵物种约500种', desc: '首次向公众披露全国外来入侵物种总数约500种，公众认知度大幅提升。', tag: '科学', tagClass: 'science' },
-        { year: '2013', title: '国家重点管理名录（第一批）', desc: '原农业部制定《国家重点管理外来入侵物种名录（第一批）》，52种已造成严重危害的物种被纳入重点管理。', tag: '政策', tagClass: 'policy' },
-        { year: '2013', title: '40种应急防控技术指南', desc: '制定40种农业重大外来入侵物种应急防控技术指南，应急管理体系初步建立。', tag: '行动', tagClass: 'action' },
-        { year: '2014', title: '第三批名单发布，记录544种', desc: '发布《中国外来入侵物种名单（第三批）》，已记录544种，较2010年增长11.5%。', tag: '政策', tagClass: 'policy' },
-        {
-          year: '2015',
-          title: '卫星遥感监测启动',
-          desc: '启动外来入侵物种卫星遥感监测，技术手段全面升级，实现大面积动态监测。',
-          tag: '科学',
-          tagClass: 'science',
-          image: 'assets/images/timeline/satellite-remote-sensing-monitoring.png',
-          imageAlt: '卫星对地遥感监测示意图',
-          imageCaption: '卫星遥感监测示意图（资料图）'
-        }
+        { year: '2011', title: '首次披露：约500种，年损1198.8亿元', desc: '全国生态环境状况公报首次向公众披露外来入侵物种家底：约500种、每年造成经济损失约1198.8亿元，且以年均2~3种的速度增加。', tag: '科学', tagClass: 'science' },
+        { year: '2013', title: '52种列入国家重点管理', desc: '原农业部制定《国家重点管理外来入侵物种名录（第一批）》，52种已造成或具有潜在重大危害的物种被纳入重点管理；同年监测显示，互花米草已沿中国大陆海岸线肆虐近3.6万公顷。', tag: '政策', tagClass: 'policy' },
+        { year: '2014', title: '第三批名单：巴西龟上榜', desc: '《中国外来入侵物种名单（第三批）》发布，18种在列，巴西龟、尼罗罗非鱼等"常见面孔"被点名；公报测算，20种主要农业入侵物种年损失约840亿元。', tag: '政策', tagClass: 'policy' },
+        { year: '2015', title: '卫星上岗，遥感监测入侵植物', desc: '卫星遥感首次用于11省20个重点湖泊（水库）的入侵水生植物扩散监测；30个省份同步开展灭毒除害行动。', tag: '行动', tagClass: 'action' },
+        { year: '2016.12', title: '第四批名单：四批累计71种', desc: '《中国自然生态系统外来入侵物种名单（第四批）》发布，食蚊鱼、美洲大蠊等18种上榜，四批名单累计71种；全国已发现外来入侵物种560多种。', tag: '政策', tagClass: 'policy' },
+        { year: '2018', title: '213种侵入国家级自然保护区', desc: '生态环境公报披露：在已发现的560多种外来入侵物种中，213种已侵入国家级自然保护区——最后的生态堡垒也在承压。', tag: '科学', tagClass: 'science' },
+        { year: '2019', title: '全国已发现660多种', desc: '全国外来入侵物种记录增至660多种，其中215种已进入国家级自然保护区，48种列入国家名单。', tag: '科学', tagClass: 'science' }
       ]
     },
     {
-      label: '全面法治', year: '2016–2026',
-      desc: '立法、普查、执法三管齐下，入侵物种防控进入新纪元',
+      label: '法治防线', year: '2020–2026',
+      desc: '立法、普查、执法、追刑，防线全面升级',
       events: [
-        { year: '2016', title: '第四批名单发布，记录560余种', desc: '发布《中国自然生态系统外来入侵物种名单（第四批）》，已记录560余种。多组学与AI技术开始与入侵生物学融合。', tag: '政策', tagClass: 'policy' },
-        { year: '2019', title: '已记录外来入侵物种660余种', desc: '全国外来入侵物种调查持续深入，已记录660余种，较2011年公布的约500种明显增加。', tag: '科学', tagClass: 'science' },
-        { year: '2020', title: '《生物安全法》通过', desc: '《中华人民共和国生物安全法》正式通过，首次将外来入侵物种防控纳入国家法律框架，具有里程碑意义。', tag: '法律', tagClass: 'law' },
+        { year: '2020.10', title: '《生物安全法》颁布', desc: '《中华人民共和国生物安全法》通过，外来物种引进与入侵管理首次进入国家法律框架，2021年4月15日起施行。', tag: '法律', tagClass: 'law' },
+        { year: '2021.1', title: '五部门联合防控方案', desc: '农业农村部等五部门印发《进一步加强外来物种入侵防控工作方案》，首提"遏增量、清存量"；同年9月，中央政治局集体学习要求摸清外来入侵物种底数、"一种一策"精准治理。', tag: '政策', tagClass: 'policy' },
         {
-          year: '2021',
-          title: '生物安全法施行 + 全国普查启动',
-          desc: '4月15日《生物安全法》正式施行；习近平提出"摸清底数、一种一策"精准治理方针；启动首次全国外来入侵物种普查（2021-2024）；农业农村部与海关总署联合发布470号公告，全面禁止活体动物携带寄递进境。',
-          tag: '法律',
-          tagClass: 'law',
+          year: '2021.10',
+          title: '470号公告：活动物禁止携带寄递进境',
+          desc: '农业农村部、海关总署联合发布第470号公告：活动物（犬、猫除外）禁止携带、寄递进境，"异宠"主要类群全覆盖。同年，首次全国外来入侵物种普查启动。',
+          tag: '政策',
+          tagClass: 'policy',
           image: 'assets/images/timeline/national-invasive-species-census-fieldwork.jpg',
           imageAlt: '工作人员在田间开展全国外来入侵物种普查',
           imageCaption: '全国外来入侵物种普查现场（资料图）'
         },
-        { year: '2022', title: '二十大报告明确要求', desc: '党的二十大报告明确要求"加强生物安全管理，防治外来物种侵害"，将外来物种防控提升至党的全国代表大会层面。', tag: '政策', tagClass: 'policy' },
-        { year: '2023', title: '中央一号文件锁定"异宠"', desc: '中央一号文件首次将"异宠"管理纳入；海关总署启动三年专项行动（2023.7-2026.7），严厉打击非法引进外来物种行为。', tag: '行动', tagClass: 'action' },
-        { year: '2024', title: '全国首例非法引进外来入侵物种罪宣判', desc: '全国首例非法引进外来入侵物种罪案件宣判，标志着刑事责任追究机制的实质性落地。', tag: '法律', tagClass: 'law' },
-        { year: '2025', title: '国家安全部首次发布异宠安全风险提示', desc: '国家安全部首次就"异宠"发布安全风险提示；中国农科院首次系统评估入侵物种经济损失——40年间高达2363.5亿美元。', tag: '行动', tagClass: 'action' },
+        { year: '2022', title: '管理办法施行，二十大点名', desc: '《外来入侵物种管理办法》8月1日施行，确立风险预防、源头管控原则；10月，党的二十大报告写入"加强生物安全管理，防治外来物种侵害"。', tag: '法律', tagClass: 'law' },
+        { year: '2023', title: '59种重点管理名录施行，"异宠"入中央一号文件', desc: '六部门《重点管理外来入侵物种名录》1月1日施行，鳄雀鳝、加拿大一枝黄花、福寿螺、红耳彩龟等59种上榜；2月中央一号文件首次写入"异宠"治理，7月海关总署启动严防外来物种入侵三年专项行动。', tag: '政策', tagClass: 'policy' },
         {
-          year: '2026',
-          title: '六部门联合发布口岸重点管控名录',
-          desc: '六部门联合发布《口岸重点管控外来物种名录》（39号公告），涵盖4类21科属种；第七届全国入侵生物学大会在福州召开，庆祝学科创建四十周年。',
+          year: '2024.9',
+          title: '全国首例：走私1760只巴西龟被判刑',
+          desc: '珠海市中级人民法院一审宣判：易某某经港珠澳大桥口岸夹藏活体龟进境，其中1760只为红耳彩龟（巴西龟），以非法引进外来入侵物种罪判处有期徒刑九个月、并处罚金十万元——该罪名自设立以来首次公开宣判。',
           tag: '法律',
           tagClass: 'law',
+          image: 'assets/images/cases/case-55-1.jpeg',
+          imageAlt: '海关查获的红耳彩龟幼体',
+          imageCaption: '该案查获的红耳彩龟（图：海关发布）'
+        },
+        { year: '2025', title: '"异宠"风险提示升至国家安全层面', desc: '国家安全部首次就"异宠"发布安全风险提示：全国约1707万人饲养"异宠"，市场规模逼近百亿元；全年全国海关从携带、寄递渠道查获外来物种5439批次。', tag: '行动', tagClass: 'action' },
+        {
+          year: '2026.4',
+          title: '六部门首发口岸重点管控名录',
+          desc: '六部门联合发布《口岸重点管控外来物种名录》（2026年第39号公告），切叶蚁、巨人恐蚁、海蟾蜍等4类21科属种被列入口岸重点管控，5月1日施行——把风险挡在国门之外。',
+          tag: '政策',
+          tagClass: 'policy',
           image: 'assets/images/timeline/port-control-list-2026.png',
           imageAlt: '《口岸重点管控外来物种名录》资料页',
           imageCaption: '《口岸重点管控外来物种名录》资料页（2026）'
