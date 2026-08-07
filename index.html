@@ -155,29 +155,50 @@ body {
 }
 .nav-chapters {
   display: flex;
-  gap: 4px;
+  gap: 2px;
+  align-items: center;
 }
-.nav-dot {
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--b-border);
+.nav-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 6px 9px;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--b-text-dim);
   cursor: pointer;
-  transition: all var(--motion-fast) var(--ease-standard);
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: color var(--motion-fast) var(--ease-standard),
+              background var(--motion-fast) var(--ease-standard);
 }
-.nav-dot:hover { background: var(--b-text-dim); transform: scale(1.3); }
-.nav-dot.active {
-  background: var(--b-accent);
-  box-shadow: 0 0 8px var(--b-glow);
-  animation: navBreath 3.8s ease-in-out infinite;
+.nav-item em {
+  font-style: normal;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--b-gold);
+  opacity: 0.65;
 }
-@keyframes navBreath {
-  0%, 100% { box-shadow: 0 0 5px var(--b-glow); }
-  50% { box-shadow: 0 0 12px var(--b-glow); }
+.nav-item:hover { color: var(--b-text); background: rgba(255,255,255,0.06); }
+.nav-item.active { color: var(--b-gold); }
+.nav-item.active em { opacity: 1; }
+/* 窄屏：文字项收起为圆点，保留点击跳转 */
+@media (max-width: 960px) {
+  .nav-chapters { gap: 8px; }
+  .nav-item {
+    width: 10px; height: 10px;
+    padding: 0; gap: 0;
+    border-radius: 50%;
+    background: var(--b-border);
+    font-size: 0;
+  }
+  .nav-item em { display: none; }
+  .nav-item:hover { background: var(--b-text-dim); transform: scale(1.3); }
+  .nav-item.active { background: var(--b-accent); box-shadow: 0 0 8px var(--b-glow); }
 }
 
 /* 减弱动效偏好：所有循环微动画关闭 */
 @media (prefers-reduced-motion: reduce) {
-  .nav-dot.active,
   .gate-scroll-hint,
   .scroll-arrow-anim,
   .audio-btn.playing,
@@ -300,7 +321,7 @@ body {
 
 /* Full-screen editorial scenes. A chapter may contain several scenes, but
    only one evidence unit occupies the reading viewport at a time. */
-html { scroll-snap-type: y mandatory; }
+html { scroll-snap-type: y proximity; }
 .story-scene {
   min-height: 100svh;
   width: 100%;
@@ -4158,14 +4179,13 @@ a:focus-visible,
   <div class="nav-logo">来者何物</div>
   <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
   <div class="nav-chapters">
-    <span class="nav-dot active" data-chapter="0" title="序章"></span>
-    <span class="nav-dot" data-chapter="1" title="证据"></span>
-    <span class="nav-dot" data-chapter="2" title="图谱"></span>
-    <span class="nav-dot" data-chapter="3" title="路径"></span>
-    <span class="nav-dot" data-chapter="4" title="事件"></span>
-    <span class="nav-dot" data-chapter="5" title="影响"></span>
-    <span class="nav-dot" data-chapter="6" title="防线"></span>
-    <span class="nav-dot" data-chapter="7" title="行动"></span>
+    <span class="nav-item active" data-chapter="0" title="序章">序章</span>
+    <span class="nav-item" data-chapter="1" title="第一章 · 版图"><em>01</em>版图</span>
+    <span class="nav-item" data-chapter="2" title="第二章 · 名录"><em>02</em>名录</span>
+    <span class="nav-item" data-chapter="3" title="第三章 · 来路"><em>03</em>来路</span>
+    <span class="nav-item" data-chapter="4" title="第四章 · 代价"><em>04</em>代价</span>
+    <span class="nav-item" data-chapter="5" title="第五章 · 防线"><em>05</em>防线</span>
+    <span class="nav-item" data-chapter="6" title="第六章 · 身边"><em>06</em>身边</span>
   </div>
 </nav>
 
@@ -5179,8 +5199,17 @@ function rebuildEditorialStructureV2() {
 
   const nav = document.querySelector('#mainNav .nav-chapters');
   if (nav) {
-    nav.innerHTML = ['序章','入侵全景','物种图鉴','入侵路径','生态账单','攻防战线','我的身边']
-      .map((title, index) => `<span class="nav-dot${index === 0 ? ' active' : ''}" data-chapter="${index}" title="${title}"></span>`)
+    const chapters = [
+      ['序章', '序章'],
+      ['<em>01</em>版图', '第一章 · 版图'],
+      ['<em>02</em>名录', '第二章 · 名录'],
+      ['<em>03</em>来路', '第三章 · 来路'],
+      ['<em>04</em>代价', '第四章 · 代价'],
+      ['<em>05</em>防线', '第五章 · 防线'],
+      ['<em>06</em>身边', '第六章 · 身边']
+    ];
+    nav.innerHTML = chapters
+      .map(([label, title], index) => `<span class="nav-item${index === 0 ? ' active' : ''}" data-chapter="${index}" title="${title}">${label}</span>`)
       .join('');
   }
   const logo = document.querySelector('#mainNav .nav-logo');
@@ -5206,7 +5235,7 @@ function rebuildEditorialStructureV2() {
     const title = mapSection.querySelector('.gate-title');
     const subtitle = mapSection.querySelector('.gate-subtitle');
     if (number) number.textContent = '01';
-    if (title) title.textContent = '入侵全景：数字里的生态警报';
+    if (title) title.textContent = '版图：数字里的生态警报';
     if (subtitle) subtitle.textContent = '2004年，广东记录下第一例红火蚁；二十年后，这样的记录超过660种，落在全部34个省级行政区。先看有多少，再看落在哪——地图呈现的是被记录的存在，不是风险排名。';
 
     const inner = mapSection.querySelector('.section-inner');
@@ -5239,7 +5268,7 @@ function rebuildEditorialStructureV2() {
     atlasSection.dataset.render = 'map';
     atlasSection.innerHTML = `
       <div class="chapter-gate atlas-gate"><div class="gate-content">
-        <div class="gate-number">02</div><h2 class="gate-title">物种图鉴：谁在入侵？</h2>
+        <div class="gate-number">02</div><h2 class="gate-title">名录：谁在入侵？</h2>
         <p class="gate-subtitle">186条物种记录里，或许就有你见过的一种。先整体辨认，再点进一个名字，看它的科属、等级与分布。</p><div class="gate-divider"></div>
       </div></div>
       <div class="section-inner"><div class="reveal" id="atlasChapterHost"></div><p class="chapter-bridge">名字记住了。下一章，看它们怎么进来的。</p></div>`;
@@ -5254,7 +5283,7 @@ function rebuildEditorialStructureV2() {
     const innerTitle = pathwaySection.querySelector('.section-title');
     const innerSubtitle = pathwaySection.querySelector('.section-subtitle');
     if (number) number.textContent = '03';
-    if (title) title.textContent = '入侵路径：它们怎么来的？';
+    if (title) title.textContent = '来路：它们怎么来的？';
     if (subtitle) subtitle.textContent = '一只红耳龟从宠物盒到城市河道，只隔着一次弃养。主动引进、观赏园艺、养殖逃逸、异宠交易、寄递携带、放生弃养——人的活动把物种一步步带到自然。';
     if (innerTitle) innerTitle.textContent = '从入境压力，到进入自然';
     if (innerSubtitle) innerSubtitle.textContent = '口岸记录告诉我们什么被拦下；境内事件记录继续追踪哪些物种离开人工环境并扩大出现范围。';
@@ -5292,9 +5321,9 @@ function rebuildEditorialStructureV2() {
   }
 
   const chapterCopy = [
-    [impactSection, '04', '生态账单：代价有多大？', '一条被水葫芦封死的河道、一棵被松材线虫掏空的松树，最后都会汇成账面上的数字——每年逾两千亿元。而有些代价，算不进账本。这里只比较口径清楚、来源可追溯的研究证据。'],
-    [defenseSection, '05', '攻防战线：我们在做什么？', '2024年，珠海对一名非法引进1760只红耳彩龟的男子作出全国首例宣判。从口岸检疫到全国普查、监测预警和治理修复，一条防线需要多个环节共同工作。'],
-    [actionSection, '06', '我的身边：你能做什么？', '不随意放生、不购买来源不明的异宠；发现异常物种时，先记录，再向主管部门报告。']
+    [impactSection, '04', '代价：改变的，不只是另一种生物', '一条被水葫芦封死的河道、一棵被松材线虫掏空的松树，最后都会汇成账面上的数字——每年逾两千亿元。而有些代价，算不进账本。这里只比较口径清楚、来源可追溯的研究证据。'],
+    [defenseSection, '05', '防线：不只在国门', '2024年，珠海对一名非法引进1760只红耳彩龟的男子作出全国首例宣判。从口岸检疫到全国普查、监测预警和治理修复，一条防线需要多个环节共同工作。'],
+    [actionSection, '06', '身边：下一次相遇，我们能否更早认出它？', '不随意放生、不购买来源不明的异宠；发现异常物种时，先记录，再向主管部门报告。']
   ];
   chapterCopy.forEach(([section, numberText, titleText, subtitleText]) => {
     if (!section) return;
@@ -5477,7 +5506,7 @@ document.querySelectorAll('.story-scene').forEach(scene => sceneObserver.observe
 const sections = document.querySelectorAll('.section');
 const nav = document.getElementById('mainNav');
 const progressBar = document.getElementById('progressBar');
-const navDots = document.querySelectorAll('.nav-dot');
+const navItems = document.querySelectorAll('.nav-item');
 
 window.addEventListener('scroll', () => {
   const scrollTop = window.scrollY;
@@ -5495,12 +5524,12 @@ window.addEventListener('scroll', () => {
     const rect = sec.getBoundingClientRect();
     if (rect.top <= window.innerHeight / 2) current = i;
   });
-  navDots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+  navItems.forEach((item, i) => item.classList.toggle('active', i === current));
 });
 
-navDots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    const idx = parseInt(dot.dataset.chapter);
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const idx = parseInt(item.dataset.chapter);
     sections[idx].scrollIntoView({ behavior: 'smooth' });
   });
 });
@@ -5581,12 +5610,12 @@ async function activateSection(idx, sectionEl) {
   
   // Remove old active states
   sections.forEach(s => s.classList.remove('active'));
-  navDots.forEach(d => d.classList.remove('active'));
+  navItems.forEach(d => d.classList.remove('active'));
   
   // Set new active
   sectionEl.classList.add('active');
   sectionEl.classList.add('activated'); // 首次激活后永久保持内容可见
-  if (navDots[idx]) navDots[idx].classList.add('active');
+  if (navItems[idx]) navItems[idx].classList.add('active');
   
   // Nav visibility: hide on cover (idx=0), show on others
   if (idx === 0) {
@@ -5706,10 +5735,10 @@ async function renderChapter(renderKey) {
   });
 }
 
-// Nav dot click: scroll to section
-navDots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    const idx = parseInt(dot.dataset.chapter);
+// Nav item click: scroll to section
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const idx = parseInt(item.dataset.chapter);
     if (sections[idx]) {
       sections[idx].scrollIntoView({ behavior: 'smooth' });
     }
