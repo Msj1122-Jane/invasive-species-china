@@ -270,7 +270,7 @@ body {
    only one evidence unit occupies the reading viewport at a time. */
 html { scroll-snap-type: none; }
 .story-scene {
-  min-height: 100svh;
+  min-height: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -279,8 +279,8 @@ html { scroll-snap-type: none; }
   padding: clamp(72px, 10vh, 120px) 0;
   scroll-snap-align: start;
   scroll-snap-stop: normal;
-  opacity: 0.22;
-  transform: translateY(44px) scale(0.985);
+  opacity: 1;
+  transform: none;
   /* filter:saturate 移除：整屏场景参与滚动时滤镜重绘代价过高 */
   transition:
     opacity 0.72s cubic-bezier(.22,.61,.36,1),
@@ -289,12 +289,12 @@ html { scroll-snap-type: none; }
 }
 .story-scene.is-active {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: none;
   /* filter removed for scroll performance */
 }
 .story-scene.is-leaving {
-  opacity: 0.18;
-  transform: translateY(-34px) scale(0.99);
+  opacity: 1;
+  transform: none;
 }
 .story-scene > .reveal {
   width: 100%;
@@ -3813,7 +3813,7 @@ body {
   background-color: transparent;
 }
 .intro-narrative-section {
-  min-height: 100svh;
+  min-height: 0;
   padding: clamp(110px, 18vh, 190px) 24px;
   position: relative;
   overflow: hidden;
@@ -3849,12 +3849,12 @@ body {
   padding-bottom: 0;
 }
 .story-scene {
-  min-height: calc(100svh - 60px);
+  min-height: 0;
   padding: clamp(88px, 11vh, 132px) clamp(0px, 1.5vw, 18px);
   justify-content: center;
-  opacity: .46;
-  transform: translate3d(0, 54px, 0) scale(.985);
-  filter: saturate(.78) blur(.6px);
+  opacity: 1;
+  transform: none;
+  filter: none;
   transition: opacity .8s cubic-bezier(.22,.61,.36,1),
               transform .95s cubic-bezier(.22,.61,.36,1),
               filter .8s ease;
@@ -3877,13 +3877,13 @@ body {
   filter: none;
 }
 .story-scene.is-active::after { opacity: 1; transform: scale(1); }
-.story-scene.is-leaving { opacity: .2; transform: translate3d(0,-38px,0) scale(.992); filter: saturate(.65); }
+.story-scene.is-leaving { opacity: 1; transform: none; filter: none; }
 .story-scene > .reveal,
 .story-scene > .section-header {
   position: relative;
   z-index: 2;
-  transform: translateY(28px);
-  opacity: .65;
+  transform: none;
+  opacity: 1;
   transition: opacity .72s ease .08s, transform .8s cubic-bezier(.22,.61,.36,1) .08s;
 }
 .story-scene.is-active > .reveal,
@@ -3925,7 +3925,7 @@ body {
 .story-scene.scene-chart .customs-section {
   overflow: hidden;
   border-radius: 28px;
-  transform: translateY(20px) scale(.985);
+  transform: none;
   box-shadow: 0 32px 90px rgba(8, 35, 24, .13);
   transition: transform .9s cubic-bezier(.22,.61,.36,1), box-shadow .9s ease;
 }
@@ -3936,12 +3936,12 @@ body {
 .story-scene.scene-chart.is-active .loss-section,
 .story-scene.scene-chart.is-active .defense-rings-section,
 .story-scene.scene-chart.is-active .customs-section {
-  transform: translateY(0) scale(1);
+  transform: none;
   box-shadow: 0 42px 110px rgba(8, 35, 24, .18);
 }
 .story-scene.scene-chart [_echarts_instance_] canvas {
-  opacity: .72;
-  transform: scale(.985);
+  opacity: 1;
+  transform: none;
   transform-origin: center;
   transition: opacity .7s ease, transform 1s cubic-bezier(.22,.61,.36,1);
 }
@@ -5388,7 +5388,7 @@ function enhanceEditorialMotion() {
     };
     show(0);
     if (lines.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      window._narrationTimer = window.setInterval(() => show(active + 1), 4200);
+      // 长页自由滚动：不再自动轮播解说与高亮，避免持续重绘
     }
   };
 }
@@ -5589,7 +5589,7 @@ sections.forEach((sec, i) => {
 async function activateSection(idx, sectionEl) {
   const previousSection = currentSection;
   if (previousSection !== idx && previousSection >= 0 && typeof playChapterTransition === 'function') {
-    playChapterTransition(idx);
+    // 长页自由滚动：不再播放章节过场
   }
   currentSection = idx;
   
