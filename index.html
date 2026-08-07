@@ -4075,6 +4075,9 @@ a:focus-visible,
     radial-gradient(circle at 82% 70%, rgba(159,201,218,.22), transparent 32%),
     #f4f4ed;
 }
+/* 浅色封面不需要暗色蒙版（为深色照片封面设计），否则深字压在灰底上看不清 */
+.atlas-gate::before { display: none; }
+.atlas-gate .gate-number { color: rgba(16,37,29,.07); }
 .atlas-gate .gate-title { color: #10251d; }
 .atlas-gate .gate-subtitle { color: #60776c; }
 #chapter-species { background: linear-gradient(180deg, #f3f4ed 0%, #fbfaf4 56%, #eef5f0 100%); }
