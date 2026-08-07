@@ -4819,7 +4819,6 @@ a:focus-visible,
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">近百亿</div><div class="fs-lbl">市场规模(元)</div></div>
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">78.6%</div><div class="fs-lbl">外来爬行类占比</div></div>
       </div>
-      <p class="chapter-bridge">代价算清了，就该看防线怎么建。</p>
     </div>
   </div>
 </section>
@@ -5304,6 +5303,15 @@ function rebuildEditorialStructureV2() {
     if (title) title.textContent = titleText;
     if (subtitle) subtitle.textContent = subtitleText;
   });
+
+  // 章末过渡旁白（影响章）：静态插入会被内容搬移打乱，统一在归位后追加
+  if (impactSection && !impactSection.querySelector('.chapter-bridge')) {
+    const impactInner = impactSection.querySelector('.section-inner') || impactSection;
+    const impactBridge = document.createElement('p');
+    impactBridge.className = 'chapter-bridge';
+    impactBridge.textContent = '代价算清了，就该看防线怎么建。';
+    impactInner.appendChild(impactBridge);
+  }
 
   if (actionContent && defenseSection) {
     const guide = defenseSection.querySelector('.report-guide-section');
