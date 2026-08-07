@@ -5568,6 +5568,32 @@ const sceneObserver = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.story-scene').forEach(scene => sceneObserver.observe(scene));
 
+// 兜底：滚动停稳后，按视口中心强制同步一次激活场景。
+// IntersectionObserver 只在 ratio≥0.34 时置位、退出时不清位，
+// 向上滚动时可能停在没有任何场景达到阈值的空隙里，页面就卡在灰色非激活态。
+function syncActiveScene() {
+  const mid = window.innerHeight / 2;
+  const best = new Map();
+  document.querySelectorAll('.story-scene').forEach(scene => {
+    const r = scene.getBoundingClientRect();
+    if (r.bottom < window.innerHeight * 0.15 || r.top > window.innerHeight * 0.85) return;
+    const d = Math.abs((r.top + r.bottom) / 2 - mid);
+    const cur = best.get(scene.parentElement);
+    if (!cur || d < cur.d) best.set(scene.parentElement, { scene, d });
+  });
+  best.forEach(({ scene }, parent) => {
+    parent.querySelectorAll(':scope > .story-scene').forEach(other => {
+      other.classList.toggle('is-active', other === scene);
+      other.classList.toggle('is-leaving', other !== scene && other.getBoundingClientRect().top < 0);
+    });
+  });
+}
+let _syncSceneTimer;
+window.addEventListener('scroll', () => {
+  clearTimeout(_syncSceneTimer);
+  _syncSceneTimer = setTimeout(syncActiveScene, 140);
+}, { passive: true });
+
 // ============================================
 // 逐屏滚动叙事（桌面端）：滚轮一次 = 推进一个信息层
 // 以 .chapter-gate / .story-scene 为"屏"；超高场景先在内部
