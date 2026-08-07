@@ -2043,6 +2043,28 @@ html { scroll-snap-type: y proximity; }
   font-size: 1.8rem;
   margin-bottom: 8px;
 }
+.fsc-card-img {
+  margin: -6px -6px 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.fsc-card-img img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+}
+.case-card-thumb {
+  margin: -4px -4px 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.case-card-thumb img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  display: block;
+}
 .fsc-card-title {
   font-size: 0.88rem;
   font-weight: 600;
@@ -2419,6 +2441,22 @@ html { scroll-snap-type: y proximity; }
   color: var(--b-text-dim);
   font-size: 0.82rem;
   margin-bottom: 16px;
+}
+.case-modal-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.case-modal-gallery img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+.case-modal-gallery img:only-child {
+  height: 220px;
 }
 .case-modal-disguise {
   background: rgba(239,68,68,0.1);
@@ -4366,7 +4404,7 @@ html { scroll-snap-type: y proximity; }
     <div class="customs-section reveal">
       <h3 class="subsection-title">🌏 异宠全球化：393宗截获档案全景扫描</h3>
       <p style="font-size:0.84rem;color:var(--b-text-dim);text-align:center;margin-bottom:24px;line-height:1.8;max-width:700px;margin-left:auto;margin-right:auto;">
-        以下数据来自海关总署公布的2025年口岸截获案例。需要明确：<strong style="color:var(--b-accent);">这些案例中92.6%属于"异宠走私"</strong>，
+        以下数据来自"海关发布"（海关总署官方发布平台）公开报道的口岸查获案例。需要明确：<strong style="color:var(--b-accent);">这些案例中92.6%属于"异宠走私"</strong>，
         而非已定殖的入侵物种。"异宠"一旦逃逸或被弃养，才可能成为下一条入侵链的起点。
       </p>
 
@@ -4450,7 +4488,7 @@ html { scroll-snap-type: y proximity; }
         <strong style="color:var(--b-accent);">包裹夹带</strong>正成为外来物种入境的新通道。
       </p>
       <div id="case-port-map" style="width:100%;height:360px;margin-bottom:20px;border-radius:12px;overflow:hidden;"></div>
-      <div class="chart-source">数据来源：海关总署动植物检疫司 · 反走私与口岸截获案例</div>
+      <div class="chart-source">数据来源：海关发布 · 口岸查获案例报道</div>
       <!-- Case Cards Grid -->
       <div class="case-cards-grid" id="caseCardsGrid"></div>
       <div class="case-load-more" id="caseLoadMore" style="display:none;">
@@ -4625,6 +4663,7 @@ html { scroll-snap-type: y proximity; }
         <strong>二、海关截获与检疫数据</strong><br>
         ・2025年全国海关截获数据 —— 海关总署动植物检疫司<br>
         ・口岸截获十大典型案例 —— 海关总署2025年公布<br>
+        ・口岸查获案例数据库与查获现场图片 —— 海关发布（海关总署官方发布平台）<br>
         ・北京、上海、深圳、广州、宁波等重点口岸年度统计公报<br>
         ・出境入境动植物检疫法实施数据 —— 中国海关杂志<br><br>
 
@@ -7917,7 +7956,9 @@ function renderFeaturedStories(cases) {
     const snippet = (c.content || '').replace(/近日，?/g, '').substring(0, 100).trim() + '...';
     return `
     <div class="fsc-card" onclick="openCaseFromFeatured(${JSON.stringify(c).replace(/"/g, '&quot;')})">
-      <div class="fsc-card-icon">${icons[c.type] || '🦎'}</div>
+      ${c.images && c.images.length
+        ? `<div class="fsc-card-img"><img src="${c.images[0]}" alt="${c.species_cn || '查获物种'}" loading="lazy"></div>`
+        : `<div class="fsc-card-icon">${icons[c.type] || '🦎'}</div>`}
       <div class="fsc-card-title">${c.species_cn || '未知物种'}</div>
       <div class="fsc-card-meta">
         <span>${c.origin || '未知来源'}</span>
@@ -7935,6 +7976,11 @@ function openCaseFromFeatured(c) {
   const bodyEl = document.getElementById('caseModalBody');
   headerEl.innerHTML = `<div style="font-size:1.15rem;font-weight:600;">${c.species_cn || '未知物种'}</div><div style="font-size:0.78rem;color:var(--b-text-dim);margin-top:4px;">${c.date} · ${c.port} · ${c.channel}</div>`;
   bodyEl.innerHTML = `
+    ${c.images && c.images.length ? `
+    <div class="case-modal-gallery">
+      ${c.images.map(src => `<img src="${src}" alt="${c.species_cn || '查获物种'}查获现场" loading="lazy">`).join('')}
+    </div>
+    <div style="font-size:0.72rem;color:var(--b-text-dim);margin:-4px 0 12px;">图：海关发布 · 查获现场</div>` : ''}
     <div style="margin-bottom:16px;line-height:1.8;font-size:0.88rem;">${c.content || '暂无详细内容'}</div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;">
       <span style="background:rgba(239,68,68,0.12);color:var(--b-accent);padding:4px 10px;border-radius:6px;font-size:0.75rem;">📦 ${c.method || '未知方式'}</span>
@@ -8202,6 +8248,7 @@ function renderCaseCards() {
     return `
     <div class="case-card" onclick="openCaseDetail(${c.id})">
       <div class="case-card-arrow">→</div>
+      ${c.images && c.images.length ? `<div class="case-card-thumb"><img src="${c.images[0]}" alt="${c.species_cn || '查获物种'}" loading="lazy"></div>` : ''}
       <div class="case-card-species">${c.species_cn || '未知物种'}</div>
       <div class="case-card-port">${c.port || '未知口岸'} · ${c.date || ''}</div>
       ${c.declared && c.declared !== '未申报' && c.declared !== '无' ? `
@@ -8251,6 +8298,7 @@ function loadMoreCases() {
     return `
     <div class="case-card" onclick="openCaseDetail(${c.id})" style="animation: fadeInUp 0.35s ease both;">
       <div class="case-card-arrow">→</div>
+      ${c.images && c.images.length ? `<div class="case-card-thumb"><img src="${c.images[0]}" alt="${c.species_cn || '查获物种'}" loading="lazy"></div>` : ''}
       <div class="case-card-species">${c.species_cn || '未知物种'}</div>
       <div class="case-card-port">${c.port || '未知口岸'} · ${c.date || ''}</div>
       ${c.declared && c.declared !== '未申报' && c.declared !== '无' ? `
@@ -8335,9 +8383,12 @@ function openCaseDetail(id) {
   const hasDisguise = c.declared && c.declared !== '未申报' && c.declared !== '无';
 
   body.innerHTML = `
-    <div class="case-modal-photo">
-      ${c.has_photo ? '📸 现场查获照片' : '📋 暂无现场图片'}
+    ${c.images && c.images.length ? `
+    <div class="case-modal-gallery">
+      ${c.images.map(src => `<img src="${src}" alt="${c.species_cn || '查获物种'}查获现场" loading="lazy">`).join('')}
     </div>
+    <div style="font-size:0.72rem;color:var(--b-text-dim);margin:-4px 0 10px;">图：海关发布 · 查获现场</div>` : `
+    <div class="case-modal-photo">📋 暂无现场图片</div>`}
     ${hasDisguise ? `
     <div class="case-modal-disguise">
       <span class="cmd-badge">伪装破获</span>
