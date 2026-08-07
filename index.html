@@ -201,7 +201,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .gate-scroll-hint,
   .scroll-arrow-anim,
-  .audio-btn.playing,
   .ring-group:hover {
     animation: none !important;
   }
@@ -3610,125 +3609,6 @@ a:focus-visible,
   transform: translateY(-100%);
 }
 
-/* ==============================
-   AUDIO PLAYER
-   ============================== */
-.audio-player {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--a-surface, #fff);
-  border: 1px solid var(--a-border, #e2e8f0);
-  border-radius: 40px;
-  padding: 8px 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  transition: all var(--motion-fast) var(--ease-standard);
-  user-select: none;
-}
-.audio-player:hover {
-  box-shadow: 0 6px 28px rgba(0,0,0,0.15);
-}
-.audio-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: none;
-  background: var(--a-highlight, #c2503a);
-  color: #fff;
-  cursor: pointer;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
-  flex-shrink: 0;
-}
-.audio-btn:hover {
-  transform: scale(1.08);
-}
-.audio-btn.playing {
-  background: #059669;
-  animation: musicPulse 2.8s ease-in-out infinite;
-}
-@keyframes musicPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(5,150,105,0.32); }
-  50% { box-shadow: 0 0 0 8px rgba(5,150,105,0); }
-}
-.audio-label {
-  font-size: 0.78rem;
-  color: var(--a-text-secondary, #64748b);
-  white-space: nowrap;
-}
-.audio-volume {
-  -webkit-appearance: none;
-  width: 64px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--a-border, #e2e8f0);
-  outline: none;
-  cursor: pointer;
-  transition: width 0.3s;
-}
-.audio-volume::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--a-highlight, #c2503a);
-  cursor: pointer;
-}
-.audio-tooltip {
-  position: fixed;
-  bottom: 90px;
-  right: 28px;
-  background: #1e293b;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  z-index: 10000;
-}
-.audio-tooltip.show {
-  opacity: 1;
-}
-.audio-tooltip::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  right: 24px;
-  width: 12px;
-  height: 12px;
-  background: #1e293b;
-  transform: rotate(45deg);
-}
-/* Dark section override */
-.section-dark .audio-player {
-  background: rgba(15,23,42,0.9);
-  border-color: rgba(148,163,184,0.2);
-}
-.section-dark .audio-label {
-  color: #94a3b8;
-}
-
-@media (max-width: 640px) {
-  .audio-player {
-    bottom: 16px;
-    right: 16px;
-    padding: 6px 12px;
-    gap: 6px;
-  }
-  .audio-volume { width: 48px; }
-  .audio-label { font-size: 0.7rem; }
-}
-
 /* ===== 滚动动效系统（安全版：默认可见，JS加载后才隐藏）===== */
 .sa-pre {
   opacity: 0;
@@ -5113,15 +4993,6 @@ a:focus-visible,
 <!-- ==============================
      JAVASCRIPT
      ============================== -->
-<!-- Audio Player -->
-<div class="audio-tooltip" id="audioTooltip">点击 ♪ 开启背景音乐</div>
-<a href="" download id="bgmDownload" style="display:none;"></a>
-<div class="audio-player" id="audioPlayer">
-  <button class="audio-btn" id="audioBtn" title="播放/暂停背景音乐">♪</button>
-  <span class="audio-label" id="audioLabel">BGM</span>
-  <input type="range" class="audio-volume" id="audioVolume" min="0" max="100" value="30" title="音量">
-</div>
-
 <div class="atlas-modal" id="atlasModal" role="dialog" aria-modal="true" aria-labelledby="atlasModalTitle">
   <button class="atlas-modal-close" id="atlasModalClose" aria-label="关闭物种档案">×</button>
   <div class="atlas-modal-media"><img id="atlasModalImage" alt=""></div>
@@ -5304,21 +5175,21 @@ function rebuildEditorialStructureV2() {
         <header class="overview-kpis-head">
           <span>CHAPTER 01 · SCALE</span>
           <h3>它们已经无处不在</h3>
-          <p>660余种外来入侵物种已在中国留下记录。但总量只是开场——真正说明问题的，是下面这个数字。</p>
+          <p>总量本身就是警报——而这660余种的真正分量，藏在损失账单、国家名录和口岸前线的数字里。</p>
         </header>
         <div class="kpi-hero">
-          <div class="kpi-hero-num"><strong data-counter="92.5">92.5</strong><b>%</b></div>
+          <div class="kpi-hero-num"><strong data-counter="660">660</strong><b>余种</b></div>
           <div class="kpi-hero-cap">
-            <h4>的县，已记录到入侵植物</h4>
-            <p>2684个县级行政区有外来入侵植物分布记录，覆盖全国92.5%的县域——有记录不等于高风险，但空白几乎不存在。（县级分布数据库 IPSD）</p>
+            <h4>外来入侵物种，已在中国留下记录</h4>
+            <p>生态环境部《2020中国生态环境状况公报》口径，且以年均2~3种的速度增加——这不是静态存量，而是一份仍在变长的入侵者名单。</p>
           </div>
         </div>
         <div class="overview-kpi-grid">
-          <article><div><strong data-counter="660">660</strong><b>余种</b></div><h4>全国已记录外来入侵物种</h4><p>生态环境部《2020中国生态环境状况公报》。</p></article>
-          <article><div><strong data-counter="703">703</strong><b>个县</b></div><h4>红火蚁二十年扩散范围</h4><p>2004年广东吴川首例，2025年已遍布13省703县（农业农村部名录）。</p></article>
           <article><div><strong data-counter="1198.8">1198.8</strong><b>亿元/年</b></div><h4>外来入侵物种年损失估计</h4><p>2011年全国公报口径，此后再未更新，实际或更高。</p></article>
+          <article><div><strong data-counter="59">59</strong><b>种</b></div><h4>列入国家重点管理名录</h4><p>六部门《重点管理外来入侵物种名录》2023年施行，鳄雀鳝、福寿螺、红耳彩龟等在列。</p></article>
+          <article><div><strong data-counter="5439">5439</strong><b>批次</b></div><h4>2025年全国海关截获</h4><p>海关总署动植物检疫司统计——跨境包裹洪流之下，口岸截获量连年攀升。</p></article>
         </div>
-        <p class="kpi-footnote">口径提醒：公报计总量、数据库记分布、名录管重点——这些数字回答的是不同问题，不能相加。</p>`;
+        <p class="kpi-footnote">口径提醒：公报计总量、名录管重点、海关守前线——这些数字回答的是不同问题，不能相加。</p>`;
       inner.insertBefore(wall, inner.firstChild);
     }
     ['.trend-section', '.bubble-section', '.insight-box'].forEach(selector => {
@@ -8723,94 +8594,27 @@ function toggleCheck(el) {
 // INITIALIZATION
 // ============================================
 
-// ---- Audio Player ----
-(function initAudioPlayer() {
-  const BGM_SRC = '';
-  const player = document.getElementById('audioPlayer');
-  if (!BGM_SRC) {
-    if (player) player.hidden = true;
-    return;
-  }
+// ---- Background Music（隐藏式，无UI，首次交互自动开播） ----
+(function initBGM() {
   const audio = new Audio();
-  audio.src = BGM_SRC;
+  // 音乐文件路径 — Suno 生成后放到 assets/bgm.mp3 即可生效
+  audio.src = 'assets/bgm.mp3';
   audio.loop = true;
-  audio.volume = 0.3;
+  audio.volume = 0.25;
   audio.preload = 'auto';
 
-  const btn = document.getElementById('audioBtn');
-  const label = document.getElementById('audioLabel');
-  const volume = document.getElementById('audioVolume');
-  const tooltip = document.getElementById('audioTooltip');
-  let playing = false;
-  let firstInteraction = true;
-
-  // 尝试自动播放（浏览器通常拦截，只做尝试）
-  function tryAutoPlay() {
-    audio.play().then(() => {
-      playing = true;
-      btn.classList.add('playing');
-      btn.textContent = '♪';
-      label.textContent = 'BGM 播放中';
-    }).catch(() => {
-      // 自动播放被拦截 — 显示提示
-      tooltip.classList.add('show');
-      setTimeout(() => tooltip.classList.remove('show'), 4000);
-    });
+  // 浏览器禁止带声音自动播放：监听首次交互（点击/滚动/触摸/按键）后开播
+  const events = ['click', 'wheel', 'touchstart', 'keydown', 'scroll'];
+  function removeListeners() {
+    events.forEach(e => window.removeEventListener(e, tryPlay));
   }
+  function tryPlay() {
+    audio.play().then(removeListeners).catch(() => {});
+  }
+  events.forEach(e => window.addEventListener(e, tryPlay, { passive: true }));
 
-  // 首次用户交互后尝试
-  document.addEventListener('click', function onFirstClick() {
-    if (firstInteraction) {
-      firstInteraction = false;
-      tryAutoPlay();
-      document.removeEventListener('click', onFirstClick);
-    }
-  }, { once: false });
-
-  // 播放/暂停切换
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (playing) {
-      audio.pause();
-      playing = false;
-      btn.classList.remove('playing');
-      btn.textContent = '♪';
-      label.textContent = 'BGM 暂停';
-    } else {
-      audio.play().then(() => {
-        playing = true;
-        btn.classList.add('playing');
-        btn.textContent = '♪';
-        label.textContent = 'BGM 播放中';
-        tooltip.classList.remove('show');
-      }).catch(() => {
-        // 仍然被拦截
-        label.textContent = '点击启用';
-        setTimeout(() => { if (!playing) label.textContent = 'BGM 暂停'; }, 2000);
-      });
-    }
-  });
-
-  // 音量调节
-  volume.addEventListener('input', () => {
-    audio.volume = volume.value / 100;
-  });
-
-  // 暗色/亮色模式跟随
-  const darkSections = document.querySelectorAll('.section-dark');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        player.classList.add('dark-mode');
-      } else {
-        player.classList.remove('dark-mode');
-      }
-    });
-  }, { threshold: 0.3 });
-  darkSections.forEach(s => observer.observe(s));
-
-  // 暴露到全局便于外部控制
-  window._bgm = { audio, play: () => audio.play(), pause: () => audio.pause(), get playing() { return playing; } };
+  // 兜底：个别环境允许直接自动播放
+  tryPlay();
 })();
 
 
