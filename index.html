@@ -471,6 +471,26 @@ html { scroll-snap-type: y proximity; }
 }
 .gate-scroll-hint svg { display: block; }
 
+/* 章末过渡旁白：章节模块之间的连接语言（空间化叙事的"过渡与编排"） */
+.chapter-bridge {
+  max-width: 620px;
+  margin: clamp(48px, 8vh, 88px) auto 0;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  line-height: 1.9;
+  opacity: 0.68;
+}
+.chapter-bridge::before {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+  margin: 0 auto 16px;
+}
+
 /* ============================================
    3D 深度与层次（卡片倾斜 + 阴影分层）
    仅 JS 检测 pointer:fine 后启用，触控设备不受影响
@@ -2275,52 +2295,6 @@ a:focus-visible,
   overflow: hidden;
 }
 
-/* Featured Story Cards horizontal scroll */
-.featured-stories-scroll {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 4px 4px 20px;
-  margin: 0 0 32px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(239,68,68,0.3) transparent;
-}
-.featured-stories-scroll::-webkit-scrollbar { height: 4px; }
-.featured-stories-scroll::-webkit-scrollbar-thumb {
-  background: rgba(239,68,68,0.3);
-  border-radius: 2px;
-}
-.fsc-card {
-  flex: 0 0 280px;
-  scroll-snap-align: start;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 20px;
-  cursor: pointer;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.fsc-card:hover {
-  border-color: var(--b-accent);
-  transform: translateY(-2px);
-}
-.fsc-card-icon {
-  font-size: 1.8rem;
-  margin-bottom: 8px;
-}
-.fsc-card-img {
-  margin: -6px -6px 10px;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.fsc-card-img img {
-  width: 100%;
-  height: 130px;
-  object-fit: cover;
-  display: block;
-}
 .case-card-thumb {
   margin: -4px -4px 10px;
   border-radius: 8px;
@@ -2332,39 +2306,6 @@ a:focus-visible,
   object-fit: cover;
   display: block;
 }
-.fsc-card-title {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--b-text);
-  margin-bottom: 6px;
-  line-height: 1.4;
-}
-.fsc-card-meta {
-  font-size: 0.72rem;
-  color: var(--b-text-dim);
-  line-height: 1.6;
-}
-.fsc-card-meta span {
-  display: inline-block;
-  background: rgba(239,68,68,0.1);
-  color: var(--b-accent);
-  padding: 1px 8px;
-  border-radius: 4px;
-  margin-right: 4px;
-  margin-bottom: 2px;
-}
-.fsc-card-snippet {
-  font-size: 0.74rem;
-  color: var(--b-text-dim);
-  margin-top: 10px;
-  line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  opacity: 0.7;
-}
-
 /* Disguise game */
 .disguise-game {
   max-width: 700px;
@@ -2377,17 +2318,14 @@ a:focus-visible,
   margin-bottom: 24px;
 }
 .game-area {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 20px;
-  align-items: center;
+  display: block;
 }
 .game-card-wrap {
   perspective: 800px;
 }
 .game-card {
   width: 100%;
-  height: 180px;
+  height: 240px;
   border-radius: 12px;
   cursor: pointer;
   position: relative;
@@ -2405,36 +2343,77 @@ a:focus-visible,
   align-items: center;
   justify-content: center;
   padding: 20px;
+  color: #fff;
+  text-align: center;
 }
 .gc-front {
-  background: var(--b-card);
-  border: 2px dashed var(--b-border);
+  background: linear-gradient(135deg, #e04545, #b91c1c);
+  box-shadow: 0 8px 24px rgba(185,28,28,0.25);
 }
 .gc-back {
-  background: linear-gradient(135deg, var(--b-accent), #b91c1c);
+  background: linear-gradient(135deg, #10b981, #047857);
   transform: rotateY(180deg);
-  color: white;
-  text-align: center;
+  box-shadow: 0 8px 24px rgba(4,120,87,0.25);
 }
 .gc-declare {
   font-size: 0.78rem;
-  color: var(--b-text-dim);
+  opacity: 0.85;
   margin-bottom: 8px;
 }
+.gc-declare-icon { font-size: 2.2rem; margin-bottom: 6px; }
 .gc-declare-val {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--b-text);
+  letter-spacing: 0.02em;
 }
-.gc-real-icon { font-size: 2.5rem; margin-bottom: 8px; }
-.gc-real-name {
-  font-size: 1.1rem;
+.gc-hint {
+  margin-top: 12px;
+  font-size: 0.78rem;
+  opacity: 0.75;
+  animation: dgPulse 2.2s ease-in-out infinite;
+}
+@keyframes dgPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+}
+.gc-ok {
+  font-size: 0.92rem;
   font-weight: 700;
+  margin-bottom: 6px;
+}
+.gc-real-icon { font-size: 2.2rem; margin-bottom: 4px; }
+.gc-real-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.gc-real-latin {
+  font-size: 0.76rem;
+  font-style: italic;
+  opacity: 0.8;
+  margin-top: 2px;
 }
 .gc-real-count {
   font-size: 0.85rem;
+  opacity: 0.9;
+  margin-top: 6px;
+}
+.gc-real-fact {
+  font-size: 0.76rem;
+  line-height: 1.6;
   opacity: 0.85;
-  margin-top: 4px;
+  margin-top: 8px;
+  max-width: 520px;
+}
+.dg-source {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.72rem;
+  color: var(--b-text-dim);
+  opacity: 0.8;
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-card { transition: none; }
+  .gc-hint { animation: none; }
 }
 .game-arrow {
   font-size: 1.8rem;
@@ -4327,6 +4306,7 @@ a:focus-visible,
           </div>
         </div>
       </div>
+      <p class="chapter-bridge">数字勾出了轮廓——但认出一个入侵者，得先叫出它的名字。</p>
     </div>
 
 <!-- ==============================
@@ -4354,6 +4334,9 @@ a:focus-visible,
     </div>
 
     <div class="evidence-lab reveal" id="evidenceLab">
+      <p style="text-align:center;font-size:0.88rem;color:var(--b-text-dim);margin-bottom:18px;line-height:1.8;">
+        接下来三条记录，<strong style="color:var(--b-text);">你来当一次鉴定员</strong>：先点选你的判断，再看证据给出什么答案。
+      </p>
       <div class="evidence-case">
         <div class="evidence-case-kicker">记录 A</div>
         <h3>城市河道里出现一只陌生龟类</h3>
@@ -4487,15 +4470,14 @@ a:focus-visible,
 </section>
 
 <!-- ==============================
-     CHAPTER 4: 境内事件与证据
-     ============================== -->
+     CHAPTER 4: 境内事件与证据     ============================== -->
 <section class="section section-dark" id="chapter-spread" data-render="events">
   <!-- Chapter Gate -->
   <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch2.png');">
     <div class="gate-content">
       <div class="gate-number">04</div>
       <h2 class="gate-title">从一个坐标，到一片区域</h2>
-      <p class="gate-subtitle">地图只连接可核查的发现、定殖与处置记录；没有模型支持，就不把记录点画成真实扩散范围</p>
+      <p class="gate-subtitle">2003年，台湾的一个坐标；2025年，13个省的703个县——红火蚁走出的只是其中一条轨迹。地图只连接可核查的记录，不虚构路线</p>
       <div class="gate-divider"></div>
       <div class="gate-scroll-hint">
         <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0V28M12 28L5 21M12 28L19 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
@@ -4625,7 +4607,7 @@ a:focus-visible,
     <div class="gate-content">
       <div class="gate-number">05</div>
       <h2 class="gate-title">改变的，不只是另一种生物</h2>
-      <p class="gate-subtitle">影响可能抵达自然、生态系统给予人的贡献，以及健康、生计、财产与生活选择</p>
+      <p class="gate-subtitle">一条被水葫芦封死的河道、一棵被松材线虫掏空的松树，最后都会汇成账面上的数字——每年逾两千亿元。而有些代价，算不进账本</p>
       <div class="gate-divider"></div>
       <div class="gate-scroll-hint">
         <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0V28M12 28L5 21M12 28L19 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
@@ -4718,12 +4700,41 @@ a:focus-visible,
         </div>
       </div>
 
-      <!-- Featured Story Cards -->
-      <h4 style="font-size:1.0rem;margin:32px 0 16px;color:var(--b-text);">📋 精选案例故事</h4>
-      <p style="font-size:0.78rem;color:var(--b-text-dim);margin-bottom:12px;line-height:1.7;">
-        以下8个案例精选自393宗截获档案，涵盖不同物种、来源和走私手法。← 左右滑动查看 →
+      <!-- Disguise flip game: 申报品名 → 真实物种 -->
+      <h4 style="font-size:1.0rem;margin:32px 0 16px;color:var(--b-text);">🚨 海关前线：伪装大揭秘</h4>
+      <p style="font-size:0.78rem;color:var(--b-text-dim);margin-bottom:16px;line-height:1.8;max-width:680px;">
+        在这393宗档案里，伪报品名是最常用的闯关手法——申报单上写着"口香糖""曲奇""海沙"，
+        X光机后面却是另一番天地。以下6宗真实案例均来自"海关发布"公开报道，
+        <strong style="color:var(--b-accent);">点击卡片开箱查验</strong>，看看申报品名背后藏着什么。👇
       </p>
-      <div class="featured-stories-scroll" id="featuredStoriesScroll"></div>
+      <div class="disguise-game">
+        <div class="game-area">
+          <div class="game-card-wrap">
+            <div class="game-card" id="dgCard" role="button" tabindex="0" aria-label="点击开箱查验该票申报货物">
+              <div class="gc-face gc-front">
+                <div class="gc-declare" id="dgDeclareMeta"></div>
+                <div class="gc-declare-icon" id="dgDeclareIcon">📦</div>
+                <div class="gc-declare-val" id="dgDeclareVal"></div>
+                <div class="gc-hint">点击开箱查验 👆</div>
+              </div>
+              <div class="gc-face gc-back">
+                <div class="gc-ok">✅ 成功识别！国门卫士 +1</div>
+                <div class="gc-real-icon" id="dgRealIcon"></div>
+                <div class="gc-real-name" id="dgRealName"></div>
+                <div class="gc-real-latin" id="dgRealLatin"></div>
+                <div class="gc-real-count" id="dgRealCount"></div>
+                <div class="gc-real-fact" id="dgRealFact"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="game-controls">
+          <button class="game-btn primary" id="dgNext">下一宗案例 →</button>
+          <button class="game-btn" id="dgReset">重置</button>
+        </div>
+        <div class="game-score" id="dgScore"></div>
+        <div class="dg-source">案例来源：海关发布（海关总署官方发布平台）公开报道</div>
+      </div>
 
       <!-- Full Case Database -->
       <h4 style="font-size:1.05rem;margin:36px 0 16px;color:var(--b-text);">
@@ -4738,6 +4749,9 @@ a:focus-visible,
         <div class="csb-item"><div class="csb-num" id="csbDisguise">0</div><div class="csb-lbl">走私方式数</div></div>
       </div>
       <!-- Filters -->
+      <p style="font-size:0.86rem;color:var(--b-text-dim);margin-bottom:12px;line-height:1.8;">
+        每一张卡片都是一次真实的截获现场。<strong style="color:var(--b-text);">筛一筛、搜一搜，再点开一张卡片</strong>，看看申报单上写的和箱子里装的差了多少。
+      </p>
       <div class="case-filters">
         <input type="text" id="caseSearch" placeholder="搜索物种名/口岸/申报品名..." oninput="filterCases()">
         <select id="caseFilterType" onchange="filterCases()">
@@ -4805,6 +4819,7 @@ a:focus-visible,
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">近百亿</div><div class="fs-lbl">市场规模(元)</div></div>
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">78.6%</div><div class="fs-lbl">外来爬行类占比</div></div>
       </div>
+      <p class="chapter-bridge">代价算清了，就该看防线怎么建。</p>
     </div>
   </div>
 </section>
@@ -4928,6 +4943,8 @@ a:focus-visible,
       </div>
       <div class="cta-result" id="ctaResult">勾选上方承诺，成为生态守门人</div>
     </div>
+
+    <p class="chapter-bridge">防线的最后一环，在每个看见它们的人手里。</p>
 
     <div class="data-footer">
       <div style="font-weight:700;font-size:0.92rem;margin-bottom:10px;color:var(--a-text);">数据来源与参考文献</div>
@@ -5189,7 +5206,7 @@ function rebuildEditorialStructureV2() {
     const subtitle = mapSection.querySelector('.gate-subtitle');
     if (number) number.textContent = '01';
     if (title) title.textContent = '入侵全景：数字里的生态警报';
-    if (subtitle) subtitle.textContent = '先看中国已经记录了多少，再看这些记录落在何处。地图呈现数据库中的物种记录，不把记录数量包装成风险等级。';
+    if (subtitle) subtitle.textContent = '2004年，广东记录下第一例红火蚁；二十年后，这样的记录超过660种，落在全部34个省级行政区。先看有多少，再看落在哪——地图呈现的是被记录的存在，不是风险排名。';
 
     const inner = mapSection.querySelector('.section-inner');
     if (inner && !inner.querySelector('.overview-kpis')) {
@@ -5222,9 +5239,9 @@ function rebuildEditorialStructureV2() {
     atlasSection.innerHTML = `
       <div class="chapter-gate atlas-gate"><div class="gate-content">
         <div class="gate-number">02</div><h2 class="gate-title">物种图鉴：谁在入侵？</h2>
-        <p class="gate-subtitle">从76条重点物种记录中辨认名字、类群与管理等级，再进入一条具体档案。</p><div class="gate-divider"></div>
+        <p class="gate-subtitle">186条物种记录里，或许就有你见过的一种。先整体辨认，再点进一个名字，看它的科属、等级与分布。</p><div class="gate-divider"></div>
       </div></div>
-      <div class="section-inner"><div class="reveal" id="atlasChapterHost"></div></div>`;
+      <div class="section-inner"><div class="reveal" id="atlasChapterHost"></div><p class="chapter-bridge">名字记住了。下一章，看它们怎么进来的。</p></div>`;
     if (atlas) atlasSection.querySelector('#atlasChapterHost').appendChild(atlas);
     mapSection.parentNode.insertBefore(atlasSection, mapSection.nextSibling);
   }
@@ -5237,7 +5254,7 @@ function rebuildEditorialStructureV2() {
     const innerSubtitle = pathwaySection.querySelector('.section-subtitle');
     if (number) number.textContent = '03';
     if (title) title.textContent = '入侵路径：它们怎么来的？';
-    if (subtitle) subtitle.textContent = '主动引进、观赏园艺、养殖逃逸、异宠交易、寄递携带和放生弃养，把物种一步步带到自然环境。';
+    if (subtitle) subtitle.textContent = '一只红耳龟从宠物盒到城市河道，只隔着一次弃养。主动引进、观赏园艺、养殖逃逸、异宠交易、寄递携带、放生弃养——人的活动把物种一步步带到自然。';
     if (innerTitle) innerTitle.textContent = '从入境压力，到进入自然';
     if (innerSubtitle) innerSubtitle.textContent = '口岸记录告诉我们什么被拦下；境内事件记录继续追踪哪些物种离开人工环境并扩大出现范围。';
   }
@@ -5264,11 +5281,18 @@ function rebuildEditorialStructureV2() {
       const node = document.querySelector(`#chapter-map ${selector}`);
       if (node) pathwayContent.appendChild(node);
     });
+    // 章末过渡旁白：所有内容归位后追加，保证落在本章末尾
+    if (!pathwayContent.querySelector('.chapter-bridge')) {
+      const bridge = document.createElement('p');
+      bridge.className = 'chapter-bridge';
+      bridge.textContent = '轨迹连成面之后，代价开始显形。';
+      pathwayContent.appendChild(bridge);
+    }
   }
 
   const chapterCopy = [
-    [impactSection, '04', '生态账单：代价有多大？', '影响不只落在经济数字上，也会改变物种关系、生态系统服务与人的生活。这里只比较口径清楚、来源可追溯的研究证据。'],
-    [defenseSection, '05', '攻防战线：我们在做什么？', '从口岸检疫到全国普查、监测预警和治理修复，一条防线需要多个部门和环节共同工作。'],
+    [impactSection, '04', '生态账单：代价有多大？', '一条被水葫芦封死的河道、一棵被松材线虫掏空的松树，最后都会汇成账面上的数字——每年逾两千亿元。而有些代价，算不进账本。这里只比较口径清楚、来源可追溯的研究证据。'],
+    [defenseSection, '05', '攻防战线：我们在做什么？', '2024年，珠海对一名非法引进1760只红耳彩龟的男子作出全国首例宣判。从口岸检疫到全国普查、监测预警和治理修复，一条防线需要多个环节共同工作。'],
     [actionSection, '06', '我的身边：你能做什么？', '不随意放生、不购买来源不明的异宠；发现异常物种时，先记录，再向主管部门报告。']
   ];
   chapterCopy.forEach(([section, numberText, titleText, subtitleText]) => {
@@ -7866,8 +7890,8 @@ function renderCustomsOverview() {
   renderCustomsMethods(data.methods);
   renderCustomsTypes(data.types);
 
-  // Featured stories
-  renderFeaturedStories(data.featured_cases);
+  // Disguise flip game（静态案例数据，不依赖 customs_visual）
+  initDisguiseGame();
 }
 
 function renderCustomsSankey(sankeyData) {
@@ -7970,47 +7994,124 @@ function renderCustomsTypes(typesData) {
   });
 }
 
-function renderFeaturedStories(cases) {
-  const dom = document.getElementById('featuredStoriesScroll');
-  if (!dom) return;
-  const icons = { '昆虫': '🦗', '爬行动物': '🦎', '节肢动物': '🕷️', '鱼类': '🐟', '鸟类': '🐦', '两栖动物': '🐸', '甲壳动物': '🦞', '哺乳动物': '🐭', '软体动物': '🐌', '植物': '🌿' };
-  dom.innerHTML = cases.map(c => {
-    const snippet = (c.content || '').replace(/近日，?/g, '').substring(0, 100).trim() + '...';
-    return `
-    <div class="fsc-card" onclick="openCaseFromFeatured(${JSON.stringify(c).replace(/"/g, '&quot;')})">
-      ${c.images && c.images.length
-        ? `<div class="fsc-card-img"><img src="${c.images[0]}" alt="${c.species_cn || '查获物种'}" loading="lazy"></div>`
-        : `<div class="fsc-card-icon">${icons[c.type] || '🦎'}</div>`}
-      <div class="fsc-card-title">${c.species_cn || '未知物种'}</div>
-      <div class="fsc-card-meta">
-        <span>${c.origin || '未知来源'}</span>
-        <span>${c.method || '未知方式'}</span>
-        <span>${c.port || '未知口岸'}</span>
-      </div>
-      <div class="fsc-card-snippet">${snippet}</div>
-    </div>`;
-  }).join('');
+// ============================================
+// 海关前线：伪装大揭秘（翻转卡互动）
+// 案例选自"海关发布"公开报道：申报品名与真实物种反差大、
+// 覆盖邮递/货运渠道与多个门类，数量与细节均以报道原文为准。
+// ============================================
+const DISGUISE_CASES = [
+  {
+    declared: '口香糖', declareIcon: '🍬',
+    meta: '深圳邮局海关 · 邮递快件 · 2026年7月',
+    real: '北美巨人蜈蚣', latin: 'Scolopendra heros', icon: '🐛',
+    count: '截获活体 13 只',
+    fact: '四盒"口香糖"有二次包装痕迹，13只活蜈蚣藏身口香糖罐。它是世界上最大的蜈蚣之一，毒液可致人剧痛。'
+  },
+  {
+    declared: '曲奇', declareIcon: '🍪',
+    meta: '南京海关所属苏州海关 · 邮递邮件 · 2024年10月',
+    real: '大头收获蚁 · 野蛮收获蚁', latin: 'Messor spp.', icon: '🐜',
+    count: '截获活体 438 只',
+    fact: '邮件里塞满装活蚁的塑料离心管。两种均为大型凶猛蚁类，一旦传入将威胁生态安全。'
+  },
+  {
+    declared: '海沙', declareIcon: '🏖️',
+    meta: '北京海关 · 进境快件 · 2025年6月（2025年全国十大案例）',
+    real: '沙漠蝗卵', latin: 'Schistocerca gregaria', icon: '🦗',
+    count: '截获蝗卵 363 粒',
+    fact: '沙漠蝗是全球最具毁灭性的农业害虫，成虫日啃食约2克绿色植物——363粒卵，就是一场潜在的蝗灾。'
+  },
+  {
+    declared: '西非苏木', declareIcon: '🪵',
+    meta: '黄埔老港海关 · 货运集装箱 · 2026年4月',
+    real: '帝王蝎', latin: 'Pandinus imperator', icon: '🦂',
+    count: '截获活体 1 只，体长 18 厘米',
+    fact: '藏在木材集装箱里的活体巨蝎，CITES附录Ⅱ物种，系黄埔海关首次截获。'
+  },
+  {
+    declared: '折纸艺术、杂志、材料', declareIcon: '📚',
+    meta: '大连海关 · 邮递邮件 · 2025年4月（2025年全国十大案例）',
+    real: '委内瑞拉太阳虎捕鸟蛛', latin: 'Psalmopoeus irminia', icon: '🕷️',
+    count: '截获活体 504 只',
+    fact: '海关对高风险邮包精准布控截获。有毒腺，咬伤可致剧痛、局部坏死；逃逸弃养会捕食本土小型节肢动物。'
+  },
+  {
+    declared: '空气炸锅', declareIcon: '🍳',
+    meta: '上海浦东国际机场海关 · 邮递快件 · 2023年10月',
+    real: '德州芭切叶蚁', latin: 'Atta texana', icon: '🐜',
+    count: '截获活体 1.3 万余只',
+    fact: '"炸锅"泡沫条里藏着37支塑料管，1.3万余只活蚁——足够建起一个超级蚁群。该种在我国从未有发生报道。'
+  }
+];
+
+let _dgIndex = 0;
+let _dgSolved = 0;
+
+function renderDisguiseCase() {
+  const c = DISGUISE_CASES[_dgIndex];
+  const card = document.getElementById('dgCard');
+  if (!card) return;
+  card.classList.remove('flipped');
+  document.getElementById('dgDeclareMeta').textContent = c.meta;
+  document.getElementById('dgDeclareIcon').textContent = c.declareIcon;
+  document.getElementById('dgDeclareVal').textContent = `申报品名：${c.declared}`;
+  document.getElementById('dgRealIcon').textContent = c.icon;
+  document.getElementById('dgRealName').textContent = c.real;
+  document.getElementById('dgRealLatin').textContent = c.latin;
+  document.getElementById('dgRealCount').textContent = c.count;
+  document.getElementById('dgRealFact').textContent = c.fact;
+  const done = _dgIndex === DISGUISE_CASES.length - 1;
+  document.getElementById('dgNext').textContent = done ? '完成 🎉' : '下一宗案例 →';
+  updateDgScore();
 }
 
-function openCaseFromFeatured(c) {
-  // Build modal content from the case
-  const headerEl = document.getElementById('caseModalHeader');
-  const bodyEl = document.getElementById('caseModalBody');
-  headerEl.innerHTML = `<div style="font-size:1.15rem;font-weight:600;">${c.species_cn || '未知物种'}</div><div style="font-size:0.78rem;color:var(--b-text-dim);margin-top:4px;">${c.date} · ${c.port} · ${c.channel}</div>`;
-  bodyEl.innerHTML = `
-    ${c.images && c.images.length ? `
-    <div class="case-modal-gallery">
-      ${c.images.map(src => `<img src="${src}" alt="${c.species_cn || '查获物种'}查获现场" loading="lazy">`).join('')}
-    </div>
-    <div style="font-size:0.72rem;color:var(--b-text-dim);margin:-4px 0 12px;">图：海关发布 · 查获现场</div>` : ''}
-    <div style="margin-bottom:16px;line-height:1.8;font-size:0.88rem;">${c.content || '暂无详细内容'}</div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;">
-      <span style="background:rgba(239,68,68,0.12);color:var(--b-accent);padding:4px 10px;border-radius:6px;font-size:0.75rem;">📦 ${c.method || '未知方式'}</span>
-      <span style="background:rgba(245,158,11,0.12);color:#F59E0B;padding:4px 10px;border-radius:6px;font-size:0.75rem;">🌍 来源: ${c.origin || '未知'}</span>
-      <span style="background:rgba(59,130,246,0.12);color:#3B82F6;padding:4px 10px;border-radius:6px;font-size:0.75rem;">🏷️ ${c.type || '未知类型'}</span>
-      <span style="background:rgba(16,185,129,0.12);color:#10B981;padding:4px 10px;border-radius:6px;font-size:0.75rem;">🛂 ${c.category || '未分类'}</span>
-    </div>`;
-  document.getElementById('caseModal').classList.add('active');
+function updateDgScore() {
+  const el = document.getElementById('dgScore');
+  if (!el) return;
+  el.textContent = `案例 ${_dgIndex + 1} / ${DISGUISE_CASES.length} ｜ 国门卫士 +${_dgSolved}`;
+}
+
+function initDisguiseGame() {
+  const card = document.getElementById('dgCard');
+  if (!card || card._dgInit) return;
+  card._dgInit = true;
+  _dgIndex = 0;
+  _dgSolved = 0;
+
+  const flip = () => {
+    if (card.classList.contains('flipped')) return;
+    card.classList.add('flipped');
+    _dgSolved = Math.max(_dgSolved, _dgIndex + 1);
+    updateDgScore();
+  };
+  card.addEventListener('click', flip);
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); }
+  });
+
+  document.getElementById('dgNext').addEventListener('click', () => {
+    if (_dgIndex === DISGUISE_CASES.length - 1) {
+      // 完成态
+      card.classList.add('flipped');
+      document.getElementById('dgRealIcon').textContent = '🎖️';
+      document.getElementById('dgRealName').textContent = '全部识破！';
+      document.getElementById('dgRealLatin').textContent = '';
+      document.getElementById('dgRealCount').textContent = `6 宗伪装案例 · 国门卫士 +${_dgSolved}`;
+      document.getElementById('dgRealFact').textContent =
+        '这些包裹里的"异宠"，任何一只逃逸或被弃养，都可能成为下一条入侵链的起点。';
+      return;
+    }
+    _dgIndex += 1;
+    renderDisguiseCase();
+  });
+
+  document.getElementById('dgReset').addEventListener('click', () => {
+    _dgIndex = 0;
+    _dgSolved = 0;
+    renderDisguiseCase();
+  });
+
+  renderDisguiseCase();
 }
 
 // Pet trade chart
