@@ -101,7 +101,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -109,7 +109,7 @@ body {
   line-height: 1.7;
   color: var(--a-text);
   background: var(--a-bg);
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -192,7 +192,7 @@ body {
 .section {
   min-height: var(--section-h);
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 .section-inner {
   max-width: 1200px;
@@ -300,7 +300,7 @@ body {
 
 /* Full-screen editorial scenes. A chapter may contain several scenes, but
    only one evidence unit occupies the reading viewport at a time. */
-html { scroll-snap-type: y proximity; }
+html { scroll-snap-type: y mandatory; }
 .story-scene {
   min-height: 100svh;
   width: 100%;
@@ -310,7 +310,7 @@ html { scroll-snap-type: y proximity; }
   position: relative;
   padding: clamp(72px, 10vh, 120px) 0;
   scroll-snap-align: start;
-  scroll-snap-stop: normal;
+  scroll-snap-stop: always;
   opacity: 0.22;
   transform: translateY(44px) scale(0.985);
   filter: saturate(0.72);
@@ -391,6 +391,8 @@ html { scroll-snap-type: y proximity; }
   background-position: center;
   background-repeat: no-repeat;
   background-color: var(--b-bg);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 .chapter-gate::before {
   content: '';
