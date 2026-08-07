@@ -2573,6 +2573,48 @@ a:focus-visible,
   gap: 12px;
   margin-bottom: 16px;
 }
+/* 精选重点案例：大图+故事的编辑式排版 */
+.feature-cases { display: flex; flex-direction: column; gap: 32px; }
+.feature-case {
+  display: flex;
+  align-items: stretch;
+  background: var(--b-bg-elevated);
+  border: 1px solid var(--b-border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color var(--motion-fast) var(--ease-standard),
+              transform var(--motion-fast) var(--ease-standard);
+}
+.feature-case:nth-child(even) { flex-direction: row-reverse; }
+.feature-case:hover { border-color: var(--b-accent); transform: translateY(-2px); }
+.fc-media { flex: 0 0 42%; min-height: 280px; }
+.fc-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fc-body { flex: 1; display: flex; flex-direction: column; gap: 12px; padding: 30px 34px; }
+.fc-badge {
+  align-self: flex-start;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--b-gold);
+  border: 1px solid var(--b-gold);
+  border-radius: 999px;
+  padding: 3px 12px;
+}
+.fc-body h5 {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  line-height: 1.45;
+  color: var(--b-text);
+  margin: 0;
+}
+.fc-story { font-size: 0.86rem; line-height: 1.9; color: var(--b-text-dim); margin: 0; }
+.fc-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.75rem; color: var(--b-text-dim); }
+.fc-meta span::before { content: '·'; color: var(--b-accent); margin-right: 6px; }
+.fc-source { margin-top: auto; font-size: 0.7rem; color: var(--b-text-dim); opacity: 0.65; }
+@media (max-width: 860px) {
+  .feature-case, .feature-case:nth-child(even) { flex-direction: column; }
+  .fc-media { min-height: 200px; }
+  .fc-body { padding: 20px 22px; }
+}
 .case-card {
   background: var(--b-bg-elevated);
   border: 1px solid var(--b-border);
@@ -4076,42 +4118,74 @@ a:focus-visible,
 .intro-subtitle { max-width: 760px; color: rgba(239,244,240,.78); }
 
 .overview-kpis {
-  min-height: min(880px, 100vh);
-  padding: clamp(72px, 9vw, 132px) clamp(22px, 5vw, 72px);
+  min-height: 100vh;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: clamp(72px, 9vw, 132px) clamp(22px, 6vw, 96px);
   display: grid;
   align-content: center;
   background:
-    radial-gradient(circle at 84% 18%, rgba(239,68,68,.13), transparent 32%),
-    radial-gradient(circle at 12% 82%, rgba(16,185,129,.12), transparent 34%),
-    linear-gradient(145deg, #071711 0%, #0b2018 54%, #102a20 100%);
+    radial-gradient(ellipse 62% 46% at 80% 10%, rgba(214,40,40,.17), transparent 62%),
+    radial-gradient(ellipse 48% 38% at 6% 90%, rgba(16,185,129,.10), transparent 60%),
+    linear-gradient(160deg, #050f0b 0%, #0a1f17 52%, #0f2c21 100%);
   color: #f3f7f4;
-  border-radius: 28px;
   overflow: hidden;
 }
-.overview-kpis-head { max-width: 860px; margin: 0 auto 46px; text-align: center; }
+.overview-kpis-head { max-width: 1180px; margin: 0 auto; text-align: left; }
 .overview-kpis-head span,
 .route-subhead > span { color: #f59e0b; letter-spacing: .24em; font-size: .72rem; font-weight: 800; }
-.overview-kpis-head h3 { margin: 14px 0 16px; font: 700 clamp(2rem, 4vw, 4.5rem)/1.12 var(--font-serif); }
-.overview-kpis-head p { max-width: 720px; margin: auto; color: #a9bdb3; line-height: 1.9; }
-.overview-kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; max-width: 1180px; margin: auto; }
-.overview-kpi-grid article {
-  min-height: 260px;
-  padding: 30px 26px;
+.overview-kpis-head h3 { margin: 16px 0 14px; font: 700 clamp(2.3rem, 4.6vw, 4.4rem)/1.14 var(--font-serif); letter-spacing: -0.01em; }
+.overview-kpis-head p { max-width: 640px; color: #a9bdb3; line-height: 1.9; font-size: .95rem; }
+
+/* 主数字：一眼惊艳的叙事锚点 */
+.kpi-hero {
+  max-width: 1180px;
+  margin: clamp(30px, 5vh, 60px) auto;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  border: 1px solid rgba(196,222,207,.15);
-  background: linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-  border-radius: 20px;
-  backdrop-filter: blur(8px);
-  transition: transform .45s ease, border-color .45s ease, background .45s ease;
+  align-items: baseline;
+  gap: clamp(26px, 4vw, 68px);
 }
-.overview-kpi-grid article:hover { transform: translateY(-8px); border-color: rgba(245,158,11,.55); background: rgba(255,255,255,.085); }
-.overview-kpi-grid article div { display: flex; align-items: baseline; gap: 6px; color: #ff5a52; }
-.overview-kpi-grid strong { font: 700 clamp(2.35rem, 4.4vw, 4.8rem)/.95 var(--font-serif); letter-spacing: -.05em; }
-.overview-kpi-grid b { font-size: .82rem; color: #ffc665; }
-.overview-kpi-grid h4 { margin: 25px 0 9px; font-size: 1.03rem; color: #f5f7f5; }
-.overview-kpi-grid p { color: #91aa9e; font-size: .78rem; line-height: 1.7; }
+.kpi-hero-num { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+.kpi-hero-num strong {
+  font: 700 clamp(6.5rem, 16vw, 12.5rem)/.88 var(--font-serif);
+  letter-spacing: -.045em;
+  background: linear-gradient(115deg, #ff8a66 8%, #ef5350 46%, #c41f1f 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.kpi-hero-num b { font: 700 clamp(1.9rem, 3.6vw, 3.2rem)/1 var(--font-serif); color: #ff8a6e; }
+.kpi-hero-cap h4 { margin: 0 0 12px; font: 600 clamp(1.25rem, 2.3vw, 1.9rem)/1.35 var(--font-serif); color: #f5f7f5; }
+.kpi-hero-cap p { color: #9db3a7; font-size: .88rem; line-height: 1.9; max-width: 470px; }
+
+/* 副数字：发丝线分隔的编辑排版，不用卡片 */
+.overview-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: clamp(24px, 3.5vw, 56px);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.overview-kpi-grid article {
+  padding: 22px 0 0;
+  border-top: 1px solid rgba(196,222,207,.22);
+  transition: border-color .45s ease;
+}
+.overview-kpi-grid article:hover { border-color: rgba(245,158,11,.6); }
+.overview-kpi-grid article div { display: flex; align-items: baseline; gap: 6px; }
+.overview-kpi-grid strong { font: 700 clamp(2.1rem, 3.6vw, 3.3rem)/1 var(--font-serif); letter-spacing: -.03em; color: #f3f7f4; }
+.overview-kpi-grid b { font-size: .85rem; color: #ffc665; }
+.overview-kpi-grid h4 { margin: 14px 0 7px; font-size: .98rem; color: #eef3ef; }
+.overview-kpi-grid p { color: #8ba393; font-size: .78rem; line-height: 1.75; }
+.kpi-footnote {
+  max-width: 1180px;
+  margin: clamp(26px, 4vh, 44px) auto 0;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(196,222,207,.16);
+  color: #7e9484;
+  font-size: .74rem;
+  line-height: 1.8;
+}
 
 .atlas-gate {
   background:
@@ -4140,12 +4214,11 @@ a:focus-visible,
 
 @media (max-width: 980px) {
   .overview-kpi-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .overview-kpi-grid article { min-height: 220px; }
+  .kpi-hero { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
 @media (max-width: 620px) {
-  .overview-kpis { padding: 68px 16px; border-radius: 0; }
+  .overview-kpis { padding: 68px 20px; }
   .overview-kpi-grid { grid-template-columns: 1fr; }
-  .overview-kpi-grid article { min-height: 184px; }
 }
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
@@ -4758,69 +4831,52 @@ a:focus-visible,
         <div class="dg-source">案例来源：海关发布（海关总署官方发布平台）公开报道</div>
       </div>
 
-      <!-- Full Case Database -->
-      <h4 style="font-size:1.05rem;margin:36px 0 16px;color:var(--b-text);">
-        全国海关查获案例数据库
-        <span style="font-size:0.8rem;color:var(--b-text-dim);font-weight:400;" id="case-count-display"></span>
-      </h4>
-      <!-- Stats Bar -->
-      <div class="case-stats-bar" id="caseStatsBar">
-        <div class="csb-item"><div class="csb-num" id="csbTotal">0</div><div class="csb-lbl">案例总数</div></div>
-        <div class="csb-item"><div class="csb-num" id="csbSpecies">0</div><div class="csb-lbl">涉及物种</div></div>
-        <div class="csb-item"><div class="csb-num" id="csbPorts">0</div><div class="csb-lbl">涉及口岸</div></div>
-        <div class="csb-item"><div class="csb-num" id="csbDisguise">0</div><div class="csb-lbl">走私方式数</div></div>
-      </div>
-      <!-- Filters -->
-      <p style="font-size:0.86rem;color:var(--b-text-dim);margin-bottom:12px;line-height:1.8;">
-        每一张卡片都是一次真实的截获现场。<strong style="color:var(--b-text);">筛一筛、搜一搜，再点开一张卡片</strong>，看看申报单上写的和箱子里装的差了多少。
+      <!-- Curated featured cases -->
+      <h4 style="font-size:1.05rem;margin:36px 0 12px;color:var(--b-text);">重点案例：四宗案子，四种典型现场</h4>
+      <p style="font-size:0.84rem;color:var(--b-text-dim);margin-bottom:22px;line-height:1.8;max-width:680px;">
+        393宗截获档案不必逐条翻看。我们挑出四宗最有代表性的——一宗刑事宣判、三种最典型的闯关手法，拼出口岸前线的完整图景。
       </p>
-      <div class="case-filters">
-        <input type="text" id="caseSearch" placeholder="搜索物种名/口岸/申报品名..." oninput="filterCases()">
-        <select id="caseFilterType" onchange="filterCases()">
-          <option value="all">全部类型</option>
-          <option value="昆虫">昆虫</option><option value="爬行动物">爬行动物</option>
-          <option value="节肢动物">节肢动物</option><option value="鱼类">鱼类</option>
-          <option value="鸟类">鸟类</option><option value="两栖动物">两栖动物</option>
-          <option value="哺乳动物">哺乳动物</option><option value="软体动物">软体动物</option>
-          <option value="甲壳动物">甲壳动物</option><option value="植物">植物</option><option value="微生物">微生物</option>
-        </select>
-        <select id="caseFilterChannel" onchange="filterCases()">
-          <option value="all">全部渠道</option>
-          <option value="旅检">旅检</option><option value="邮递">邮递</option><option value="货运">货运</option>
-          <option value="船舶">船舶</option><option value="其他">其他</option>
-        </select>
-        <select id="caseFilterMethod" onchange="filterCases()">
-          <option value="all">全部方式</option>
-          <option value="伪报品名">伪报品名</option><option value="行李夹带">行李夹带</option>
-          <option value="人身绑藏">人身绑藏</option><option value="货物夹带">货物夹带</option>
-          <option value="随身携带">随身携带</option>
-          <option value="未申报">未申报</option><option value="瞒报">瞒报</option>
-          <option value="集装箱夹带">集装箱夹带</option>
-        </select>
-      </div>
-      <!-- Port Map -->
-      <p style="font-size:0.84rem;color:var(--b-text-dim);margin-bottom:12px;line-height:1.8;">
-        上图展示了海关截获案例的<strong style="color:var(--b-accent);">地理分布</strong>。
-        深圳、广州、上海、北京等一线口岸是查获的"主力"——
-        但这不意味着内陆口岸就没有风险。随着跨境电商和邮递渠道的兴起，
-        <strong style="color:var(--b-accent);">包裹夹带</strong>正成为外来物种入境的新通道。
-      </p>
-      <div id="case-port-map" style="width:100%;height:360px;margin-bottom:20px;border-radius:12px;overflow:hidden;"></div>
-      <div class="chart-source">数据来源：海关发布 · 口岸查获案例报道</div>
-      <!-- Case Cards Grid -->
-      <div class="case-cards-grid" id="caseCardsGrid"></div>
-      <div class="case-load-more" id="caseLoadMore" style="display:none;">
-        <button class="game-btn" onclick="loadMoreCases()" style="font-size:0.85rem;">加载更多案例</button>
-        <span style="color:var(--b-text-dim);font-size:0.8rem;margin-left:12px;" id="casePageInfo"></span>
-      </div>
-
-      <!-- Case Detail Modal -->
-      <div class="case-modal-overlay" id="caseModal" onclick="closeCaseModal(event)">
-        <div class="case-modal" onclick="event.stopPropagation()">
-          <div class="case-modal-close" onclick="closeCaseModal()">✕</div>
-          <div class="case-modal-header" id="caseModalHeader"></div>
-          <div class="case-modal-body" id="caseModalBody"></div>
-        </div>
+      <div class="feature-cases">
+        <article class="feature-case">
+          <div class="fc-media"><img src="assets/images/cases/case-55-1.jpeg" alt="拱北海关查获的红耳彩龟" loading="lazy"></div>
+          <div class="fc-body">
+            <span class="fc-badge">全国首例 · 刑事宣判</span>
+            <h5>1760只红耳彩龟，九个月刑期</h5>
+            <p class="fc-story">2022年10月，易某某驾车经港珠澳大桥口岸进境，关员从车辆天窗、遮阳板夹缝和扶手箱暗格内查获大量活体龟苗，其中1760只经鉴定为红耳彩龟——世界公认的"生态杀手"。2024年9月，珠海市中级人民法院以非法引进外来入侵物种罪判处其有期徒刑九个月，并处罚金十万元。这是全国首例公开宣判的此类案件。</p>
+            <div class="fc-meta"><span>拱北海关</span><span>2024年9月宣判</span><span>旅检通道 · 暗格夹藏</span></div>
+            <div class="fc-source">来源：海关发布</div>
+          </div>
+        </article>
+        <article class="feature-case">
+          <div class="fc-media"><img src="assets/images/cases/case-2-1.jpeg" alt="申报为口香糖的邮包中查获北美巨人蜈蚣" loading="lazy"></div>
+          <div class="fc-body">
+            <span class="fc-badge">邮递渠道 · 伪报品名</span>
+            <h5>申报"口香糖"，开箱是3只巨人蜈蚣</h5>
+            <p class="fc-story">一票进境邮件的申报品名写着"口香糖"，X光机图像却显示盒内有活物在蠕动。开箱查验后，关员发现3只活体北美巨人蜈蚣——世界上体型最大的蜈蚣之一，毒液可致人剧烈疼痛。伪报品名，是393宗档案里最常见的闯关手法。</p>
+            <div class="fc-meta"><span>邮递渠道</span><span>2026年7月</span><span>申报"口香糖"</span></div>
+            <div class="fc-source">来源：海关发布</div>
+          </div>
+        </article>
+        <article class="feature-case">
+          <div class="fc-media"><img src="assets/images/cases/case-54-1.jpeg" alt="试管中查获的紫彩虹臭蚁" loading="lazy"></div>
+          <div class="fc-body">
+            <span class="fc-badge">进境快件 · 伪报品名</span>
+            <h5>15支"空试管玩具"，装着110只活蚁</h5>
+            <p class="fc-story">广州白云机场口岸，一票申报为"空试管玩具1套"的进境快件在X光机下露出异常：试管排列整齐，管内却有不明物体。关员拦截查验，查获15支装有活体蚂蚁的试管，经鉴定为澳大利亚特有的紫彩虹臭蚁，共110只，在我国尚无自然分布。</p>
+            <div class="fc-meta"><span>广州海关</span><span>2025年5月</span><span>快件渠道 · 试管藏蚁</span></div>
+            <div class="fc-source">来源：海关发布</div>
+          </div>
+        </article>
+        <article class="feature-case">
+          <div class="fc-media"><img src="assets/images/cases/case-23-1.jpeg" alt="木材货物中查获的帝王蝎" loading="lazy"></div>
+          <div class="fc-body">
+            <span class="fc-badge">货运渠道 · 货物夹带</span>
+            <h5>进口"西非苏木"里，藏着42只帝王蝎</h5>
+            <p class="fc-story">黄埔海关对一票申报为"西非苏木"的进口木材实施查验时，在货物中查获42只活体帝王蝎。帝王蝎原产于非洲雨林，是世界上体型最大的蝎子之一。货运渠道单票数量大、隐蔽性强，是口岸防控的另一条主战线。</p>
+            <div class="fc-meta"><span>黄埔海关</span><span>2026年4月</span><span>货运渠道 · 木材夹带</span></div>
+            <div class="fc-source">来源：海关发布</div>
+          </div>
+        </article>
       </div>
     </div>
 
@@ -5245,15 +5301,22 @@ function rebuildEditorialStructureV2() {
       wall.innerHTML = `
         <header class="overview-kpis-head">
           <span>CHAPTER 01 · SCALE</span>
-          <h3>问题有多大？先把数字的口径说清楚</h3>
-          <p>全国生态环境公报给出总体判断，高分辨率数据库只统计外来入侵植物。它们回答不同问题，不能混为同一总量。</p>
+          <h3>它们已经无处不在</h3>
+          <p>660余种外来入侵物种已在中国留下记录。但总量只是开场——真正说明问题的，是下面这个数字。</p>
         </header>
+        <div class="kpi-hero">
+          <div class="kpi-hero-num"><strong data-counter="92.5">92.5</strong><b>%</b></div>
+          <div class="kpi-hero-cap">
+            <h4>的县，已记录到入侵植物</h4>
+            <p>2684个县级行政区有外来入侵植物分布记录，覆盖全国92.5%的县域——有记录不等于高风险，但空白几乎不存在。（县级分布数据库 IPSD）</p>
+          </div>
+        </div>
         <div class="overview-kpi-grid">
-          <article><div><strong data-counter="660">660</strong><b>余种</b></div><h4>全国已发现外来入侵物种</h4><p>据生态环境部《2020中国生态环境状况公报》。</p></article>
-          <article><div><strong data-counter="1198.8">1198.8</strong><b>亿元/年</b></div><h4>外来入侵物种年损失估计</h4><p>2011年全国公报的初步估计，此后再未更新，实际或更高。</p></article>
-          <article><div><strong data-counter="406">406</strong><b>种</b></div><h4>外来入侵植物·县级分布记录</h4><p>高分辨率分布数据库(IPSD)收录，覆盖全部34个省级行政区。</p></article>
-          <article><div><strong data-counter="2684">2684</strong><b>个县</b></div><h4>有它们的分布记录</h4><p>占全国县级行政区的92.5%——有记录，不等于高风险。</p></article>
-        </div>`;
+          <article><div><strong data-counter="660">660</strong><b>余种</b></div><h4>全国已记录外来入侵物种</h4><p>生态环境部《2020中国生态环境状况公报》。</p></article>
+          <article><div><strong data-counter="703">703</strong><b>个县</b></div><h4>红火蚁二十年扩散范围</h4><p>2004年广东吴川首例，2025年已遍布13省703县（农业农村部名录）。</p></article>
+          <article><div><strong data-counter="1198.8">1198.8</strong><b>亿元/年</b></div><h4>外来入侵物种年损失估计</h4><p>2011年全国公报口径，此后再未更新，实际或更高。</p></article>
+        </div>
+        <p class="kpi-footnote">口径提醒：公报计总量、数据库记分布、名录管重点——这些数字回答的是不同问题，不能相加。</p>`;
       inner.insertBefore(wall, inner.firstChild);
     }
     ['.trend-section', '.bubble-section', '.insight-box'].forEach(selector => {
@@ -5737,7 +5800,7 @@ async function activateSection(idx, sectionEl) {
     window.spreadChart, window.worldFlowChart,
     window.icebergChart, window.lossDistChart, window.lossProvChart,
     window.petTradeChart,
-    window._portMapChart, window._sankeyChart, window._bubbleChart,
+    window._sankeyChart, window._bubbleChart,
     window._sunburstChart
   ];
   const doResize = () => allCharts().forEach(c => { if (c && c.resize) c.resize(); });
@@ -7941,10 +8004,6 @@ async function renderPathwaysChapter() {
     renderCustomsOverview();
     _sectionInitFlags._customsOverview = true;
   }
-  if (Data.customs_cases && !_sectionInitFlags._customsCases) {
-    renderCustomsCaseDB();
-    _sectionInitFlags._customsCases = true;
-  }
   if (!_sectionInitFlags._petTrade) {
     renderPetTradeChart();
     _sectionInitFlags._petTrade = true;
@@ -8321,387 +8380,6 @@ function renderPetTradeChart() {
     ]
   });
 }
-
-// ============================================
-// CUSTOMS CASE DATABASE
-// ============================================
-const CASE_PAGE_SIZE = 20;
-let _filteredCases = [];
-let _currentPage = 0;
-let _portMapChart = null;
-let _caseStatsComputed = null;
-
-function renderCustomsCaseDB() {
-  const cases = Data.customs_cases || [];
-  if (!cases.length) return;
-
-  _filteredCases = [...cases];
-  _caseStatsComputed = computeCaseStats(cases);
-
-  // Count display
-  const cd = document.getElementById('case-count-display');
-  if (cd) cd.textContent = `（共${cases.length}条）`;
-
-  // Stats bar
-  animateStatNumbers(_caseStatsComputed);
-
-  // Port map
-  renderCasePortMap(cases);
-
-  // Initial card render
-  _currentPage = 0;
-  renderCaseCards();
-}
-
-function computeCaseStats(cases) {
-  const speciesSet = new Set();
-  const portSet = new Set();
-  const declareSet = new Set();
-  cases.forEach(c => {
-    if (c.species_cn) speciesSet.add(c.species_cn);
-    if (c.port && c.port !== '未标注') portSet.add(c.port);
-    if (c.declared && c.declared !== '未申报' && c.declared !== '无') declareSet.add(c.declared);
-  });
-  return { total: cases.length, species: speciesSet.size, ports: portSet.size, disguise: declareSet.size };
-}
-
-function animateStatNumbers(stats) {
-  ['csbTotal', 'csbSpecies', 'csbPorts', 'csbDisguise'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = '0';
-  });
-
-  const targets = [
-    { id: 'csbTotal', val: stats.total },
-    { id: 'csbSpecies', val: stats.species },
-    { id: 'csbPorts', val: stats.ports },
-    { id: 'csbDisguise', val: stats.disguise }
-  ];
-
-  targets.forEach(({ id, val }, idx) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const duration = 800;
-    const start = performance.now();
-    function step(ts) {
-      const p = Math.min((ts - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.floor(eased * val);
-      if (p < 1) requestAnimationFrame(step);
-    }
-    setTimeout(() => requestAnimationFrame(step), idx * 120);
-  });
-}
-
-function renderCasePortMap(cases) {
-  const container = document.getElementById('case-port-map');
-  if (!container) return;
-  if (_portMapChart) _portMapChart.dispose();
-
-  _portMapChart = echarts.init(container);
-  window._portMapChart = _portMapChart;
-
-  // Port → province mapping (comprehensive)
-  const portProv = {
-    '北京': '北京', '大兴': '北京', '首都': '北京',
-    '天津': '天津', '滨海': '天津',
-    '上海': '上海', '浦东': '上海', '虹桥': '上海', '洋山': '上海',
-    '重庆': '重庆', '江北': '重庆',
-    '广州': '广东', '深圳': '广东', '珠海': '广东', '汕头': '广东', '湛江': '广东',
-    '皇岗': '广东', '福田': '广东', '蛇口': '广东', '盐田': '广东', '白云': '广东',
-    '罗湖': '广东', '文锦渡': '广东', '沙头角': '广东', '惠州': '广东', '东莞': '广东',
-    '厦门': '福建', '福州': '福建', '泉州': '福建', '高崎': '福建', '长乐': '福建',
-    '宁波': '浙江', '杭州': '浙江', '温州': '浙江', '义乌': '浙江', '萧山': '浙江',
-    '南京': '江苏', '苏州': '江苏', '无锡': '江苏', '连云港': '江苏', '禄口': '江苏', '硕放': '江苏',
-    '青岛': '山东', '济南': '山东', '烟台': '山东', '威海': '山东', '胶东': '山东', '流亭': '山东',
-    '大连': '辽宁', '沈阳': '辽宁', '周水子': '辽宁',
-    '成都': '四川', '双流': '四川', '天府': '四川',
-    '武汉': '湖北', '天河': '湖北',
-    '长沙': '湖南', '黄花': '湖南',
-    '郑州': '河南', '新郑': '河南',
-    '昆明': '云南', '瑞丽': '云南', '长水': '云南', '磨憨': '云南',
-    '南宁': '广西', '凭祥': '广西', '东兴': '广西', '吴圩': '广西',
-    '海口': '海南', '三亚': '海南', '美兰': '海南',
-    '哈尔滨': '黑龙江', '太平': '黑龙江', '绥芬河': '黑龙江', '黑河': '黑龙江',
-    '长春': '吉林', '龙嘉': '吉林', '珲春': '吉林',
-    '西安': '陕西', '咸阳': '陕西',
-    '合肥': '安徽', '新桥': '安徽',
-    '南昌': '江西', '昌北': '江西',
-    '贵阳': '贵州', '龙洞堡': '贵州',
-    '拉萨': '西藏', '贡嘎': '西藏', '吉隆': '西藏', '聂拉木': '西藏',
-    '乌鲁木齐': '新疆', '地窝堡': '新疆',
-    '呼和浩特': '内蒙古', '白塔': '内蒙古', '满洲里': '内蒙古', '二连浩特': '内蒙古',
-    '石家庄': '河北', '正定': '河北',
-    '太原': '山西', '武宿': '山西',
-    '兰州': '甘肃', '中川': '甘肃',
-    '西宁': '青海', '曹家堡': '青海',
-    '银川': '宁夏', '河东': '宁夏',
-    '台北': '台湾', '高雄': '台湾',
-    '香港': '香港',
-    '澳门': '澳门'
-  };
-
-  const provCounts = {};
-  cases.forEach(c => {
-    const p = c.port || '';
-    let matched = null;
-    for (const [k, v] of Object.entries(portProv)) {
-      if (p.includes(k)) { matched = v; break; }
-    }
-    if (matched) provCounts[matched] = (provCounts[matched] || 0) + 1;
-  });
-
-  const mapData = Object.entries(provCounts).map(([name, value]) => ({ name, value }));
-  const maxVal = Math.max(...mapData.map(d => d.value), 1);
-
-  _portMapChart.setOption({
-    backgroundColor: 'transparent',
-    tooltip: {
-      trigger: 'item',
-      formatter: function(p) {
-        const portList = cases.filter(c => {
-          for (const [k, v] of Object.entries(portProv)) {
-            if ((c.port||'').includes(k) && v === p.name) return true;
-          }
-          return false;
-        });
-        const topPorts = {};
-        portList.forEach(c => { const k = c.port; topPorts[k] = (topPorts[k]||0)+1; });
-        const tops = Object.entries(topPorts).sort((a,b)=>b[1]-a[1]).slice(0,5)
-          .map(([k,v]) => `${k}: ${v}条`).join('<br/>');
-        return `<strong>${p.name}</strong><br/>共 ${p.value} 条案例<br/>${tops}`;
-      },
-      backgroundColor: 'rgba(19,40,32,0.95)',
-      borderColor: '#1F3D30',
-      textStyle: { color: '#E8F0EB', fontSize: 12 }
-    },
-    visualMap: {
-      min: 0,
-      max: maxVal,
-      left: 8,
-      bottom: 8,
-      text: ['多', '少'],
-      inRange: { color: ['#132820', '#1d4a32', '#2a6e42', '#3d9252', '#55b865', '#7cda78'] },
-      textStyle: { color: '#8BA99A', fontSize: 10 }
-    },
-    series: [{
-      type: 'map',
-      map: 'china',
-      roam: false,
-      label: { show: false },
-      emphasis: {
-        label: { show: true, color: '#fff', fontSize: 12 },
-        itemStyle: { areaColor: '#EF4444' }
-      },
-      itemStyle: {
-        borderColor: '#1a2a1f',
-        borderWidth: 0.5,
-        areaColor: '#0f1e16'
-      },
-      data: mapData
-    }]
-  });
-}
-
-function renderCaseCards() {
-  const grid = document.getElementById('caseCardsGrid');
-  const loadMore = document.getElementById('caseLoadMore');
-  const pageInfo = document.getElementById('casePageInfo');
-  if (!grid) return;
-
-  const totalCases = _filteredCases.length;
-  const start = 0;
-  const end = Math.min((_currentPage + 1) * CASE_PAGE_SIZE, totalCases);
-  const pageCases = _filteredCases.slice(start, end);
-
-  grid.innerHTML = pageCases.map(c => {
-    const typeClass = c.declared && c.declared !== '未申报' && c.declared !== '无' ? 'warn' : '';
-    return `
-    <div class="case-card" onclick="openCaseDetail(${c.id})" tabindex="0" role="button" aria-label="查看案例：${c.species_cn || '未知物种'}">
-      <div class="case-card-arrow">→</div>
-      ${c.images && c.images.length ? `<div class="case-card-thumb"><img src="${c.images[0]}" alt="${c.species_cn || '查获物种'}" loading="lazy"></div>` : ''}
-      <div class="case-card-species">${c.species_cn || '未知物种'}</div>
-      <div class="case-card-port">${c.port || '未知口岸'} · ${c.date || ''}</div>
-      ${c.declared && c.declared !== '未申报' && c.declared !== '无' ? `
-      <div class="case-card-declare">
-        <span class="case-card-declare-val">${c.declared}</span>
-        <span class="case-card-arrow-icon">→</span>
-        <strong>${c.species_cn}</strong>
-      </div>` : ''}
-      <div class="case-card-tags">
-        <span class="case-tag">${c.type || '未知'}</span>
-        <span class="case-tag">${c.channel || '未知渠道'}</span>
-        <span class="case-tag ${typeClass}">${c.declared && c.declared !== '未申报' && c.declared !== '无' ? '伪装破获' : (c.method || '查获')}</span>
-      </div>
-    </div>`;
-  }).join('');
-
-  // Show/hide load more
-  if (end < totalCases) {
-    loadMore.style.display = 'flex';
-    pageInfo.textContent = `已显示 ${end} / ${totalCases} 条`;
-  } else {
-    loadMore.style.display = 'none';
-    if (totalCases > CASE_PAGE_SIZE) {
-      loadMore.style.display = 'flex';
-      pageInfo.textContent = `全部 ${totalCases} 条已加载`;
-      loadMore.querySelector('button').textContent = '已加载全部';
-      loadMore.querySelector('button').disabled = true;
-    }
-  }
-}
-
-function loadMoreCases() {
-  _currentPage++;
-  const totalCases = _filteredCases.length;
-  const start = _currentPage * CASE_PAGE_SIZE;
-  const end = Math.min((_currentPage + 1) * CASE_PAGE_SIZE, totalCases);
-  const newCases = _filteredCases.slice(start, end);
-
-  const grid = document.getElementById('caseCardsGrid');
-  const loadMore = document.getElementById('caseLoadMore');
-  const pageInfo = document.getElementById('casePageInfo');
-  if (!grid) return;
-
-  const frag = document.createElement('template');
-  frag.innerHTML = newCases.map(c => {
-    const typeClass = c.declared && c.declared !== '未申报' && c.declared !== '无' ? 'warn' : '';
-    return `
-    <div class="case-card" onclick="openCaseDetail(${c.id})" tabindex="0" role="button" aria-label="查看案例：${c.species_cn || '未知物种'}" style="animation: fadeInUp var(--motion-med) var(--ease-standard) both;">
-      <div class="case-card-arrow">→</div>
-      ${c.images && c.images.length ? `<div class="case-card-thumb"><img src="${c.images[0]}" alt="${c.species_cn || '查获物种'}" loading="lazy"></div>` : ''}
-      <div class="case-card-species">${c.species_cn || '未知物种'}</div>
-      <div class="case-card-port">${c.port || '未知口岸'} · ${c.date || ''}</div>
-      ${c.declared && c.declared !== '未申报' && c.declared !== '无' ? `
-      <div class="case-card-declare">
-        <span class="case-card-declare-val">${c.declared}</span>
-        <span class="case-card-arrow-icon">→</span>
-        <strong>${c.species_cn}</strong>
-      </div>` : ''}
-      <div class="case-card-tags">
-        <span class="case-tag">${c.type || '未知'}</span>
-        <span class="case-tag">${c.channel || '未知渠道'}</span>
-        <span class="case-tag ${typeClass}">${c.declared && c.declared !== '未申报' && c.declared !== '无' ? '伪装破获' : (c.method || '查获')}</span>
-      </div>
-    </div>`;
-  }).join('');
-  grid.appendChild(frag.content);
-
-  if (end >= totalCases) {
-    loadMore.style.display = 'flex';
-    pageInfo.textContent = `全部 ${totalCases} 条已加载`;
-    const btn = loadMore.querySelector('button');
-    btn.textContent = '已加载全部';
-    btn.disabled = true;
-  } else {
-    pageInfo.textContent = `已显示 ${end} / ${totalCases} 条`;
-  }
-}
-
-function filterCases() {
-  const allCases = Data.customs_cases || [];
-  if (!allCases.length) return;
-
-  const search = (document.getElementById('caseSearch')?.value || '').trim().toLowerCase();
-  const type = document.getElementById('caseFilterType')?.value || 'all';
-  const channel = document.getElementById('caseFilterChannel')?.value || 'all';
-  const method = document.getElementById('caseFilterMethod')?.value || 'all';
-
-  _filteredCases = allCases.filter(c => {
-    if (search) {
-      const haystack = [c.species_cn, c.port, c.declared, c.title, c.content, c.type, c.origin]
-        .filter(Boolean).join(' ').toLowerCase();
-      if (!haystack.includes(search)) return false;
-    }
-    if (type !== 'all' && c.type !== type) return false;
-    if (channel !== 'all' && c.channel !== channel) return false;
-    if (method !== 'all' && c.method !== method) return false;
-    return true;
-  });
-
-  // Update stats
-  const stats = computeCaseStats(_filteredCases);
-  document.getElementById('csbTotal').textContent = stats.total;
-  document.getElementById('csbSpecies').textContent = stats.species;
-  document.getElementById('csbPorts').textContent = stats.ports;
-  document.getElementById('csbDisguise').textContent = stats.disguise;
-
-  const cd = document.getElementById('case-count-display');
-  if (cd) cd.textContent = `（筛选结果：${_filteredCases.length}条）`;
-
-  // Re-render cards
-  _currentPage = 0;
-  renderCaseCards();
-
-  // Re-render port map for filtered data
-  renderCasePortMap(_filteredCases);
-}
-
-function openCaseDetail(id) {
-  const allCases = Data.customs_cases || [];
-  const c = allCases.find(x => x.id === id);
-  if (!c) return;
-
-  const modal = document.getElementById('caseModal');
-  const header = document.getElementById('caseModalHeader');
-  const body = document.getElementById('caseModalBody');
-
-  header.innerHTML = `
-    <div class="cmh-title">${c.species_cn || '未知物种'}</div>
-    <div class="cmh-sub">${c.date || ''} · ${c.port || '未知口岸'} · #${c.id}</div>
-  `;
-
-  const hasDisguise = c.declared && c.declared !== '未申报' && c.declared !== '无';
-
-  body.innerHTML = `
-    ${c.images && c.images.length ? `
-    <div class="case-modal-gallery">
-      ${c.images.map(src => `<img src="${src}" alt="${c.species_cn || '查获物种'}查获现场" loading="lazy">`).join('')}
-    </div>
-    <div style="font-size:0.72rem;color:var(--b-text-dim);margin:-4px 0 10px;">图：海关发布 · 查获现场</div>` : `
-    <div class="case-modal-photo">📋 暂无现场图片</div>`}
-    ${hasDisguise ? `
-    <div class="case-modal-disguise">
-      <span class="cmd-badge">伪装破获</span>
-      <div class="cmd-text">
-        申报为 <span>"${c.declared}"</span>，实际查获 <span>${c.species_cn}</span>
-      </div>
-    </div>` : ''}
-    <div class="cmb-grid">
-      <div class="cmb-row"><span class="cmb-label">类型</span><span class="cmb-value">${c.type || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">数量</span><span class="cmb-value">${c.quantity || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">渠道</span><span class="cmb-value">${c.channel || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">查获方式</span><span class="cmb-value">${c.method || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">原产地</span><span class="cmb-value">${c.origin || '未知'}</span></div>
-      <div class="cmb-row"><span class="cmb-label">类别</span><span class="cmb-value">${c.category || '未知'}</span></div>
-    </div>
-    <div style="margin-top:8px;padding:14px 16px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:0.84rem;line-height:1.7;color:var(--b-text-dim);">
-      ${c.content || '暂无详细描述'}
-    </div>
-    ${c.title ? `<div style="margin-top:10px;font-size:0.78rem;color:var(--b-text-dim);opacity:0.6;">原标题：${c.title}</div>` : ''}
-  `;
-
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeCaseModal(event) {
-  if (event && event.target !== document.getElementById('caseModal')) return;
-  const modal = document.getElementById('caseModal');
-  modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-// Keyboard close
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('caseModal');
-    if (modal && modal.classList.contains('active')) {
-      closeCaseModal();
-    }
-  }
-});
 
 // ============================================
 // CHAPTER 5: DEFENSE TIMELINE
