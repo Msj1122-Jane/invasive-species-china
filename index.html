@@ -497,6 +497,50 @@ html.tilt-js .tilt-moving {
 }
 
 /* ============================================
+   交互悬浮与聚焦态（Hover & Focus States）
+   即时反馈：0.2s ease；键盘聚焦统一金色描边
+   ============================================ */
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #F0B429;
+  outline-offset: 2px;
+}
+/* 已有 border-color 聚焦指示的下拉框，保留描边提示但去掉重复外框 */
+.hq-controls select:focus-visible,
+.case-filters select:focus-visible,
+.case-filters input:focus-visible { outline: none; }
+
+/* 家乡查询下拉框：补齐过渡，悬停/聚焦高亮 */
+.hq-controls select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.hq-controls select:focus {
+  box-shadow: 0 0 0 3px rgba(240, 180, 41, 0.22);
+}
+
+/* 海关案例筛选器：悬停反馈 */
+.case-filters select:hover,
+.case-filters input:hover { border-color: var(--b-text-dim); }
+
+/* 图鉴弹窗关闭按钮：悬浮反馈 */
+.atlas-modal-close {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.atlas-modal-close:hover {
+  color: #b74235;
+  transform: scale(1.15);
+}
+
+/* 案例卡片：键盘聚焦态（JS 已补 tabindex） */
+.case-card:focus-visible {
+  outline: 2px solid var(--b-accent);
+  outline-offset: 2px;
+}
+
+/* ============================================
    CHAPTER 0: 序章 · 无声的战争
    ============================================ */
 #chapter-intro {
@@ -8241,7 +8285,7 @@ function renderCaseCards() {
   grid.innerHTML = pageCases.map(c => {
     const typeClass = c.declared && c.declared !== '未申报' && c.declared !== '无' ? 'warn' : '';
     return `
-    <div class="case-card" onclick="openCaseDetail(${c.id})">
+    <div class="case-card" onclick="openCaseDetail(${c.id})" tabindex="0" role="button" aria-label="查看案例：${c.species_cn || '未知物种'}">
       <div class="case-card-arrow">→</div>
       ${c.images && c.images.length ? `<div class="case-card-thumb"><img src="${c.images[0]}" alt="${c.species_cn || '查获物种'}" loading="lazy"></div>` : ''}
       <div class="case-card-species">${c.species_cn || '未知物种'}</div>
@@ -8291,7 +8335,7 @@ function loadMoreCases() {
   frag.innerHTML = newCases.map(c => {
     const typeClass = c.declared && c.declared !== '未申报' && c.declared !== '无' ? 'warn' : '';
     return `
-    <div class="case-card" onclick="openCaseDetail(${c.id})" style="animation: fadeInUp 0.35s ease both;">
+    <div class="case-card" onclick="openCaseDetail(${c.id})" tabindex="0" role="button" aria-label="查看案例：${c.species_cn || '未知物种'}" style="animation: fadeInUp 0.35s ease both;">
       <div class="case-card-arrow">→</div>
       ${c.images && c.images.length ? `<div class="case-card-thumb"><img src="${c.images[0]}" alt="${c.species_cn || '查获物种'}" loading="lazy"></div>` : ''}
       <div class="case-card-species">${c.species_cn || '未知物种'}</div>
@@ -9027,6 +9071,15 @@ function toggleCheck(el) {
       }
     });
   }
+
+  /* ---------- 3. 键盘可达性：案例卡 Enter/Space 触发 ---------- */
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var card = e.target.closest ? e.target.closest('.case-card') : null;
+    if (!card || e.target !== card) return; // 不抢占卡片内其他控件的按键
+    e.preventDefault();
+    card.click();
+  });
 })();
 
 

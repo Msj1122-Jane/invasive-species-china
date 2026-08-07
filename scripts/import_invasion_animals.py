@@ -149,6 +149,18 @@ def main():
         if note in ("空", "未解析出省份"):
             problems.append(f"分布{note}: {name} | {(d.get('国内分布') or '')[:60]}")
 
+    # xlsx 内去重（如丁鱥出现两行）
+    seen = set()
+    deduped = []
+    for r in records:
+        key = (r["name_cn"], (r["name_latin"] or "").lower())
+        if key in seen:
+            print(f"跳过 xlsx 重复行: {r['name_cn']}")
+            continue
+        seen.add(key)
+        deduped.append(r)
+    records = deduped
+
     # ---------- 审查报告 ----------
     print("\n===== 分布解析需人工复核 =====")
     for r in records:
