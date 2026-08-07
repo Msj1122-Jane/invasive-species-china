@@ -4954,13 +4954,13 @@ a:focus-visible,
 
     <div class="reveal" style="max-width:680px;margin:0 auto 20px;text-align:center;">
       <p style="font-size:0.88rem;color:var(--a-text-secondary);line-height:1.9;">
-        从第一批名单到首例刑事宣判，中国的外来入侵物种防线经历了<strong style="color:var(--a-highlight);">"遭遇战、摸清家底、法治防线"</strong>三个阶段。
+        从第一批名单到首例刑事宣判，中国的外来入侵物种防线经历了<strong style="color:var(--a-highlight);">"仓促应战、摸清家底、法治防线"</strong>三个阶段。
         下方时间轴的二十个节点，记录入侵事件、灭除行动与政策立法怎样一步步织密这张网。
       </p>
     </div>
     <div id="timeline-container" class="reveal">
       <div class="tl-intro">
-        <div class="tl-phase-tag">遭遇战</div>
+        <div class="tl-phase-tag">仓促应战</div>
         <p class="tl-phase-sub">从第一批名单到全民灭除，防线在应对中起步</p>
       </div>
       <div class="tl-track" id="timelineTrack"></div>
@@ -8413,10 +8413,13 @@ async function renderDefenseChapter() {
 function renderTimeline() {
   const phases = [
     {
-      label: '遭遇战', year: '2003–2010',
+      label: '仓促应战', year: '2003–2010',
       desc: '名单点名、全民灭除，防线在应对中起步',
       events: [
-        { year: '2003', title: '第一批名单：16种被点名', desc: '原国家环保总局与中科院发布《中国第一批外来入侵物种名单》，紫茎泽兰、薇甘菊、互花米草、美国白蛾、福寿螺、牛蛙等16种上榜，外来入侵物种首次进入国家管理视野。', tag: '政策', tagClass: 'policy' },
+        { year: '2003', title: '第一批名单：16种被点名', desc: '原国家环保总局与中科院发布《中国第一批外来入侵物种名单》，紫茎泽兰、薇甘菊、互花米草、美国白蛾、福寿螺、牛蛙等16种上榜，外来入侵物种首次进入国家管理视野。', tag: '政策', tagClass: 'policy',
+          image: 'assets/images/timeline/2003-first-batch-list-notice.jpg',
+          imageAlt: '《关于发布中国第一批外来入侵物种名单的通知》（环发〔2003〕11号）公开页面',
+          imageCaption: '《关于发布中国第一批外来入侵物种名单的通知》，环发〔2003〕11号（图：生态环境部政府信息公开页）' },
         { year: '2006', title: '"十省百县"灭毒除害行动', desc: '农业部对豚草、加拿大一枝黄花、紫茎泽兰等8种重大入侵生物集中铲除1443万亩，建成综合防治示范区53万亩；同年26个国家级自然保护区全部查到入侵物种，共131种。', tag: '行动', tagClass: 'action' },
         { year: '2008', title: '550万人次的灭除大会战', desc: '15省（区、市）550万人次参与"灭毒除害"大行动，全年铲除14种重大农业外来入侵物种3200多万亩次，外来入侵物种数据库扩充至427种。', tag: '行动', tagClass: 'action' },
         { year: '2010.1', title: '第二批名单：红火蚁、小龙虾上榜', desc: '《中国第二批外来入侵物种名单》发布，19种在列——红火蚁、松材线虫之外，夜市里的克氏原螯虾（小龙虾）也被正式点名。', tag: '政策', tagClass: 'policy' },
