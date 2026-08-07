@@ -22,11 +22,11 @@
     chart.setOption = function(option, setOpts) {
       var defaults = {
         animation: true,
-        animationDuration: 1800,
+        animationDuration: 800,
         animationEasing: 'cubicOut',
-        animationDurationUpdate: 700,
+        animationDurationUpdate: 400,
         animationEasingUpdate: 'cubicInOut',
-        animationDelay: function(idx) { return Math.min(idx * 80, 1200); }
+        animationDelay: function(idx) { return Math.min(idx * 30, 300); }
       };
       if (option && typeof option === 'object') {
         for (var key in defaults) {
@@ -268,7 +268,7 @@ body {
 
 /* Full-screen editorial scenes. A chapter may contain several scenes, but
    only one evidence unit occupies the reading viewport at a time. */
-html { scroll-snap-type: y proximity; }
+html { scroll-snap-type: none; }
 .story-scene {
   min-height: 100svh;
   width: 100%;
@@ -281,16 +281,16 @@ html { scroll-snap-type: y proximity; }
   scroll-snap-stop: normal;
   opacity: 0.22;
   transform: translateY(44px) scale(0.985);
-  filter: saturate(0.72);
+  /* filter:saturate 移除：整屏场景参与滚动时滤镜重绘代价过高 */
   transition:
     opacity 0.72s cubic-bezier(.22,.61,.36,1),
-    transform 0.82s cubic-bezier(.22,.61,.36,1),
-    filter 0.72s ease;
+    transform 0.82s cubic-bezier(.22,.61,.36,1);
+  /* filter transition removed */
 }
 .story-scene.is-active {
   opacity: 1;
   transform: translateY(0) scale(1);
-  filter: saturate(1);
+  /* filter removed for scroll performance */
 }
 .story-scene.is-leaving {
   opacity: 0.18;
@@ -321,7 +321,7 @@ html { scroll-snap-type: y proximity; }
   transform: translateX(0);
 }
 @media (max-width: 720px) {
-  html { scroll-snap-type: y proximity; }
+  html { scroll-snap-type: none; }
   .story-scene {
     min-height: auto;
     padding: 84px 0 68px;
@@ -3757,6 +3757,319 @@ html { scroll-snap-type: y proximity; }
   .overview-kpi-grid { grid-template-columns: 1fr; }
   .overview-kpi-grid article { min-height: 184px; }
 }
+
+/* =========================================================
+   2026-08 continuous editorial canvas
+   One chromatic system connects every chapter; light and dark
+   scenes are different exposures of the same forest palette.
+   ========================================================= */
+:root {
+  --news-ink: #071711;
+  --news-ink-2: #0c241a;
+  --news-paper: #eef3ec;
+  --news-paper-2: #e3ece4;
+  --news-moss: #5f806e;
+  --news-line: rgba(102, 136, 116, .22);
+  --news-red: #ef514b;
+  --news-gold: #f2ae35;
+}
+body {
+  background: var(--news-ink);
+  color: #173128;
+}
+.section,
+.intro-narrative-section {
+  isolation: isolate;
+}
+.section::after,
+.intro-narrative-section::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: clamp(90px, 14vh, 180px);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(19, 51, 38, .09));
+}
+.section-light {
+  background:
+    radial-gradient(circle at 8% 18%, rgba(82, 128, 101, .11), transparent 30%),
+    radial-gradient(circle at 94% 72%, rgba(242, 174, 53, .06), transparent 28%),
+    linear-gradient(155deg, var(--news-paper) 0%, #f4f5ef 48%, var(--news-paper-2) 100%) !important;
+}
+.section-dark {
+  background:
+    radial-gradient(circle at 84% 12%, rgba(75, 128, 99, .18), transparent 32%),
+    radial-gradient(circle at 10% 82%, rgba(239, 81, 75, .07), transparent 30%),
+    linear-gradient(155deg, var(--news-ink) 0%, var(--news-ink-2) 52%, #081b14 100%) !important;
+}
+#chapter-map,
+#chapter-impact,
+#chapter-defense,
+#chapter-action,
+#chapter-species,
+#chapter-pathways,
+#chapter-spread {
+  background-color: transparent;
+}
+.intro-narrative-section {
+  min-height: 100svh;
+  padding: clamp(110px, 18vh, 190px) 24px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(69, 117, 91, .14), transparent 30%),
+    linear-gradient(180deg, #0a1712 0%, #173126 18%, #dbe7dd 46%, var(--news-paper) 100%);
+}
+.intro-narrative-section::before {
+  content: "01";
+  position: absolute;
+  right: 4vw;
+  bottom: -0.18em;
+  color: rgba(31, 67, 51, .055);
+  font: 800 clamp(13rem, 34vw, 35rem)/.72 var(--font-serif);
+  pointer-events: none;
+}
+.intro-narrative-inner {
+  max-width: 830px;
+  padding: clamp(34px, 6vw, 76px);
+  position: relative;
+  border: 1px solid rgba(64, 101, 82, .13);
+  border-radius: 30px;
+  background: rgba(244, 247, 241, .63);
+  box-shadow: 0 38px 100px rgba(6, 31, 21, .12);
+  backdrop-filter: blur(8px);
+}
+.intro-narrative-inner p { max-width: 34em; margin-left: auto; margin-right: auto; }
+
+.section-inner {
+  width: min(100%, 1320px);
+  max-width: 1320px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.story-scene {
+  min-height: calc(100svh - 60px);
+  padding: clamp(88px, 11vh, 132px) clamp(0px, 1.5vw, 18px);
+  justify-content: center;
+  opacity: .46;
+  transform: translate3d(0, 54px, 0) scale(.985);
+  filter: saturate(.78) blur(.6px);
+  transition: opacity .8s cubic-bezier(.22,.61,.36,1),
+              transform .95s cubic-bezier(.22,.61,.36,1),
+              filter .8s ease;
+}
+.story-scene::after {
+  content: "";
+  position: absolute;
+  inset: 7% -8% 5%;
+  z-index: -1;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(.84);
+  background: radial-gradient(circle, rgba(91, 139, 112, .12), transparent 68%);
+  transition: opacity 1.1s ease, transform 1.25s cubic-bezier(.22,.61,.36,1);
+  pointer-events: none;
+}
+.story-scene.is-active {
+  opacity: 1;
+  transform: translate3d(0,0,0) scale(1);
+  filter: none;
+}
+.story-scene.is-active::after { opacity: 1; transform: scale(1); }
+.story-scene.is-leaving { opacity: .2; transform: translate3d(0,-38px,0) scale(.992); filter: saturate(.65); }
+.story-scene > .reveal,
+.story-scene > .section-header {
+  position: relative;
+  z-index: 2;
+  transform: translateY(28px);
+  opacity: .65;
+  transition: opacity .72s ease .08s, transform .8s cubic-bezier(.22,.61,.36,1) .08s;
+}
+.story-scene.is-active > .reveal,
+.story-scene.is-active > .section-header { opacity: 1; transform: translateY(0); }
+.story-scene > .reveal:nth-child(2) { transition-delay: .16s; }
+.story-scene > .reveal:nth-child(3) { transition-delay: .24s; }
+
+/* The KPI wall is a full-bleed chapter scene, not a dark card floating on paper. */
+.story-scene.scene-kpi {
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  padding-left: max(24px, calc((100vw - 1260px) / 2));
+  padding-right: max(24px, calc((100vw - 1260px) / 2));
+  color: #f2f7f3;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(239,81,75,.16), transparent 31%),
+    radial-gradient(circle at 14% 84%, rgba(71,139,103,.22), transparent 34%),
+    linear-gradient(145deg, #071711 0%, #0c241a 58%, #102d21 100%);
+}
+.story-scene.scene-kpi::before { left: max(24px, calc((100vw - 1260px) / 2)); color: #cbdcd1; }
+.story-scene.scene-kpi .overview-kpis {
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.story-scene.scene-chart {
+  border-top: 1px solid var(--news-line);
+}
+.section-dark .story-scene.scene-chart { border-top-color: rgba(151, 187, 166, .1); }
+.story-scene.scene-chart .chart-container,
+.story-scene.scene-chart .map-container,
+.story-scene.scene-chart .county-hotspot-section,
+.story-scene.scene-chart .timeline-section,
+.story-scene.scene-chart .loss-section,
+.story-scene.scene-chart .defense-rings-section,
+.story-scene.scene-chart .customs-section {
+  overflow: hidden;
+  border-radius: 28px;
+  transform: translateY(20px) scale(.985);
+  box-shadow: 0 32px 90px rgba(8, 35, 24, .13);
+  transition: transform .9s cubic-bezier(.22,.61,.36,1), box-shadow .9s ease;
+}
+.story-scene.scene-chart.is-active .chart-container,
+.story-scene.scene-chart.is-active .map-container,
+.story-scene.scene-chart.is-active .county-hotspot-section,
+.story-scene.scene-chart.is-active .timeline-section,
+.story-scene.scene-chart.is-active .loss-section,
+.story-scene.scene-chart.is-active .defense-rings-section,
+.story-scene.scene-chart.is-active .customs-section {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 42px 110px rgba(8, 35, 24, .18);
+}
+.story-scene.scene-chart [_echarts_instance_] canvas {
+  opacity: .72;
+  transform: scale(.985);
+  transform-origin: center;
+  transition: opacity .7s ease, transform 1s cubic-bezier(.22,.61,.36,1);
+}
+.story-scene.scene-chart.is-active [_echarts_instance_] canvas { opacity: 1; transform: scale(1); }
+
+/* Explanatory copy moves with the graphic instead of sitting above it. */
+.chart-narration {
+  width: min(720px, calc(100% - 32px));
+  min-height: 62px;
+  margin: 0 auto 22px;
+  padding: 13px 18px 13px 54px;
+  position: relative;
+  z-index: 6;
+  overflow: hidden;
+  border: 1px solid rgba(76, 113, 94, .17);
+  border-radius: 999px;
+  background: rgba(245, 248, 242, .8);
+  box-shadow: 0 16px 40px rgba(9, 40, 27, .08);
+  backdrop-filter: blur(14px);
+}
+.section-dark .chart-narration {
+  color: #d9e7de;
+  border-color: rgba(157, 191, 171, .15);
+  background: rgba(6, 25, 17, .72);
+  box-shadow: 0 20px 50px rgba(0,0,0,.2);
+}
+.chart-narration::before {
+  content: "↗";
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--news-red);
+  font-size: 1.15rem;
+}
+.chart-narration-line {
+  display: none;
+  margin: 0;
+  color: #49665a;
+  font-size: .86rem;
+  line-height: 1.65;
+}
+.section-dark .chart-narration-line { color: #aac0b4; }
+.chart-narration-line.is-current {
+  display: block;
+  animation: narrationSweep .62s cubic-bezier(.22,.61,.36,1) both;
+}
+@keyframes narrationSweep {
+  from { opacity: 0; transform: translateX(34px); clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; transform: translateX(0); clip-path: inset(0 0 0 0); }
+}
+
+/* Sparse modules become deliberate full-screen plates. */
+.timeline-section,
+.county-hotspot-section,
+.loss-section,
+.defense-rings-section,
+.defense-actions,
+.report-guide-section,
+.cta-section {
+  width: 100%;
+}
+#chapter-pathways .timeline-section {
+  min-height: min(76svh, 780px);
+  padding: clamp(34px, 5vw, 68px);
+  display: grid;
+  grid-template-rows: auto auto minmax(430px, 1fr) auto auto;
+  align-content: center;
+  border: 1px solid rgba(145, 181, 160, .13);
+  background:
+    linear-gradient(90deg, transparent 49.9%, rgba(155,190,169,.08) 50%, transparent 50.1%),
+    radial-gradient(circle at 50% 54%, rgba(47, 104, 75, .2), transparent 48%),
+    rgba(4, 22, 14, .52);
+}
+#invasionTimelineChart { min-height: 430px; height: 50vh !important; }
+#chapter-map .county-hotspot-section,
+#chapter-impact .loss-section,
+#chapter-defense .defense-rings-section,
+#chapter-action .report-guide-section {
+  min-height: min(78svh, 820px);
+  padding: clamp(30px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(246, 248, 242, .7);
+  border: 1px solid rgba(71, 111, 90, .12);
+}
+
+/* Chapter change veil: a short editorial wipe, not a page-loading screen. */
+.chapter-transition-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  color: #edf5ef;
+  background:
+    radial-gradient(circle at 72% 28%, rgba(239,81,75,.12), transparent 28%),
+    linear-gradient(135deg, #06150f, #123426);
+  clip-path: inset(100% 0 0 0);
+}
+.chapter-transition-veil.is-playing { animation: chapterWipe 1.05s cubic-bezier(.76,0,.24,1) both; }
+.chapter-transition-veil span { color: var(--news-gold); font: 700 .72rem/1 var(--font-mono); letter-spacing: .3em; }
+.chapter-transition-veil strong { display: block; margin-top: 16px; font: 700 clamp(2rem,5vw,5rem)/1.1 var(--font-serif); }
+@keyframes chapterWipe {
+  0% { clip-path: inset(100% 0 0 0); }
+  38%, 58% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 100% 0); }
+}
+
+@media (max-width: 720px) {
+  .story-scene { min-height: auto; padding: 78px 0 64px; opacity: 1; transform: none; filter: none; }
+  .story-scene.scene-kpi { padding-left: 18px; padding-right: 18px; }
+  .chart-narration { width: 100%; border-radius: 18px; margin-bottom: 16px; }
+  #chapter-pathways .timeline-section { min-height: 0; padding: 28px 16px; grid-template-rows: auto; }
+  #invasionTimelineChart { min-height: 360px; height: 52vh !important; }
+  #chapter-map .county-hotspot-section,
+  #chapter-impact .loss-section,
+  #chapter-defense .defense-rings-section,
+  #chapter-action .report-guide-section { min-height: 0; padding: 28px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter-transition-veil { display: none; }
+  .chart-narration-line.is-current { animation: none; }
+  .story-scene > .reveal,
+  .story-scene > .section-header { opacity: 1; transform: none; }
+}
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -4974,15 +5287,158 @@ function buildStoryScenes() {
 
 buildStoryScenes();
 
+function enhanceEditorialMotion() {
+  const chapterTitles = ['序章','入侵全景','物种图鉴','入侵路径','生态账单','攻防战线','我的身边'];
+  const veil = document.createElement('div');
+  veil.className = 'chapter-transition-veil';
+  veil.setAttribute('aria-hidden', 'true');
+  veil.innerHTML = '<div><span>DATA STORY</span><strong></strong></div>';
+  document.body.appendChild(veil);
+  window.playChapterTransition = function(index) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || index <= 0) return;
+    veil.querySelector('span').textContent = `CHAPTER ${String(index).padStart(2, '0')}`;
+    veil.querySelector('strong').textContent = chapterTitles[index] || '';
+    veil.classList.remove('is-playing');
+    void veil.offsetWidth;
+    veil.classList.add('is-playing');
+    window.setTimeout(() => veil.classList.remove('is-playing'), 1150);
+  };
+
+  const narrationByChart = {
+    sunburstChart: [
+      '从圆心向外依次展开科、等级与物种；结构相邻，不等于风险相同。',
+      '扇区面积表示当前档案中的记录数量，颜色只负责区分类群。',
+      '悬停或点击任一扇区，具体名称与来源会在右侧展开。'
+    ],
+    'china-map': [
+      '颜色表示数据库在各省记录到的物种数量，不是综合入侵风险。',
+      '切换动物、植物或重点等级，地图与省份排序会同步更新。',
+      '记录较多既与自然环境有关，也受到调查强度和资料完整度影响。'
+    ],
+    countyHotspotChart: [
+      '这幅图只统计县级数据库收录的外来入侵植物，不包含动物和病原体。',
+      '每个县的颜色对应植物存在记录数量，不能直接解释为危害程度。',
+      '把尺度下沉到县级，是为了看见省级汇总会遮住的局部差异。'
+    ],
+    'spread-map': [
+      '拖动时间轴，地图只累计公开资料中已有时间和地点的发现记录。',
+      '亮起的新省份表示该年份首次进入当前整理序列，不代表真实传播路线。',
+      '右侧年份、累计省份和本年新增会随时间轴同步变化。'
+    ],
+    'world-flow-chart': [
+      '弧线连接原生分布区与中国外来记录，不是贸易路线或直接来源国。',
+      '同一种物种可能对应多个原生地区，因此一条线不等于一次传入。',
+      '要还原进入过程，还需要引种、运输、检疫和事件记录。'
+    ],
+    sankeyChart: [
+      '流线展示数据库中的原生分布关联与状态分类，不表示真实流量。',
+      '线条宽度用于比较记录结构，不能用来推断传播概率。',
+      '把鼠标移到节点或连线上，可追踪一类记录怎样被归入不同状态。'
+    ],
+    invasionTimelineChart: [
+      '16—18世纪，现有最早记录涉及21种；这些年份不必然等于实际引入年份。',
+      '19世纪现有最早记录涉及80种，植物交流与引种的记录逐渐增多。',
+      '20世纪现有最早记录涉及269种，也是档案中最密集的时间段。'
+    ],
+    'iceberg-chart': [
+      '能直接计价的农业、林业和治理支出，只是生态账单的一部分。',
+      '不同研究的物种范围、年份和损失口径不同，不能把数字简单相加。',
+      '图表用于解释显性与隐性代价的结构，不把估算包装成实时总账。'
+    ],
+    'loss-distribution-chart': [
+      '农业与林业损失的构成来自特定研究口径，不代表所有生态系统。',
+      '悬停查看比例时，也要同时阅读图旁的年份、物种范围与单位。'
+    ],
+    'loss-province-chart': [
+      '省份比较只在同一来源、同一统计方法下成立。',
+      '柱长表示该研究报告的估算值，不是实时损失监测。'
+    ]
+  };
+
+  document.querySelectorAll('.story-scene').forEach((scene, index) => {
+    const chartIds = Array.from(scene.querySelectorAll('[id]')).map(node => node.id);
+    const narrationKey = chartIds.find(id => narrationByChart[id]);
+    if (scene.querySelector('.overview-kpis')) scene.classList.add('scene-kpi');
+    if (chartIds.some(id => narrationByChart[id]) || scene.querySelector('[_echarts_instance_], .map-container, .timeline-section, .loss-section, .defense-rings-section, .customs-section')) {
+      scene.classList.add('scene-chart');
+    }
+    if (!narrationKey || scene.querySelector('.chart-narration')) return;
+    const aside = document.createElement('aside');
+    aside.className = 'chart-narration';
+    aside.setAttribute('aria-live', 'polite');
+    aside.dataset.chart = narrationKey;
+    aside.innerHTML = narrationByChart[narrationKey]
+      .map((line, lineIndex) => `<p class="chart-narration-line${lineIndex === 0 ? ' is-current' : ''}">${line}</p>`)
+      .join('');
+    const anchor = scene.querySelector('.reveal') || scene.firstElementChild;
+    if (anchor) scene.insertBefore(aside, anchor);
+  });
+
+  window._narrationTimer = null;
+  window.activateSceneNarration = function(scene) {
+    window.clearInterval(window._narrationTimer);
+    const aside = scene.querySelector('.chart-narration');
+    if (!aside) return;
+    const lines = Array.from(aside.querySelectorAll('.chart-narration-line'));
+    let active = 0;
+    const show = index => {
+      active = index % lines.length;
+      lines.forEach((line, lineIndex) => line.classList.toggle('is-current', lineIndex === active));
+      animateSceneChartPoint(scene, active);
+    };
+    show(0);
+    if (lines.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window._narrationTimer = window.setInterval(() => show(active + 1), 4200);
+    }
+  };
+}
+
+function animateSceneChartPoint(scene, step) {
+  if (typeof echarts === 'undefined') return;
+  scene.querySelectorAll('[_echarts_instance_]').forEach(dom => {
+    const chart = echarts.getInstanceByDom(dom);
+    if (!chart || ['china-map','spread-map','world-flow-chart','sankeyChart'].includes(dom.id)) return;
+    try {
+      const option = chart.getOption();
+      const series = (option.series || [])[0];
+      const dataLength = series && Array.isArray(series.data) ? series.data.length : 0;
+      if (!dataLength) return;
+      const dataIndex = step % dataLength;
+      chart.dispatchAction({ type: 'downplay', seriesIndex: 0 });
+      chart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex });
+      chart.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex });
+    } catch (error) { /* motion is progressive enhancement */ }
+  });
+}
+
+enhanceEditorialMotion();
+
+function bindChartNarration(chart, dom, scene) {
+  if (dom.dataset.narrationBound === 'true') return;
+  const aside = scene.querySelector('.chart-narration');
+  if (!aside) return;
+  dom.dataset.narrationBound = 'true';
+  chart.on('mouseover', params => {
+    const first = aside.querySelector('.chart-narration-line');
+    if (!first || !params || !params.name) return;
+    const rawValue = Array.isArray(params.value) ? params.value[params.value.length - 1] : params.value;
+    const valueText = rawValue !== undefined && rawValue !== null && rawValue !== '' ? ` · ${rawValue}` : '';
+    first.textContent = `当前划过：${params.name}${valueText}。继续移动鼠标，比较同一图表口径下的记录。`;
+    aside.querySelectorAll('.chart-narration-line').forEach((line, index) => line.classList.toggle('is-current', index === 0));
+  });
+}
+
 function replayChartsInScene(scene) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   scene.querySelectorAll('[_echarts_instance_]').forEach(dom => {
     const chart = echarts.getInstanceByDom(dom);
-    if (!chart || dom.dataset.sceneAnimationPlayed === 'true') return;
-    const option = chart.getOption();
-    dom.dataset.sceneAnimationPlayed = 'true';
-    chart.clear();
-    requestAnimationFrame(() => chart.setOption(option, { notMerge: true, lazyUpdate: false }));
+    if (!chart) return;
+    bindChartNarration(chart, dom, scene);
+    const now = Date.now();
+    if (now - Number(dom.dataset.lastSceneReplay || 0) < 2400) return;
+    dom.dataset.lastSceneReplay = String(now);
+    // 滚动中只做尺寸修正：清空重绘会让图表长时间处于半渲染状态
+    chart.resize();
   });
 }
 
@@ -4990,7 +5446,7 @@ function resizeAllCharts() {
   if (typeof echarts === 'undefined') return;
   document.querySelectorAll('[_echarts_instance_]').forEach(dom => {
     const chart = echarts.getInstanceByDom(dom);
-    if (chart) chart.resize({ animation: { duration: 320, easing: 'cubicOut' } });
+    if (chart) chart.resize();
   });
 }
 window.resizeAllCharts = resizeAllCharts;
@@ -5003,15 +5459,18 @@ const sceneObserver = new IntersectionObserver(entries => {
         other.classList.toggle('is-active', other === scene);
         other.classList.toggle('is-leaving', other !== scene && other.getBoundingClientRect().top < 0);
       });
-      // Charts are resized after the scene becomes visible; ECharts then
-      // animates its first paint or positional update in the active viewport.
+      // 仅修正当前场景内图表的尺寸（无动画），
+      // 避免滚动中全页图表重排造成卡顿。
       requestAnimationFrame(() => {
-        if (typeof resizeAllCharts === 'function') resizeAllCharts();
+        scene.querySelectorAll('[_echarts_instance_]').forEach(dom => {
+          const c = echarts.getInstanceByDom(dom);
+          if (c) c.resize();
+        });
       });
       // Charts in later scenes may have been initialized while off-screen.
       // Repaint them once, only when their own scene takes over the viewport.
       setTimeout(() => replayChartsInScene(scene), 120);
-      setTimeout(() => replayChartsInScene(scene), 650);
+      if (typeof activateSceneNarration === 'function') activateSceneNarration(scene);
       scene.dispatchEvent(new CustomEvent('storysceneenter'));
     }
   });
@@ -5024,7 +5483,12 @@ const nav = document.getElementById('mainNav');
 const progressBar = document.getElementById('progressBar');
 const navDots = document.querySelectorAll('.nav-dot');
 
+let _scrollTicking = false;
 window.addEventListener('scroll', () => {
+  if (_scrollTicking) return;
+  _scrollTicking = true;
+  requestAnimationFrame(() => {
+    _scrollTicking = false;
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   const progress = Math.min(scrollTop / docHeight * 100, 100);
@@ -5041,6 +5505,7 @@ window.addEventListener('scroll', () => {
     if (rect.top <= window.innerHeight / 2) current = i;
   });
   navDots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+  });
 });
 
 navDots.forEach(dot => {
@@ -5122,6 +5587,10 @@ sections.forEach((sec, i) => {
 
 // Activate a section: add active class, update nav, render charts
 async function activateSection(idx, sectionEl) {
+  const previousSection = currentSection;
+  if (previousSection !== idx && previousSection >= 0 && typeof playChapterTransition === 'function') {
+    playChapterTransition(idx);
+  }
   currentSection = idx;
   
   // Remove old active states
@@ -6299,6 +6768,13 @@ function renderSpreadMap(speciesKey) {
     document.getElementById('tiYear').textContent = year;
     document.getElementById('tiProvinces').textContent = provs.length;
     document.getElementById('tiNew').textContent = '+' + newThisYear.length;
+    const spreadNarration = container.closest('.story-scene')?.querySelector('.chart-narration-line');
+    if (spreadNarration) {
+      const added = newThisYear.length ? `，本年新进入整理序列的地区为${newThisYear.join('、')}` : '，本年没有新增地区记录';
+      spreadNarration.textContent = `${year}年：公开资料累计涉及${provs.length}个省级地区${added}。这仍是发现记录，不是传播路线。`;
+      const narrationBox = spreadNarration.closest('.chart-narration');
+      narrationBox?.querySelectorAll('.chart-narration-line').forEach((line, index) => line.classList.toggle('is-current', index === 0));
+    }
 
     // 地点影像随时间轴更新；它们不充当首次发现年份或传播路线证据。
     const photoFigure = document.getElementById('spreadSpeciesPhoto');
@@ -8629,9 +9105,9 @@ function toggleCheck(el) {
         if (chart) {
           setTimeout(function() {
             try {
-              var option = chart.getOption();
-              // 重播动画（notMerge=true 触发重新入场）
-              chart.setOption(option, true);
+              // 进入视口时仅校正尺寸，保持图表完整
+              // 不做 notMerge 重播，避免滚动时图表反复清空重绘
+              chart.resize();
             } catch(e) { /* 静默失败，不影响页面 */ }
           }, 200);
         }
