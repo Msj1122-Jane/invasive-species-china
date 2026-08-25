@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据来源与方法｜来者何物</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* 与主站一致的深色设计系统（修改方案 6.1） */
+  --b-bg: #0D1B15;
+  --b-bg-elevated: #152720;
+  --b-text: #E8E6DF;
+  --b-text-dim: #93A29A;
+  --b-border: #2A3F35;
+  --b-accent: #E04A2F;
+  --b-gold: #D8A24A;
+  --font-serif: 'Noto Serif SC', serif;
+  --font-sans: 'Noto Sans SC', sans-serif;
+  --font-mono: 'Space Grotesk', monospace;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--b-text);
+  background: var(--b-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 导航（与主站同款吸顶导航） */
+.nav-fixed {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 40px;
+  background: rgba(11,20,16,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--b-border);
+}
+.nav-logo { font-family: var(--font-serif); font-size: 1.1rem; color: var(--b-text); letter-spacing: 0.05em; text-decoration: none; }
+.nav-back {
+  color: var(--b-gold);
+  text-decoration: none;
+  font-size: 0.85rem;
+  border: 1px solid var(--b-border);
+  border-radius: 999px;
+  padding: 6px 18px;
+  transition: background 0.2s, color 0.2s;
+}
+.nav-back:hover, .nav-back:focus-visible { background: var(--b-gold); color: #0D1B15; }
+@media (max-width: 720px) { .nav-fixed { padding: 10px 20px; } }
+
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 140px 24px 96px;
+}
+.page-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--b-gold);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+.page-lead { color: var(--b-text-dim); font-size: 0.95rem; margin-bottom: 56px; }
+
+section { padding: 0 0 64px; }
+h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+h2 .sec-num { color: var(--b-accent); font-family: var(--font-mono); font-size: 1rem; margin-right: 10px; }
+.sec-sub { color: var(--b-text-dim); font-size: 0.85rem; margin-bottom: 24px; }
+
+.card {
+  background: var(--b-bg-elevated);
+  border: 1px solid var(--b-border);
+  border-radius: 14px;
+  padding: 24px 26px;
+  margin-bottom: 16px;
+}
+.card h3 { font-size: 1.05rem; margin-bottom: 8px; color: var(--b-text); }
+.card h3 .tag {
+  font-size: 0.68rem;
+  color: var(--b-gold);
+  border: 1px solid var(--b-border);
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-left: 10px;
+  vertical-align: middle;
+  letter-spacing: 0.06em;
+}
+.card p, .card li { font-size: 0.88rem; color: var(--b-text-dim); }
+.card ul { padding-left: 20px; margin-top: 6px; }
+.card strong { color: var(--b-text); font-weight: 600; }
+
+.rule-list { list-style: none; }
+.rule-list li {
+  position: relative;
+  padding: 16px 0 16px 26px;
+  border-bottom: 1px dashed rgba(42,63,53,0.8);
+  font-size: 0.92rem;
+}
+.rule-list li:last-child { border-bottom: 0; }
+.rule-list li::before {
+  content: '≠';
+  position: absolute;
+  left: 0;
+  color: var(--b-accent);
+  font-weight: 700;
+}
+.rule-list strong { color: var(--b-text); }
+.rule-list span { color: var(--b-text-dim); font-size: 0.86rem; display: block; margin-top: 2px; }
+
+.refs { list-style: none; counter-reset: ref; }
+.refs li {
+  counter-increment: ref;
+  position: relative;
+  padding: 10px 0 10px 44px;
+  font-size: 0.88rem;
+  color: var(--b-text-dim);
+  border-bottom: 1px dashed rgba(42,63,53,0.6);
+}
+.refs li::before {
+  content: counter(ref, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 10px;
+  font-family: var(--font-mono);
+  color: var(--b-gold);
+  font-size: 0.8rem;
+}
+.refs strong { color: var(--b-text); font-weight: 600; }
+
+.page-foot {
+  border-top: 1px solid var(--b-border);
+  padding-top: 24px;
+  font-size: 0.8rem;
+  color: var(--b-text-dim);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.page-foot a { color: var(--b-gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav class="nav-fixed">
+  <a class="nav-logo" href="index.html">来者何物</a>
+  <a class="nav-back" href="index.html">← 返回主站</a>
+</nav>
+
+<main class="page">
+  <p class="page-eyebrow">METHODOLOGY</p>
+  <h1>数据来源与方法</h1>
+  <p class="page-lead">本站所有数字均可回溯到公开数据集或公开报道。这一页交代数据从哪来、按什么口径统计、以及哪些比较不能做。</p>
+
+  <section>
+    <h2><span class="sec-num">01</span>数据集清单</h2>
+    <p class="sec-sub">三个核心数据集，分别回答"走到了哪里""怎么进来的""都有谁"。</p>
+
+    <div class="card">
+      <h3>中国外来入侵植物物种高分辨率分布数据库（IPSD）<span class="tag">分布</span></h3>
+      <p>用于"你的家乡"查询、447 年入侵记录时间线、中国地图等图表。</p>
+      <ul>
+        <li><strong>收录范围</strong>：406 种外来入侵植物，基于 CVH / NSII 标本馆记录与文献考证，记录对应 1571—2018 年。</li>
+        <li><strong>口径说明</strong>：以<strong>县域记录数</strong>为统计单元——一个县有一种植物的可靠记录即计为一条。记录数不等于实际分布密度，受各地调查强度影响；记录年份不等于实际入侵年份（记录往往滞后于入侵）。</li>
+        <li><strong>空间范围</strong>：不含港澳台（统计口径不同，已在图表脚注中注明）。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>海关公开截获档案自建数据集（393 宗）<span class="tag">输入</span></h3>
+      <p>用于走私手法分布、截获物种类型、异宠入境桑基图、开箱卡片等图表。</p>
+      <ul>
+        <li><strong>采集渠道</strong>："海关发布"（海关总署官方发布平台）公开报道的口岸查获案例，含 2025 年全国十大案例。</li>
+        <li><strong>采集时间</strong>：2025 年采集，覆盖 2023—2025 年公开报道（确切采集日期未记录）。</li>
+        <li><strong>整理方法</strong>：逐案人工归类"来源地 → 物种类型 → 入境渠道"与申报手法；一案多手法时按主要手法计；来源地取报道中提及的启运地，未必是物种原生地。</li>
+        <li><strong>口径说明</strong>：这是<strong>被截获的样本</strong>，不是走私总量的估计，不能据此推算未截获数量。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>物种图鉴（180 种）<span class="tag">图鉴</span></h3>
+      <p>用于第三幕物种图鉴卡片墙。</p>
+      <ul>
+        <li><strong>选取方法</strong>：55 种植物取自 341 种入侵植物名录与全国外来入侵物种普查记录；125 种动物、昆虫与病害取自 iPlant 植物智外来入侵物种数据库（iflora）。</li>
+        <li><strong>等级标注</strong>：入侵等级 1—5 级为 iflora 标注口径；"重点管理"指标示该物种已列入六部门《重点管理外来入侵物种名录》（2023）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">02</span>口径声明</h2>
+    <p class="sec-sub">四组"不相等"，读本站所有图表之前请先读这里。</p>
+    <ul class="rule-list">
+      <li><strong>外来物种 ≠ 外来入侵物种</strong><span>外来物种仅指非本地起源；只有已造成危害或具有入侵性的才计入本文数据。本站所有统计仅针对后者。</span></li>
+      <li><strong>记录数 ≠ 分布密度</strong><span>一个县记录多，可能只是调查得细。北京的记录密度高，部分原因是科研与调查资源集中；青海、西藏等地的低记录可能反映的是调查不足而非没有入侵。</span></li>
+      <li><strong>记录年份 ≠ 实际入侵年份</strong><span>物种往往先入侵、后被发现和记录。1571 年以来的时间线呈现的是"被记录的历史"，早期稀疏不等于早期没有。</span></li>
+      <li><strong>经济损失各口径不可直接比较</strong><span>2011 年评估（544 种，约 1198.8 亿元/年）、2014 年评估（20 种主要农业害物，约 840 亿元/年）、2025 年多源综合估算（逾 2000 亿元/年）在物种范围、是否计入间接损失上各不相同。原报告为美元的数据，本站统一按 2019 年年均汇率 1 美元≈6.90 元人民币换算并在图注注明。</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">03</span>参考文献与数据来源</h2>
+    <p class="sec-sub">按报道附三清单整理，定稿前部分条目仍需补全版本信息。</p>
+    <ol class="refs">
+      <li><strong>中国外来入侵植物物种高分辨率分布数据库（IPSD）</strong>——县域入侵植物记录（406 种，1571—2018 年）。</li>
+      <li><strong>海关总署官方发布平台"海关发布"公开报道</strong>——393 宗截获档案（采集于 2025 年，确切采集日期未记录）。</li>
+      <li><strong>《重点管理外来入侵物种名录》</strong>——农业农村部等六部门发布，2023 年 1 月 1 日施行。</li>
+      <li><strong>农业农村部等九部门《关于加强红火蚁阻截防控工作的通知》</strong>——2021 年 3 月。</li>
+      <li><strong>生态环境部历年《中国生态环境状况公报》</strong>——外来入侵物种总量与 2011 年经济损失评估口径。</li>
+      <li><strong>中国农业科学院植物保护研究所</strong>——红火蚁入侵扩散轨迹（2003—2024）、外来入侵物种经济损失评估（2025）。</li>
+      <li><strong>iPlant 植物智外来入侵物种数据库（iflora）</strong>——物种图鉴与原生地 × 入侵等级交叉统计。</li>
+      <li><strong>红火蚁叮咬过敏反应医学文献</strong>——约 1% 被叮人群发生全身性过敏反应的比例（具体篇目待补）。</li>
+      <li><strong>红火蚁扩散速度估算文献</strong>——"每年向北推进近百公里"引自研究团队估算（具体篇目待补）。</li>
+    </ol>
+  </section>
+
+  <div class="page-foot">
+    <span>来者何物 · 中国外来入侵物种数据纪实</span>
+    <a href="index.html">返回主站 →</a>
+  </div>
+</main>
+
+</body>
+</html>
