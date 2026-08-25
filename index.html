@@ -9,6 +9,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 
+<!-- 背景图秒开（指令⑤）：封面预加载，章节头图顺次预取 -->
+<link rel="preload" as="image" href="assets/images/bg/cover.webp" fetchpriority="high">
+<link rel="prefetch" as="image" href="assets/images/bg/gate-ch1.webp">
+<link rel="prefetch" as="image" href="assets/images/bg/gate-ch2.webp">
+<link rel="prefetch" as="image" href="assets/images/bg/gate-ch3.webp">
+<link rel="prefetch" as="image" href="assets/images/bg/gate-ch4.webp">
+<link rel="prefetch" as="image" href="assets/images/bg/gate-ch5.webp">
+
 <!-- Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <script>
@@ -569,7 +577,7 @@ a:focus-visible,
     /* Dark gradient overlay for text readability */
     linear-gradient(180deg, rgba(11,20,16,0.3) 0%, rgba(11,20,16,0.1) 40%, rgba(11,20,16,0.5) 100%),
     /* Cover illustration */
-    url('assets/images/bg/cover.png'),
+    url('assets/images/bg/cover.webp'),
     /* Base */
     var(--b-bg);
   background-size: auto, cover, auto;
@@ -4842,7 +4850,7 @@ a.nav-item { text-decoration: none; }
      ============================== -->
 <section class="section section-dark" id="chapter-map" data-render="map">
   <!-- Chapter Gate -->
-  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch1.png');">
+  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch1.webp');">
     <div class="gate-content">
       <div class="gate-number">03</div>
       <h2 class="gate-title">它们</h2>
@@ -5158,7 +5166,7 @@ a.nav-item { text-decoration: none; }
      CHAPTER 4: 境内事件与证据     ============================== -->
 <section class="section section-dark" id="chapter-spread" data-render="events">
   <!-- Chapter Gate -->
-  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch2.png');">
+  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch2.webp');">
     <div class="gate-content">
       <div class="gate-number">04</div>
       <h2 class="gate-title">从一个坐标，到一片区域</h2>
@@ -5303,7 +5311,7 @@ a.nav-item { text-decoration: none; }
      ============================== -->
 <section class="section section-dark" id="chapter-impact" data-render="impact">
   <!-- Chapter Gate -->
-  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch4.png');">
+  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch4.webp');">
     <div class="gate-content">
       <div class="gate-number">05</div>
       <h2 class="gate-title">账单与防线</h2>
@@ -5529,7 +5537,7 @@ a.nav-item { text-decoration: none; }
      ============================== -->
 <section class="section section-dark" id="chapter-defense" data-render="defense">
   <!-- Chapter Gate -->
-  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch5.png');">
+  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch5.webp');">
     <div class="gate-content">
       <div class="gate-number">04</div>
       <h2 class="gate-title">一张全球网络</h2>
