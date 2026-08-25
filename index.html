@@ -1569,8 +1569,9 @@ a:focus-visible,
 /* Species atlas: data overview + image-led exploration */
 .atlas-shell {
   position: relative;
-  margin: 0 calc(50% - 50vw);
-  padding: clamp(82px, 9vw, 132px) max(5vw, 28px) 72px;
+  /* 指令⑥：取消全幅出血，回到 1080 内容中轴（原 calc(50%-50vw) 与 width:100% 冲突导致整组偏左） */
+  margin: 0;
+  padding: 24px 0 72px;
   overflow: hidden;
   color: #E8E6DF;
   background:
@@ -1720,12 +1721,13 @@ a:focus-visible,
 }
 .atlas-visual-field {
   display: grid;
-  grid-template-columns: repeat(4, minmax(130px, 1fr));
-  gap: clamp(42px, 7vw, 110px) clamp(28px, 5vw, 86px);
-  align-items: center;
-  max-width: 1420px;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 48px 40px;
+  align-items: start;
+  justify-items: center;
+  max-width: 1080px;
   margin: 38px auto;
-  padding: 18px 2vw 90px;
+  padding: 0 0 90px;
 }
 .atlas-visual-note {
   grid-column: 1 / -1;
@@ -1741,7 +1743,8 @@ a:focus-visible,
   animation: atlasTileSettle .82s var(--ease-standard) var(--delay) both;
 }
 @keyframes atlasTileSettle {
-  from { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(calc(var(--r) * 3)) scale(.72); }
+  /* 指令⑥：去掉大位移散落感，保留轻淡入 */
+  from { opacity: 0; transform: translateY(8px) rotate(var(--r)) scale(.98); }
   to { opacity: 1; transform: translate(0, 0) rotate(var(--r)) scale(1); }
 }
 .atlas-tile {
@@ -1755,8 +1758,6 @@ a:focus-visible,
   transform: rotate(var(--r));
   transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .35s;
 }
-.atlas-tile:nth-child(3n+2) { transform: translateY(42px) rotate(var(--r)); }
-.atlas-tile:nth-child(5n) { transform: translateY(-24px) rotate(var(--r)); }
 .atlas-tile:hover {
   z-index: 3;
   transform: translateY(-8px) rotate(0) scale(1.08);
@@ -8614,10 +8615,10 @@ function renderAtlasLists() {
     return;
   }
   visual.innerHTML = `
-    <div class="atlas-visual-note">已核对图像与物种对应关系 ${visualList.length} 种；其余记录可在“结构”或“名称”视图查询</div>
+    <div class="atlas-visual-note">已核对图像与物种对应关系 ${visualList.length} 种；其余记录可在“通缉令”或“名称”视图查询</div>
     ${visualList.map((sp, index) => `
     <button class="atlas-tile" data-atlas-visual-index="${index}"
-      style="--r:${((index % 7) - 3) * .7}deg;--dx:${((index * 47) % 220) - 110}px;--dy:${((index * 83) % 180) - 90}px;--delay:${(index % 12) * 35}ms">
+      style="--r:${((index % 3) - 1) * 0.5}deg;--dx:0px;--dy:0px;--delay:${(index % 12) * 35}ms">
       <img src="${sp._image}" alt="${sp.name_cn || ''}" loading="lazy">
       <span class="atlas-tile-label"><strong>${sp.name_cn || '未命名'}</strong><em>${sp.name_latin || ''}</em></span>
     </button>`).join('')}`;
