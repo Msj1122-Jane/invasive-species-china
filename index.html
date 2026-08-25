@@ -4630,6 +4630,118 @@ a.nav-item { text-decoration: none; }
   .overview-kpis { padding: 68px 20px; }
   .overview-kpi-grid { grid-template-columns: 1fr; }
 }
+/* ============================================
+   指令④：去框与对齐修复（2026-08）
+   内容直接落在背景上，区块间用 1px 分割线 + 大间距；
+   白名单（开箱卡/护照卡/查询结果卡/通缉令海报/小票/浮层/表单控件）保留容器感。
+   ============================================ */
+#china-map, #trend-chart, .bubble-chart, .spread-side, #spread-map,
+.timeline-container, .story-panel, #world-flow-chart, .sankey-chart,
+.radar-chart-wrapper, .family-card, .tc-item, .csb-item,
+.feature-case, .case-card, .loss-item, .da-card, .defense-row,
+.defense-stats-bar, .ring-detail-panel, .guide-scene-card, .guide-card-section,
+.bignum-card, .iceberg-card, .tl-card, .hq-panel, .insight-card, .sidebar-panel,
+.customs-section {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+/* 去框后的节奏：列表型内容用发丝线分隔 */
+.case-card, .feature-case, .tl-card, .defense-row, .family-card, .guide-card-section {
+  border-top: 1px solid var(--b-border) !important;
+}
+.guide-card-section { padding-left: 14px !important; }
+/* 指南卡的彩色边条是语义标记，保留 */
+.guide-card-section.warn { border-left: 3px solid #F87171 !important; border-top: none !important; }
+.guide-card-section.dept { border-left: 3px solid #7FB3FF !important; border-top: none !important; }
+.guide-card-section.record { border-left: 3px solid #FBBF24 !important; border-top: none !important; }
+.guide-card-section.fallback { border-left: 3px solid #4ADE80 !important; border-top: none !important; }
+
+/* 场景与场景之间：1px 分割线（宽度随中轴） */
+.story-scene + .story-scene { border-top: 1px solid var(--b-border); }
+
+/* 单一内容中轴：1080px；正文段落在其中限宽 680px 居中 */
+.section-inner { max-width: 1080px; padding: 96px 40px; }
+.atlas-head, .atlas-toolbar, .atlas-view, .archive-cabinet, .atlas-shell .chart-footnote {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.atlas-head p { max-width: 680px; }
+
+/* 02 图鉴：工具条整体居中，不再偏左 */
+.atlas-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  max-width: 1080px;
+}
+.atlas-modes, .atlas-filters { justify-content: center; gap: 10px; }
+
+/* 按钮组/chips 统一：透明底+灰绿边+弱色字；选中=红底白字；hover 变金、无位移 */
+.atlas-mode, .atlas-filter, .guide-scene-tab, .game-btn {
+  height: 36px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+  border: 1px solid #2A3F35;
+  border-radius: 18px;
+  background: transparent;
+  color: var(--b-text-dim);
+  font: 600 .78rem/1 var(--font-sans);
+  letter-spacing: .03em;
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.atlas-mode:hover, .atlas-filter:hover, .guide-scene-tab:hover, .game-btn:hover {
+  border-color: var(--b-gold);
+  color: var(--b-gold);
+  transform: none;
+  background: transparent;
+}
+.atlas-mode.active, .atlas-filter.active, .guide-scene-tab.active {
+  background: var(--b-accent);
+  border-color: var(--b-accent);
+  color: #fff;
+}
+
+/* 统计数字去盒：横排大数字 + 竖线分隔 */
+.insights-grid, .insight-cards, .insight-row { background: none; }
+.insight-card {
+  padding: 4px 28px;
+  border-left: 1px solid var(--b-border) !important;
+  border-radius: 0 !important;
+}
+.insight-card:first-child { border-left: none !important; }
+.insight-value { font-size: 3rem; color: var(--b-gold); }
+.insight-card:nth-child(odd) .insight-value { color: var(--b-accent); }
+/* 家乡查询 4 个统计位 */
+.hq-tile {
+  background: none;
+  border: none;
+  border-left: 1px solid var(--b-border);
+  border-radius: 0;
+}
+.hq-tile:first-child { border-left: none; }
+.hq-tile .hq-num { font-size: 2.4rem; }
+/* 防线统计带同样去盒 */
+.defense-stats-bar { padding: 8px 0; }
+.defense-stat-item { padding: 0 26px; border-left: 1px solid var(--b-border); }
+.defense-stat-item:first-child { border-left: none; }
+.defense-stat-num { font-size: 2rem; }
+
+/* 移动端：间距 64px、chips 居中不溢出 */
+@media (max-width: 720px) {
+  .section-inner { padding: 64px 20px; }
+  .insight-card { border-left: none !important; border-top: 1px solid var(--b-border) !important; padding: 14px 0; }
+  .insight-card:first-child { border-top: none !important; }
+  .hq-tile { border-left: none; }
+  .defense-stat-item { border-left: none; padding: 6px 0; }
+}
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -8253,7 +8365,7 @@ function renderWantedWall() {
       <h4 class="wanted-name">${name}${isTop ? '<span class="wanted-top-badge">头号通缉</span>' : ''}</h4>
       ${s && s.name_latin ? `<p class="wanted-latin">${s.name_latin}</p>` : ''}
       <div class="wanted-stars" aria-label="危险等级">${stars}</div>
-      <p class="wanted-meta">${s ? `原产：${s.origin_region || s.origin} · 记录 ${s.province_count} 省` : '名录管控对象'}</p>
+      <p class="wanted-meta">${s ? `原产：${s.origin_region || s.origin}${s.province_count != null ? ` · 记录 ${s.province_count} 省` : ''}` : '名录管控对象'}</p>
       <p class="wanted-group">${group}</p>
     </article>`;
   }).join('');
