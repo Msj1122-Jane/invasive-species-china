@@ -230,7 +230,7 @@ body {
   transform: translateY(30px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-.section.active .section-header {
+.section.activated .section-header {
   opacity: 1;
   transform: translateY(0);
 }
@@ -321,32 +321,19 @@ body {
 
 /* Full-screen editorial scenes. A chapter may contain several scenes, but
    only one evidence unit occupies the reading viewport at a time. */
-html { scroll-snap-type: y proximity; }
+/* Editorial scenes: natural-height sections in one continuous native-scroll page. */
 .story-scene {
-  min-height: 100svh;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   position: relative;
-  padding: clamp(72px, 10vh, 120px) 0;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  opacity: 0.22;
-  transform: translateY(44px) scale(0.985);
-  filter: saturate(0.72);
-  transition:
-    opacity 0.72s cubic-bezier(.22,.61,.36,1),
-    transform 0.82s cubic-bezier(.22,.61,.36,1);
+  padding: 96px 0;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
+/* 一次性入场：进入视口即点亮并保持，只进不退 */
 .story-scene.is-active {
   opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: saturate(1);
-}
-.story-scene.is-leaving {
-  opacity: 0.18;
-  transform: translateY(-34px) scale(0.99);
+  transform: none;
 }
 .story-scene > .reveal {
   width: 100%;
@@ -373,34 +360,30 @@ html { scroll-snap-type: y proximity; }
   transform: translateX(0);
 }
 @media (max-width: 720px) {
-  html { scroll-snap-type: y proximity; }
   .story-scene {
-    min-height: auto;
     padding: 84px 0 68px;
     opacity: 1;
     transform: none;
-    filter: none;
+    transition: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-snap-type: none; }
   .story-scene,
-  .story-scene.is-active,
-  .story-scene.is-leaving {
+  .story-scene.is-active {
     opacity: 1;
     transform: none;
-    filter: none;
     transition: none;
   }
 }
 
 /* ============================================
-   CHAPTER GATE — 全屏章节封面
+   CHAPTER GATE — 章节封面（普通章节头，不独占一屏）
    ============================================ */
 .chapter-gate {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: auto;
+  padding: 120px 0 64px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -411,8 +394,6 @@ html { scroll-snap-type: y proximity; }
   background-position: center;
   background-repeat: no-repeat;
   background-color: var(--b-bg);
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 .chapter-gate::before {
   content: '';
@@ -854,7 +835,6 @@ a:focus-visible,
   display: flex;
   align-items: center;
   justify-content: center;
-  scroll-snap-align: start;
 }
 /* 上段：承接序章的深色，讲红火蚁的迁徙 */
 .intro-narrative-dark {
@@ -3966,7 +3946,7 @@ a:focus-visible,
   transition: opacity 0.7s cubic-bezier(0.22,0.61,0.36,1),
               transform 0.7s cubic-bezier(0.22,0.61,0.36,1);
 }
-.section.active .gate-content > * {
+.section.activated .gate-content > * {
   opacity: 1;
   transform: translateY(0);
 }
@@ -3976,7 +3956,7 @@ a:focus-visible,
   transform: scale(1.6);
   transition: opacity 0.9s ease, transform 1.4s cubic-bezier(0.22,0.61,0.36,1);
 }
-.section.active .gate-content > .gate-number {
+.section.activated .gate-content > .gate-number {
   opacity: 1;
   transform: scale(1);
   transition-delay: 0s;
@@ -3988,14 +3968,14 @@ a:focus-visible,
   width: 0;
   transition: width 0.6s cubic-bezier(0.22,0.61,0.36,1);
 }
-.section.active .gate-content > .gate-divider {
+.section.activated .gate-content > .gate-divider {
   width: 60px;
   transition-delay: 0.35s;
 }
 /* 交错延迟 */
-.section.active .gate-content > .gate-title { transition-delay: 0.15s; }
-.section.active .gate-content > .gate-subtitle { transition-delay: 0.4s; }
-.section.active .gate-content > .gate-scroll-hint { transition-delay: 0.6s; }
+.section.activated .gate-content > .gate-title { transition-delay: 0.15s; }
+.section.activated .gate-content > .gate-subtitle { transition-delay: 0.4s; }
+.section.activated .gate-content > .gate-scroll-hint { transition-delay: 0.6s; }
 
 /* ===== 章节内容区域切换过渡（首次进入后保持可见） ===== */
 .section .section-inner {
@@ -4043,12 +4023,6 @@ a:focus-visible,
   opacity: 1;
   transform: none;
 }
-.story-scene {
-  opacity: .68;
-  filter: saturate(.9);
-}
-.story-scene.is-active { opacity: 1; filter: none; }
-.story-scene.is-leaving { opacity: .5; }
 .story-scene .sa-pre:not(.sa-in) { opacity: .72; }
 
 /* Evidence chapter: one continuous evidentiary trail, not five cards. */
@@ -4969,7 +4943,7 @@ a.nav-item { text-decoration: none; }
       </p>
       <div class="sankey-chart" id="sankeyChart"></div>
       <div class="chart-footnote">
-        <p>数据说明：iflora 记录按"原生地大洲 × 入侵等级"交叉计数；"其他"为跨洲分布或仅泛化标注（如"美洲"未细分南北）的记录，"未知"为原产地不详的记录，两行已置灰以示区别。注：记录数不等于实际分布密度，受各地区调查强度影响。</p>
+        <p>数据说明：iflora 记录按"原生地大洲 × 入侵等级"交叉计数，原产地自由文本经离线清洗归入洲级分类（映射表见 data/origin_region_map.json）。"热带美洲"为数据库原始标注（新热带区，跨南北美洲的热带区域），按学界惯例单列；"跨洲/泛化"为跨大洲分布或仅泛化标注（如"美洲"未细分南北）的记录，"未知"为原产地不详的记录，两行置灰以示区别。注：记录数不等于实际分布密度，受各地区调查强度影响。</p>
         <p>数据来源：iPlant植物智外来入侵物种数据库(iflora)</p>
         <p>统计时间：数据库收录记录截至 2024 年（确切版本日期未公开）</p>
         <p>注：记录数不等于实际分布密度，受各地区调查强度影响。</p>
@@ -5933,160 +5907,22 @@ function resizeAllCharts() {
 }
 window.resizeAllCharts = resizeAllCharts;
 
+// 场景入场：一次性轻量淡入，只进不退（进入视口后保持显示，回滚不再隐藏）
 const sceneObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
     const scene = entry.target;
-    if (entry.isIntersecting && entry.intersectionRatio >= 0.34) {
-      scene.parentElement?.querySelectorAll(':scope > .story-scene').forEach(other => {
-        other.classList.toggle('is-active', other === scene);
-        other.classList.toggle('is-leaving', other !== scene && other.getBoundingClientRect().top < 0);
-      });
-      // Charts are resized after the scene becomes visible; ECharts then
-      // animates its first paint or positional update in the active viewport.
-      requestAnimationFrame(() => {
-        if (typeof resizeAllCharts === 'function') resizeAllCharts();
-      });
-      // Charts in later scenes may have been initialized while off-screen;
-      // 首次进入视口的重播由下方 initChartViewportReplay 统一承担（带 once 标记）。
-      scene.dispatchEvent(new CustomEvent('storysceneenter'));
-    }
+    scene.classList.add('is-active');
+    sceneObserver.unobserve(scene);
+    // 场景可见后触发一次图表尺寸修正，确保懒加载图表正确渲染
+    requestAnimationFrame(() => {
+      if (typeof resizeAllCharts === 'function') resizeAllCharts();
+    });
+    scene.dispatchEvent(new CustomEvent('storysceneenter'));
   });
-}, { threshold: [0.18, 0.34, 0.55, 0.75] });
+}, { threshold: 0.18 });
 
 document.querySelectorAll('.story-scene').forEach(scene => sceneObserver.observe(scene));
-
-// 兜底：滚动停稳后，按视口中心强制同步一次激活场景。
-// IntersectionObserver 只在 ratio≥0.34 时置位、退出时不清位，
-// 向上滚动时可能停在没有任何场景达到阈值的空隙里，页面就卡在灰色非激活态。
-function syncActiveScene() {
-  const mid = window.innerHeight / 2;
-  const best = new Map();
-  document.querySelectorAll('.story-scene').forEach(scene => {
-    const r = scene.getBoundingClientRect();
-    if (r.bottom < window.innerHeight * 0.15 || r.top > window.innerHeight * 0.85) return;
-    const d = Math.abs((r.top + r.bottom) / 2 - mid);
-    const cur = best.get(scene.parentElement);
-    if (!cur || d < cur.d) best.set(scene.parentElement, { scene, d });
-  });
-  best.forEach(({ scene }, parent) => {
-    parent.querySelectorAll(':scope > .story-scene').forEach(other => {
-      other.classList.toggle('is-active', other === scene);
-      other.classList.toggle('is-leaving', other !== scene && other.getBoundingClientRect().top < 0);
-    });
-  });
-}
-let _syncSceneTimer;
-window.addEventListener('scroll', () => {
-  clearTimeout(_syncSceneTimer);
-  _syncSceneTimer = setTimeout(syncActiveScene, 140);
-}, { passive: true });
-
-// ============================================
-// 逐屏滚动叙事（桌面端）：滚轮一次 = 推进一个信息层
-// 以 .chapter-gate / .story-scene 为"屏"；超高场景先在内部
-// 分段滚完再进入下一屏。触屏、减弱动效、弹窗开启、可缩放
-// 地图（ECharts roam）上不接管滚动。
-// ============================================
-(function initScrollPager() {
-  if (!window.matchMedia('(pointer: fine)').matches) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  let stops = [];
-  let animating = false;
-  let acc = 0;
-  let accTimer = null;
-
-  function computeStops() {
-    const vh = window.innerHeight;
-    const list = [0];
-    document.querySelectorAll('.chapter-gate, .story-scene, .intro-narrative-section').forEach(el => {
-      if (el.offsetParent === null) return;
-      const top = el.getBoundingClientRect().top + window.scrollY;
-      const h = el.offsetHeight;
-      list.push(Math.round(top));
-      if (h > vh * 1.15) {
-        // 超高场景：内部按 0.85 屏步进，末尾贴齐场景底部
-        let y = top + vh * 0.85;
-        while (y < top + h - vh - 4) { list.push(Math.round(y)); y += vh * 0.85; }
-        list.push(Math.round(top + h - vh));
-      }
-    });
-    list.push(Math.round(document.body.scrollHeight - vh));
-    const sorted = [...new Set(list.filter(v => v >= 0 && isFinite(v)))].sort((a, b) => a - b);
-    // 合并相距过近的停靠点（如封面与紧随其后的场景），避免"滚一下只挪几十像素"
-    stops = [];
-    sorted.forEach(v => {
-      if (stops.length && v - stops[stops.length - 1] < 200) stops[stops.length - 1] = v;
-      else stops.push(v);
-    });
-  }
-
-  function animateTo(target) {
-    animating = true;
-    const root = document.documentElement;
-    const prevBehavior = root.style.scrollBehavior;
-    const prevSnap = root.style.scrollSnapType;
-    root.style.scrollBehavior = 'auto';
-    root.style.scrollSnapType = 'none';   // 动画期间关闭 CSS snap，避免吸附点与逐帧滚动互相拉扯造成卡顿
-    const start = window.scrollY;
-    const delta = target - start;
-    const duration = 760;
-    const t0 = performance.now();
-    (function frame(now) {
-      const p = Math.min((now - t0) / duration, 1);
-      const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-      window.scrollTo(0, start + delta * e);
-      if (p < 1) requestAnimationFrame(frame);
-      else {
-        root.style.scrollSnapType = prevSnap;
-        root.style.scrollBehavior = prevBehavior;
-        setTimeout(() => { animating = false; }, 90);
-      }
-    })(t0);
-  }
-
-  function stepPage(dir) {
-    computeStops(); // 实时取位：懒加载内容会改变元素位置，缓存值会被 CSS snap 拉回造成死循环
-    const y = window.scrollY;
-    let target;
-    if (dir > 0) {
-      for (let i = 0; i < stops.length; i++) if (stops[i] > y + 4) { target = stops[i]; break; }
-    } else {
-      for (let j = stops.length - 1; j >= 0; j--) if (stops[j] < y - 4) { target = stops[j]; break; }
-    }
-    if (target === undefined) return;
-    animateTo(target);
-  }
-
-  window.addEventListener('wheel', e => {
-    if (e.ctrlKey) return;                                   // 触控板捏合缩放
-    if (window.innerWidth <= 720) return;                    // 窄屏走原生滚动
-    if (document.body.style.overflow === 'hidden') return;   // 弹窗开启时
-    if (e.target && e.target.closest &&
-        e.target.closest('#china-map, #spread-map, #world-flow-chart')) return; // 可缩放地图
-    e.preventDefault();
-    if (animating) return;
-    acc += e.deltaY;
-    clearTimeout(accTimer);
-    accTimer = setTimeout(() => { acc = 0; }, 180);
-    if (Math.abs(acc) < 50) return;                          // 触控板微滚动累积阈值
-    const dir = acc > 0 ? 1 : -1;
-    acc = 0;
-    stepPage(dir);
-  }, { passive: false });
-
-  function refresh() { computeStops(); }
-  window.addEventListener('load', refresh);
-  let rzTimer;
-  window.addEventListener('resize', () => { clearTimeout(rzTimer); rzTimer = setTimeout(refresh, 250); });
-  if ('ResizeObserver' in window) {
-    let roTimer;
-    new ResizeObserver(() => { clearTimeout(roTimer); roTimer = setTimeout(refresh, 400); })
-      .observe(document.body);
-  }
-  refresh();
-  setTimeout(refresh, 1500);
-})();
 
 const sections = document.querySelectorAll('.section');
 const nav = document.getElementById('mainNav');
@@ -7604,7 +7440,9 @@ function renderSankeyFlow() {
   // Two-level flow: origin → level (no intermediate species nodes)
   const flowMap = {};
   Data.species.forEach(s => {
-    const origin = normalizeOrigin(s.origin);
+    // 优先使用离线清洗好的洲级分类（scripts/clean_origin.py 写入 origin_region，
+    // 映射表见 data/origin_region_map.json）；无该字段时回退到正则归一。
+    const origin = s.origin_region || normalizeOrigin(s.origin);
     const lvl = normalizeLevel(s.level);
     const key = origin + '→' + lvl;
     flowMap[key] = (flowMap[key] || 0) + 1;
@@ -7618,19 +7456,20 @@ function renderSankeyFlow() {
     const o = key.split('→')[0];
     originTotals[o] = (originTotals[o] || 0) + count;
   });
+  const DIM_ROWS = new Set(['未知', '其他', '跨洲/泛化']);
   const origins = Object.keys(originTotals).sort((a, b) => {
-    const tail = n => (n === '未知' || n === '其他') ? 1 : 0;
+    const tail = n => DIM_ROWS.has(n) ? 1 : 0;
     if (tail(a) !== tail(b)) return tail(a) - tail(b);
     return originTotals[b] - originTotals[a];
   });
   const levels = levelOrder.filter(l => Object.keys(flowMap).some(k => k.split('→')[1] === l));
   const maxVal = Math.max(...Object.values(flowMap));
   const labelThreshold = maxVal * 0.55;
-  // "其他""未知"两行单独成组：不参与主色阶，仅用灰度深浅表示数量（视觉置灰）
+  // "跨洲/泛化""未知"两行单独成组：不参与主色阶，仅用灰度深浅表示数量（视觉置灰）
   const heatData = [];
   const heatDataDim = [];
   origins.forEach((o, yi) => {
-    const isDim = (o === '其他' || o === '未知');
+    const isDim = DIM_ROWS.has(o);
     levels.forEach((l, xi) => {
       const v = flowMap[o + '→' + l] || 0;
       if (v > 0) {
@@ -7674,7 +7513,7 @@ function renderSankeyFlow() {
       inverse: true,
       axisLabel: {
         color: '#E8F0EB', fontSize: 12,
-        formatter: v => (v === '其他' || v === '未知') ? '{dim|' + v + '}' : v,
+        formatter: v => DIM_ROWS.has(v) ? '{dim|' + v + '}' : v,
         rich: { dim: { color: '#6E7F75', fontSize: 12 } }
       },
       axisLine: { lineStyle: { color: '#1F3D30' } },
