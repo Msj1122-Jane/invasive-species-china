@@ -5472,6 +5472,15 @@ a.nav-item { text-decoration: none; }
         下方时间轴的二十个节点，记录入侵事件、灭除行动与政策立法怎样一步步织密这张网。
       </p>
     </div>
+    <div class="race-chart-block reveal">
+      <h4 class="chart-conclusion-title">围堵追了二十余年：红火蚁一路在前，政策一路在追</h4>
+      <div id="raceChart" style="width:100%;height:380px;"></div>
+      <div class="chart-footnote">
+        <p>数据说明：红线为红火蚁累计有扩散记录的省级行政区数（含 2003 年台湾首记录；省级口径，县级记录无逐年公开数据）；金色旗标为政策与立法里程碑</p>
+        <p>数据来源：农业农村部红火蚁发生通报（2023）及公开资料整理；政策节点详见下方时间轴</p>
+        <p>统计时间：扩散记录对应 2003—2023 年；政策节点对应 2003—2025 年</p>
+      </div>
+    </div>
     <div id="timeline-container" class="reveal">
       <div class="tl-intro">
         <div class="tl-phase-tag">仓促应战</div>
@@ -6763,50 +6772,87 @@ function renderCountyHotspot() {
 // 生成海报（方案 4.4）：canvas 绘制竖版分享图，长按/点击保存
 // ============================================
 function showHometownPoster(info) {
+  // C.9 "不速之客居住证"：证件样式海报（持证人=县名，签发机关=来者何物）
   const W = 900, H = 1200;
   const canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = '#0D1B15';
   ctx.fillRect(0, 0, W, H);
-  ctx.strokeStyle = '#2A3F35'; ctx.lineWidth = 4;
-  ctx.strokeRect(24, 24, W - 48, H - 48);
+
+  // 证件卡面
+  const card = { x: 70, y: 90, w: W - 140, h: H - 220 };
+  ctx.fillStyle = '#152720';
+  ctx.strokeStyle = '#D8A24A'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.roundRect(card.x, card.y, card.w, card.h, 18); ctx.fill(); ctx.stroke();
+  ctx.setLineDash([6, 6]); ctx.strokeStyle = 'rgba(216,162,74,.45)'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(card.x + 14, card.y + 14, card.w - 28, card.h - 28, 12); ctx.stroke();
+  ctx.setLineDash([]);
+
   ctx.textAlign = 'center';
-  // 顶部品牌
-  ctx.fillStyle = '#93A29A';
-  ctx.font = '28px "Noto Sans SC", sans-serif';
-  ctx.fillText('来者何物 · 中国外来入侵物种数据纪实', W / 2, 110);
-  ctx.strokeStyle = '#2A3F35'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(120, 150); ctx.lineTo(W - 120, 150); ctx.stroke();
-  // 县名
-  ctx.fillStyle = '#E8E6DF';
-  ctx.font = '700 72px "Noto Serif SC", serif';
-  ctx.fillText(info.county, W / 2, 330);
-  ctx.fillStyle = '#93A29A';
-  ctx.font = '30px "Noto Sans SC", sans-serif';
-  ctx.fillText(info.prov + ' · 全省入侵植物记录最密集的县', W / 2, 388);
-  // 大数字
+  // 证名
   ctx.fillStyle = '#D8A24A';
-  ctx.font = '700 190px "Space Grotesk", "Noto Sans SC", monospace';
-  ctx.fillText(String(info.count), W / 2, 620);
-  ctx.fillStyle = '#E8E6DF';
-  ctx.font = '34px "Noto Sans SC", sans-serif';
-  ctx.fillText('种入侵植物记录', W / 2, 682);
-  // 超全国均值倍数
+  ctx.font = '700 56px "Noto Serif SC", serif';
+  ctx.fillText('不速之客居住证', W / 2, card.y + 92);
+  ctx.fillStyle = '#93A29A';
+  ctx.font = '20px "Space Grotesk", monospace';
+  ctx.fillText('I N V A D E R   R E S I D E N C E   P E R M I T', W / 2, card.y + 130);
+
+  // 照片框（蚂蚁剪影位）
+  ctx.strokeStyle = '#2A3F35'; ctx.lineWidth = 2;
+  ctx.strokeRect(card.x + 56, card.y + 180, 200, 240);
+  ctx.font = '120px sans-serif';
+  ctx.fillText('🐜', card.x + 156, card.y + 345);
+  ctx.fillStyle = '#93A29A'; ctx.font = '18px "Noto Sans SC", sans-serif';
+  ctx.fillText('入侵物种登记照', card.x + 156, card.y + 452);
+
+  // 字段区
+  ctx.textAlign = 'left';
+  const fx = card.x + 300;
+  const fields = [
+    ['持 证 人', info.county],
+    ['所属省份', info.prov],
+    ['登记物种', info.count + ' 种入侵植物记录'],
+    ['风险倍数', '是全国县域平均的 ' + info.mult + ' 倍']
+  ];
+  fields.forEach(([k, v], i) => {
+    const y = card.y + 240 + i * 62;
+    ctx.fillStyle = '#93A29A'; ctx.font = '22px "Noto Sans SC", sans-serif';
+    ctx.fillText(k, fx, y);
+    ctx.fillStyle = i === 2 ? '#D8A24A' : (i === 3 ? '#E04A2F' : '#E8E6DF');
+    ctx.font = (i >= 2 ? '700 ' : '') + '30px "Noto Sans SC", sans-serif';
+    ctx.fillText(String(v), fx, y + 36);
+  });
+
+  // 签发机关 + 红色圆章
+  ctx.fillStyle = '#93A29A'; ctx.font = '22px "Noto Sans SC", sans-serif';
+  ctx.fillText('签发机关', fx, card.y + 520);
+  ctx.fillStyle = '#E8E6DF'; ctx.font = '700 30px "Noto Serif SC", serif';
+  ctx.fillText('来者何物 · 数据纪实', fx, card.y + 556);
+  // 圆章
+  const sx = card.x + card.w - 170, sy = card.y + card.h - 150, sr = 92;
+  ctx.save();
+  ctx.globalAlpha = 0.85;
+  ctx.strokeStyle = '#E04A2F'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.stroke();
   ctx.fillStyle = '#E04A2F';
-  ctx.font = '700 54px "Noto Sans SC", sans-serif';
-  ctx.fillText('是全国县域平均的 ' + info.mult + ' 倍', W / 2, 786);
-  // 引导语（无二维码库，以网址文本代替二维码占位）
+  ctx.font = '44px serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('★', sx, sy + 14);
+  ctx.font = '19px "Noto Sans SC", sans-serif';
+  ctx.fillText('来者何物', sx, sy - 40);
+  ctx.fillText('核查专用章', sx, sy + 48);
+  ctx.restore();
+
+  // 引导语与脚注
+  ctx.textAlign = 'center';
   ctx.fillStyle = '#D8A24A';
-  ctx.font = '34px "Noto Sans SC", sans-serif';
-  ctx.fillText('你的家乡呢？查查你的家乡 →', W / 2, 922);
+  ctx.font = '32px "Noto Sans SC", sans-serif';
+  ctx.fillText('你的家乡呢？查查你的家乡 →', W / 2, H - 92);
   ctx.fillStyle = '#93A29A';
-  ctx.font = '22px "Noto Sans SC", sans-serif';
-  ctx.fillText(String(window.location.href.split('#')[0]).slice(0, 60), W / 2, 968);
-  // 底部脚注
   ctx.font = '20px "Noto Sans SC", sans-serif';
-  ctx.fillText('数据来源：中国外来入侵植物物种高分辨率分布数据库（IPSD）', W / 2, H - 92);
-  ctx.fillText('记录数不等于实际分布密度，受各地调查强度影响', W / 2, H - 60);
+  ctx.fillText(String(window.location.href.split('#')[0]).slice(0, 60), W / 2, H - 58);
+  ctx.fillText('数据来源：中国外来入侵植物物种高分辨率分布数据库（IPSD） · 记录数≠分布密度', W / 2, H - 30);
 
   const url = canvas.toDataURL('image/png');
   let overlay = document.getElementById('posterOverlay');
@@ -7903,13 +7949,14 @@ function renderSankeyFlow() {
       type: 'heatmap',
       data: heatData,
       label: { show: true, fontSize: 11, fontWeight: 600 },
-      itemStyle: { borderColor: '#0B1410', borderWidth: 3 },
+      // C.7 蚁巢土层：圆角方块（土壤剖面感）；噪点纹理会遮挡数值标签，弃用
+      itemStyle: { borderColor: '#0B1410', borderWidth: 3, borderRadius: 5 },
       emphasis: { itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.45)' } }
     }, {
       type: 'heatmap',
       data: heatDataDim,
       label: { show: true, fontSize: 11, fontWeight: 600, color: '#E8F0EB' },
-      itemStyle: { borderColor: '#0B1410', borderWidth: 3 },
+      itemStyle: { borderColor: '#0B1410', borderWidth: 3, borderRadius: 5 },
       emphasis: { itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.45)' } }
     }]
   });
@@ -8841,6 +8888,19 @@ async function renderImpactChapter() {
       itemStyle: { color: function(p) { return ['#E04A2F','#D8A24A','#4E7A63'][p.dataIndex]; }, borderRadius:[0,4,4,0] },
       barMaxWidth: 24,
       label: { show:true, position:'right', formatter:'{c}亿元', fontSize:11, color:'#E8E6DF' }
+    }, {
+      // C.10 蚂蚁咬痕：条末端用底色圆点啃出缺口 + 蚂蚁标记
+      type: 'scatter', silent: true, tooltip: { show: false }, z: 5,
+      data: [377,294,228].flatMap((v, i) => [
+        { value: [v - 3, i], symbolSize: 13, symbolOffset: [0, -7] },
+        { value: [v - 3, i], symbolSize: 11, symbolOffset: [0, 8] },
+        { value: [v - 10, i], symbolSize: 9, symbolOffset: [0, 2] }
+      ]),
+      itemStyle: { color: '#152720' }
+    }, {
+      type: 'scatter', silent: true, tooltip: { show: false }, z: 6,
+      data: [377,294,228].map((v, i) => ({ value: [v, i], symbolOffset: [16, 0] })),
+      symbol: _ANT_SVG, symbolSize: 20
     }]
   });
 
@@ -8915,6 +8975,9 @@ function renderCustomsSankey(sankeyData) {
     l.lineStyle = { opacity: top3Keys.has(l.source + '→' + l.target) ? 0.75 : 0.4 };
   });
   const nodeNames = [...new Set(links.flatMap(l => [l.source, l.target]))];
+  // C.6 行李传送带：发货地=包裹📦（纸箱棕），中间口岸=🛃（X 光蓝），终到类型=🐜（灰绿）
+  const midNames = new Set([...linkSources].filter(n => linkTargets.has(n)));
+  const iconFor = n => originNames.has(n) ? '📦 ' : (midNames.has(n) ? '🛃 ' : '🐜 ');
 
   customsSankeyChart.setOption({
     tooltip: { trigger: 'item', triggerOn: 'mousemove', formatter: p => p.dataType === 'edge'
@@ -8924,17 +8987,17 @@ function renderCustomsSankey(sankeyData) {
       nodeAlign: 'left',
       layoutIterations: 32,
       data: nodeNames.map(name => (/^(未明确|未知|其他|其他地区)$/.test(name)
-        ? { name, itemStyle: { color: '#5A6B62' } }   // 方案 6.4："未明确"类节点置灰
-        : { name })),
+        ? { name, itemStyle: { color: '#5A6B62' }, label: { formatter: '{b}' } }   // "未明确"类节点置灰
+        : { name, label: { formatter: iconFor(name) + '{b}' } })),
       links: links,
       lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.4 },
       itemStyle: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
       label: { position: 'right', fontSize: 13, color: '#dce8df', formatter: '{b}' },
       nodeWidth: 16, nodeGap: 12,
       levels: [
-        { depth: 0, itemStyle: { color: '#C98A3D' }, label: { position: 'left' } },
-        { depth: 1, itemStyle: { color: '#4E8D7C' } },
-        { depth: 2, itemStyle: { color: '#5B7FA6' } }
+        { depth: 0, itemStyle: { color: '#A67B4F' }, label: { position: 'left' } },  // 纸箱棕
+        { depth: 1, itemStyle: { color: '#7FB3FF' } },                                // X 光蓝
+        { depth: 2, itemStyle: { color: '#4E7A63' } }
       ]
     }]
   });
@@ -9170,9 +9233,57 @@ async function renderDefenseChapter() {
   
   // 六道防线环形图
   if (Data.defenseRings) renderDefenseRings();
-  
+
+  // C.8 追赶赛道：红火蚁扩散曲线 vs 政策里程碑旗
+  renderRaceChart();
+
   // 垂直滚动时间轴
   renderTimeline();
+}
+
+// C.8 追赶赛道图
+function renderRaceChart() {
+  const dom = document.getElementById('raceChart');
+  if (!dom || typeof echarts === 'undefined') return;
+  const rfa = (typeof Data !== 'undefined' && Data.redFireAnt) ? Data.redFireAnt.filter(d => d.year <= 2023) : [];
+  if (!rfa.length) return;
+  const milestones = [
+    [2003, '首批名单 16 种'], [2004, '红火蚁广东吴川首记录'], [2010, '第二批名单'],
+    [2013, '重点管理名录 52 种'], [2021, '《生物安全法》施行'],
+    [2022, '六部门名录发布（59 种，2023 施行）'], [2024, '海关年截获 5439 批次'],
+    [2025, '国家安全部首发"异宠"风险提示']
+  ];
+  const maxY = Math.max(...rfa.map(d => d.province_count)) + 1;
+  echarts.init(dom).setOption({
+    tooltip: {
+      trigger: 'item',
+      formatter: p => p.seriesType === 'scatter'
+        ? `<strong>${p.value[0]} 年</strong><br/>🚩 ${p.value[2]}`
+        : `<strong>${p.value[0]} 年</strong><br/>红火蚁累计扩散：${p.value[1]} 个省级行政区`,
+      backgroundColor: '#152A22', borderColor: '#1F3D30', textStyle: { color: '#E8F0EB' }
+    },
+    grid: { left: 56, right: 30, top: 46, bottom: 36 },
+    xAxis: { type: 'value', min: 2002, max: 2026, axisLabel: { color: '#93A29A', formatter: v => String(v) }, splitLine: { show: false } },
+    yAxis: { type: 'value', min: 0, max: maxY + 2, name: '累计省级行政区', nameTextStyle: { color: '#93A29A' }, axisLabel: { color: '#93A29A' }, splitLine: { lineStyle: { color: 'rgba(42,63,53,.5)' } } },
+    series: [
+      {
+        name: '红火蚁扩散', type: 'line', z: 3,
+        data: rfa.map(d => [d.year, d.province_count]),
+        lineStyle: { color: '#E04A2F', width: 3 },
+        itemStyle: { color: '#E04A2F' },
+        symbol: 'circle', symbolSize: 6,
+        areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(224,74,47,.22)' }, { offset: 1, color: 'rgba(224,74,47,0)' }]) }
+      },
+      {
+        name: '政策里程碑', type: 'scatter', z: 4,
+        data: milestones.map((m, i) => ({ value: [m[0], maxY + 1 - (i % 2) * 0.9, m[1]] })),
+        symbol: 'triangle', symbolSize: 16,
+        itemStyle: { color: '#D8A24A', borderColor: '#0D1B15', borderWidth: 1 },
+        label: { show: true, position: 'top', fontSize: 10, color: '#D8A24A', formatter: p => p.value[0], distance: 4 }
+      }
+    ]
+  });
 }
 
 // ============================================
