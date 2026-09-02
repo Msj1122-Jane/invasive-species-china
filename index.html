@@ -288,38 +288,14 @@ body {
 .section-dark .section-subtitle { color: var(--b-text-dim); }
 .section-dark .section-divider { background: linear-gradient(90deg, var(--b-accent), var(--b-gold)); }
 
-/* Editorial color fields: 全站统一深色（方案 6.1），各幕用极弱的色相差异区分节奏 */
-#chapter-map {
+/* 全站统一底色：同一深色基底贯穿全篇，杜绝章节间生硬切换。
+   仅叠加一层各幕相同、极弱的翠绿氛围光晕做节奏区分；边缘全部收敛到 #0D1B15，保证相邻章节之间无缝。 */
+#chapter-map, #chapter-pathways, #chapter-spread, #chapter-impact, #chapter-defense, #chapter-action {
   background:
-    radial-gradient(circle at 12% 18%, rgba(216, 162, 74, 0.06), transparent 34%),
-    radial-gradient(circle at 88% 72%, rgba(78, 122, 99, 0.10), transparent 30%),
-    linear-gradient(180deg, #0D1B15 0%, #0E1F18 48%, #0D1B15 100%);
-}
-#chapter-pathways {
-  background:
-    radial-gradient(circle at 82% 28%, rgba(29, 87, 67, 0.28), transparent 34%),
-    linear-gradient(180deg, #0D1B15 0%, #0d1d17 55%, #10271e 100%);
-}
-#chapter-spread {
-  background:
-    radial-gradient(circle at 18% 72%, rgba(28, 91, 67, 0.22), transparent 36%),
-    linear-gradient(180deg, #10271e 0%, #0a1814 58%, #111c18 100%);
-}
-#chapter-impact {
-  background:
-    radial-gradient(circle at 84% 18%, rgba(216, 162, 74, 0.08), transparent 30%),
-    linear-gradient(180deg, #0D1B15 0%, #122019 48%, #0D1B15 100%);
-}
-#chapter-defense {
-  /* 第四幕 · 一张全球网络：深色底（桑基图/热力图/世界流向均为深色配色） */
-  background:
-    radial-gradient(circle at 18% 24%, rgba(29, 87, 67, 0.25), transparent 34%),
-    linear-gradient(180deg, #0d1d17 0%, #0a1814 55%, #10271e 100%);
+    radial-gradient(70% 55% at 50% 32%, rgba(29, 87, 67, 0.12) 0%, transparent 70%),
+    var(--b-bg);
 }
 #chapter-action {
-  background:
-    radial-gradient(circle at 82% 14%, rgba(216, 162, 74, 0.07), transparent 28%),
-    linear-gradient(180deg, #10271e 0%, #0D1B15 40%, #0a1611 100%);
   color: var(--a-text);
 }
 #chapter-action .section-title { color: var(--a-text); }
@@ -401,6 +377,18 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-color: var(--b-bg);
+}
+/* 封面"主题视觉"装饰层：以低透明度、居中的方式叠加，任何风格的图都能融入统一底色 */
+.gate-art {
+  position: absolute;
+  inset: 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  filter: saturate(0.9);
+  z-index: 0;
+  pointer-events: none;
 }
 .chapter-gate::before {
   content: '';
@@ -4896,7 +4884,8 @@ a.src-link:hover, a.src-link:focus-visible { color: #F0C98A; text-decoration-col
      ============================== -->
 <section class="section section-dark" id="chapter-map" data-render="map">
   <!-- Chapter Gate -->
-  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch1.webp');">
+  <div class="chapter-gate">
+      <div class="gate-art" style="background-image:url('assets/images/bg/gate-ch1.webp');"></div>
     <div class="gate-content">
       <div class="gate-number">03</div>
       <h2 class="gate-title">它们</h2>
@@ -5357,7 +5346,8 @@ a.src-link:hover, a.src-link:focus-visible { color: #F0C98A; text-decoration-col
      ============================== -->
 <section class="section section-dark" id="chapter-impact" data-render="impact">
   <!-- Chapter Gate -->
-  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch4.webp');">
+  <div class="chapter-gate">
+      <div class="gate-art" style="background-image:url('assets/images/bg/gate-ch4.webp');"></div>
     <div class="gate-content">
       <div class="gate-number">05</div>
       <h2 class="gate-title">账单与防线</h2>
@@ -5583,7 +5573,8 @@ a.src-link:hover, a.src-link:focus-visible { color: #F0C98A; text-decoration-col
      ============================== -->
 <section class="section section-dark" id="chapter-defense" data-render="defense">
   <!-- Chapter Gate -->
-  <div class="chapter-gate" style="background-image: url('assets/images/bg/gate-ch5.webp');">
+  <div class="chapter-gate">
+      <div class="gate-art" style="background-image:url('assets/images/bg/gate-ch5.webp');"></div>
     <div class="gate-content">
       <div class="gate-number">04</div>
       <h2 class="gate-title">一张全球网络</h2>
