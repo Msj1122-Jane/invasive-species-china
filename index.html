@@ -4784,6 +4784,48 @@ a.src-link:hover, a.src-link:focus-visible { color: #F0C98A; text-decoration-col
   color: var(--b-text-dim);
   font-style: italic;
 }
+
+/* ============================================================
+   全站统一单色背景（用户要求：整页一个图层、无渐变、无图片蒙版）
+   以唯一底色 #0D1B15 贯穿全部章节与内容区；组件卡片保留各自面层，不影响整体底色统一。
+   ============================================================ */
+body { background: #0D1B15 !important; }
+.section,
+.section-dark,
+.intro-narrative-section,
+.intro-narrative-dark,
+.intro-narrative-paper,
+#chapter-map, #chapter-pathways, #chapter-spread,
+#chapter-impact, #chapter-defense, #chapter-action,
+#chapter-species {
+  background: #0D1B15 !important;
+}
+
+/* 封面首页（chapter-intro）保留封面视觉，不参与统一底色 */
+#chapter-intro {
+  background:
+    linear-gradient(180deg, rgba(11,20,16,0.3) 0%, rgba(11,20,16,0.1) 40%, rgba(11,20,16,0.5) 100%),
+    url('assets/images/bg/cover.webp'),
+    #0D1B15;
+  background-size: auto, cover, auto;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 关闭在背景上叠加的色差蒙版 / 图片蒙版 */
+.chapter-gate::before,
+#chapter-species .story-scene:first-child::after {
+  background: none !important;
+  display: none;
+}
+/* 渐隐衔接带改为纯色，消除色差带 */
+.intro-outro-fade {
+  background: #0D1B15 !important;
+  display: block;
+  height: 12vh;
+}
+/* 封面主题图装饰层不再启用（无图片蒙版） */
+.gate-art { display: none !important; }
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
