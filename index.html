@@ -1271,6 +1271,43 @@ a:focus-visible,
 .customs-network-chart svg { display: block; }
 .customs-network-chart text { font-family: var(--font-sans); }
 @media (max-width: 720px) { .customs-network-chart { height: 480px; } }
+
+/* 扩散图可拖动年份轴 */
+.spread-timeline { margin: 4px 0 14px; position: relative; }
+.st-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.st-year-label { font-size: 0.78rem; color: var(--b-text-dim); }
+.st-year-label strong { color: var(--b-gold); }
+.st-handle {
+  font-size: 1.2rem;
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(224,74,47,0.16);
+  border: 1px solid var(--b-border);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(224,74,47,0.08);
+  user-select: none;
+}
+.st-range {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(224,74,47,0.5), rgba(216,162,74,0.5)) 0 / var(--st-pct,50%) 100% no-repeat, var(--b-border);
+  outline: none; cursor: ew-resize;
+}
+.st-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--b-accent);
+  border: 2px solid #0D1B15;
+  box-shadow: 0 0 0 2px rgba(224,74,47,0.35);
+  cursor: grab;
+}
+.st-range::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--b-accent);
+  border: 2px solid #0D1B15;
+  cursor: grab;
+}
 .spread-photo-card span {
   display: block;
   font-size: 10px;
@@ -5450,6 +5487,13 @@ body { background: #0D1B15 !important; }
       </div>
       <div class="timeline-container">
         <div class="timeline-label">起点与现状</div>
+        <div class="spread-timeline">
+          <div class="st-row">
+            <span class="st-year-label" id="stYearLabel">到 <strong id="stYear">2023</strong> 年，已记录 <strong id="stCount">12</strong> 省</span>
+            <span class="st-handle" id="stHandle">🔥</span>
+          </div>
+          <input type="range" id="spreadYearRange" class="st-range" min="2003" max="2023" step="1" value="2023" aria-label="拖动查看各年份扩散记录">
+        </div>
         <div class="timeline-info">
           <div class="ti-item">
             <div class="ti-value" id="tiYear">2003</div>
@@ -7773,6 +7817,59 @@ let currentSpeciesIndex = 0;
 // 重点管理名录官方来源（六部门公告第567号，农业农村部官网）；个别物种可另设 sourceUrl 覆盖
 const _SPREAD_SRC_URL = 'https://www.moa.gov.cn/govpublic/KJJYS/202211/t20221109_6415160.htm';
 
+// 每物种的"省 + 年 + 事件"真实记录（用于案例卡的可点条目与拖动时间轴；来源为公开报道，可点击查证）
+const SPREAD_EVENTS = {
+  '红火蚁': [
+    { year: '2003', province: '台湾', text: '台湾桃园报道发生红火蚁，为与大陆相关的较早记录。' },
+    { year: '2004', province: '广东', text: '广东吴川发现红火蚁，为大陆首笔官方记录。' },
+    { year: '2023', province: '广东', text: '惠州赖女士被红火蚁叮咬后休克（新华社报道）。', url: 'https://news.cctv.com/2024/04/12/ARTIq3vWjCVsatMdEaVyuVmi240412.shtml' },
+    { year: '2023', province: '广西', text: '钦州东站一名男子候车时，因踩到红火蚁晕倒。', url: 'https://news.cctv.com/2024/04/12/ARTIq3vWjCVsatMdEaVyuVmi240412.shtml' }
+  ],
+  '互花米草': [
+    { year: '1979', province: '福建', text: '为"保滩护堤"自美国引种，福建罗源湾试种。' },
+    { year: '2023', province: '福建', text: '全国互花米草防治现场会在宁德召开，福建随后开展除治攻坚。', url: 'http://nd.fjsen.com/2023-02/17/content_31251676.htm' }
+  ],
+  '松材线虫病': [
+    { year: '1982', province: '江苏', text: '南京中山陵首次发现松材线虫病，随后随疫木扩散。', url: 'https://lyj.jiangsu.gov.cn/art/2019/7/30/art_6930_8647154.html' }
+  ],
+  '美国白蛾': [
+    { year: '1979', province: '辽宁', text: '传入辽宁丹东一带；1981 年木材把牠带到山东荣成。' },
+    { year: '2021', province: '辽宁', text: '辽宁发现美国白蛾危及农作物，民警联合专家除害。', url: 'https://www.chinanews.com/sh/2021/08-26/9552027.shtml' }
+  ],
+  '薇甘菊': [
+    { year: '2004', province: '广东', text: '薇甘菊疯狂蚕食深圳湾红树林。', url: 'https://news.sina.com.cn/s/2004-11-30/16244393900s.shtml' },
+    { year: '2020', province: '广东', text: '深圳打响外来入侵物种"阻击战"，薇甘菊为重点。', url: 'https://dutenews.com/n/article/15616540' }
+  ],
+  '紫茎泽兰': [
+    { year: '1935', province: '云南', text: '云南南部发现紫茎泽兰（另有 1940 年代传入说）。' },
+    { year: '2004', province: '云南', text: '云南华宁盘溪一度把它当作"收入"来源，后成入侵。', url: 'https://news.sina.cn/sa/2004-06-30/detail-ikknscsi3477192.d.html?from=wap' }
+  ],
+  '空心莲子草': [
+    { year: '1890s', province: '上海', text: '约 1890 年代引入（原产南美）。', url: 'http://museum.ioz.ac.cn/iad/View/Site/SpeciesDetail.aspx?l=7&SpeciesId=109' },
+    { year: '2025', province: '江苏', text: '镇江丹徒区村中池塘被水花生铺成"绿毯"，村民盼治理。', url: 'https://www.dy001.cn/2025/0923/220395.shtml' },
+    { year: '2025', province: '江苏', text: '泰州姜堰区检察公益诉讼，推动清理河道水花生。', url: 'https://www.spp.gov.cn/dfjcdt/202506/t20250619_698727.shtml' }
+  ],
+  '加拿大一枝黄花': [
+    { year: '2025', province: '上海', text: '上海发现加拿大一枝黄花，有关部门提醒"看到要上报"。', url: 'https://news.hangzhou.com.cn/shxw/content/2025-12/02/content_9135946_0.htm' }
+  ],
+  '豚草': [
+    { year: '2026', province: '辽宁', text: '沈阳浑河豚草开始结籽，官方提醒"千万别碰"。', url: 'http://liaoning.nen.com.cn/network/liaoningnews/lnnewsshehuifazhi/2026/07/18/933078217286227340.shtml' }
+  ],
+  '水葫芦': [
+    { year: '1901', province: '台湾', text: '约 1901 年引入（随后传入大陆）。' },
+    { year: '2021', province: '云南', text: '昆明市民打卡的"紫色花海"，官方确认是恶性入侵物种水葫芦。', url: 'https://zixun.kunming.cn/c/9347175.shtml' }
+  ],
+  '飞机草': [
+    { year: '1934', province: '云南', text: '云南南部首次记录飞机草。' },
+    { year: '2009', province: '云南', text: '两年前仅几株，如今数千株——飞机草围攻丽江古城。', url: 'https://news.sina.com.cn/c/2009-06-19/105115817447s.shtml' },
+    { year: '2003', province: '广东', text: '广东曾把飞机草当作"绿肥"引进，如今生态失衡。', url: 'https://news.sina.cn/sa/2003-07-03/detail-ikknscsi0696093.d.html?from=wap' }
+  ],
+  '三裂叶豚草': [
+    { year: '1930s', province: '辽宁', text: '20 世纪 30 年代在辽宁铁岭发现。' },
+    { year: '2025', province: '辽宁', text: '辽宁本溪检察院开展"围剿三裂叶豚草"公益行动。', url: 'https://www.163.com/dy/article/JE30HSRQ0514R9OJ.html' }
+  ]
+};
+
 const speciesSpreadData = {
   '红火蚁': {
     first: { year: '2003', province: '台湾',
@@ -7928,22 +8025,30 @@ function clearSpreadPhotos() {
   _spreadPhotoCards.clear();
 }
 
-function renderSpreadPhotos(spd, provs) {
+function renderSpreadPhotos(spd, provs, speciesKey) {
   const layer = document.getElementById('spreadPhotoLayer');
   if (!layer) return;
   const photos = (spd.photos || []).filter(ph =>
     ph.province && provs.includes(ph.province));
-  if (photos.length === 0) {
-    // 无实拍照片时，改为展示该物种的"首记录 + 现状"案例记录
-    const f = spd.first || {}, c = spd.current || {};
-    layer.innerHTML =
+  // 案例记录卡：首记录 + 逐条真实事件 + 现状 + 官方来源
+  const f = spd.first || {}, c = spd.current || {};
+  const evts = (SPREAD_EVENTS[speciesKey] || []).filter(e => e.year && e.province);
+  const evtHtml = evts.map(e => `
+      <div class="spread-case-block">
+        <span class="spread-case-tag">${e.year} · ${e.province}</span>
+        <div class="spread-case-text">${e.text || ''}${e.url ? ` <a class="src-link" href="${e.url}" target="_blank" rel="noopener">来源 ↗</a>` : ''}</div>
+      </div>`).join('');
+  const caseHtml =
       `<div class="spread-case-card">` +
-        `<div class="spread-case-title">案 例 记 录</div>` +
+        `<div class="spread-case-title">案 例 · 记 录</div>` +
         `<div class="spread-case-block"><span class="spread-case-tag">首次记录</span><div class="spread-case-wh">${f.year || ''}${f.province ? ' · ' + f.province : ''}</div><div class="spread-case-text">${f.text || ''}</div></div>` +
+        evtHtml +
         `<div class="spread-case-block"><span class="spread-case-tag">现状</span><div class="spread-case-wh">${c.year || ''}</div><div class="spread-case-text">${c.text || ''}</div></div>` +
         `<div class="spread-case-src">来源：${spd.source || '公开资料整理'}</div>` +
         `<a class="spread-case-link" href="${spd.sourceUrl || _SPREAD_SRC_URL}" target="_blank" rel="noopener">官方来源 ↗</a>` +
       `</div>`;
+  if (photos.length === 0) {
+    layer.innerHTML = caseHtml;
   } else if (layer.querySelector(':scope > div:not(.spread-photo-card)')) {
     layer.innerHTML = '';
   }
@@ -8100,7 +8205,58 @@ function renderSpreadMap(speciesKey) {
   else { const c = document.getElementById('rfaMarchCtrl'); if (c) c.remove(); clearInterval(_marchTimer); }
 
   // 地点影像：当前物种有观察照片的省份，照片卡浮现到右栏
-  renderSpreadPhotos(spd, provs);
+  renderSpreadPhotos(spd, provs, speciesKey);
+
+  // ===== 可拖动年份轴：按事件年份逐年点亮地图（无逐年数据的省标"现有分布"，不虚构） =====
+  const numYear = (s) => { const n = parseInt(String(s).replace(/[^\d]/g, ''), 10); return isNaN(n) ? null : n; };
+  const geoName = (p) => String(p).replace(/省|市|自治区|特别行政区/g, '');
+  const yearMap = {};
+  const yearOfProv = (prov, yr) => {
+    const y = numYear(yr); if (prov == null || y == null) return;
+    if (!(prov in yearMap) || y < yearMap[prov]) yearMap[prov] = y;
+  };
+  yearOfProv(firstProv, spd.first.year);
+  (SPREAD_EVENTS[speciesKey] || []).forEach(e => yearOfProv(e.province, e.year));
+  provs.forEach(p => yearOfProv(p, spd.current.year));
+
+  function paintSpread(yearVal) {
+    const y = numYear(yearVal); if (y == null) return;
+    const onProv = Object.keys(yearMap).filter(p => yearMap[p] <= y);
+    const otherOn = onProv.filter(p => p !== firstProv);
+    const isFirstOn = onProv.includes(firstProv);
+    spreadChart.setOption({
+      geo: { regions: onProv.map(p => ({ name: geoName(p), itemStyle: { areaColor: p === firstProv ? '#F59E0B' : '#DC2626', opacity: 0.8 } })) },
+      series: [
+        { name: 'current', type: 'effectScatter', coordinateSystem: 'geo', data: otherOn.map(p => ({ name: p, value: provinceCoords[p] || [104, 30] })), symbolSize: 10, rippleEffect: { brushType: 'stroke', scale: 3 }, itemStyle: { color: '#EF4444' }, label: { show: true, formatter: '{b}', fontSize: 10, color: '#fff', position: 'right' }, zlevel: 1 },
+        { name: 'first', type: 'effectScatter', coordinateSystem: 'geo', data: isFirstOn ? [{ name: firstProv, value: provinceCoords[firstProv] || [104, 30] }] : [], symbolSize: 18, showEffectOn: 'render', rippleEffect: { brushType: 'stroke', scale: 5 }, itemStyle: { color: '#F59E0B' }, label: { show: isFirstOn, formatter: '首次记录 · ' + spd.first.year, fontSize: 11, fontWeight: 700, color: '#F59E0B', position: 'top', backgroundColor: 'rgba(11,20,16,0.75)', padding: [3, 6], borderRadius: 4 }, zlevel: 2 }
+      ]
+    });
+    const cnt = onProv.length;
+    const elP = document.getElementById('tiProvinces'); if (elP) elP.textContent = cnt;
+    const milestones = [{ year: numYear(spd.first.year), tag: '首次 · ' + spd.first.province, text: spd.first.text }]
+      .concat((SPREAD_EVENTS[speciesKey] || []).map(e => ({ year: numYear(e.year), tag: e.year + ' · ' + e.province, text: e.text })))
+      .filter(m => m.year != null).sort((a, b) => a.year - b.year);
+    const cur = milestones.filter(m => m.year <= y).pop();
+    let st = cur ? `<p style="margin:0 0 8px;"><strong style="color:var(--b-gold);">${cur.tag}：</strong>${cur.text}</p>`
+                 : `<p style="margin:0 0 8px;">${y} 年之前，尚无公开记录可查。</p>`;
+    const curY = numYear(spd.current.year);
+    if (curY != null && y >= curY) st += `<p style="margin:0;color:var(--b-text);"><strong style="color:var(--b-gold);">现状：</strong>${spd.current.text}</p>`;
+    const elSY = document.getElementById('storyYear'); if (elSY) elSY.textContent = `截至 ${y} 年 · 已记录 ${cnt} 个省级行政区`;
+    const elST = document.getElementById('storyText'); if (elST) elST.innerHTML = st;
+    const elW = document.getElementById('stYear'); if (elW) elW.textContent = y;
+    const elC = document.getElementById('stCount'); if (elC) elC.textContent = cnt;
+    const range = document.getElementById('spreadYearRange');
+    if (range) { const mn = parseFloat(range.min), mx = parseFloat(range.max); range.style.setProperty('--st-pct', (mx > mn ? ((y - mn) / (mx - mn)) * 100 : 100) + '%'); }
+  }
+
+  const range = document.getElementById('spreadYearRange');
+  const mnY = numYear(spd.first.year), mxY = numYear(spd.current.year);
+  if (range && mnY != null && mxY != null) {
+    range.min = mnY; range.max = mxY; range.value = mxY;
+    range.addEventListener('input', () => paintSpread(range.value));
+  }
+  const handle = document.getElementById('stHandle'); if (handle && spd.icon) handle.textContent = spd.icon;
+  if (mnY != null && mxY != null) paintSpread(mxY);
 }
 
 // ============================================
