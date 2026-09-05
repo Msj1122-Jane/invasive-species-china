@@ -5268,9 +5268,9 @@ body { background: #0D1B15 !important; }
 
     <!-- County query: 家乡查询互动 -->
     <div class="county-hotspot-section reveal">
-      <h3 class="subsection-title" style="color:var(--a-text);">你所在的县，可能住着上百位"不速之客"</h3>
+      <h3 class="subsection-title" style="color:var(--a-text);">有记录的县，可能住着上百位"不速之客"</h3>
       <p style="font-size:0.84rem;color:var(--a-text-secondary);margin-bottom:16px;line-height:1.8;text-align:center;">
-        县级尺度下，入侵不是均匀涂抹，而是<strong>点状爆发</strong>。选一个省份，看看它有多少个县留下了入侵植物记录、记录最密集的是哪个县。
+        县级尺度下，入侵不是均匀涂抹，而是<strong>点状爆发</strong>。下面呈现的是数据库中<strong>「有记录」的县</strong>——记录来自标本与文献，受各地调查强度影响。<strong style="color:var(--a-highlight);">没出现的县 ≠ 没有入侵</strong>：很多县未必被逐一普查，记录少也更可能是「调查不足」，而不是安全。选一个省份，看看它有多少个县留下了入侵植物记录、记录最密集的是哪个县。
       </p>
       <div class="hq-panel">
         <div class="hq-controls">
@@ -5279,10 +5279,13 @@ body { background: #0D1B15 !important; }
         </div>
         <div class="hq-result" id="hqResult"></div>
       </div>
+      <p style="font-size:0.78rem;color:var(--a-text-secondary);text-align:center;margin:6px 0 22px;line-height:1.7;">
+        ⚠️ 若你的家乡没出现在上面，<strong>不代表它没有入侵</strong>——数据只覆盖到「被记录」的县，未调查地区无记录可查。
+      </p>
       <div class="hq-top-title">全国单县纪录 Top 10</div>
       <div class="hq-top-list" id="hqTopList"></div>
       <div class="chart-footnote">
-        <p>数据说明：406 种入侵植物的县域记录数；记录数同时受各地调查强度影响，多不等于危害重；不含港澳台（统计口径不同）</p>
+        <p>数据说明：406 种入侵植物的县域记录数；仅呈现「有记录」的县——记录数≠分布密度，未收录的县≠没有入侵（可能未被逐一调查）；不含港澳台（统计口径不同）</p>
         <p>数据来源：中国外来入侵植物物种高分辨率分布数据库（IPSD）</p>
         <p>统计时间：数据库收录记录对应 1571—2018 年（版本发布日期未公开）</p>
       </div>
@@ -7093,7 +7096,7 @@ function renderCountyHotspot() {
     const burst = s.avg > 0 ? (s.max / s.avg).toFixed(1) : '—';
     result.innerHTML =
       `<div class="hq-tile"><div class="hq-num">${s.counties}<small> 个</small></div><div class="hq-lbl">有入侵植物记录的县</div></div>` +
-      `<div class="hq-tile"><div class="hq-num">${s.avg}<small> 种</small></div><div class="hq-lbl">平均每县记录</div></div>` +
+      `<div class="hq-tile"><div class="hq-num">${s.avg}<small> 种</small></div><div class="hq-lbl">有记录县的平均</div></div>` +
       `<div class="hq-tile"><div class="hq-name">${placeName(s.max_county)}</div><div class="hq-num">${s.max}<small> 种</small></div><div class="hq-lbl">全省最热县 · 全国第${maxRank[p]}</div></div>` +
       `<div class="hq-tile"><div class="hq-num">${burst}x</div><div class="hq-lbl">点状爆发：最热县 ÷ 县均</div></div>` +
       `<button type="button" class="hq-poster-btn" id="hqPosterBtn">📸 生成海报，分享你的家乡</button>`;
