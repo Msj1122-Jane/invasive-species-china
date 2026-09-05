@@ -1244,6 +1244,23 @@ a:focus-visible,
   color: var(--b-text-dim);
   margin-top: 6px;
 }
+.spread-case-card .spread-case-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.76rem;
+  color: var(--b-gold);
+  border: 1px solid var(--b-border);
+  border-radius: 999px;
+  padding: 5px 14px;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.spread-case-card .spread-case-link:hover,
+.spread-case-card .spread-case-link:focus-visible {
+  background: rgba(216,162,74,.12);
+  border-color: var(--b-gold);
+  color: #F0C98A;
+}
 .spread-photo-card span {
   display: block;
   font-size: 10px;
@@ -7773,6 +7790,9 @@ window.addEventListener('resize', () => {
 let timelineSlider = null;
 let currentSpeciesIndex = 0;
 
+// 重点管理名录官方来源（六部门公告第567号，农业农村部官网）；个别物种可另设 sourceUrl 覆盖
+const _SPREAD_SRC_URL = 'https://www.moa.gov.cn/govpublic/KJJYS/202211/t20221109_6415160.htm';
+
 const speciesSpreadData = {
   '红火蚁': {
     first: { year: '2003', province: '台湾',
@@ -7942,6 +7962,7 @@ function renderSpreadPhotos(spd, provs) {
         `<div class="spread-case-block"><span class="spread-case-tag">首次记录</span><div class="spread-case-wh">${f.year || ''}${f.province ? ' · ' + f.province : ''}</div><div class="spread-case-text">${f.text || ''}</div></div>` +
         `<div class="spread-case-block"><span class="spread-case-tag">现状</span><div class="spread-case-wh">${c.year || ''}</div><div class="spread-case-text">${c.text || ''}</div></div>` +
         `<div class="spread-case-src">来源：${spd.source || '公开资料整理'}</div>` +
+        `<a class="spread-case-link" href="${spd.sourceUrl || _SPREAD_SRC_URL}" target="_blank" rel="noopener">官方来源 ↗</a>` +
       `</div>`;
   } else if (layer.querySelector(':scope > div:not(.spread-photo-card)')) {
     layer.innerHTML = '';
