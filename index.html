@@ -4907,9 +4907,11 @@ body { background: #0D1B15 !important; }
 }
 @media (max-width: 640px) { .narrative-stats { grid-template-columns: repeat(2, 1fr); } }
 
-/* 红火蚁抠像装饰：透明矢量剪影，点缀于开篇背景，不改变底色 */
+/* 红火蚁抠像装饰：透明矢量剪影，点缀于开篇背景，不改变底色。
+   当前矢量版效果不佳，先停用；待生成/抠图的红火蚁 PNG 后再启用（.narrative-ant 内改为 <img> 即可）。 */
 .intro-narrative-dark, .intro-narrative-paper { position: relative; }
 .narrative-ant {
+  display: none;
   position: absolute;
   width: clamp(90px, 13vw, 190px);
   opacity: 0.18;
