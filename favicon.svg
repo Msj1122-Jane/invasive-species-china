@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#152720"/>
+      <stop offset="1" stop-color="#0D1B15"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="#2A3F35" stroke-width="1.5"/>
+  <!-- 红火蚁剪影（3 节身体 + 触角 + 6 足） -->
+  <g fill="#E04A2F">
+    <!-- 头 -->
+    <ellipse cx="32" cy="21" rx="5.4" ry="5.8"/>
+    <!-- 胸 -->
+    <ellipse cx="32" cy="31" rx="3.8" ry="4.6"/>
+    <!-- 腹 -->
+    <ellipse cx="32" cy="47" rx="7.4" ry="9.2"/>
+    <!-- 触角 -->
+    <path d="M29 17 Q24 11 21 12" stroke="#E04A2F" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M35 17 Q40 11 43 12" stroke="#E04A2F" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <!-- 足 -->
+    <g stroke="#E04A2F" stroke-width="1.5" stroke-linecap="round" fill="none">
+      <path d="M29 27 L20 24"/><path d="M35 27 L44 24"/>
+      <path d="M29 31 L19 32"/><path d="M35 31 L45 32"/>
+      <path d="M29 36 L21 39"/><path d="M35 36 L43 39"/>
+    </g>
+  </g>
+  <!-- 警示高光 -->
+  <ellipse cx="30.5" cy="18.5" rx="2" ry="2.2" fill="#F2B8A8" opacity=".7"/>
+</svg>

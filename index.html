@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>来者何物｜外来物种如何进入、定殖、扩散与治理</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="apple-touch-icon" href="favicon.svg" />
 <meta name="description" content="申报单上写着"口香糖"，里面爬着活体。660余种外来入侵物种如何进入、定殖、扩散与治理——用393宗公开报道的截获案例（样本）与180种物种记录，回答"来者何物"。" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="来者何物 · 中国外来入侵物种数据纪实" />
@@ -234,7 +236,7 @@ body {
 .section-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 40px;
+  padding: 64px 40px;
   position: relative;
   z-index: 2;
 }
@@ -366,7 +368,7 @@ body {
   position: relative;
   width: 100%;
   min-height: auto;
-  padding: 120px 0 64px;
+  padding: 96px 0 56px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1951,6 +1953,7 @@ a:focus-visible,
 }
 .atlas-modal.open { display: grid; animation: atlasViewIn .5s both; }
 .atlas-modal-media {
+  position: relative;
   display: grid;
   place-items: center;
   min-height: 100vh;
@@ -1958,6 +1961,22 @@ a:focus-visible,
   background:
     radial-gradient(circle at center, rgba(78,122,99,.25), transparent 62%),
     #152720;
+}
+.atlas-media-note {
+  position: absolute;
+  bottom: 4vh;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  width: max-content;
+  max-width: 80%;
+  font-size: .74rem;
+  color: #93A29A;
+  letter-spacing: .08em;
+  border: 1px solid rgba(232,230,223,.14);
+  border-radius: 999px;
+  padding: 6px 16px;
+  background: rgba(13,27,21,.55);
 }
 .atlas-modal-media img {
   width: min(72vh, 720px);
@@ -3473,6 +3492,8 @@ a:focus-visible,
 
 /* 全站蚂蚁动线（方案 4.5，装饰性） */
 .ant-trail {
+  /* 已停用：当前 emoji 渲染成突兀图标且贴边遮挡内容，先清除噪声，保留行内注释便于日后重新启用 */
+  display: none;
   position: fixed;
   right: 14px;
   top: 120px;
@@ -3824,6 +3845,7 @@ a:focus-visible,
 .wanted-stars .star-off { color: rgba(216,162,74,.22); font-size: .72rem; letter-spacing: 0; }
 .wanted-meta { font-size: .68rem; color: var(--b-text-dim); margin: 6px 0 2px; }
 .wanted-group { font-size: .64rem; color: var(--b-text-dim); margin: 0; opacity: .75; }
+.wanted-noimg { font-size: .6rem; color: var(--b-text-dim); margin: 3px 0 0; opacity: .55; letter-spacing: .04em; }
 
 /* 档案柜 */
 .archive-cabinet {
@@ -5662,7 +5684,7 @@ body { background: #0D1B15 !important; }
       </p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;">
         <div class="hstack-wrap">
-          <h4 class="chart-conclusion-title" style="font-size:15px;">损失的构成：农业吃下八成</h4>
+          <h4 class="chart-conclusion-title" style="font-size:15px;">损失的构成：82% 落在农业，林业占 18%</h4>
           <div class="hstack-bar" role="img" aria-label="经济损失构成：农业 82%，林业 18%">
             <div class="hstack-seg" style="width:82%;background:var(--b-gold);"></div>
             <div class="hstack-seg" style="width:18%;background:#4E7A63;"></div>
@@ -6034,7 +6056,7 @@ body { background: #0D1B15 !important; }
      ============================== -->
 <div class="atlas-modal" id="atlasModal" role="dialog" aria-modal="true" aria-labelledby="atlasModalTitle">
   <button class="atlas-modal-close" id="atlasModalClose" aria-label="关闭物种档案">×</button>
-  <div class="atlas-modal-media"><img id="atlasModalImage" alt=""></div>
+  <div class="atlas-modal-media"><img id="atlasModalImage" alt=""><p class="atlas-media-note" id="atlasMediaNote" hidden>暂无实拍照片 · 上图为占位版式，非该物种形象</p></div>
   <div class="atlas-modal-copy">
     <div class="atlas-kicker">Species record</div>
     <h4 id="atlasModalTitle"></h4>
@@ -6592,9 +6614,9 @@ window.addEventListener('scroll', () => {
     const progress = Math.min(scrollTop / docHeight * 100, 100);
     progressBar.style.width = progress + '%';
 
-    // 蚂蚁动线：top 随滚动进度插值（低成本实现，方案 4.5）
+    // 蚂蚁动线：已停用（display:none），保留逻辑便于将来换用更贴切的元素
     const ant = document.getElementById('antTrail');
-    if (ant) ant.style.top = (110 + (progress / 100) * (window.innerHeight - 230)) + 'px';
+    if (ant && ant.offsetParent !== null) ant.style.top = (110 + (progress / 100) * (window.innerHeight - 230)) + 'px';
 
     // Show/hide nav
     if (scrollTop > 100) nav.classList.add('visible');
@@ -7520,7 +7542,7 @@ async function renderMapByFilter(mode) {
           calculable: true,
           // 深色色阶（方案 6.1）：低端贴近底色，主数据用金/红，对比系列用灰绿
           inRange: {
-            color: mode === 'total' ? ['#1E2E25', '#4A4426', '#7A6030', '#B8893B', '#D8A24A'] :
+            color: mode === 'total' ? ['#1E2E25', '#4A2A25', '#7C3126', '#B5402A', '#E04A2F'] :
                    mode === 'animal' ? ['#2A1B18', '#57251F', '#8C3324', '#C0402B', '#E04A2F'] :
                    mode === 'plant' ? ['#15211B', '#1E3628', '#2E5D43', '#4E7A63', '#6B9A80'] :
                    ['#221313', '#471919', '#7F1D1D', '#B03327', '#E04A2F']
@@ -8798,7 +8820,7 @@ function renderWantedWall() {
       ${s && s.name_latin ? `<p class="wanted-latin">${s.name_latin}</p>` : ''}
       <div class="wanted-stars" aria-label="危险等级">${stars}</div>
       <p class="wanted-meta">${s ? `原产：${s.origin_region || s.origin}${s.province_count != null ? ` · 记录 ${s.province_count} 省` : ''}` : '名录管控对象'}</p>
-      <p class="wanted-group">${group}</p>
+      <p class="wanted-group">${group}</p>${photo ? '' : '<p class="wanted-noimg">图标为类群示意，非实拍</p>'}
     </article>`;
   }).join('');
 
@@ -9002,7 +9024,9 @@ function openAtlasSpecies(sp) {
   if (!modal || !sp) return;
   const media = modal.querySelector('.atlas-modal-media');
   const image = document.getElementById('atlasModalImage');
+  const mediaNote = document.getElementById('atlasMediaNote');
   media.classList.toggle('no-image', !sp._image);
+  if (mediaNote) mediaNote.hidden = !!sp._image;
   media.dataset.placeholder = sp.name_cn || '物种档案';
   image.hidden = !sp._image;
   image.src = sp._image || '';
