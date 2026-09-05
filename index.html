@@ -1262,6 +1262,30 @@ a:focus-visible,
   color: #F0C98A;
 }
 
+/* 守卫者：谁在守着（人的主体性） */
+.guardian-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.guardian-card {
+  background: var(--b-bg-elevated);
+  border: 1px solid var(--b-border);
+  border-radius: 12px;
+  padding: 20px 18px;
+  text-align: center;
+  transition: border-color .25s ease, transform .25s ease;
+}
+.guardian-card:hover { border-color: var(--b-gold); transform: translateY(-3px); }
+.guardian-card .g-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.guardian-card .g-title { font-family: var(--font-serif); font-size: 1.02rem; font-weight: 700; color: var(--b-text); margin-bottom: 8px; }
+.guardian-card .g-text { font-size: 0.8rem; line-height: 1.7; color: var(--b-text-dim); }
+.guardian-you { border-color: rgba(224,74,47,0.5); }
+.guardian-you .g-title { color: var(--b-accent); }
+@media (max-width: 720px) { .guardian-grid { grid-template-columns: repeat(2, 1fr); } }
+
 /* 扩散图可拖动年份轴 */
 .spread-timeline { margin: 4px 0 14px; position: relative; }
 .st-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
@@ -5859,6 +5883,19 @@ body { background: #0D1B15 !important; }
         <p>数据说明：按"外防输入、内防扩散"链条归纳的六道治理环节，环带为结构示意，面积不代表投入或成效</p>
         <p>数据来源：历年外来入侵物种名录与政策文件、海关总署公开统计（详见页末参考文献）</p>
         <p>统计时间：政策节点对应 2003—2026 年；海关截获数为 2024 年全年数据</p>
+      </div>
+    </div>
+
+    <!-- 守卫者：谁在守着这门（人的主体性） -->
+    <div class="guardians reveal">
+      <h4 style="text-align:center;font-size:1.02rem;margin:46px 0 6px;color:var(--b-text);">守卫国门，是谁在守？</h4>
+      <p style="text-align:center;font-size:0.82rem;color:var(--b-text-dim);margin-bottom:24px;">660 个"不速之客"的对面，是一群认真的人。</p>
+      <div class="guardian-grid">
+        <div class="guardian-card"><div class="g-icon">🛃</div><div class="g-title">海关关员</div><div class="g-text">X 光机前逐件查验，从"口香糖""曲奇"里识破活体。</div></div>
+        <div class="guardian-card"><div class="g-icon">🔬</div><div class="g-title">检疫专家</div><div class="g-text">实验室里坚定物种、评估风险，是口岸的把关人。</div></div>
+        <div class="guardian-card"><div class="g-icon">🗺️</div><div class="g-title">科研监测</div><div class="g-text">普查、追踪、建模，把"看不见的扩散"变成可查的记录。</div></div>
+        <div class="guardian-card"><div class="g-icon">🌿</div><div class="g-title">基层除治</div><div class="g-text">上山入林清理疫情木、拔除入侵草，守住田间与山林。</div></div>
+        <div class="guardian-card guardian-you"><div class="g-icon">🙋</div><div class="g-title">每一个你</div><div class="g-text">不上当、不放生、随手上报——第七道防线就是你自己。</div></div>
       </div>
     </div>
 
