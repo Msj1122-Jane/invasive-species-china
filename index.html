@@ -5722,12 +5722,12 @@ body { background: #0D1B15 !important; }
         <h4 style="font-size:1.0rem;margin:32px 0 16px;color:var(--b-text);">一条链，怎么把"不速之客"送进国门</h4>
         <p style="font-size:0.78rem;color:var(--b-text-dim);margin-bottom:12px;line-height:1.7;max-width:680px;">
           从原产地出发，变身"异宠"，搭上旅检、邮递或快件，最后在某座口岸被拦下。下面把这条链铺成一张网：
-          由左到右是<strong style="color:var(--b-accent);">原产地 → 物种类群 → 入境渠道 → 口岸所在省份</strong>，连线越粗代表案例越多。
+          由左到右是<strong style="color:var(--b-accent);">原产地 → 物种类群 → 入境渠道 → 具体海关</strong>，连线越粗代表案例越多。
           拖动节点可重排，悬停看这条链上有多少宗。
         </p>
         <div class="customs-network-chart" id="customsNetworkChart"></div>
         <div class="chart-footnote">
-          <p>数据说明：393 宗截获档案按"原产地 → 物种类群 → 入境渠道 → 口岸所在省份"归类，连线粗细为案例宗数；原产地为报道提及的启运地，未必是物种原生地；口岸→省份按海关名推断，未标注口岸不纳入</p>
+          <p>数据说明：393 宗截获档案按"原产地 → 物种类群 → 入境渠道 → 具体海关"归类，连线粗细为案例宗数；原产地为报道提及的启运地，未必是物种原生地；仅统计报道中明确标注口岸的案例</p>
           <p>数据来源：海关发布（海关总署官方发布平台）公开报道，自建截获档案数据集</p>
           <p>统计时间：2023—2025 年公开报道（2025 年采集，确切采集日期未记录）</p>
         </div>
@@ -8387,14 +8387,7 @@ function renderCustomsNetwork() {
   const cases = (typeof Data !== 'undefined' && Data.customs_cases) || [];
   if (!cases.length) return;
 
-  const PROV = {
-    '深圳':'广东','珠海':'广东','广州':'广东','佛山':'广东','汕头':'广东','湛江':'广东','江门':'广东','黄埔':'广东','南沙':'广东','蛇口':'广东','皇岗':'广东','文锦渡':'广东','拱北':'广东','闸口':'广东','港珠澳大桥':'广东','罗湖':'广东',
-    '北京':'北京','上海':'上海','天津':'天津','重庆':'重庆','成都':'四川','昆明':'云南','南宁':'广西','凭祥':'广西','东兴':'广西','友谊关':'广西',
-    '南京':'江苏','苏州':'江苏','无锡':'江苏','连云港':'江苏','杭州':'浙江','宁波':'浙江','温州':'浙江','义乌':'浙江','福州':'福建','厦门':'福建','泉州':'福建',
-    '青岛':'山东','济南':'山东','大连':'辽宁','沈阳':'辽宁','长春':'吉林','哈尔滨':'黑龙江','长沙':'湖南','武汉':'湖北','郑州':'河南','西安':'陕西','兰州':'甘肃',
-    '乌鲁木齐':'新疆','呼和浩特':'内蒙古','海口':'海南','三亚':'海南'
-  };
-  const provOf = (port) => { if (!port) return null; for (const k in PROV) if (port.includes(k)) return PROV[k]; return null; };
+  const normPort = (p) => p ? String(p).replace(/海关\s*(所属)?/g, '').replace(/\s+/g, '') : '';
   const ORIGIN_BIG = ['东南亚','南美洲','非洲','北美洲','欧洲','澳大利亚','东亚','中南美洲','新喀里多尼亚','中美洲','马达加斯加'];
   const normOrigin = (o) => ORIGIN_BIG.includes(o) ? o : '其他/未明确';
   const TYPE_BIG = ['昆虫','爬行动物','节肢动物','鱼类','甲壳动物','两栖动物','鸟类','软体动物','植物','哺乳动物','未知'];
@@ -8412,17 +8405,17 @@ function renderCustomsNetwork() {
   const addE = (a, b) => { const k = a.id + '>' + b.id; if (!edges[k]) edges[k] = { source: a.id, target: b.id, value: 0 }; edges[k].value++; };
 
   cases.forEach(c => {
-    const o = normOrigin(c.origin), t = normType(c.type), ch = normCh(c.channel), pv = provOf(c.port);
-    if (!o || !t || !ch) return;
-    const no = nn(o, 0), nt = nn(t, 1), nc = nn(ch, 2), np = pv ? nn(pv, 3) : null;
-    no.value++; nt.value++; nc.value++; if (np) np.value++;
-    addE(no, nt); addE(nt, nc); if (np) addE(nc, np);
+    const o = normOrigin(c.origin), t = normType(c.type), ch = normCh(c.channel), pt = normPort(c.port);
+    if (!o || !t || !ch || !pt) return;
+    const no = nn(o, 0), nt = nn(t, 1), nc = nn(ch, 2), np = nn(pt, 3);
+    no.value++; nt.value++; nc.value++; np.value++;
+    addE(no, nt); addE(nt, nc); addE(nc, np);
   });
 
-  // 省份太多会乱，只保留案例最多的 10 省
-  const provNodes = [...nodeMap.values()].filter(n => n.group === 3).sort((a, b) => b.value - a.value);
-  const keepProv = new Set(provNodes.slice(0, 10).map(n => n.id));
-  const nodes = [...nodeMap.values()].filter(n => n.group !== 3 || keepProv.has(n.id));
+  // 具体口岸太多会乱，只保留案例最多的 12 个海关
+  const portNodes = [...nodeMap.values()].filter(n => n.group === 3).sort((a, b) => b.value - a.value);
+  const keepPorts = new Set(portNodes.slice(0, 12).map(n => n.id));
+  const nodes = [...nodeMap.values()].filter(n => n.group !== 3 || keepPorts.has(n.id));
   const nid = new Set(nodes.map(n => n.id));
   const links = Object.values(edges).filter(e => nid.has(e.source) && nid.has(e.target));
 
@@ -8459,7 +8452,7 @@ function renderCustomsNetwork() {
   });
 
   // 图例
-  const legend = [[0, '原产地'], [1, '物种类群'], [2, '入境渠道'], [3, '口岸·省份']];
+  const legend = [[0, '原产地'], [1, '物种类群'], [2, '入境渠道'], [3, '口岸·海关']];
   const lg = svg.append('g').attr('transform', 'translate(14,16)');
   legend.forEach(([g, t], i) => {
     lg.append('circle').attr('cx', 8 + i * 122).attr('cy', 9).attr('r', 6).attr('fill', color(g));
