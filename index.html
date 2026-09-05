@@ -1204,6 +1204,46 @@ a:focus-visible,
   border-radius: 3px;
   display: block;
 }
+/* 案例记录卡：以首记录 + 现状的案例替代对实拍照片的依赖 */
+.spread-case-card {
+  padding: 14px 2px 4px;
+  border-top: 1px solid var(--b-border);
+}
+.spread-case-card .spread-case-title {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--b-gold);
+  margin-bottom: 12px;
+}
+.spread-case-card .spread-case-block { margin-bottom: 16px; }
+.spread-case-card .spread-case-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--b-text-dim);
+  border: 1px solid var(--b-border);
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-bottom: 6px;
+}
+.spread-case-card .spread-case-wh {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  color: var(--b-text);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.spread-case-card .spread-case-text {
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: var(--a-text-secondary);
+}
+.spread-case-card .spread-case-src {
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--b-text-dim);
+  margin-top: 6px;
+}
 .spread-photo-card span {
   display: block;
   font-size: 10px;
@@ -5445,7 +5485,7 @@ body { background: #0D1B15 !important; }
         </div>
       </div>
       <aside class="spread-side">
-        <div class="spread-side-title">地点影像 <span>实地观察照片</span></div>
+        <div class="spread-side-title">案例·记录 <span>首记录 · 现状</span></div>
         <div class="spread-photo-layer" id="spreadPhotoLayer"></div>
         <div class="chart-footnote">
           <p>数据说明：仅标注公开资料可核查的首次记录与当前分布范围，中间扩散路径不虚构</p>
@@ -7894,7 +7934,15 @@ function renderSpreadPhotos(spd, provs) {
   const photos = (spd.photos || []).filter(ph =>
     ph.province && provs.includes(ph.province));
   if (photos.length === 0) {
-    layer.innerHTML = '<div style="font-size:0.8rem;color:var(--b-text-dim);line-height:1.8;padding:8px 2px;">该物种暂无实地观察照片。<br>左图金色标记为首次记录地，红色为当前有分布记录的省份。</div>';
+    // 无实拍照片时，改为展示该物种的"首记录 + 现状"案例记录
+    const f = spd.first || {}, c = spd.current || {};
+    layer.innerHTML =
+      `<div class="spread-case-card">` +
+        `<div class="spread-case-title">案 例 记 录</div>` +
+        `<div class="spread-case-block"><span class="spread-case-tag">首次记录</span><div class="spread-case-wh">${f.year || ''}${f.province ? ' · ' + f.province : ''}</div><div class="spread-case-text">${f.text || ''}</div></div>` +
+        `<div class="spread-case-block"><span class="spread-case-tag">现状</span><div class="spread-case-wh">${c.year || ''}</div><div class="spread-case-text">${c.text || ''}</div></div>` +
+        `<div class="spread-case-src">来源：${spd.source || '公开资料整理'}</div>` +
+      `</div>`;
   } else if (layer.querySelector(':scope > div:not(.spread-photo-card)')) {
     layer.innerHTML = '';
   }
