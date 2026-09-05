@@ -2019,6 +2019,82 @@ a:focus-visible,
   .atlas-modal-copy { padding: 24px 8vw 60px; }
 }
 
+
+/* ===== 图鉴：inline 入口卡(teaser) + 全屏浏览界面(viewer) ===== */
+.atlas-shell .atlas-teaser-line {
+  max-width: 560px;
+  margin: 0 auto 22px;
+  color: #93A29A;
+  font-size: .92rem;
+  line-height: 1.9;
+}
+.atlas-enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 4px;
+  padding: 13px 26px;
+  border: 1px solid #D8A24A;
+  border-radius: 999px;
+  background: rgba(216,162,74,.08);
+  color: #E8E6DF;
+  font: 600 .92rem/1 var(--font-sans);
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: background .2s var(--ease-standard), border-color .2s var(--ease-standard), transform .2s var(--ease-standard);
+}
+.atlas-enter:hover { background: rgba(216,162,74,.2); border-color: #E6B55F; transform: translateY(-1px); }
+.atlas-enter svg { color: #D8A24A; }
+
+.atlas-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: none;
+  overflow: hidden;
+  padding: 0;
+  color: #E8E6DF;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(78,122,99,.14), transparent 32%),
+    radial-gradient(circle at 84% 74%, rgba(216,162,74,.08), transparent 34%),
+    #0D1B15;
+}
+.atlas-viewer.open { display: block; animation: atlasViewIn .45s var(--ease-standard) both; }
+.atlas-viewer-scroll {
+  height: 100%;
+  overflow-y: auto;
+  padding: clamp(24px, 6vh, 64px) clamp(16px, 6vw, 84px) 80px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.atlas-viewer-scroll .atlas-head { max-width: 1080px; margin-bottom: 34px; }
+.atlas-viewer-scroll .atlas-head p { max-width: 720px; }
+.atlas-viewer-close {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  z-index: 99991;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border: 1px solid rgba(232,230,223,.22);
+  border-radius: 999px;
+  background: rgba(13,27,21,.78);
+  color: #E8E6DF;
+  font: 600 .82rem/1 var(--font-sans);
+  letter-spacing: .03em;
+  cursor: pointer;
+  transition: color .2s ease, border-color .2s ease, transform .2s ease;
+  backdrop-filter: blur(6px);
+}
+.atlas-viewer-close:hover { color: #E6B55F; border-color: #D8A24A; transform: scale(1.05); }
+.atlas-viewer-close svg { color: #D8A24A; }
+@media (max-width: 860px) {
+  .atlas-viewer-close { top: 12px; right: 14px; }
+  .atlas-viewer-scroll { padding: 24px 5vw 60px; }
+}
+
 /* Plant families */
 .families-section {
   margin-top: 56px;
@@ -5248,50 +5324,15 @@ body { background: #0D1B15 !important; }
     <div class="atlas-shell reveal" id="speciesAtlas">
       <header class="atlas-head">
         <div class="atlas-kicker">Curated archive · 180 species</div>
-        <h3>180 种"不速之客"里，谁在通缉名单上</h3>
-        <p>图鉴收录180种外来入侵物种记录：55种植物取自341种入侵植物名录与全国普查记录；125种动物、昆虫与病害取自中国外来入侵物种数据库（iflora）。墙上张贴的是 59 种国家重点通缉对象（2023年施行的《重点管理外来入侵物种名录》全文），红火蚁位列头号通缉；其余收录记录收进下方档案柜，也可切换到图像或名称模式进入一条具体记录。危险星级来自 iflora 等级标注（1级恶性入侵=★★★★★，逐级递减；无等级标注者仅示"名录管控对象"）。</p>
+        <h3>180 种“不速之客”里，谁在通缉名单上</h3>
+        <p class="atlas-teaser-line">收录 180 种外来入侵物种记录。通缉令墙、图像、名称三种视图，可搜索、可筛选——点开即进图鉴，翻看时随时可退出，不用在长页里来回找。</p>
+        <button class="atlas-enter" id="atlasEnter" type="button">
+          <span>进入图鉴</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </button>
       </header>
-
-      <div class="atlas-toolbar" aria-label="物种图鉴视图与筛选">
-        <div class="atlas-modes">
-          <button class="atlas-mode active" data-atlas-mode="ring">通缉令</button>
-          <button class="atlas-mode" data-atlas-mode="visual">图像</button>
-          <button class="atlas-mode" data-atlas-mode="names">名称</button>
-        </div>
-        <label class="atlas-search">
-          <input id="atlasSearch" type="search" placeholder="搜索中文名、拉丁学名、科或原产地">
-          <span>⌕</span>
-        </label>
-        <div class="atlas-filters">
-          <button class="atlas-filter active" data-atlas-filter="all">全部</button>
-          <button class="atlas-filter" data-atlas-filter="level1">1级·名录</button>
-          <button class="atlas-filter" data-atlas-filter="plant">植物</button>
-          <button class="atlas-filter" data-atlas-filter="animal">动物</button>
-          <button class="atlas-filter" data-atlas-filter="insect">昆虫/病害</button>
-        </div>
-      </div>
-
-      <div class="atlas-view active" data-atlas-view="ring">
-        <div class="wanted-wall" id="wantedWall"></div>
-        <details class="archive-cabinet">
-          <summary>档案柜 · 其余收录记录（点击展开）</summary>
-          <div class="archive-grid" id="archiveGrid"></div>
-        </details>
-      </div>
-      <div class="atlas-view" data-atlas-view="visual">
-        <div class="atlas-visual-field" id="atlasVisualField"></div>
-      </div>
-      <div class="atlas-view" data-atlas-view="names">
-        <div class="atlas-name-list" id="atlasNameList"></div>
-      </div>
-      <div class="chart-footnote">
-        <p>数据说明：通缉令墙为农业农村部等六部门公告第567号《重点管理外来入侵物种名录》全 59 种（2023-01-01 施行）；图鉴收录 180 种外来入侵物种记录——55 种植物取自 341 种入侵植物名录与全国普查记录，125 种动物、昆虫与病害取自 iflora 数据库；危险星级来自 iflora 等级（1级=★★★★★，逐级递减），无名录外等级标注的物种仅示"名录管控对象"</p>
-        <p>数据来源：iPlant 植物智外来入侵物种数据库（iflora）；全国外来入侵物种普查记录；六部门《重点管理外来入侵物种名录》（2023，<a class="src-link" href="https://www.moa.gov.cn/govpublic/KJJYS/202211/t20221109_6415160.htm" target="_blank" rel="noopener">公告第 567 号原文</a>）</p>
-        <p>统计时间：数据库收录记录截至 2024 年（确切版本日期未公开）</p>
-      </div>
     </div>
-
-    <div class="filter-bar reveal">
+<div class="filter-bar reveal">
       <button class="filter-btn active" data-filter="total">全部物种</button>
       <button class="filter-btn" data-filter="animal">动物类</button>
       <button class="filter-btn" data-filter="plant">植物类</button>
@@ -6044,6 +6085,56 @@ body { background: #0D1B15 !important; }
     <p class="narrative-emphasis epilogue-final">物种或许无界，但国门有疆。</p>
   </div>
 </section>
+
+<div class="atlas-shell atlas-viewer" id="atlasViewer" role="dialog" aria-modal="true" aria-label="物种图鉴" aria-hidden="true">
+  <button class="atlas-viewer-close" id="atlasViewerClose" aria-label="退出图鉴" type="button">
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <span>退出图鉴</span>
+  </button>
+  <div class="atlas-viewer-scroll">
+    <header class="atlas-head">
+      <div class="atlas-kicker">Curated archive · 180 species</div>
+      <h3>180 种“不速之客”里，谁在通缉名单上</h3>
+      <p>图鉴收录180种外来入侵物种记录：55种植物取自341种入侵植物名录与全国普查记录；125种动物、昆虫与病害取自中国外来入侵物种数据库（iflora）。墙上张贴的是 59 种国家重点通缉对象（2023年施行的《重点管理外来入侵物种名录》全文），红火蚁位列头号通缉；其余收录记录收进下方档案柜，也可切换到图像或名称模式进入一条具体记录。危险星级来自 iflora 等级标注（1级恶性入侵=★★★★★，逐级递减；无等级标注者仅示"名录管控对象"）。</p>
+    </header>
+    <div class="atlas-toolbar" aria-label="物种图鉴视图与筛选">
+        <div class="atlas-modes">
+          <button class="atlas-mode active" data-atlas-mode="ring">通缉令</button>
+          <button class="atlas-mode" data-atlas-mode="visual">图像</button>
+          <button class="atlas-mode" data-atlas-mode="names">名称</button>
+        </div>
+        <label class="atlas-search">
+          <input id="atlasSearch" type="search" placeholder="搜索中文名、拉丁学名、科或原产地">
+          <span>⌕</span>
+        </label>
+        <div class="atlas-filters">
+          <button class="atlas-filter active" data-atlas-filter="all">全部</button>
+          <button class="atlas-filter" data-atlas-filter="level1">1级·名录</button>
+          <button class="atlas-filter" data-atlas-filter="plant">植物</button>
+          <button class="atlas-filter" data-atlas-filter="animal">动物</button>
+          <button class="atlas-filter" data-atlas-filter="insect">昆虫/病害</button>
+        </div>
+      </div>
+    <div class="atlas-view active" data-atlas-view="ring">
+        <div class="wanted-wall" id="wantedWall"></div>
+        <details class="archive-cabinet">
+          <summary>档案柜 · 其余收录记录（点击展开）</summary>
+          <div class="archive-grid" id="archiveGrid"></div>
+        </details>
+      </div>
+      <div class="atlas-view" data-atlas-view="visual">
+        <div class="atlas-visual-field" id="atlasVisualField"></div>
+      </div>
+      <div class="atlas-view" data-atlas-view="names">
+        <div class="atlas-name-list" id="atlasNameList"></div>
+      </div>
+    <div class="chart-footnote">
+        <p>数据说明：通缉令墙为农业农村部等六部门公告第567号《重点管理外来入侵物种名录》全 59 种（2023-01-01 施行）；图鉴收录 180 种外来入侵物种记录——55 种植物取自 341 种入侵植物名录与全国普查记录，125 种动物、昆虫与病害取自 iflora 数据库；危险星级来自 iflora 等级（1级=★★★★★，逐级递减），无名录外等级标注的物种仅示"名录管控对象"</p>
+        <p>数据来源：iPlant 植物智外来入侵物种数据库（iflora）；全国外来入侵物种普查记录；六部门《重点管理外来入侵物种名录》（2023，<a class="src-link" href="https://www.moa.gov.cn/govpublic/KJJYS/202211/t20221109_6415160.htm" target="_blank" rel="noopener">公告第 567 号原文</a>）</p>
+        <p>统计时间：数据库收录记录截至 2024 年（确切版本日期未公开）</p>
+      </div>
+  </div>
+</div>
 
 <!-- ==============================
      JAVASCRIPT
@@ -9059,7 +9150,7 @@ function renderAtlasLists() {
 }
 
 function initSpeciesAtlas() {
-  const shell = document.getElementById('speciesAtlas');
+  const shell = document.getElementById('atlasViewer');
   if (!shell) return;
   renderAtlasLists();
   shell.querySelectorAll('.atlas-mode').forEach(button => {
@@ -9092,6 +9183,37 @@ function initSpeciesAtlas() {
     if (event.key === 'Escape') closeAtlasSpecies();
   });
 }
+
+// ============================================
+// 图鉴全屏浏览：入口(进入图鉴) + 退出键 + ESC, 内部自由滚动
+// ============================================
+function initAtlasViewer() {
+  const viewer = document.getElementById('atlasViewer');
+  const enter = document.getElementById('atlasEnter');
+  if (!viewer) return;
+  const open = () => {
+    const scrollBox = viewer.querySelector('.atlas-viewer-scroll');
+    if (scrollBox) scrollBox.scrollTop = 0;
+    viewer.classList.add('open');
+    viewer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('atlas-open');
+    document.body.style.overflow = 'hidden';
+    const closeBtn = document.getElementById('atlasViewerClose');
+    if (closeBtn) closeBtn.focus({ preventScroll: true });
+  };
+  const close = () => {
+    viewer.classList.remove('open');
+    viewer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('atlas-open');
+    document.body.style.overflow = '';
+  };
+  if (enter) enter.addEventListener('click', open);
+  document.getElementById('atlasViewerClose').addEventListener('click', close);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && viewer.classList.contains('open')) close();
+  });
+}
+initAtlasViewer();
 
 // ============================================
 // CHAPTER 2: SPECIES RADAR CHART
