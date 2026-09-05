@@ -5361,29 +5361,6 @@ body { background: #0D1B15 !important; }
       <div class="chart-source">数据来源：26个国家级自然保护区外来物种调查（2006）与历次全国调查公开数字 · 《生物多样性》期刊</div>
     </div>
 
-    <div class="insight-box reveal">
-      <div class="insight-card">
-        <div class="insight-value">321</div>
-        <div class="insight-label">云南省入侵物种数（全国最多）</div>
-        <div class="insight-desc">热带/亚热带气候 + 邻国边境线长 + 进出口贸易频繁</div>
-      </div>
-      <div class="insight-card">
-        <div class="insight-value">49</div>
-        <div class="insight-label">宁夏回族自治区（全国最少）</div>
-        <div class="insight-desc">干旱气候天然屏障 + 内陆地理位置</div>
-      </div>
-      <div class="insight-card">
-        <div class="insight-value">1.8x</div>
-        <div class="insight-label">南方与北方平均倍差</div>
-        <div class="insight-desc">气候适应性是决定分布密度的核心因素</div>
-      </div>
-      <div class="insight-card">
-        <div class="insight-value">60%</div>
-        <div class="insight-label">入侵植物名录中美洲来源占比</div>
-        <div class="insight-desc">341种入侵植物名录中，约六成原产于南北美洲（南北美洲+热带美洲合计49.6%，计入仅标"美洲"的泛化记录为60.1%，"约六成"含泛化标注）</div>
-      </div>
-    </div>
-
     <!-- County query: 家乡查询互动 -->
     <div class="county-hotspot-section reveal">
       <h3 class="subsection-title" style="color:var(--a-text);">有记录的县，可能住着上百位"不速之客"</h3>
@@ -5409,17 +5386,6 @@ body { background: #0D1B15 !important; }
       </div>
     </div>
 
-    <!-- Bubble matrix: species multi-dimensional view -->
-    <div class="bubble-section reveal">
-      <h3 style="font-size:1.15rem;margin-bottom:8px;font-weight:700;">物种多维分布：级别 × 扩散广度</h3>
-      <p style="font-size:0.84rem;color:var(--a-text-secondary);margin-bottom:16px;line-height:1.8;">
-        每个气泡代表一个物种。横轴为入侵级别（1级最严重），纵轴为分布省份数量。
-        <strong style="color:var(--a-highlight);">气泡大小表示该物种所属科在当前数据中的物种数</strong>；颜色只用于区分不同科，不表示数量或风险。
-        悬停可查看物种名、所属科和具体数值。
-      </p>
-      <div class="bubble-chart" id="bubbleChart"></div>
-      <div class="chart-source">数据来源：iPlant植物智外来入侵物种数据库(iflora)</div>
-      <div class="bubble-legend" id="bubbleLegend"></div>
     </div>
   </div>
 </section>
@@ -5810,16 +5776,9 @@ body { background: #0D1B15 !important; }
       <h3 class="subsection-title">🐢 异宠贸易：屡禁不止的背后</h3>
       <p style="font-size:0.84rem;color:var(--b-text-dim);text-align:center;margin-bottom:12px;line-height:1.8;">
         异宠贸易已成为外来物种入侵的<strong style="color:var(--b-accent);">主要"扩散引擎"之一</strong>。
-        全国约 <strong style="color:var(--b-accent);">1707 万人</strong>饲养"异宠"（国家安全部风险提示，2025），交易物种中爬行类外来种占比达 78.6%（见下方数据）。
-        从巴西龟到鳄雀鳝，从绿鬣蜥到巨人蜈蚣——这些"宠物"一旦被弃养或逃逸，
-        便可能在本土生态中引发连锁灾难。下方图表展示了跨境快递业务量与海关年度截获批次的变化：包裹洪流之下，截获量连年攀升。
+        全国约 <strong style="color:var(--b-accent);">1707 万人</strong>饲养"异宠"（国家安全部风险提示，2025），交易物种中爬行类外来种占比达 78.6%。
+        从巴西龟到鳄雀鳝，从绿鬣蜥到巨人蜈蚣——这些"宠物"一旦被弃养或逃逸，便可能在本土生态中引发连锁灾难。
       </p>
-      <div id="pet-trade-chart"></div>
-      <div class="chart-footnote">
-        <p>数据说明：跨境包裹业务量为年度统计值，截获批次为海关公开通报口径，两者量级不同仅作趋势对照</p>
-        <p>数据来源：国家邮政局 · 国际邮件与跨境快件统计；海关总署 · 年度截获批次统计</p>
-        <p>统计时间：数据对应 2019—2024 年（确切发布日期未公开）</p>
-      </div>
       <div class="flow-insight">
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">1619</div><div class="fs-lbl">种异宠交易物种</div></div>
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">1707万</div><div class="fs-lbl">饲养者规模</div></div>
@@ -6252,13 +6211,6 @@ function rebuildEditorialStructureV2() {
   const narrativePaper = document.querySelector('.intro-narrative-paper .intro-narrative-inner');
   if (narrativePaper) narrativePaper.innerHTML = `
     <p>这些不请自来的"旅客"中，有些只是安静地占据路边一角，有些却在数十年间改写了整片生态。红火蚁登陆广东后以每年近百公里的速度向北推进；空心莲子草从一株观赏植物沦为堵塞河道的绿色痼疾；松材线虫则一棵树一棵树地吞噬着南方松林。在新的土地上，旧有制衡失效，天敌缺席，"物竞天择"被改写成一场没有裁判的竞赛——<strong class="narrative-strong">结果早已注定</strong>。</p>
-    <div class="narrative-stats">
-      <div class="narrative-stat"><div class="ns-num">660<span class="ns-unit">种</span></div><div class="ns-lbl">已记录的外来入侵物种</div></div>
-      <div class="narrative-stat"><div class="ns-num">34<span class="ns-unit">省</span></div><div class="ns-lbl">省级行政区无一幸免</div></div>
-      <div class="narrative-stat"><div class="ns-num">321<span class="ns-unit">种</span></div><div class="ns-lbl">云南一省记录最多</div></div>
-      <div class="narrative-stat"><div class="ns-num">逾2000<span class="ns-unit">亿</span></div><div class="ns-lbl">元 / 年损失估算（多源）</div></div>
-    </div>
-    <p class="narrative-stats-note">口径：660 种为《2020 中国生态环境状况公报》口径；321 种为云南记录数；每年损失逾 2000 亿元为 2025 年多源综合估算，与 2011 年针对 544 种、约 1198.8 亿元/年的评估口径不可直接比较。</p>
     <p>跨过这道算不清的账，更隐蔽的代价不在账面上——本土物种的退场、生态系统的简化、不可逆的基因污染——这些损失无法用货币计量，却在真实地改变我们赖以生存的环境。</p>
     <p>物种的迁徙本是大自然的常态，但人类用前所未有的速度与规模，将这个过程压缩进了全球化的短短数十年。当一只蚂蚁、一粒种子、一条线虫就能动摇一片生态系统时，"来者何物"不再只是一个古老的诘问，而是摆在每个人面前的现实考题。回答它，需要数据，需要科学，更需要我们重新审视那条被全球化冲淡的边界——</p>
     <p>答案，从一个包裹开始。</p>`;
@@ -6808,10 +6760,6 @@ async function renderChapter(renderKey) {
           initSpeciesAtlas();
         }
         if (Data.provinces) renderMapChapter();
-        if (Data.species && !_sectionInitFlags._bubble) {
-          _sectionInitFlags._bubble = true;
-          renderBubbleChart();
-        }
         if (Data.countyInvasion && !_sectionInitFlags._county) {
           _sectionInitFlags._county = true;
           renderCountyHotspot();
@@ -9453,10 +9401,6 @@ async function renderPathwaysChapter() {
   if (Data.customs_visual && !_sectionInitFlags._customsOverview) {
     renderCustomsOverview();
     _sectionInitFlags._customsOverview = true;
-  }
-  if (!_sectionInitFlags._petTrade) {
-    renderPetTradeChart();
-    _sectionInitFlags._petTrade = true;
   }
   resizeAllCharts();
 }
