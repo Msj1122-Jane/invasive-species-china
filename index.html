@@ -8255,7 +8255,28 @@ function renderSpreadMap(speciesKey) {
     range.min = mnY; range.max = mxY; range.value = mxY;
     range.addEventListener('input', () => paintSpread(range.value));
   }
-  const handle = document.getElementById('stHandle'); if (handle && spd.icon) handle.textContent = spd.icon;
+  // 物种手柄：优先用精灵图图标（assets/images/deco/species-icons.png，自动去白底），否则用 emoji
+  const handle = document.getElementById('stHandle');
+  if (handle) {
+    const SP_KEYS = Object.keys(SPREAD_EVENTS);
+    const idx = Math.max(0, SP_KEYS.indexOf(speciesKey));
+    const setEmoji = () => { handle.textContent = spd.icon || '🔍'; handle.style.background = ''; handle.style.mixBlendMode = ''; };
+    const probe = new Image();
+    probe.onload = () => {
+      if (probe.naturalWidth > 0) {
+        const col = idx % 4, row = Math.floor(idx / 4);
+        handle.textContent = '';
+        handle.style.background = 'none';
+        handle.style.backgroundImage = 'url(assets/images/deco/species-icons.png)';
+        handle.style.backgroundSize = '400% 300%';
+        handle.style.backgroundPosition = (col * 100 / 3) + '% ' + (row * 100 / 2) + '%';
+        handle.style.mixBlendMode = 'multiply';
+        handle.style.borderColor = 'transparent';
+      } else setEmoji();
+    };
+    probe.onerror = setEmoji;
+    probe.src = 'assets/images/deco/species-icons.png';
+  }
   if (mnY != null && mxY != null) paintSpread(mxY);
 }
 
