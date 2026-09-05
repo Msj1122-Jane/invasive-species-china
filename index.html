@@ -1262,16 +1262,6 @@ a:focus-visible,
   color: #F0C98A;
 }
 
-/* 传播链关系网络 */
-.customs-network-chart {
-  width: 100%;
-  height: 560px;
-  position: relative;
-}
-.customs-network-chart svg { display: block; }
-.customs-network-chart text { font-family: var(--font-sans); }
-@media (max-width: 720px) { .customs-network-chart { height: 480px; } }
-
 /* 扩散图可拖动年份轴 */
 .spread-timeline { margin: 4px 0 14px; position: relative; }
 .st-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
@@ -5717,22 +5707,6 @@ body { background: #0D1B15 !important; }
         <div class="cos-item"><div class="cos-num">40+</div><div class="cos-lbl">涉及口岸</div><div class="cos-sub">珠三角最密集</div></div>
       </div>
 
-      <!-- 传播链关系网络：原产地 → 物种类群 → 入境渠道 → 口岸/省份 -->
-      <div class="customs-network-block">
-        <h4 style="font-size:1.0rem;margin:32px 0 16px;color:var(--b-text);">一条链，怎么把"不速之客"送进国门</h4>
-        <p style="font-size:0.78rem;color:var(--b-text-dim);margin-bottom:12px;line-height:1.7;max-width:680px;">
-          从原产地出发，变身"异宠"，搭上旅检、邮递或快件，最后在某座口岸被拦下。下面把这条链铺成一张网：
-          由左到右是<strong style="color:var(--b-accent);">原产地 → 物种类群 → 入境渠道 → 具体海关</strong>，连线越粗代表案例越多。
-          拖动节点可重排，悬停看这条链上有多少宗。
-        </p>
-        <div class="customs-network-chart" id="customsNetworkChart"></div>
-        <div class="chart-footnote">
-          <p>数据说明：393 宗截获档案按"原产地 → 物种类群 → 入境渠道 → 具体海关"归类，连线粗细为案例宗数；原产地为报道提及的启运地，未必是物种原生地；仅统计报道中明确标注口岸的案例</p>
-          <p>数据来源：海关发布（海关总署官方发布平台）公开报道，自建截获档案数据集</p>
-          <p>统计时间：2023—2025 年公开报道（2025 年采集，确切采集日期未记录）</p>
-        </div>
-      </div>
-
       <!-- Sankey: 异宠入境路线图（第四幕模块，JS 移入"一张全球网络"幕） -->
       <div class="customs-sankey-block">
       <h4 style="font-size:1.0rem;margin:32px 0 16px;color:var(--b-text);">一张覆盖全球的地下供应链，东南亚是最大源头</h4>
@@ -8399,102 +8373,6 @@ document.querySelectorAll('.spread-tab').forEach(tab => {
 // Sankey flow chart
 let _sankeyChart = null;
 
-// ============================================
-// 传播链关系网络：原产地 → 物种类群 → 入境渠道 → 口岸/省份 (D3 force)
-// ============================================
-function renderCustomsNetwork() {
-  const el = document.getElementById('customsNetworkChart');
-  if (!el || typeof d3 === 'undefined') return;
-  const cases = (typeof Data !== 'undefined' && Data.customs_cases) || [];
-  if (!cases.length) return;
-
-  const normPort = (p) => p ? String(p).replace(/海关\s*(所属)?/g, '').replace(/\s+/g, '') : '';
-  const ORIGIN_BIG = ['东南亚','南美洲','非洲','北美洲','欧洲','澳大利亚','东亚','中南美洲','新喀里多尼亚','中美洲','马达加斯加'];
-  const normOrigin = (o) => ORIGIN_BIG.includes(o) ? o : '其他/未明确';
-  const TYPE_BIG = ['昆虫','爬行动物','节肢动物','鱼类','甲壳动物','两栖动物','鸟类','软体动物','植物','哺乳动物','未知'];
-  const normType = (t) => TYPE_BIG.includes(t) ? t : '其他';
-  const normCh = (c) => c || '未明确';
-
-  const nodeMap = new Map();
-  let idc = 0;
-  const nn = (label, group) => {
-    const key = group + ':' + label;
-    if (!nodeMap.has(key)) nodeMap.set(key, { id: 'n' + (idc++), label, group, value: 0 });
-    return nodeMap.get(key);
-  };
-  const edges = {};
-  const addE = (a, b) => { const k = a.id + '>' + b.id; if (!edges[k]) edges[k] = { source: a.id, target: b.id, value: 0 }; edges[k].value++; };
-
-  cases.forEach(c => {
-    const o = normOrigin(c.origin), t = normType(c.type), ch = normCh(c.channel), pt = normPort(c.port);
-    if (!o || !t || !ch || !pt) return;
-    const no = nn(o, 0), nt = nn(t, 1), nc = nn(ch, 2), np = nn(pt, 3);
-    no.value++; nt.value++; nc.value++; np.value++;
-    addE(no, nt); addE(nt, nc); addE(nc, np);
-  });
-
-  // 具体口岸太多会乱，只保留案例最多的 12 个海关
-  const portNodes = [...nodeMap.values()].filter(n => n.group === 3).sort((a, b) => b.value - a.value);
-  const keepPorts = new Set(portNodes.slice(0, 12).map(n => n.id));
-  const nodes = [...nodeMap.values()].filter(n => n.group !== 3 || keepPorts.has(n.id));
-  const nid = new Set(nodes.map(n => n.id));
-  const links = Object.values(edges).filter(e => nid.has(e.source) && nid.has(e.target));
-
-  const width = Math.max((el.clientWidth || 1080) - 8, 320);
-  const height = (navigator.userAgent && /Mobi/.test(navigator.userAgent)) ? 480 : 560;
-  const sel = d3.select(el).selectAll('*').remove();
-  const svg = d3.select(el).append('svg').attr('viewBox', [0, 0, width, height]).attr('width', '100%').attr('height', height);
-
-  const color = d3.scaleOrdinal(['#E04A2F', '#D8A24A', '#4E7A63', '#5B8FA8']).domain([0, 1, 2, 3]);
-  const cx = [width * 0.12, width * 0.4, width * 0.66, width * 0.9];
-
-  const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(d => 40 + (d.target.group - d.source.group) * 60).strength(0.4))
-    .force('charge', d3.forceManyBody().strength(-90))
-    .force('x', d3.forceX(d => cx[d.group]).strength(0.85))
-    .force('y', d3.forceY(height / 2).strength(0.06))
-    .force('collide', d3.forceCollide(d => 12 + Math.sqrt(d.value) * 1.8));
-
-  const link = svg.append('g').selectAll('line').data(links).join('line')
-    .attr('stroke', '#2A3F35').attr('stroke-opacity', 0.6).attr('stroke-width', d => Math.max(1, d.value / 16));
-  const node = svg.append('g').selectAll('circle').data(nodes).join('circle')
-    .attr('r', d => 8 + Math.sqrt(d.value) * 2.4)
-    .attr('fill', d => color(d.group)).attr('fill-opacity', 0.85)
-    .attr('stroke', '#0D1B15').attr('stroke-width', 1)
-    .call(d3.drag().on('start', ds).on('drag', dr).on('end', de));
-  const label = svg.append('g').selectAll('text').data(nodes).join('text')
-    .text(d => d.label).attr('font-size', '12px').attr('fill', '#93A29A').attr('dy', '0.32em');
-
-  sim.on('tick', () => {
-    link.attr('x1', d => d.source.x).attr('y1', d => d.source.y).attr('x2', d => d.target.x).attr('y2', d => d.target.y);
-    node.attr('cx', d => d.x).attr('cy', d => d.y);
-    label.attr('x', d => d.x + (d.group <= 1 ? -9 : 9)).attr('y', d => d.y);
-    label.attr('text-anchor', d => d.group <= 1 ? 'end' : 'start');
-  });
-
-  // 图例
-  const legend = [[0, '原产地'], [1, '物种类群'], [2, '入境渠道'], [3, '口岸·海关']];
-  const lg = svg.append('g').attr('transform', 'translate(14,16)');
-  legend.forEach(([g, t], i) => {
-    lg.append('circle').attr('cx', 8 + i * 122).attr('cy', 9).attr('r', 6).attr('fill', color(g));
-    lg.append('text').attr('x', 20 + i * 122).attr('y', 13).attr('font-size', '11px').attr('fill', '#93A29A').text(t);
-  });
-
-  const tip = svg.append('text').attr('x', 0).attr('y', 0).attr('opacity', 0).attr('font-size', '12px').attr('fill', '#E8E6DF').attr('pointer-events', 'none');
-  node.on('mouseover', (e, d) => {
-    tip.attr('opacity', 1).text(d.label + '：关联 ' + d.value + ' 宗');
-    node.attr('fill-opacity', n => n === d ? 1 : 0.14);
-    link.attr('stroke-opacity', l => (l.source === d || l.target === d) ? 0.9 : 0.07);
-  }).on('mousemove', (e) => {
-    const r = el.getBoundingClientRect();
-    tip.attr('x', Math.min(width - 200, e.clientX - r.left + 12)).attr('y', Math.max(20, e.clientY - r.top - 8));
-  }).on('mouseout', () => { tip.attr('opacity', 0); node.attr('fill-opacity', 0.85); link.attr('stroke-opacity', 0.6); });
-
-  function ds(e, d) { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; }
-  function dr(e, d) { d.fx = e.x; d.fy = e.y; }
-  function de(e, d) { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }
-}
-
 function renderSankeyFlow() {  if (!Data.species) return;
   const container = document.getElementById('sankeyChart');
   if (!container) return;
@@ -9542,10 +9420,6 @@ async function renderPathwaysChapter() {
   if (Data.customs_visual && !_sectionInitFlags._customsOverview) {
     renderCustomsOverview();
     _sectionInitFlags._customsOverview = true;
-  }
-  if (Data.customs_cases && !_sectionInitFlags._customsNetwork) {
-    renderCustomsNetwork();
-    _sectionInitFlags._customsNetwork = true;
   }
   if (!_sectionInitFlags._petTrade) {
     renderPetTradeChart();
