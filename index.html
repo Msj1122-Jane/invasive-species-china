@@ -114,6 +114,7 @@
   --motion-fast: 0.2s;
   --motion-med: 0.35s;
   --motion-slow: 0.7s;
+  --motion-press: 0.12s;  /* 按压反馈专用：100–160ms 区间的下限附近，越快越"物理" */
   --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
@@ -1017,7 +1018,10 @@ a:focus-visible,
   background: transparent;
   color: var(--a-text-secondary);
   cursor: pointer;
-  transition: all var(--motion-fast) var(--ease-standard);
+  transition: background var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              transform var(--motion-press) var(--ease-standard);
   font-family: var(--font-sans);
 }
 .filter-btn:hover { border-color: var(--a-text); }
@@ -1952,6 +1956,18 @@ a:focus-visible,
   color: #E8E6DF;
 }
 .atlas-modal.open { display: grid; animation: atlasViewIn .5s both; }
+/* 出场：与入场同路径反向（22px 下移 + 淡出），但更快（200ms）——出场永远快于入场 */
+.atlas-modal.closing { display: grid; animation: atlasViewOut .2s var(--ease-standard) both; }
+@keyframes atlasViewOut {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(14px) scale(.99); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atlas-modal.open { animation: atlasFadeIn .25s ease both; }
+  .atlas-modal.closing { animation: atlasFadeOut .15s ease both; }
+}
+@keyframes atlasFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes atlasFadeOut { from { opacity: 1; } to { opacity: 0; } }
 .atlas-modal-media {
   position: relative;
   display: grid;
@@ -2491,7 +2507,7 @@ a:focus-visible,
   border-radius: 12px;
   cursor: pointer;
   position: relative;
-  transition: transform 0.6s;
+  transition: transform 0.6s, box-shadow var(--motion-med) var(--ease-standard);
   transform-style: preserve-3d;
 }
 .game-card.flipped { transform: rotateY(180deg); }
@@ -2595,7 +2611,10 @@ a:focus-visible,
   color: var(--b-text);
   cursor: pointer;
   font-size: 0.85rem;
-  transition: all var(--motion-fast) var(--ease-standard);
+  transition: background var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              transform var(--motion-press) var(--ease-standard);
   font-family: var(--font-sans);
 }
 .game-btn:hover { border-color: var(--b-accent); }
@@ -2609,6 +2628,24 @@ a:focus-visible,
   margin-top: 16px;
   font-size: 0.88rem;
   color: var(--b-text-dim);
+}
+/* 申报查验游戏"全部识破"完成信号（Delight 预算：首访一次）
+   200ms 内轻收束：分数点亮 + 一次微脉冲，卡片镶金边；无大幅位移 */
+.game-card-wrap.done .game-card {
+  box-shadow: 0 0 0 2px var(--b-gold), 0 8px 28px rgba(216,162,74,.3);
+}
+.game-score.all-clear {
+  color: var(--b-gold);
+  font-weight: 700;
+  animation: scorePop .2s var(--ease-standard);
+}
+@keyframes scorePop {
+  0% { transform: scale(1); }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-score.all-clear { animation: none; }  /* 保留颜色点亮，去掉脉冲 */
 }
 
 /* Top 10 cases */
@@ -2760,7 +2797,9 @@ a:focus-visible,
   border-radius: 10px;
   padding: 14px 16px;
   cursor: pointer;
-  transition: all var(--motion-fast) var(--ease-standard);
+  transition: border-color var(--motion-fast) var(--ease-standard),
+              transform var(--motion-fast) var(--ease-standard),
+              box-shadow var(--motion-fast) var(--ease-standard);
   position: relative;
   overflow: hidden;
 }
@@ -3456,7 +3495,7 @@ a:focus-visible,
   font-size: 0.85rem;
   font-family: var(--font-sans);
   cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), transform var(--motion-press) var(--ease-standard);
 }
 .hq-poster-btn:hover, .hq-poster-btn:focus-visible { background: var(--b-gold); color: #0D1B15; }
 .poster-overlay {
@@ -3864,6 +3903,24 @@ a:focus-visible,
 .archive-cabinet summary::before { content: '🗄 '; }
 .archive-cabinet summary:hover { color: var(--b-text); }
 .archive-cabinet[open] summary { border-bottom: 1px dashed var(--b-border); }
+/* 档案柜展开过渡（渐进增强：::details-content + interpolate-size）
+   支持的浏览器（Chromium 129+）做 height+opacity 过渡，不支持则保持原生瞬时展开 */
+@supports selector(::details-content) {
+  .archive-cabinet::details-content {
+    height: 0;
+    overflow: clip;
+    opacity: 0;
+    transition: height .3s var(--ease-standard), opacity .3s var(--ease-standard), content-visibility .3s allow-discrete;
+  }
+  .archive-cabinet[open]::details-content {
+    height: auto;
+    opacity: 1;
+  }
+  :root { interpolate-size: allow-keywords; }
+  @media (prefers-reduced-motion: reduce) {
+    .archive-cabinet::details-content { transition: none; }  /* 布局位移类过渡，reduced 下直接展开 */
+  }
+}
 .archive-grid {
   display: flex;
   flex-wrap: wrap;
@@ -5062,6 +5119,52 @@ body { background: #0D1B15 !important; }
 .narrative-ant--left { left: 2vw; bottom: 7vh; transform: rotate(-8deg); }
 .narrative-ant--right { right: 2vw; top: 8vh; transform: rotate(7deg) scaleX(-1); }
 @media (max-width: 720px) { .narrative-ant { display: none; } }
+
+/* ===== 按压反馈（全站可点元素统一物理按压）=====
+   频率：偶发交互；目的：Feedback（确认界面听到了点击）
+   时长统一 --motion-press(120ms)，ease-out 族曲线
+   有悬浮位移的元素按"悬浮位 + 轻缩"组合书写，避免按压时跳位
+   注意：本块必须位于所有组件 hover 规则之后，:active 才能在 hover 同时成立时胜出 */
+/* 无悬浮位移的按钮：按下即缩 */
+.filter-btn:active, .game-btn:active, .hq-poster-btn:active,
+.poster-actions a:active, .poster-actions button:active,
+.unbox-card:active, .atlas-modal-close:active, .rfa-march-ctrl button:active {
+  transform: scale(0.96);
+  transition-duration: var(--motion-press);
+}
+/* 有悬浮位移的卡片：按压 = 悬浮位 + 轻缩 */
+.guardian-card:active, .wanted-card:active { transform: translateY(-3px) scale(0.97); transition-duration: var(--motion-press); }
+.family-card:active { transform: translateY(-4px) scale(0.97); transition-duration: var(--motion-press); }
+.atlas-mode:active, .atlas-filter:active { transform: translateY(-2px) scale(0.97); transition-duration: var(--motion-press); }
+.feature-case:active { transform: translateY(-2px) scale(0.99); transition-duration: var(--motion-press); }
+.case-card:active { transform: translateY(-1px) scale(0.98); transition-duration: var(--motion-press); }
+.nav-item:active { transform: scale(1.18); transition-duration: var(--motion-press); }  /* 悬浮 1.3 压回 */
+.atlas-tile:active { transform: translateY(-8px) rotate(0) scale(1.02); transition-duration: var(--motion-press); }  /* 悬浮 1.08 压到 1.02 */
+/* 位移型交互行：按压 = 向前推进一格 */
+.defense-row:active, .evidence-options button:active { transform: translateX(6px); transition-duration: var(--motion-press); }
+/* 缺 transform 过渡的元素补上（不影响各自已有的颜色过渡） */
+.unbox-card { transition: transform var(--motion-press) var(--ease-standard); }
+.poster-actions a, .poster-actions button { transition: transform var(--motion-press) var(--ease-standard); }
+/* ===== 触屏门控 =====
+   位移/缩放类 hover 只在真实悬浮设备上生效，触屏点按不再触发"假悬浮"跳位；
+   键盘 :focus-visible 的位移不受影响（下表只匹配 :hover） */
+@media not all and (hover: hover) and (pointer: fine) {
+  .nav-item:hover,
+  .guardian-card:hover,
+  .family-card:hover,
+  .wanted-card:hover,
+  .feature-case:hover,
+  .case-card:hover,
+  .rfa-march-ctrl button:hover,
+  .evidence-options button:hover,
+  .defense-row:hover { transform: none; }
+  .atlas-mode:hover,
+  .atlas-filter:hover { transform: none; }
+  .atlas-tile:hover { transform: rotate(var(--r)); z-index: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* 按压缩放是 2–4% 的微反馈（非位移/位移动画），reduced-motion 下保留 */
+}
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -9040,13 +9143,34 @@ function openAtlasSpecies(sp) {
   document.getElementById('atlasModalProvince').textContent =
     sp.province_count ? `${sp.province_count}个省级行政区有记录` : '暂无可比记录';
   document.getElementById('atlasModalHarm').textContent = sp.harm || '暂无摘要';
+  // 若在出场动画中重新打开：清掉 closing 态，否则出场动画会把弹窗卡在透明
+  modal.classList.remove('closing');
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeAtlasSpecies() {
   const modal = document.getElementById('atlasModal');
-  if (modal) modal.classList.remove('open');
+  if (modal && modal.classList.contains('open')) {
+    // 出场动画：与入场对称的反向位移，200ms 后真正摘除（reduced-motion 下直接关闭）
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      modal.classList.remove('open');
+    } else {
+      modal.classList.add('closing');
+      let finished = false;
+      const done = (e) => {
+        if (e && e.target !== modal) return;  // animationend 会冒泡，只认弹窗自身
+        if (finished) return;
+        if (!modal.classList.contains('closing')) { finished = true; return; }  // 出场途中被重新打开：放弃关闭
+        finished = true;
+        modal.classList.remove('open', 'closing');
+        modal.removeEventListener('animationend', done);
+      };
+      modal.addEventListener('animationend', done);
+      setTimeout(done, 350);  // 兜底：确保任何情况下弹窗都能关掉
+    }
+  }
   document.body.style.overflow = '';
 }
 
@@ -9705,8 +9829,12 @@ function initDisguiseGame() {
 
   document.getElementById('dgNext').addEventListener('click', () => {
     if (_dgIndex === DISGUISE_CASES.length - 1) {
-      // 完成态
+      // 完成态：点亮完成信号（卡片镶金边 + 分数脉冲一次）
       card.classList.add('flipped');
+      const wrap = card.closest('.game-card-wrap');
+      if (wrap) wrap.classList.add('done');
+      const score = document.getElementById('dgScore');
+      if (score) score.classList.add('all-clear');
       document.getElementById('dgRealIcon').textContent = '🎖️';
       document.getElementById('dgRealName').textContent = '全部识破！';
       document.getElementById('dgRealLatin').textContent = '';
@@ -9722,6 +9850,10 @@ function initDisguiseGame() {
   document.getElementById('dgReset').addEventListener('click', () => {
     _dgIndex = 0;
     _dgSolved = 0;
+    const wrap = card.closest('.game-card-wrap');
+    if (wrap) wrap.classList.remove('done');
+    const score = document.getElementById('dgScore');
+    if (score) score.classList.remove('all-clear');
     renderDisguiseCase();
   });
 
