@@ -3198,37 +3198,6 @@ a:focus-visible,
   }
   .tl-card-media figcaption { text-align: left; }
 }
-.defense-actions {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  margin-top: 36px;
-}
-.da-card {
-  background: var(--a-card);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-  border-left: 4px solid var(--a-highlight);
-}
-.da-title {
-  font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 8px;
-}
-.da-desc {
-  font-size: 0.84rem;
-  color: var(--a-text-secondary);
-  line-height: 1.6;
-}
-.da-stat {
-  font-family: var(--font-mono);
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--a-highlight);
-  margin-top: 10px;
-}
-
 /* ============================================
    Defense Rings — 六道防线同心环
    ============================================ */
@@ -4261,7 +4230,6 @@ a:focus-visible,
 .section .loss-section,
 .section .customs-section,
 .section .pet-trade-section,
-.section .defense-actions,
 .section .cta-section,
 .section .flow-section,
 .section .sankey-section,
@@ -4291,7 +4259,6 @@ a:focus-visible,
 .section.active .loss-section,
 .section.active .customs-section,
 .section.active .pet-trade-section,
-.section.active .defense-actions,
 .section.active .cta-section,
 .section.active .flow-section,
 .section.active .sankey-section,
@@ -4321,7 +4288,6 @@ a:focus-visible,
 .section.active .reserve-section { transition-delay: 0.3s; }
 .section.active .cards-section { transition-delay: 0.1s; }
 .section.active .families-section { transition-delay: 0.2s; }
-.section.active .defense-actions { transition-delay: 0.15s; }
 .section.active .defense-rings-section { transition-delay: 0.05s; }
 .section.active .report-guide-section { transition-delay: 0.2s; }
 .section.active .cta-section { transition-delay: 0.25s; }
@@ -4423,7 +4389,6 @@ a:focus-visible,
 .section.activated .loss-section,
 .section.activated .customs-section,
 .section.activated .pet-trade-section,
-.section.activated .defense-actions,
 .section.activated .cta-section,
 .section.activated .flow-section,
 .section.activated .sankey-section,
@@ -4841,7 +4806,7 @@ a.nav-item { text-decoration: none; }
 #china-map, #trend-chart, .bubble-chart, .spread-side, #spread-map,
 .timeline-container, .story-panel, #world-flow-chart, .sankey-chart,
 .radar-chart-wrapper, .family-card, .tc-item, .csb-item,
-.feature-case, .case-card, .loss-item, .da-card, .defense-row,
+.feature-case, .case-card, .loss-item, .defense-row,
 .defense-stats-bar, .ring-detail-panel, .guide-scene-card, .guide-card-section,
 .bignum-card, .iceberg-card, .tl-card, .hq-panel, .insight-card, .sidebar-panel,
 .customs-section {
@@ -5986,7 +5951,7 @@ body { background: #0D1B15 !important; }
     <div class="reveal" style="max-width:680px;margin:0 auto 20px;text-align:center;">
       <p style="font-size:0.88rem;color:var(--a-text-secondary);line-height:1.9;">
         从第一批名单到首例刑事宣判，中国的外来入侵物种防线经历了<strong style="color:var(--a-highlight);">"仓促应战、摸清家底、法治防线"</strong>三个阶段。
-        下方时间轴的二十个节点，记录入侵事件、灭除行动与政策立法怎样一步步织密这张网。
+        下方时间轴的二十一个节点，记录入侵事件、灭除行动与政策立法怎样一步步织密这张网。
       </p>
     </div>
     <div id="timeline-container" class="reveal">
@@ -5995,29 +5960,6 @@ body { background: #0D1B15 !important; }
         <p class="tl-phase-sub">从第一批名单到全民灭除，防线在应对中起步</p>
       </div>
       <div class="tl-track" id="timelineTrack"></div>
-    </div>
-
-    <div class="defense-actions reveal">
-      <div class="da-card">
-        <div class="da-title">🎯 重点管理名录</div>
-        <div class="da-desc">从2003年首批名单到2022年六部门《重点管理外来入侵物种名录》，管理对象分批明确、不断扩容</div>
-        <div class="da-stat">52 → 71 → 59(重点管理)</div>
-      </div>
-      <div class="da-card">
-        <div class="da-title">🔥 灭除行动</div>
-        <div class="da-desc">2006-2015年全国性灭除行动，累计灭除数百万亩入侵植物</div>
-        <div class="da-stat">灭除率 70%+</div>
-      </div>
-      <div class="da-card">
-        <div class="da-title">📜 政策法规</div>
-        <div class="da-desc">2003年首批名录发布，2013年52种重点管理，2021年《生物安全法》施行</div>
-        <div class="da-stat">20个关键节点</div>
-      </div>
-      <div class="da-card">
-        <div class="da-title">⚔️ 典型战役</div>
-        <div class="da-desc">紫茎泽兰西南治理、互花米草红树林保卫战、松材线虫西进阻击</div>
-        <div class="da-stat">4大防治案例</div>
-      </div>
     </div>
 
     <!-- 发现后怎么办 -->
@@ -6619,10 +6561,9 @@ function buildStoryScenes() {
     createScene(impact, [impact.querySelector('.loss-section')], '01 / 账单');
     createScene(impact, [impact.querySelector('.defense-rings-section')], '02 / 六道防线');
     createScene(impact, [
-      impact.querySelector(':scope > .reveal:not(.loss-section):not(.defense-rings-section):not(.defense-actions):not(#timeline-container)'),
+      impact.querySelector(':scope > .reveal:not(.loss-section):not(.defense-rings-section):not(#timeline-container)'),
       impact.querySelector('#timeline-container')
     ], '03 / 制度形成');
-    createScene(impact, [impact.querySelector('.defense-actions')], '04 / 监测与处置');
   }
 
   // 尾声：行动指南与承诺
@@ -9953,6 +9894,7 @@ function renderTimeline() {
         { year: '2014', title: '第三批名单：巴西龟上榜', desc: '《中国外来入侵物种名单（第三批）》发布，18种在列，巴西龟、尼罗罗非鱼等"常见面孔"被点名；公报测算，20种主要农业入侵物种年损失约840亿元。', tag: '政策', tagClass: 'policy' },
         { year: '2015', title: '卫星上岗，遥感监测入侵植物', desc: '卫星遥感首次用于11省20个重点湖泊（水库）的入侵水生植物扩散监测；30个省份同步开展灭毒除害行动。', tag: '行动', tagClass: 'action' },
         { year: '2016.12', title: '第四批名单：四批累计71种', desc: '《中国自然生态系统外来入侵物种名单（第四批）》发布，食蚊鱼、美洲大蠊等18种上榜，四批名单累计71种；全国已发现外来入侵物种560多种。', tag: '政策', tagClass: 'policy' },
+        { year: '2017', title: '三大典型战役：把最凶的入侵者按在它来的地方', desc: '紫茎泽兰在西南山乡被连续围剿，互花米草在入海口与红树林缠斗，松材线虫则由东向西节节设防——防治靠的不是哪一纸名单，而是一场场落到地头、岸线、林间的实战，累积扑灭入侵植物数千万亩次，是中国外来入侵物种治理的标志性战役。', tag: '行动', tagClass: 'action' },
         { year: '2018', title: '213种侵入国家级自然保护区', desc: '生态环境公报披露：在已发现的560多种外来入侵物种中，213种已侵入国家级自然保护区——最后的生态堡垒也在承压。', tag: '科学', tagClass: 'science' },
         { year: '2019', title: '全国已发现660多种', desc: '全国外来入侵物种记录增至660多种，其中215种已进入国家级自然保护区，48种列入国家名单。', tag: '科学', tagClass: 'science' }
       ]
