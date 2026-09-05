@@ -4826,6 +4826,86 @@ body { background: #0D1B15 !important; }
 }
 /* 封面主题图装饰层不再启用（无图片蒙版） */
 .gate-art { display: none !important; }
+
+/* ===== 开篇叙事：视觉化分流（图片 / 物种标签 / 关键数字卡）===== */
+.narrative-figure {
+  margin: 2.4em auto;
+  max-width: min(340px, 100%);
+  text-align: center;
+}
+.narrative-figure img {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  border: 1px solid var(--b-border);
+  filter: saturate(0.95);
+}
+.narrative-figure figcaption {
+  font-size: 0.72rem;
+  color: var(--b-text-dim);
+  margin-top: 8px;
+  line-height: 1.6;
+}
+.narrative-chips-label {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--b-gold);
+  letter-spacing: 0.24em;
+  margin: 2.4em 0 12px;
+}
+.narrative-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 0 0 0.6em;
+}
+.narrative-chips span {
+  font-family: var(--font-serif);
+  font-size: 0.86rem;
+  color: var(--b-text);
+  background: rgba(232,230,223,0.05);
+  border: 1px solid var(--b-border);
+  border-radius: 999px;
+  padding: 6px 16px;
+  letter-spacing: 0.03em;
+}
+.narrative-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--b-border);
+  border: 1px solid var(--b-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 2.4em 0 0.4em;
+}
+.narrative-stat {
+  background: var(--b-bg-elevated);
+  padding: 22px 10px;
+  text-align: center;
+}
+.narrative-stat .ns-num {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--b-gold);
+}
+.narrative-stat .ns-unit { font-size: 0.9rem; margin-left: 2px; }
+.narrative-stat .ns-lbl {
+  font-size: 0.74rem;
+  color: var(--b-text-dim);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.narrative-stats-note {
+  font-size: 0.7rem;
+  color: var(--b-text-dim);
+  text-align: center;
+  margin: 0 0 1.4em;
+}
+@media (max-width: 640px) { .narrative-stats { grid-template-columns: repeat(2, 1fr); } }
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -6009,13 +6089,28 @@ function rebuildEditorialStructureV2() {
     <p class="narrative-lead">2023 年 10 月，广东惠州，赖女士被一只蚂蚁咬到了手。</p>
     <p>"被咬到手后，我跟家里人说头晕，没一会儿我就休克过去了。"</p>
     <p>咬她的不是普通蚂蚁，是红火蚁——原产南美洲的入侵物种，2004 年才第一次在中国留下官方记录。而她的遭遇绝非孤例：同一年 7 月，广西钦州东站，一名男子在候车时突然晕倒，原因也是干活时踩到了红火蚁。</p>
+    <figure class="narrative-figure">
+      <img src="assets/images/species/red-fire-ant-april-nobile-cc-by-4.jpg" alt="红火蚁 Solenopsis invicta 的微距特写" loading="lazy">
+      <figcaption>红火蚁 <i>Solenopsis invicta</i>　摄影 © April Nobile · AntWeb · CC BY 4.0</figcaption>
+    </figure>
     <p style="font-size:0.8rem;color:var(--b-text-dim);font-style:italic;">案例来源：新华社《7年新入侵344个县市区，红火蚁为何难防？》（2024-04-11，<a class="src-link" href="https://news.cctv.com/2024/04/12/ARTIq3vWjCVsatMdEaVyuVmi240412.shtml" target="_blank" rel="noopener">央视网转载原文</a>）</p>
-    <p class="narrative-lead">来自南美热带草原的一只红火蚁，大概不会知道自己正参与一场跨越半球的无声迁徙。它脚下的土壤，从阿根廷到广东，相隔<span class="narrative-num">一万八千公里</span>——而这段路程，人类用航班、集装箱和苗木贸易替它走完了。这不是孤例。有记录以来，已有超过<span class="narrative-num">660</span>种外来入侵物种抵达中国：水葫芦、福寿螺、豚草、巴西龟……它们共同的通行证，是全球化时代人类亲手搭建的物流网络。</p>
+    <p class="narrative-lead">来自南美热带草原的一只红火蚁，大概不会知道自己正参与一场跨越半球的无声迁徙。它脚下的土壤，从阿根廷到广东，相隔<span class="narrative-num">一万八千公里</span>——而这段路程，人类用航班、集装箱和苗木贸易替它走完了。这不是孤例。有记录以来，已有超过<span class="narrative-num">660</span>种外来入侵物种，以同样的方式抵达中国。</p>
+    <div class="narrative-chips-label">它们一起到了</div>
+    <div class="narrative-chips">
+      <span>水葫芦</span><span>福寿螺</span><span>豚草</span><span>巴西龟</span><span>……</span>
+    </div>
     <p style="font-size:0.8rem;color:var(--b-text-dim);font-style:italic;">注：外来物种≠外来入侵物种，本文数据仅针对已造成危害或具有入侵性的后者。</p>`;
   const narrativePaper = document.querySelector('.intro-narrative-paper .intro-narrative-inner');
   if (narrativePaper) narrativePaper.innerHTML = `
     <p>这些不请自来的"旅客"中，有些只是安静地占据路边一角，有些却在数十年间改写了整片生态。红火蚁登陆广东后以每年近百公里的速度向北推进；空心莲子草从一株观赏植物沦为堵塞河道的绿色痼疾；松材线虫则一棵树一棵树地吞噬着南方松林。在新的土地上，旧有制衡失效，天敌缺席，"物竞天择"被改写成一场没有裁判的竞赛——<strong class="narrative-strong">结果早已注定</strong>。</p>
-    <p>何为一道有效的防线？现实给出的数字令人不安：全国<span class="narrative-num">34</span>个省级行政区无一幸免，云南一省便记录<span class="narrative-num">321</span>种外来入侵物种，几占全国半壁；每年因入侵物种造成的经济损失，已从数十亿元攀升至逾<span class="narrative-num">2000亿元</span>（2025年多源综合估算口径；2011年针对544种的评估为1198.8亿元/年，因物种范围与是否计入间接损失不同，两种口径不可直接比较）。但更隐蔽的代价不在账面上——本土物种的退场、生态系统的简化、不可逆的基因污染——这些损失无法用货币计量，却在真实地改变我们赖以生存的环境。</p>
+    <div class="narrative-stats">
+      <div class="narrative-stat"><div class="ns-num">660<span class="ns-unit">种</span></div><div class="ns-lbl">已记录的外来入侵物种</div></div>
+      <div class="narrative-stat"><div class="ns-num">34<span class="ns-unit">省</span></div><div class="ns-lbl">省级行政区无一幸免</div></div>
+      <div class="narrative-stat"><div class="ns-num">321<span class="ns-unit">种</span></div><div class="ns-lbl">云南一省记录最多</div></div>
+      <div class="narrative-stat"><div class="ns-num">逾2000<span class="ns-unit">亿</span></div><div class="ns-lbl">元 / 年损失估算（多源）</div></div>
+    </div>
+    <p class="narrative-stats-note">口径：660 种为《2020 中国生态环境状况公报》口径；321 种为云南记录数；每年损失逾 2000 亿元为 2025 年多源综合估算，与 2011 年针对 544 种、约 1198.8 亿元/年的评估口径不可直接比较。</p>
+    <p>跨过这道算不清的账，更隐蔽的代价不在账面上——本土物种的退场、生态系统的简化、不可逆的基因污染——这些损失无法用货币计量，却在真实地改变我们赖以生存的环境。</p>
     <p>物种的迁徙本是大自然的常态，但人类用前所未有的速度与规模，将这个过程压缩进了全球化的短短数十年。当一只蚂蚁、一粒种子、一条线虫就能动摇一片生态系统时，"来者何物"不再只是一个古老的诘问，而是摆在每个人面前的现实考题。回答它，需要数据，需要科学，更需要我们重新审视那条被全球化冲淡的边界——</p>
     <p>答案，从一个包裹开始。</p>`;
 
