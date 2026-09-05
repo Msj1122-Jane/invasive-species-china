@@ -4906,6 +4906,20 @@ body { background: #0D1B15 !important; }
   margin: 0 0 1.4em;
 }
 @media (max-width: 640px) { .narrative-stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* 红火蚁抠像装饰：透明矢量剪影，点缀于开篇背景，不改变底色 */
+.intro-narrative-dark, .intro-narrative-paper { position: relative; }
+.narrative-ant {
+  position: absolute;
+  width: clamp(90px, 13vw, 190px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 0 16px rgba(224,74,47,0.22)) saturate(0.9);
+}
+.narrative-ant--left { left: 2vw; bottom: 7vh; transform: rotate(-8deg); }
+.narrative-ant--right { right: 2vw; top: 8vh; transform: rotate(7deg) scaleX(-1); }
+@media (max-width: 720px) { .narrative-ant { display: none; } }
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
 <script>
@@ -4988,6 +5002,27 @@ body { background: #0D1B15 !important; }
     <p class="narrative-lead">来自南美热带草原的一只红火蚁，大概不会知道自己正参与一场跨越半球的无声迁徙。它脚下的土壤，从阿根廷到广东，相隔<span class="narrative-num">一万八千公里</span>——而这段路程，人类用航班、集装箱和苗木贸易替它走完了。这不是孤例。有记录以来，已有超过<span class="narrative-num">660</span>种外来入侵物种抵达中国：水葫芦、福寿螺、豚草、巴西龟……它们共同的通行证，是全球化时代人类亲手搭建的物流网络。</p>
     <p style="font-size:0.8rem;color:var(--b-text-dim);font-style:italic;">注：外来物种≠外来入侵物种，本文数据仅针对已造成危害或具有入侵性的后者。</p>
   </div>
+  <div class="narrative-ant narrative-ant--left" aria-hidden="true">
+    <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#D8A24A" stroke-width="7" stroke-linecap="round">
+        <path d="M136 42 C 120 20, 92 14, 70 30"/>
+        <path d="M164 42 C 180 20, 208 14, 230 30"/>
+        <path d="M120 126 C 88 120, 60 132, 38 160"/>
+        <path d="M180 126 C 212 120, 240 132, 262 160"/>
+        <path d="M118 148 C 84 150, 56 168, 40 200"/>
+        <path d="M182 148 C 216 150, 244 168, 260 200"/>
+        <path d="M122 168 C 96 180, 74 204, 64 236"/>
+        <path d="M178 168 C 204 180, 226 204, 236 236"/>
+      </g>
+      <g fill="#E04A2F">
+        <ellipse cx="150" cy="62" rx="27" ry="25"/>
+        <ellipse cx="150" cy="132" rx="33" ry="30"/>
+        <path d="M150 186 C 112 186, 92 234, 106 278 C 118 322, 182 322, 194 278 C 208 234, 188 186, 150 186 Z"/>
+      </g>
+      <circle cx="139" cy="57" r="4" fill="#0D1B15"/>
+      <circle cx="161" cy="57" r="4" fill="#0D1B15"/>
+    </svg>
+  </div>
 </section>
 
 <!-- 引言 · 下：纸面审视 -->
@@ -4997,6 +5032,27 @@ body { background: #0D1B15 !important; }
     <p>何为一道有效的防线？现实给出的数字令人不安：全国<span class="narrative-num">34</span>个省级行政区无一幸免，云南一省便记录<span class="narrative-num">321</span>种外来入侵物种，几占全国半壁；每年因入侵物种造成的经济损失，已从数十亿元攀升至逾<span class="narrative-num">2000亿元</span>（2025年多源综合估算口径；2011年针对544种的评估为1198.8亿元/年，因物种范围与是否计入间接损失不同，两种口径不可直接比较）。但更隐蔽的代价不在账面上——本土物种的退场、生态系统的简化、不可逆的基因污染——这些损失无法用货币计量，却在真实地改变我们赖以生存的环境。</p>
     <p>物种的迁徙本是大自然的常态，但人类用前所未有的速度与规模，将这个过程压缩进了全球化的短短数十年。当一只蚂蚁、一粒种子、一条线虫就能动摇一片生态系统时，"来者何物"不再只是一个古老的诘问，而是摆在每个人面前的现实考题。回答它，需要数据，需要科学，更需要我们重新审视那条被全球化冲淡的边界——</p>
     <p>答案，从一个包裹开始。</p>
+  </div>
+  <div class="narrative-ant narrative-ant--right" aria-hidden="true">
+    <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#D8A24A" stroke-width="7" stroke-linecap="round">
+        <path d="M136 42 C 120 20, 92 14, 70 30"/>
+        <path d="M164 42 C 180 20, 208 14, 230 30"/>
+        <path d="M120 126 C 88 120, 60 132, 38 160"/>
+        <path d="M180 126 C 212 120, 240 132, 262 160"/>
+        <path d="M118 148 C 84 150, 56 168, 40 200"/>
+        <path d="M182 148 C 216 150, 244 168, 260 200"/>
+        <path d="M122 168 C 96 180, 74 204, 64 236"/>
+        <path d="M178 168 C 204 180, 226 204, 236 236"/>
+      </g>
+      <g fill="#E04A2F">
+        <ellipse cx="150" cy="62" rx="27" ry="25"/>
+        <ellipse cx="150" cy="132" rx="33" ry="30"/>
+        <path d="M150 186 C 112 186, 92 234, 106 278 C 118 322, 182 322, 194 278 C 208 234, 188 186, 150 186 Z"/>
+      </g>
+      <circle cx="139" cy="57" r="4" fill="#0D1B15"/>
+      <circle cx="161" cy="57" r="4" fill="#0D1B15"/>
+    </svg>
   </div>
 </section>
 <div class="intro-outro-fade"></div>
