@@ -3247,7 +3247,7 @@ a:focus-visible,
 }
 
 /* ============================================
-   方案新增组件样式（6.4 图表规范 / 4.2 开箱 / 4.3 护照卡 / 4.4 海报 / 4.5 蚂蚁动线）
+   方案新增组件样式（6.4 图表规范 / 4.2 开箱 / 4.3 护照卡 / 4.5 蚂蚁动线）
    ============================================ */
 /* 结论式图表标题（图表本体外、HTML 内） */
 .chart-conclusion-title {
@@ -3485,52 +3485,6 @@ a:focus-visible,
   .pp-row, .pp-row .pp-chop { transition: none; }
 }
 
-/* 家乡查询：生成海报（方案 4.4） */
-.hq-poster-btn {
-  grid-column: 1 / -1;
-  justify-self: center;
-  margin-top: 6px;
-  background: none;
-  border: 1px solid var(--b-gold);
-  color: var(--b-gold);
-  border-radius: 999px;
-  padding: 8px 22px;
-  font-size: 0.85rem;
-  font-family: var(--font-sans);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), transform var(--motion-press) var(--ease-standard);
-}
-.hq-poster-btn:hover, .hq-poster-btn:focus-visible { background: var(--b-gold); color: #0D1B15; }
-.poster-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  background: rgba(6,12,9,0.88);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 24px;
-}
-.poster-overlay img {
-  max-height: 74vh;
-  max-width: min(92vw, 480px);
-  border-radius: 12px;
-  border: 1px solid var(--b-border);
-}
-.poster-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-.poster-actions a, .poster-actions button {
-  border-radius: 999px;
-  padding: 9px 22px;
-  font-size: 0.85rem;
-  font-family: var(--font-sans);
-  cursor: pointer;
-  text-decoration: none;
-}
-.poster-download { background: var(--b-gold); color: #0D1B15; border: 1px solid var(--b-gold); }
-.poster-close { background: none; color: var(--b-text-dim); border: 1px solid var(--b-border); }
-.poster-tip { font-size: 0.75rem; color: var(--b-text-dim); }
 
 /* 全站蚂蚁动线（方案 4.5，装饰性） */
 .ant-trail {
@@ -5125,8 +5079,7 @@ body { background: #0D1B15 !important; }
    有悬浮位移的元素按"悬浮位 + 轻缩"组合书写，避免按压时跳位
    注意：本块必须位于所有组件 hover 规则之后，:active 才能在 hover 同时成立时胜出 */
 /* 无悬浮位移的按钮：按下即缩 */
-.filter-btn:active, .game-btn:active, .hq-poster-btn:active,
-.poster-actions a:active, .poster-actions button:active,
+.filter-btn:active, .game-btn:active,
 .unbox-card:active, .atlas-modal-close:active, .rfa-march-ctrl button:active {
   transform: scale(0.96);
   transition-duration: var(--motion-press);
@@ -5143,7 +5096,6 @@ body { background: #0D1B15 !important; }
 .defense-row:active, .evidence-options button:active { transform: translateX(6px); transition-duration: var(--motion-press); }
 /* 缺 transform 过渡的元素补上（不影响各自已有的颜色过渡） */
 .unbox-card { transition: transform var(--motion-press) var(--ease-standard); }
-.poster-actions a, .poster-actions button { transition: transform var(--motion-press) var(--ease-standard); }
 /* ===== 触屏门控 =====
    位移/缩放类 hover 只在真实悬浮设备上生效，触屏点按不再触发"假悬浮"跳位；
    键盘 :focus-visible 的位移不受影响（下表只匹配 :hover） */
@@ -7231,12 +7183,6 @@ function renderCountyHotspot() {
   [...provs].sort((a, b) => d.province_summary[b].max - d.province_summary[a].max)
     .forEach((p, i) => { maxRank[p] = i + 1; });
 
-  // 全国县域平均（大陆口径）：全部记录数 ÷ 有记录县数，用于海报的"超全国均值倍数"
-  const natAvg = (() => {
-    let t = 0, c = 0;
-    provs.forEach(p => { const s = d.province_summary[p]; t += s.total || 0; c += s.counties || 0; });
-    return c > 0 ? t / c : 0;
-  })();
 
   function show(p) {
     const s = d.province_summary[p];
@@ -7246,15 +7192,7 @@ function renderCountyHotspot() {
       `<div class="hq-tile"><div class="hq-num">${s.counties}<small> 个</small></div><div class="hq-lbl">有入侵植物记录的县</div></div>` +
       `<div class="hq-tile"><div class="hq-num">${s.avg}<small> 种</small></div><div class="hq-lbl">有记录县的平均</div></div>` +
       `<div class="hq-tile"><div class="hq-name">${placeName(s.max_county)}</div><div class="hq-num">${s.max}<small> 种</small></div><div class="hq-lbl">全省最热县 · 全国第${maxRank[p]}</div></div>` +
-      `<div class="hq-tile"><div class="hq-num">${burst}x</div><div class="hq-lbl">点状爆发：最热县 ÷ 县均</div></div>` +
-      `<button type="button" class="hq-poster-btn" id="hqPosterBtn">📸 生成海报，分享你的家乡</button>`;
-    const btn = document.getElementById('hqPosterBtn');
-    if (btn) btn.addEventListener('click', () => showHometownPoster({
-      prov: p,
-      county: placeName(s.max_county),
-      count: s.max,
-      mult: natAvg > 0 ? (s.max / natAvg).toFixed(1) : '—'
-    }));
+      `<div class="hq-tile"><div class="hq-num">${burst}x</div><div class="hq-lbl">点状爆发：最热县 ÷ 县均</div></div>`;
   }
 
   sel.innerHTML = provs.map(p => `<option value="${p}">${p}</option>`).join('');
@@ -7280,108 +7218,6 @@ function renderCountyHotspot() {
   }
 }
 
-// ============================================
-// 生成海报（方案 4.4）：canvas 绘制竖版分享图，长按/点击保存
-// ============================================
-function showHometownPoster(info) {
-  // C.9 "不速之客居住证"：证件样式海报（持证人=县名，签发机关=来者何物）
-  const W = 900, H = 1200;
-  const canvas = document.createElement('canvas');
-  canvas.width = W; canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#0D1B15';
-  ctx.fillRect(0, 0, W, H);
-
-  // 证件卡面
-  const card = { x: 70, y: 90, w: W - 140, h: H - 220 };
-  ctx.fillStyle = '#152720';
-  ctx.strokeStyle = '#D8A24A'; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.roundRect(card.x, card.y, card.w, card.h, 18); ctx.fill(); ctx.stroke();
-  ctx.setLineDash([6, 6]); ctx.strokeStyle = 'rgba(216,162,74,.45)'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.roundRect(card.x + 14, card.y + 14, card.w - 28, card.h - 28, 12); ctx.stroke();
-  ctx.setLineDash([]);
-
-  ctx.textAlign = 'center';
-  // 证名
-  ctx.fillStyle = '#D8A24A';
-  ctx.font = '700 56px "Noto Serif SC", serif';
-  ctx.fillText('不速之客居住证', W / 2, card.y + 92);
-  ctx.fillStyle = '#93A29A';
-  ctx.font = '20px "Space Grotesk", monospace';
-  ctx.fillText('I N V A D E R   R E S I D E N C E   P E R M I T', W / 2, card.y + 130);
-
-  // 照片框（蚂蚁剪影位）
-  ctx.strokeStyle = '#2A3F35'; ctx.lineWidth = 2;
-  ctx.strokeRect(card.x + 56, card.y + 180, 200, 240);
-  ctx.font = '120px sans-serif';
-  ctx.fillText('🐜', card.x + 156, card.y + 345);
-  ctx.fillStyle = '#93A29A'; ctx.font = '18px "Noto Sans SC", sans-serif';
-  ctx.fillText('入侵物种登记照', card.x + 156, card.y + 452);
-
-  // 字段区
-  ctx.textAlign = 'left';
-  const fx = card.x + 300;
-  const fields = [
-    ['持 证 人', info.county],
-    ['所属省份', info.prov],
-    ['登记物种', info.count + ' 种入侵植物记录'],
-    ['风险倍数', '是全国县域平均的 ' + info.mult + ' 倍']
-  ];
-  fields.forEach(([k, v], i) => {
-    const y = card.y + 240 + i * 62;
-    ctx.fillStyle = '#93A29A'; ctx.font = '22px "Noto Sans SC", sans-serif';
-    ctx.fillText(k, fx, y);
-    ctx.fillStyle = i === 2 ? '#D8A24A' : (i === 3 ? '#E04A2F' : '#E8E6DF');
-    ctx.font = (i >= 2 ? '700 ' : '') + '30px "Noto Sans SC", sans-serif';
-    ctx.fillText(String(v), fx, y + 36);
-  });
-
-  // 签发机关 + 红色圆章
-  ctx.fillStyle = '#93A29A'; ctx.font = '22px "Noto Sans SC", sans-serif';
-  ctx.fillText('签发机关', fx, card.y + 520);
-  ctx.fillStyle = '#E8E6DF'; ctx.font = '700 30px "Noto Serif SC", serif';
-  ctx.fillText('来者何物 · 数据纪实', fx, card.y + 556);
-  // 圆章
-  const sx = card.x + card.w - 170, sy = card.y + card.h - 150, sr = 92;
-  ctx.save();
-  ctx.globalAlpha = 0.85;
-  ctx.strokeStyle = '#E04A2F'; ctx.lineWidth = 4;
-  ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.stroke();
-  ctx.fillStyle = '#E04A2F';
-  ctx.font = '44px serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('★', sx, sy + 14);
-  ctx.font = '19px "Noto Sans SC", sans-serif';
-  ctx.fillText('来者何物', sx, sy - 40);
-  ctx.fillText('核查专用章', sx, sy + 48);
-  ctx.restore();
-
-  // 引导语与脚注
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#D8A24A';
-  ctx.font = '32px "Noto Sans SC", sans-serif';
-  ctx.fillText('你的家乡呢？查查你的家乡 →', W / 2, H - 92);
-  ctx.fillStyle = '#93A29A';
-  ctx.font = '20px "Noto Sans SC", sans-serif';
-  ctx.fillText(String(window.location.href.split('#')[0]).slice(0, 60), W / 2, H - 58);
-  ctx.fillText('数据来源：中国外来入侵植物物种高分辨率分布数据库（IPSD） · 记录数≠分布密度', W / 2, H - 30);
-
-  const url = canvas.toDataURL('image/png');
-  let overlay = document.getElementById('posterOverlay');
-  if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'posterOverlay';
-    overlay.className = 'poster-overlay';
-    overlay.style.display = 'none';
-    overlay.innerHTML = '<img alt="家乡查询结果海报"><div class="poster-actions"><a class="poster-download" download="hometown-poster.png">保存海报</a><button type="button" class="poster-close">关闭</button></div><p class="poster-tip">手机上可长按图片保存到相册</p>';
-    document.body.appendChild(overlay);
-    overlay.querySelector('.poster-close').addEventListener('click', () => { overlay.style.display = 'none'; });
-    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.style.display = 'none'; });
-  }
-  overlay.querySelector('img').src = url;
-  overlay.querySelector('.poster-download').href = url;
-  overlay.style.display = 'flex';
-}
 
 // ============================================
 // INVASION TIMELINE CHART
