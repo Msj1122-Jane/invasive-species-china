@@ -7415,7 +7415,14 @@ async function renderMapByFilter(mode) {
   _mapFilter = mode;
   const mapKey = mode === 'total' ? 'total' : mode === 'animal' ? 'animal' : mode === 'plant' ? 'plant' : 'level1';
   const labelMap = { total: '全部物种', animal: '动物类', plant: '植物类', level1: '仅1级·恶性入侵' };
-  const colorMap = { total: '#D8A24A', animal: '#E04A2F', plant: '#4E7A63', level1: '#B03327' };
+  // 四种类别四套色相，深色底上彼此区分：全部物种=琥珀金 / 动物类=红 / 植物类=青绿 / 仅1级·恶性入侵=紫
+  const palettes = {
+    total:  { visualMap: ['#14190F', '#4A3510', '#7A5818', '#B07E20', '#F2B23C'], main: '#B07E20', bright: '#F2B23C' },
+    animal: { visualMap: ['#2A0F0F', '#6E1A1A', '#A32626', '#D13C2E', '#F0563C'], main: '#D13C2E', bright: '#F0563C' },
+    plant:  { visualMap: ['#15211B', '#1E3628', '#2E5D43', '#4E7A63', '#6B9A80'], main: '#4E7A63', bright: '#6B9A80' },
+    level1: { visualMap: ['#161223', '#2F2450', '#5B3E85', '#8A5CBE', '#B07FE0'], main: '#8A5CBE', bright: '#B07FE0' }
+  };
+  const colorMap = { total: palettes.total.main, animal: palettes.animal.main, plant: palettes.plant.main, level1: palettes.level1.main };
 
   // Map value field
   const getValue = p => p[mapKey] || 0;
@@ -7457,12 +7464,8 @@ async function renderMapByFilter(mode) {
           bottom: 8,
           text: ['多', '少'],
           calculable: true,
-          // 深色色阶（方案 6.1）：低端贴近底色，主数据用金/红，对比系列用灰绿
           inRange: {
-            color: mode === 'total' ? ['#1E2E25', '#4A2A25', '#7C3126', '#B5402A', '#E04A2F'] :
-                   mode === 'animal' ? ['#2A1B18', '#57251F', '#8C3324', '#C0402B', '#E04A2F'] :
-                   mode === 'plant' ? ['#15211B', '#1E3628', '#2E5D43', '#4E7A63', '#6B9A80'] :
-                   ['#221313', '#471919', '#7F1D1D', '#B03327', '#E04A2F']
+            color: palettes[mode].visualMap
           },
           textStyle: { color: '#93A29A' }
         },
@@ -7474,7 +7477,7 @@ async function renderMapByFilter(mode) {
           label: { show: false },
           emphasis: {
             label: { show: true, color: '#fff' },
-            itemStyle: { areaColor: '#F97316' }
+            itemStyle: { areaColor: palettes[mode].bright }
           },
           data: mapData.map(d => ({ name: d.name, value: d.value }))
         }]
@@ -7501,7 +7504,7 @@ async function renderMapByFilter(mode) {
       data: topProvinces.map((p, i) => ({
         value: getValue(p),
         itemStyle: {
-          color: i < 3 ? (mode === 'animal' ? '#E04A2F' : mode === 'plant' ? '#4E7A63' : mode === 'level1' ? '#7F1D1D' : '#D8A24A') : '#4E7A63',
+          color: i < 3 ? palettes[mode].bright : palettes[mode].main,
           borderRadius: [0, 4, 4, 0]
         }
       })),
