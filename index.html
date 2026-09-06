@@ -3788,7 +3788,7 @@ a:focus-visible,
 .iceberg-lbl { font: 12px var(--font-sans); fill: #93A29A; }
 .iceberg-lbl-light { font: 12px var(--font-sans); fill: rgba(232,240,235,.85); }
 
-/* C.3 足迹加速：447 年时间线 x 轴下方的蚂蚁足迹装饰层 */
+/* C.3 足迹加速：近代以来时间线 x 轴下方的蚂蚁足迹装饰层 */
 .footprint-strip {
   position: relative;
   height: 46px;
@@ -5471,7 +5471,7 @@ body { background: #0D1B15 !important; }
       <div class="chart-footnote">
         <p>数据说明：406 种入侵植物的县域记录数；仅呈现「有记录」的县——记录数≠分布密度，未收录的县≠没有入侵（可能未被逐一调查）；不含港澳台（统计口径不同）</p>
         <p>数据来源：中国外来入侵植物物种高分辨率分布数据库（IPSD）</p>
-        <p>统计时间：数据库收录记录对应 1571—2018 年（版本发布日期未公开）</p>
+        <p>统计时间：数据库收录记录截至 2018 年（版本发布日期未公开）</p>
       </div>
     </div>
 
@@ -5634,26 +5634,27 @@ body { background: #0D1B15 !important; }
         <p>注：记录数不等于实际分布密度，受各地区调查强度影响。</p>
       </div>
 
-    <!-- Invasion timeline: 447 years of plant invasion history -->
+    <!-- Invasion timeline: modern era (since 1840) plant invasion history -->
     <div class="timeline-section reveal">
       <h3 style="text-align:center;font-size:1.2rem;font-weight:700;color:var(--b-text);margin-bottom:4px;">
-        入侵正在加速：20 世纪贡献了八成记录
+        入侵正在加速：20 世纪以来贡献了近八成记录
       </h3>
       <p style="text-align:center;font-size:0.84rem;color:var(--b-text-dim);margin-bottom:16px;">
-        IPSD收录406种外来入侵植物，其中400种可考首次记录年份 · 从1571年到2018年；最早记录不必然等于实际引入年份
+        IPSD收录406种外来入侵植物，其中400种可考首次记录年份 · 从1840年到2018年；最早记录不必然等于实际引入年份
       </p>
       <div id="invasionTimelineChart" style="width:100%;height:400px;"></div>
       <div class="footprint-strip" id="timelineFootprints" aria-hidden="true" title="足迹越密，入侵越快"></div>
       <p class="footprint-cap">蚂蚁足迹随记录增速加密——不读数，也能看出入侵在加速</p>
       <div class="chart-footnote">
-        <p>数据说明：IPSD 收录 406 种外来入侵植物，其中 400 种可考首次记录年份；最早记录不必然等于实际引入年份</p>
+        <p>数据说明：IPSD 收录 406 种外来入侵植物，其中 400 种可考首次记录年份；最早记录不必然等于实际引入年份；1840 年前另有 28 种零星早期记录，本图聚焦近代以来、未作展开</p>
         <p>数据来源：中国外来入侵植物物种高分辨率分布数据库（IPSD）· 基于CVH/NSII标本馆记录与文献考证</p>
-        <p>统计时间：记录对应 1571—2018 年（数据库版本发布日期未公开）</p>
+        <p>统计时间：记录对应 1840—2018 年（数据库版本发布日期未公开）</p>
       </div>
       <div class="timeline-annotations" style="display:flex;justify-content:center;gap:24px;margin-top:12px;flex-wrap:wrap;">
-        <span style="font-size:0.78rem;color:var(--b-text-dim);">16—18世纪：现有最早记录涉及<strong style="color:var(--b-gold);">21种</strong></span>
-        <span style="font-size:0.78rem;color:var(--b-text-dim);">19世纪：现有最早记录涉及<strong style="color:var(--b-gold);">80种</strong></span>
-        <span style="font-size:0.78rem;color:var(--b-text-dim);">20世纪：现有最早记录涉及<strong style="color:var(--b-accent);">269种</strong></span>
+        <span style="font-size:0.78rem;color:var(--b-text-dim);">19世纪后半（1840—1899）：新增<strong style="color:var(--b-gold);">73种</strong></span>
+        <span style="font-size:0.78rem;color:var(--b-text-dim);">20世纪（1900—1999）：新增<strong style="color:var(--b-accent);">269种</strong></span>
+        <span style="font-size:0.78rem;color:var(--b-text-dim);">21世纪（2000—2018）：新增<strong style="color:var(--b-accent);">30种</strong></span>
+        <span style="font-size:0.78rem;color:var(--b-text-dim);">1840年前已有28种更早记录，图中未展开</span>
       </div>
     </div>
   </div>
@@ -6336,7 +6337,7 @@ function rebuildEditorialStructureV2() {
       const wall = document.createElement('section');
       wall.className = 'overview-kpis reveal';
       wall.innerHTML = `
-        <p class="act-quote">它不是一个人来的。有记录以来，超过 660 种外来入侵物种以同样的方式抵达——仅 20 世纪以来的植物入侵记录，就占了全部可考记录的八成。</p>
+        <p class="act-quote">它不是一个人来的。有记录以来，超过 660 种外来入侵物种以同样的方式抵达——仅 20 世纪以来的植物入侵记录，就占了全部可考记录的近八成。</p>
         <header class="overview-kpis-head">
           <span>CHAPTER 03 · SCALE</span>
           <h3>它们已经无处不在</h3>
@@ -6460,7 +6461,7 @@ function rebuildEditorialStructureV2() {
       // 第四幕开场引语
       const netQuote = document.createElement('p');
       netQuote.className = 'act-quote act-quote-network';
-      netQuote.textContent = '被截住的只是样本。393 宗公开报道案例背后，是一条运转了几百年的供应链。';
+      netQuote.textContent = '被截住的只是样本。393 宗公开报道案例背后，是一条运转多年的地下供应链。';
       dInner.appendChild(netQuote);
       // 异宠入境桑基图（从第一幕海关区块拆出）
       const sankeyBlock = pathwayContent && pathwayContent.querySelector('.customs-sankey-block');
@@ -6468,7 +6469,7 @@ function rebuildEditorialStructureV2() {
       // 异宠贸易折线
       const petTrade = pathwayContent && Array.from(pathwayContent.querySelectorAll('.customs-section')).find(n => n.querySelector('#pet-trade-chart'));
       if (petTrade) dInner.appendChild(petTrade);
-      // 原生分布散点、热力图、447 年时间线（V1 已移至 chapter-map）
+      // 原生分布散点、热力图、近代以来时间线（V1 已移至 chapter-map）
       ['.flow-section', '.sankey-section', '.timeline-section'].forEach(selector => {
         const node = document.querySelector(`#chapter-map ${selector}`);
         if (node) dInner.appendChild(node);
@@ -6904,6 +6905,11 @@ async function renderChapter(renderKey) {
         if (Data.timeline && !_sectionInitFlags._defense) {
           _sectionInitFlags._defense = true;
           renderDefenseChapter();
+        }
+        // 时间线图实际挂载在本章：导航直达（未经过 map 章激活）时兜底渲染
+        if (Data.invasionTimeline && !_sectionInitFlags._timeline) {
+          _sectionInitFlags._timeline = true;
+          renderInvasionTimeline();
         }
         break;
       case 'action':
@@ -7391,18 +7397,11 @@ function renderInvasionTimeline() {
   _invasionTimelineChart = echarts.init(container);
   window._invasionTimelineChart = _invasionTimelineChart;
 
-  const byYear = Data.invasionTimeline.by_year;
+  // 聚焦近代以来：过滤 1840 年起的记录（1840 年前仅 28 种零星记录，累计数已含此前基线）
+  const byYear = Data.invasionTimeline.by_year.filter(d => d.year >= 1840);
   const years = byYear.map(d => d.year);
   const cumulative = byYear.map(d => d.cumulative);
   const newSpecies = byYear.map(d => d.new_species);
-
-  // Mark areas for historical periods
-  const markAreas = [
-    [{ xAxis: 1571, itemStyle: { color: 'rgba(245,158,11,0.08)' } }, { xAxis: 1799 }],
-    [{ xAxis: 1800, itemStyle: { color: 'rgba(239,68,68,0.06)' } }, { xAxis: 1899 }],
-    [{ xAxis: 1900, itemStyle: { color: 'rgba(239,68,68,0.12)' } }, { xAxis: 1999 }],
-    [{ xAxis: 2000, itemStyle: { color: 'rgba(239,68,68,0.06)' } }, { xAxis: 2018 }]
-  ];
 
   _invasionTimelineChart.setOption({
     tooltip: {
@@ -7420,7 +7419,7 @@ function renderInvasionTimeline() {
     xAxis: {
       type: 'value',
       name: '年份',
-      min: 1571,
+      min: 1840,
       max: 2018,
       nameTextStyle: { color: '#8BA99A' },
       axisLabel: { color: '#8BA99A', fontSize: 11 },
@@ -7450,10 +7449,8 @@ function renderInvasionTimeline() {
         markArea: {
           silent: true,
           data: [
-            [{ xAxis: '1571', itemStyle: { color: 'rgba(245,158,11,0.06)' } }, { xAxis: '1799' }],
-            [{ xAxis: '1800', itemStyle: { color: 'rgba(245,158,11,0.12)' } }, { xAxis: '1899' }],
-            [{ xAxis: '1900', itemStyle: { color: 'rgba(239,68,68,0.15)' } }, { xAxis: '1999' }],
-            [{ xAxis: '2000', itemStyle: { color: 'rgba(239,68,68,0.08)' } }, { xAxis: '2018' }]
+            [{ name: '近代 1840—1949', xAxis: '1840', itemStyle: { color: 'rgba(245,158,11,0.10)' } }, { xAxis: '1949' }],
+            [{ name: '现代 1950—2018', xAxis: '1950', itemStyle: { color: 'rgba(239,68,68,0.08)' } }, { xAxis: '2018' }]
           ],
           label: { show: true, position: 'insideTop', color: '#8BA99A', fontSize: 11 }
         }
@@ -7477,7 +7474,7 @@ function renderInvasionTimeline() {
     let html = '';
     byYear.forEach(d => {
       if (!d.new_species) return;
-      const left = ((d.year - 1571) / (2018 - 1571)) * 100;
+      const left = ((d.year - 1840) / (2018 - 1840)) * 100;
       const size = 9 + (d.new_species / maxNew) * 13;
       const op = 0.25 + (d.new_species / maxNew) * 0.65;
       const rot = (d.year % 2 ? 14 : -14);
