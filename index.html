@@ -2415,6 +2415,58 @@ a:focus-visible,
   color: var(--b-text-dim);
   margin-top: 4px;
 }
+
+/* 全国截获量年表（海关总署历年官方通报） */
+.ct-list { display: flex; flex-direction: column; gap: 0; max-width: 720px; margin: 0 auto; }
+.ct-row {
+  display: grid;
+  grid-template-columns: 76px 18px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.ct-year {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--b-text);
+  text-align: right;
+  line-height: 1.1;
+  padding-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.ct-year em { display: block; font-style: normal; font-size: 0.62rem; color: var(--b-text-dim); margin-top: 3px; letter-spacing: 0.06em; }
+.ct-line { position: relative; display: flex; justify-content: center; height: 100%; }
+.ct-line::before {
+  content: '';
+  position: absolute;
+  top: 8px; bottom: -8px;
+  width: 2px;
+  background: rgba(224,74,47,0.25);
+}
+.ct-row:last-child .ct-line::before { bottom: auto; height: 10px; }
+.ct-line::after {
+  content: '';
+  position: relative;
+  top: 6px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--b-accent);
+  box-shadow: 0 0 0 3px rgba(224,74,47,0.15);
+}
+.ct-body { padding-bottom: 20px; }
+.ct-body strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.98rem;
+  color: var(--b-accent);
+  margin-bottom: 3px;
+  font-variant-numeric: tabular-nums;
+}
+.ct-body span { display: block; font-size: 0.78rem; color: var(--b-text-dim); line-height: 1.7; }
+@media (max-width: 600px) {
+  .ct-row { grid-template-columns: 58px 14px 1fr; gap: 8px; }
+  .ct-year { font-size: 0.95rem; }
+}
 .cos-sub {
   font-size: 0.7rem;
   color: var(--b-text-dim);
@@ -5318,7 +5370,7 @@ body { background: #0D1B15 !important; }
     <div class="gate-content">
       <div class="gate-number">01</div>
       <h2 class="gate-title">一个包裹</h2>
-      <p class="gate-subtitle">393 宗公开报道的截获案例（样本），多数指向同一条地下链：异宠走私。包裹被拦下之前，先看看它们怎样被伪装、被携带、被寄递</p>
+      <p class="gate-subtitle">393 宗逐案标注的截获样本，与海关总署官网 2018—2026 公开报道互相印证，多数指向同一条地下链：异宠走私。包裹被拦下之前，先看看它们怎样被伪装、被携带、被寄递</p>
       <div class="gate-divider"></div>
       <div class="gate-scroll-hint">
         <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0V28M12 28L5 21M12 28L19 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
@@ -5605,8 +5657,9 @@ body { background: #0D1B15 !important; }
     <div class="customs-section reveal">
       <h3 class="subsection-title">🌏 异宠全球化：从 393 宗公开案例看异宠走私</h3>
       <p style="font-size:0.84rem;color:var(--b-text-dim);text-align:center;margin-bottom:24px;line-height:1.8;max-width:700px;margin-left:auto;margin-right:auto;">
-        以下数据来自"海关发布"（海关总署官方发布平台）公开报道的口岸查获案例——这是<b>公开可查的案例样本，并非海关全年截获总数</b>。
-        需要明确：<strong style="color:var(--b-accent);">样本中以"异宠走私"为主</strong>，而非已定殖的入侵物种。"异宠"一旦逃逸或被弃养，才可能成为下一条入侵链的起点。
+        这里有两层数据：一层是 393 宗逐案标注的查获样本（物种、手法、渠道逐条核录），来自"海关发布"（海关总署官方发布平台）公开报道——<b>这是公开可查的案例样本，并非海关全年截获总数</b>；
+        另一层是对海关总署官网 2018—2026 年公开报道的全量检索（2300 余篇去重报道），用于核对全国口径的年度数字。
+        需要明确：<strong style="color:var(--b-accent);">截获样本中以"异宠走私"为主</strong>，而非已定殖的入侵物种。"异宠"一旦逃逸或被弃养，才可能成为下一条入侵链的起点。
       </p>
 
       <!-- Stat Cards -->
@@ -5614,7 +5667,49 @@ body { background: #0D1B15 !important; }
         <div class="cos-item"><div class="cos-num">393</div><div class="cos-lbl">公开截获案例</div><div class="cos-sub">整理自公开报道</div></div>
         <div class="cos-item"><div class="cos-num cos-warn">364</div><div class="cos-lbl">样本中异宠案</div><div class="cos-sub">占样本 92.6%</div></div>
         <div class="cos-item"><div class="cos-num">12</div><div class="cos-lbl">走私手法</div><div class="cos-sub">伪报品名·行李夹带</div></div>
-        <div class="cos-item"><div class="cos-num">40+</div><div class="cos-lbl">涉及口岸</div><div class="cos-sub">珠三角最密集</div></div>
+        <div class="cos-item"><div class="cos-num">40+</div><div class="cos-lbl">涉及口岸</div><div class="cos-sub">公开报道·广东最密</div></div>
+      </div>
+
+      <!-- 全国截获量年表：海关总署历年官方通报 -->
+      <div class="customs-trend-block">
+      <h4 style="font-size:1.0rem;margin:32px 0 6px;color:var(--b-text);">口岸的警报，一年比一年密</h4>
+      <p style="font-size:0.78rem;color:var(--b-text-dim);margin-bottom:18px;line-height:1.7;max-width:680px;">
+        把海关总署历年对外发布的全国查获数字排成一列——近五年，进境携带与寄递渠道的截获量翻了近一倍。
+      </p>
+      <div class="ct-list">
+        <div class="ct-row">
+          <div class="ct-year">2021<em>1—8月</em></div>
+          <div class="ct-line"></div>
+          <div class="ct-body"><strong>5868 批次</strong><span>邮件、快件、旅检等非贸渠道查获活体动植物与种子苗木；同时段截获检疫性有害生物 288 种、41644 种次</span></div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-year">2022<em>全年</em></div>
+          <div class="ct-line"></div>
+          <div class="ct-body"><strong>991 种 · 2012 次</strong><span>"异宠"等外来物种；全国海关"严防外来物种入侵三年专项行动"于次年启动</span></div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-year">2024<em>上半年</em></div>
+          <div class="ct-line"></div>
+          <div class="ct-body"><strong>2071 种次</strong><span>"异宠"等外来物种——专项行动开展首年，仅上半年已超过 2022 年全年次数</span></div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-year">2025<em>全年</em></div>
+          <div class="ct-line"></div>
+          <div class="ct-body"><strong>5439 批次</strong><span>平均每天近 15 起；海关总署同期发布年度查获外来物种十大案例</span></div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-year">2026<em>一季度</em></div>
+          <div class="ct-line"></div>
+          <div class="ct-body"><strong>1163 批次</strong><span>六部门同期首次发布《口岸重点管控外来物种名录》，5 月 1 日起擅自引进名录物种最高可罚 25 万元</span></div>
+        </div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--b-text-dim);margin:14px 0 0;line-height:1.8;max-width:720px;">
+        不只是量在涨——"全国口岸首次截获"的名单也在逐年加长：盖亚斯大犀金龟（2019，随丹麦黑麦草种子）、皱纹沙丘蜗牛（2019，随进口大麦）、印度翠蝇（2025，随进境船舶）、海藻蝇（2026，随进境船舶）。每年，国门都会遇到"第一次见"的物种。
+      </p>
+      <div class="chart-footnote">
+        <p>数据说明：各条目为海关总署及国新办发布会历年对外通报的全国口径数字，时间段与计数单位以通报原文为准</p>
+        <p>数据来源：海关总署官网公开报道（2018—2026 全量检索，2026 年 9 月采集）；《光明日报》2026-01-23；人民日报 2026-04-18</p>
+      </div>
       </div>
 
       <!-- Sankey: 异宠入境路线图（第四幕模块，JS 移入"一张全球网络"幕） -->
@@ -5654,7 +5749,7 @@ body { background: #0D1B15 !important; }
       <h4 style="font-size:1.0rem;margin:32px 0 16px;color:var(--b-text);">申报单上写着"口香糖"，里面爬着活体</h4>
       <p style="font-size:0.78rem;color:var(--b-text-dim);margin-bottom:16px;line-height:1.8;max-width:680px;">
         在这些公开案例里，伪报品名是最常用的闯关手法——申报单上写着"口香糖""曲奇""海沙"，
-        X光机后面却是另一番天地。以下6宗真实案例均来自"海关发布"公开报道，
+        X光机后面却是另一番天地。以下7宗真实案例均来自"海关发布"及海关总署官网公开报道，
         <strong style="color:var(--b-accent);">点击卡片开箱查验</strong>，看看申报品名背后藏着什么。👇
       </p>
       <div class="disguise-game">
@@ -5684,7 +5779,7 @@ body { background: #0D1B15 !important; }
         </div>
         <div class="game-score" id="dgScore"></div>
         <div class="chart-footnote">
-          <p>数据说明：6 宗真实案例取自 393 宗公开报道案例（样本），申报品名为关员查验记录</p>
+          <p>数据说明：7 宗真实案例取自 393 宗公开报道案例（样本）及海关总署官网公开报道，申报品名为关员查验记录</p>
           <p>数据来源：海关发布（海关总署官方发布平台）公开报道，自建截获档案数据集</p>
           <p>统计时间：2023—2025 年公开报道（2025 年采集，确切采集日期未记录）</p>
         </div>
@@ -5738,7 +5833,7 @@ body { background: #0D1B15 !important; }
       <div class="defense-stats-bar">
         <div class="defense-stat-item">
           <div class="defense-stat-num">5439</div>
-          <div class="defense-stat-lbl">2024年全国海关截获批次</div>
+          <div class="defense-stat-lbl">2025年全国海关查获批次</div>
         </div>
         <div class="defense-stat-item">
           <div class="defense-stat-num">38.5%</div>
@@ -5753,7 +5848,7 @@ body { background: #0D1B15 !important; }
           <div class="defense-stat-lbl">上海海关截获异宠数</div>
         </div>
       </div>
-      <p style="font-size:0.75rem;color:var(--a-text-secondary);text-align:center;margin:-6px 0 20px;line-height:1.7;">注：5439 批次为 2024 年全国海关数据；38.5%、735 种、5600+ 分别来自宁波、北京、上海海关通报。</p>
+      <p style="font-size:0.75rem;color:var(--a-text-secondary);text-align:center;margin:-6px 0 20px;line-height:1.7;">注：5439 批次为 2025 年全国海关数据（海关总署，2026 年 1 月发布）；38.5%、735 种、5600+ 分别来自宁波、北京、上海海关通报。</p>
       <div class="defense-rings-container" id="defenseRingsContainer"></div>
       <div class="ring-detail-panel" id="ringDetailPanel">
         <div style="color:var(--a-text-secondary);font-size:0.85rem;">点击上方环带查看各防线详情</div>
@@ -5761,7 +5856,7 @@ body { background: #0D1B15 !important; }
       <div class="chart-footnote">
         <p>数据说明：按"外防输入、内防扩散"链条归纳的六道治理环节，环带为结构示意，面积不代表投入或成效</p>
         <p>数据来源：历年外来入侵物种名录与政策文件、海关总署公开统计（详见页末参考文献）</p>
-        <p>统计时间：政策节点对应 2003—2026 年；海关截获数为 2024 年全年数据</p>
+        <p>统计时间：政策节点对应 2003—2026 年；海关查获数为 2025 年全年数据</p>
       </div>
     </div>
 
@@ -5831,7 +5926,9 @@ body { background: #0D1B15 !important; }
 
         <strong>二、海关截获与检疫数据</strong><br>
         ・口岸查获案例数据库与查获现场图片（含2025年海关查获外来物种十大案例）—— 海关发布（海关总署官方发布平台）<br>
-        ・2024年全国海关截获数据 —— 海关总署动植物检疫司<br>
+        ・2025年全国海关查获外来物种5439批次 —— 海关总署（2026年1月发布，《光明日报》2026-01-23）<br>
+        ・海关总署官网公开报道全量检索（2018—2026，检索词：截获／外来物种／异宠，2300余篇去重报道，2026年9月采集）—— search.customs.gov.cn<br>
+        ・历年国新办新闻发布会海关通报（2022年991种2012次；2024年上半年2071种次）<br>
         ・北京、上海、深圳、广州、宁波等重点口岸年度统计公报<br>
         ・出境入境动植物检疫法实施数据 —— 中国海关杂志<br><br>
 
@@ -6163,12 +6260,12 @@ function rebuildEditorialStructureV2() {
         <div class="overview-kpi-grid">
           <article><div><strong data-counter="1198.8">1198.8</strong><b>亿元/年</b></div><p class="kpi-sub">相当于每分钟 22.8 万元</p><h4>外来入侵物种年损失估计</h4><p>2011 年评估（544 种）；最新综合评估已逾 2000 亿元/年，见 05 章。</p></article>
           <article><div><strong data-counter="59">59</strong><b>种</b></div><p class="kpi-sub">660 余种里，只有它们上了国家重点通缉名单</p><h4>列入国家重点管理名录</h4><p>六部门《重点管理外来入侵物种名录》2023年施行，鳄雀鳝、福寿螺、红耳彩龟等在列。</p></article>
-          <article><div><strong data-counter="5439">5439</strong><b>批次</b></div><p class="kpi-sub">平均每天 15 起</p><h4>2024年全国海关截获</h4><p>海关总署动植物检疫司统计——跨境包裹洪流之下，口岸截获量连年攀升。</p></article>
+          <article><div><strong data-counter="5439">5439</strong><b>批次</b></div><p class="kpi-sub">平均每天近 15 起</p><h4>2025年全国海关查获</h4><p>海关总署"严防外来物种入侵三年专项行动"年度数据——跨境包裹洪流之下，口岸查获量连年攀升。</p></article>
         </div>
         <p class="kpi-footnote">公报计总量、名录管重点、海关守前线——三个数字，各管一段。</p>
         <div class="chart-footnote">
           <p>数据说明：四个指标分别为物种总量、年损失评估、重点名录、口岸截获，见各卡标注</p>
-          <p>数据来源：<a class="src-link" href="https://www.eco.gov.cn/index.php/news_info/44835.html" target="_blank" rel="noopener">生态环境部《2020中国生态环境状况公报》</a>；<a class="src-link" href="https://www.moa.gov.cn/govpublic/KJJYS/202211/t20221109_6415160.htm" target="_blank" rel="noopener">六部门《重点管理外来入侵物种名录》（2023）</a>；海关总署动植物检疫司</p>
+          <p>数据来源：<a class="src-link" href="https://www.eco.gov.cn/index.php/news_info/44835.html" target="_blank" rel="noopener">生态环境部《2020中国生态环境状况公报》</a>；<a class="src-link" href="https://www.moa.gov.cn/govpublic/KJJYS/202211/t20221109_6415160.htm" target="_blank" rel="noopener">六部门《重点管理外来入侵物种名录》（2023）</a>；海关总署（2025 年全国海关查获外来物种 5439 批次，2026 年 1 月发布）</p>
           <p>统计时间：各指标对应 2011—2024 年不等，见卡片标注</p>
         </div>`;
       inner.insertBefore(wall, inner.firstChild);
@@ -6210,7 +6307,7 @@ function rebuildEditorialStructureV2() {
     const innerSubtitle = pathwaySection.querySelector('.section-subtitle');
     if (number) number.textContent = '01';
     if (title) title.textContent = '一个包裹';
-    if (subtitle) subtitle.textContent = '393 宗公开报道的截获案例（样本），多数指向同一条地下链：异宠走私。包裹被拦下之前，先看看它们怎样被伪装、被携带、被寄递。';
+    if (subtitle) subtitle.textContent = '393 宗逐案标注的截获样本，与海关总署官网 2018—2026 公开报道互相印证，多数指向同一条地下链：异宠走私。包裹被拦下之前，先看看它们怎样被伪装、被携带、被寄递。';
     if (innerTitle) innerTitle.textContent = '被拦下的，不等于已经入侵';
     if (innerSubtitle) innerSubtitle.textContent = '口岸查获记录说明输入压力和监管行动；只有后续野外、定殖与影响证据，才能继续判断是否形成入侵。';
   }
@@ -9445,6 +9542,13 @@ const DISGUISE_CASES = [
     real: '德州芭切叶蚁', latin: 'Atta texana', icon: '🐜',
     count: '截获活体 1.3 万余只',
     fact: '"炸锅"泡沫条里藏着37支塑料管，1.3万余只活蚁——足够建起一个超级蚁群。该种在我国从未有发生报道。'
+  },
+  {
+    declared: '拼装积木', declareIcon: '🧱',
+    meta: '广州邮局海关 · 进境邮件 · 2025年9月',
+    real: '勾背枯叶螳螂等外来螳螂卵鞘', latin: 'Deroplatys spp.', icon: '🦗',
+    count: '截获可孵化卵鞘 18 枚',
+    fact: '两盒积木各夹藏一个保鲜盒，装着18枚形态各异的昆虫卵鞘——经鉴定全部是螳螂卵鞘，且具有孵化能力，其中多种为外来物种。'
   }
 ];
 
