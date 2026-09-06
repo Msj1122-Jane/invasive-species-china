@@ -252,14 +252,6 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
-.section-number {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.3em;
-  opacity: 0.5;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-}
 .section-title {
   font-family: var(--font-serif);
   font-size: clamp(2rem, 5vw, 3.5rem);
@@ -730,18 +722,6 @@ a:focus-visible,
   opacity: 0;
   animation: fadeInUp 0.8s var(--ease-standard) 0.3s forwards;
   color: var(--b-text);
-}
-
-/* English subtitle */
-.intro-en-title {
-  font-family: var(--font-mono);
-  font-size: clamp(0.7rem, 1.2vw, 0.95rem);
-  letter-spacing: 0.35em;
-  color: var(--b-text-dim);
-  text-transform: uppercase;
-  margin-top: 1vh;
-  opacity: 0;
-  animation: fadeInUp 0.8s var(--ease-standard) 0.6s forwards;
 }
 
 /* Subtitle: the core tagline */
@@ -1641,13 +1621,6 @@ a:focus-visible,
   max-width: 900px;
   margin: 0 auto 34px;
   text-align: center;
-}
-.atlas-kicker {
-  margin-bottom: 12px;
-  color: #93A29A;
-  font: 600 .72rem/1.2 var(--font-sans);
-  letter-spacing: .22em;
-  text-transform: uppercase;
 }
 .atlas-head h3 {
   margin: 0 0 14px;
@@ -3449,7 +3422,6 @@ a:focus-visible,
   padding-bottom: 12px;
   margin-bottom: 8px;
 }
-.pp-eyebrow { font-size: 0.68rem; letter-spacing: 0.14em; color: var(--b-gold); }
 .pp-title { font-family: var(--font-serif); font-size: 1.3rem; color: var(--b-text); }
 .pp-row {
   position: relative;
@@ -3787,18 +3759,6 @@ a:focus-visible,
 }
 .wanted-card:hover { transform: translateY(-3px); border-color: var(--b-gold); }
 .wanted-card.most-wanted { border: 2px solid var(--b-accent); box-shadow: 0 6px 24px rgba(224,74,47,.25); }
-.wanted-ribbon {
-  position: absolute;
-  top: 8px; left: 50%; transform: translateX(-50%) rotate(-2deg);
-  font-family: var(--font-mono);
-  font-size: .6rem;
-  letter-spacing: .3em;
-  color: var(--b-accent);
-  border: 1px solid var(--b-accent);
-  padding: 2px 8px;
-  border-radius: 2px;
-  background: rgba(224,74,47,.08);
-}
 .wanted-no {
   position: absolute;
   top: 6px; right: 8px;
@@ -4507,15 +4467,6 @@ a:focus-visible,
     linear-gradient(145deg, rgba(14,37,28,.98), rgba(5,18,13,.98));
   box-shadow: 0 30px 70px rgba(0,0,0,.22);
 }
-.customs-section::before {
-  content: "CUSTOMS / OPEN RECORDS";
-  position: absolute;
-  top: 18px;
-  left: 24px;
-  color: rgba(221,232,224,.32);
-  font: 600 .58rem/1 var(--font-mono);
-  letter-spacing: .17em;
-}
 .customs-overview-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -4613,7 +4564,6 @@ a:focus-visible,
     letter-spacing: .04em;
     white-space: nowrap;
   }
-  .intro-en-title { letter-spacing: .18em; }
   .intro-subtitle {
     max-width: 22em;
     font-size: .92rem;
@@ -5126,7 +5076,6 @@ body { background: #0D1B15 !important; }
     <div class="page-flip-inner">
       <div class="intro-content">
     <h1 class="intro-main-title">来<span style="color:var(--b-gold)">者</span>何物</h1>
-    <p class="intro-en-title">THE INVASIVE CHRONICLE</p>
     <p class="intro-subtitle">中国外来入侵物种数据纪实</p>
   </div>
 
@@ -5207,7 +5156,6 @@ body { background: #0D1B15 !important; }
 
     <div class="atlas-shell reveal" id="speciesAtlas">
       <header class="atlas-head">
-        <div class="atlas-kicker">Curated archive · 180 species</div>
         <h3>180 种“不速之客”里，谁在通缉名单上</h3>
         <p class="atlas-teaser-line">收录 180 种外来入侵物种：59 种是国家重点通缉对象，其余散落在各省普查与数据库记录里。它们从哪来、以何面目混入，又在这片土地上留下过什么——这里逐一记下。</p>
         <button class="atlas-enter" id="atlasEnter" type="button">
@@ -5262,7 +5210,6 @@ body { background: #0D1B15 !important; }
 <section class="section section-dark" id="chapter-species" data-render="evidence">
   <div class="section-inner">
     <div class="section-header reveal">
-      <div class="section-number">Chapter 01 · Evidence</div>
       <h2 class="section-title">一张照片，够不够证明它已经入侵？</h2>
       <p class="section-subtitle">“看见”只是证据链的起点。野外出现、定殖、扩散与造成危害，需要不同层级的证据。</p>
       <div class="section-divider"></div>
@@ -5381,7 +5328,6 @@ body { background: #0D1B15 !important; }
   </div>
   <div class="section-inner" id="pathwayContent">
     <div class="section-header">
-      <div class="section-number">Chapter 01 · Pathways</div>
       <h2 class="section-title">被拦下的，不等于已经入侵</h2>
       <p class="section-subtitle">口岸查获记录说明输入压力和监管行动；只有后续野外、定殖与影响证据，才能继续判断是否形成入侵。</p>
       <div class="section-divider"></div>
@@ -5946,7 +5892,6 @@ body { background: #0D1B15 !important; }
   </div>
   <div class="section-inner" id="actionContent">
     <div class="section-header">
-      <div class="section-number">Epilogue · Action</div>
       <h2 class="section-title">真正的防线，也在一次具体选择里</h2>
       <p class="section-subtitle">它在搜索框、快递单、饲养箱，以及一次是否放生的决定里。</p>
       <div class="section-divider"></div>
@@ -5965,7 +5910,6 @@ body { background: #0D1B15 !important; }
   </button>
   <div class="atlas-viewer-scroll">
     <header class="atlas-head">
-      <div class="atlas-kicker">Curated archive · 180 species</div>
       <h3>180 种“不速之客”里，谁在通缉名单上</h3>
       <p>图鉴收录180种外来入侵物种记录：55种植物取自341种入侵植物名录与全国普查记录；125种动物、昆虫与病害取自中国外来入侵物种数据库（iflora）。墙上张贴的是 59 种国家重点通缉对象（2023年施行的《重点管理外来入侵物种名录》全文），红火蚁位列头号通缉；其余收录记录整理进下方档案柜，并各自附上图像与名录资料。危险星级来自 iflora 等级标注（1级恶性入侵=★★★★★，逐级递减；无等级标注者仅示"名录管控对象"）。</p>
     </header>
@@ -6015,7 +5959,6 @@ body { background: #0D1B15 !important; }
   <button class="atlas-modal-close" id="atlasModalClose" aria-label="关闭物种档案">×</button>
   <div class="atlas-modal-media"><img id="atlasModalImage" alt=""><p class="atlas-media-note" id="atlasMediaNote" hidden>暂无实拍照片 · 上图为占位版式，非该物种形象</p></div>
   <div class="atlas-modal-copy">
-    <div class="atlas-kicker">Species record</div>
     <h4 id="atlasModalTitle"></h4>
     <div class="latin" id="atlasModalLatin"></div>
     <dl>
@@ -6206,7 +6149,6 @@ function rebuildEditorialStructureV2() {
       wall.innerHTML = `
         <p class="act-quote">它不是一个人来的。有记录以来，超过 660 种外来入侵物种以同样的方式抵达——仅 20 世纪以来的植物入侵记录，就占了全部可考记录的近八成。</p>
         <header class="overview-kpis-head">
-          <span>CHAPTER 03 · SCALE</span>
           <h3>它们已经无处不在</h3>
           <p>总量本身就是警报——而这660余种的真正分量，藏在损失账单、国家名录和口岸前线的数字里。</p>
         </header>
@@ -6288,7 +6230,6 @@ function rebuildEditorialStructureV2() {
       <div class="passport-card reveal" id="rfaPassport">
         <div class="pp-head">
           <span class="pp-title">物种护照</span>
-          <span class="pp-eyebrow">INVADER PASSPORT · RFA-2004</span>
         </div>
         <dl>
           <div class="pp-row"><dt>物种名</dt><dd>红火蚁 <i>Solenopsis invicta</i></dd><span class="pp-chop">验讫</span></div>
@@ -8611,7 +8552,6 @@ function renderWantedWall() {
     const photo = imgs[name];
     const isTop = name === '红火蚁';
     return `<article class="wanted-card${isTop ? ' most-wanted' : ''}">
-      <div class="wanted-ribbon">WANTED</div>
       <div class="wanted-no">No.${String(seq).padStart(2, '0')}</div>
       <div class="wanted-photo">${photo ? `<img src="${photo}" alt="${name}" loading="lazy">` : `<span class="wanted-icon">${WANTED_GROUP_ICON[group] || '❓'}</span>`}</div>
       <h4 class="wanted-name">${name}${isTop ? '<span class="wanted-top-badge">头号通缉</span>' : ''}</h4>
