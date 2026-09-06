@@ -826,7 +826,7 @@ a:focus-visible,
   50% { transform: translateY(4px); }
 }
 
-/* ===== 引言页：暗夜迁徙 → 纸面审视 ===== */
+/* ===== 引言页：暗夜迁徙 ===== */
 .intro-narrative-section {
   min-height: auto;
   display: flex;
@@ -837,11 +837,6 @@ a:focus-visible,
 .intro-narrative-dark {
   padding: 20vh 24px 14vh;
   background: linear-gradient(180deg, #0b1410 0%, #0e1813 60%, #101b15 100%);
-}
-/* 下段：顶部渐变带从深色过渡，之后一直是深色（全站统一深色，原纸底已移除） */
-.intro-narrative-paper {
-  padding: 80px 24px 96px;
-  background: linear-gradient(180deg, #101b15 0, #17251e 120px, #132219 240px, #0D1B15 360px, #0D1B15 100%);
 }
 .intro-narrative-inner {
   max-width: 660px;
@@ -878,10 +873,6 @@ a:focus-visible,
 .intro-narrative-dark .narrative-num {
   color: var(--b-gold);
 }
-.narrative-strong {
-  font-weight: 700;
-  color: var(--a-highlight);
-}
 /* 收束句：单独成行，上下留白，上方一道细金线 */
 .narrative-emphasis {
   font-weight: 700 !important;
@@ -911,7 +902,6 @@ a:focus-visible,
   background: linear-gradient(180deg, #0D1B15 0%, #0c1712 40%, #0D1B15 100%);
 }
 @media (max-width: 640px) {
-  .intro-narrative-paper { padding-top: 64px; }
   .intro-narrative-inner p { text-align: left; }
 }
 
@@ -4914,7 +4904,6 @@ body { background: #0D1B15 !important; }
 .section-dark,
 .intro-narrative-section,
 .intro-narrative-dark,
-.intro-narrative-paper,
 #chapter-map, #chapter-pathways, #chapter-spread,
 #chapter-impact, #chapter-defense, #chapter-action,
 #chapter-species {
@@ -5029,7 +5018,7 @@ body { background: #0D1B15 !important; }
 
 /* 红火蚁抠像装饰：透明矢量剪影，点缀于开篇背景，不改变底色。
    当前矢量版效果不佳，先停用；待生成/抠图的红火蚁 PNG 后再启用（.narrative-ant 内改为 <img> 即可）。 */
-.intro-narrative-dark, .intro-narrative-paper { position: relative; }
+.intro-narrative-dark { position: relative; }
 .narrative-ant {
   display: none;
   position: absolute;
@@ -5040,7 +5029,6 @@ body { background: #0D1B15 !important; }
   filter: drop-shadow(0 0 16px rgba(224,74,47,0.22)) saturate(0.9);
 }
 .narrative-ant--left { left: 2vw; bottom: 7vh; transform: rotate(-8deg); }
-.narrative-ant--right { right: 2vw; top: 8vh; transform: rotate(7deg) scaleX(-1); }
 @media (max-width: 720px) { .narrative-ant { display: none; } }
 
 /* ===== 按压反馈（全站可点元素统一物理按压）=====
@@ -5161,11 +5149,16 @@ body { background: #0D1B15 !important; }
 <section class="intro-narrative-section intro-narrative-dark">
   <div class="intro-narrative-inner">
     <p class="narrative-lead">2023 年 10 月，广东惠州，赖女士被一只蚂蚁咬到了手。</p>
-    <p>"被咬到手后，我跟家里人说头晕，没一会儿我就休克过去了。"</p>
-    <p>咬她的不是普通蚂蚁，是红火蚁——原产南美洲的入侵物种，2004 年才第一次在中国留下官方记录。而她的遭遇绝非孤例：同一年 7 月，广西钦州东站，一名男子在候车时突然晕倒，原因也是干活时踩到了红火蚁。</p>
+    <p>“被咬到手后，我跟家里人说头晕，没一会儿我就休克过去了。”</p>
     <p style="font-size:0.8rem;color:var(--b-text-dim);font-style:italic;">案例来源：新华社《7年新入侵344个县市区，红火蚁为何难防？》（2024-04-11，<a class="src-link" href="https://news.cctv.com/2024/04/12/ARTIq3vWjCVsatMdEaVyuVmi240412.shtml" target="_blank" rel="noopener">央视网转载原文</a>）</p>
-    <p class="narrative-lead">来自南美热带草原的一只红火蚁，大概不会知道自己正参与一场跨越半球的无声迁徙。它脚下的土壤，从阿根廷到广东，相隔<span class="narrative-num">一万八千公里</span>——而这段路程，人类用航班、集装箱和苗木贸易替它走完了。这不是孤例。有记录以来，已有超过<span class="narrative-num">660</span>种外来入侵物种抵达中国：水葫芦、福寿螺、豚草、巴西龟……它们共同的通行证，是全球化时代人类亲手搭建的物流网络。</p>
-    <p style="font-size:0.8rem;color:var(--b-text-dim);font-style:italic;">注：外来物种≠外来入侵物种，本文数据仅针对已造成危害或具有入侵性的后者。</p>
+    <p>咬她的不是普通蚂蚁，是红火蚁——原产南美洲，2004 年才第一次在中国留下官方记录。它的老家远在<span class="narrative-num">一万八千公里</span>外的阿根廷，这段路，人类用航班、集装箱和苗木贸易替它走完了。</p>
+    <p>有记录以来，已有超过<span class="narrative-num">660</span>种外来入侵物种以同样的方式抵达中国，落在全部<span class="narrative-num">34</span>个省级行政区；每年造成的经济损失，最新的综合评估已逾<span class="narrative-num">2000亿元</span>。</p>
+    <div class="narrative-chips-label">它们一起到了</div>
+    <div class="narrative-chips">
+      <span>水葫芦</span><span>福寿螺</span><span>豚草</span><span>巴西龟</span><span>……</span>
+    </div>
+    <p>它们如何进来、如何扩散、账单有多重、防线又在哪里——</p>
+    <p class="narrative-emphasis">答案，从一个包裹开始。</p>
   </div>
   <div class="narrative-ant narrative-ant--left" aria-hidden="true">
     <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
@@ -5190,36 +5183,6 @@ body { background: #0D1B15 !important; }
   </div>
 </section>
 
-<!-- 引言 · 下：纸面审视 -->
-<section class="intro-narrative-section intro-narrative-paper">
-  <div class="intro-narrative-inner">
-    <p>这些不请自来的"旅客"中，有些只是安静地占据路边一角，有些却在数十年间改写了整片生态。红火蚁登陆广东后以每年近百公里的速度向北推进；空心莲子草从一株观赏植物沦为堵塞河道的绿色痼疾；松材线虫则一棵树一棵树地吞噬着南方松林。在新的土地上，旧有制衡失效，天敌缺席，"物竞天择"被改写成一场没有裁判的竞赛——<strong class="narrative-strong">结果早已注定</strong>。</p>
-    <p>何为一道有效的防线？现实给出的数字令人不安：全国<span class="narrative-num">34</span>个省级行政区无一幸免，云南一省便记录<span class="narrative-num">321</span>种外来入侵物种，几占全国半壁；每年因入侵物种造成的经济损失，已从数十亿元攀升至逾<span class="narrative-num">2000亿元</span>（中国农业科学院2025年综合评估）。但更隐蔽的代价不在账面上——本土物种的退场、生态系统的简化、不可逆的基因污染——这些损失无法用货币计量，却在真实地改变我们赖以生存的环境。</p>
-    <p>物种的迁徙本是大自然的常态，但人类用前所未有的速度与规模，将这个过程压缩进了全球化的短短数十年。当一只蚂蚁、一粒种子、一条线虫就能动摇一片生态系统时，"来者何物"不再只是一个古老的诘问，而是摆在每个人面前的现实考题。回答它，需要数据，需要科学，更需要我们重新审视那条被全球化冲淡的边界——</p>
-    <p>答案，从一个包裹开始。</p>
-  </div>
-  <div class="narrative-ant narrative-ant--right" aria-hidden="true">
-    <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="#D8A24A" stroke-width="7" stroke-linecap="round">
-        <path d="M136 42 C 120 20, 92 14, 70 30"/>
-        <path d="M164 42 C 180 20, 208 14, 230 30"/>
-        <path d="M120 126 C 88 120, 60 132, 38 160"/>
-        <path d="M180 126 C 212 120, 240 132, 262 160"/>
-        <path d="M118 148 C 84 150, 56 168, 40 200"/>
-        <path d="M182 148 C 216 150, 244 168, 260 200"/>
-        <path d="M122 168 C 96 180, 74 204, 64 236"/>
-        <path d="M178 168 C 204 180, 226 204, 236 236"/>
-      </g>
-      <g fill="#E04A2F">
-        <ellipse cx="150" cy="62" rx="27" ry="25"/>
-        <ellipse cx="150" cy="132" rx="33" ry="30"/>
-        <path d="M150 186 C 112 186, 92 234, 106 278 C 118 322, 182 322, 194 278 C 208 234, 188 186, 150 186 Z"/>
-      </g>
-      <circle cx="139" cy="57" r="4" fill="#0D1B15"/>
-      <circle cx="161" cy="57" r="4" fill="#0D1B15"/>
-    </svg>
-  </div>
-</section>
 <div class="intro-outro-fade"></div>
 
 <!-- ==============================
@@ -6215,21 +6178,17 @@ function rebuildEditorialStructureV2() {
   const narrativeDark = document.querySelector('.intro-narrative-dark .intro-narrative-inner');
   if (narrativeDark) narrativeDark.innerHTML = `
     <p class="narrative-lead">2023 年 10 月，广东惠州，赖女士被一只蚂蚁咬到了手。</p>
-    <p>"被咬到手后，我跟家里人说头晕，没一会儿我就休克过去了。"</p>
-    <p>咬她的不是普通蚂蚁，是红火蚁——原产南美洲的入侵物种，2004 年才第一次在中国留下官方记录。而她的遭遇绝非孤例：同一年 7 月，广西钦州东站，一名男子在候车时突然晕倒，原因也是干活时踩到了红火蚁。</p>
+    <p>“被咬到手后，我跟家里人说头晕，没一会儿我就休克过去了。”</p>
     <p style="font-size:0.8rem;color:var(--b-text-dim);font-style:italic;">案例来源：新华社《7年新入侵344个县市区，红火蚁为何难防？》（2024-04-11，<a class="src-link" href="https://news.cctv.com/2024/04/12/ARTIq3vWjCVsatMdEaVyuVmi240412.shtml" target="_blank" rel="noopener">央视网转载原文</a>）</p>
-    <p class="narrative-lead">来自南美热带草原的一只红火蚁，大概不会知道自己正参与一场跨越半球的无声迁徙。它脚下的土壤，从阿根廷到广东，相隔<span class="narrative-num">一万八千公里</span>——而这段路程，人类用航班、集装箱和苗木贸易替它走完了。这不是孤例。有记录以来，已有超过<span class="narrative-num">660</span>种外来入侵物种，以同样的方式抵达中国。</p>
+    <p>咬她的不是普通蚂蚁，是红火蚁——原产南美洲，2004 年才第一次在中国留下官方记录。它的老家远在<span class="narrative-num">一万八千公里</span>外的阿根廷，这段路，人类用航班、集装箱和苗木贸易替它走完了。</p>
+    <p>有记录以来，已有超过<span class="narrative-num">660</span>种外来入侵物种以同样的方式抵达中国，落在全部<span class="narrative-num">34</span>个省级行政区；每年造成的经济损失，最新的综合评估已逾<span class="narrative-num">2000亿元</span>。</p>
     <div class="narrative-chips-label">它们一起到了</div>
     <div class="narrative-chips">
       <span>水葫芦</span><span>福寿螺</span><span>豚草</span><span>巴西龟</span><span>……</span>
     </div>
-    <p style="font-size:0.8rem;color:var(--b-text-dim);font-style:italic;">注：外来物种≠外来入侵物种，本文数据仅针对已造成危害或具有入侵性的后者。</p>`;
-  const narrativePaper = document.querySelector('.intro-narrative-paper .intro-narrative-inner');
-  if (narrativePaper) narrativePaper.innerHTML = `
-    <p>这些不请自来的"旅客"中，有些只是安静地占据路边一角，有些却在数十年间改写了整片生态。红火蚁登陆广东后以每年近百公里的速度向北推进；空心莲子草从一株观赏植物沦为堵塞河道的绿色痼疾；松材线虫则一棵树一棵树地吞噬着南方松林。在新的土地上，旧有制衡失效，天敌缺席，"物竞天择"被改写成一场没有裁判的竞赛——<strong class="narrative-strong">结果早已注定</strong>。</p>
-    <p>跨过这道算不清的账，更隐蔽的代价不在账面上——本土物种的退场、生态系统的简化、不可逆的基因污染——这些损失无法用货币计量，却在真实地改变我们赖以生存的环境。</p>
-    <p>物种的迁徙本是大自然的常态，但人类用前所未有的速度与规模，将这个过程压缩进了全球化的短短数十年。当一只蚂蚁、一粒种子、一条线虫就能动摇一片生态系统时，"来者何物"不再只是一个古老的诘问，而是摆在每个人面前的现实考题。回答它，需要数据，需要科学，更需要我们重新审视那条被全球化冲淡的边界——</p>
-    <p>答案，从一个包裹开始。</p>`;
+    <p>它们如何进来、如何扩散、账单有多重、防线又在哪里——</p>
+    <p class="narrative-emphasis">答案，从一个包裹开始。</p>`;
+
 
   // ---- 第三幕 · 它们（chapter-map）：大数字 → 物种图鉴 → 家乡查询 → 中国地图 ----
   if (mapSection) {
