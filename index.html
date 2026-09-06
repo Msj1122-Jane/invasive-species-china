@@ -221,8 +221,7 @@ body {
 /* 减弱动效偏好：所有循环微动画关闭 */
 @media (prefers-reduced-motion: reduce) {
   .gate-scroll-hint,
-  .scroll-arrow-anim,
-  .ring-group:hover {
+  .scroll-arrow-anim {
     animation: none !important;
   }
 }
@@ -3315,22 +3314,50 @@ a:focus-visible,
   margin-right: 6px;
 }
 
-/* 六道防线横向六层条形列表（方案 6.4：同心圆降为 10% 透明度装饰背景） */
-.defense-rings-deco {
-  position: absolute;
-  inset: 0;
+/* 六道防线：境外→层层设防→境内 关卡式列表（去掉旧同心圆装饰背景） */
+.defense-chain {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.1;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 16px 16px 6px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(240,86,60,0.06), rgba(242,178,60,0.04) 50%, rgba(75,154,126,0.08));
+  border: 1px solid var(--b-border);
+}
+.defense-chain::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 0;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #F0563C, #F2B23C 50%, #4B9A7E);
+  opacity: .35;
   pointer-events: none;
 }
-.defense-rings-deco .defense-rings-svg { max-width: 560px; }
+.chain-cap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--b-text-dim);
+  padding: 0 6px;
+}
+.chain-cap .ca { color: #F0563C; font-weight: 700; white-space: nowrap; }
+.chain-cap .cb { color: #4B9A7E; font-weight: 700; white-space: nowrap; }
+.chain-cap .cap-mid { opacity: .7; letter-spacing: 0.2em; }
 .defense-list { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; }
 .defense-row {
   display: grid;
-  grid-template-columns: 1.2fr 1.4fr 1fr;
-  gap: 12px;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
   align-items: center;
   width: 100%;
   text-align: left;
@@ -3346,12 +3373,28 @@ a:focus-visible,
   transition: transform var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
 }
 .defense-row:hover, .defense-row:focus-visible { transform: translateX(4px); border-color: var(--dr-color, var(--b-accent)); }
+.dr-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #0D1B15;
+  background: var(--dr-color, var(--b-accent));
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.06);
+}
+.dr-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .dr-name { font-weight: 700; }
-.dr-actors { color: var(--b-text-dim); font-size: 0.78rem; }
-.dr-data { color: var(--b-gold); font-size: 0.78rem; text-align: right; }
+.dr-actors { color: var(--b-text-dim); font-size: 0.76rem; }
+.dr-data { color: var(--b-gold); font-size: 0.76rem; text-align: right; max-width: 200px; }
 @media (max-width: 720px) {
-  .defense-row { grid-template-columns: 1fr; gap: 4px; }
-  .dr-data { text-align: left; }
+  .defense-chain { padding: 12px 12px 4px; }
+  .chain-cap { font-size: 0.66rem; gap: 8px; }
+  .defense-row { grid-template-columns: auto 1fr; gap: 10px; }
+  .dr-data { grid-column: 2; text-align: left; }
 }
 
 /* 第一幕开场：三包裹开箱（方案 4.2） */
@@ -3502,31 +3545,6 @@ a:focus-visible,
 }
 @media (max-width: 720px) { .ant-trail { display: none; } }
 @media (prefers-reduced-motion: reduce) { .ant-trail { display: none; } }
-.defense-rings-svg {
-  width: 100%;
-  height: auto;
-}
-.ring-group {
-  cursor: pointer;
-  transition: opacity 0.3s;
-}
-.ring-group:hover .ring-arc {
-  opacity: 1;
-  filter: brightness(1.15);
-}
-.ring-arc {
-  transition: all var(--motion-med) var(--ease-standard);
-}
-.ring-label-text {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-.ring-stat-text {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  opacity: 0.8;
-}
 .ring-detail-panel {
   background: var(--a-card);
   border-radius: 12px;
@@ -3957,30 +3975,6 @@ a:focus-visible,
   opacity: .5;
 }
 .receipt-thanks { text-align: center; font-size: .68rem; color: var(--b-text-dim); margin-top: 10px; letter-spacing: .2em; }
-
-/* 生长之墙动画 */
-@keyframes ringGrow {
-  0% { opacity: 0; transform: scale(0.3); }
-  60% { opacity: 1; transform: scale(1.08); }
-  100% { opacity: 1; transform: scale(1); }
-}
-@keyframes ringPulse {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.12); }
-}
-.defense-rings-section.active .ring-group {
-  animation: ringGrow 0.7s var(--ease-standard) both;
-  transform-origin: center center;
-}
-.defense-rings-section.active .ring-group:nth-child(1) { animation-delay: 0s; }
-.defense-rings-section.active .ring-group:nth-child(2) { animation-delay: 0.12s; }
-.defense-rings-section.active .ring-group:nth-child(3) { animation-delay: 0.24s; }
-.defense-rings-section.active .ring-group:nth-child(4) { animation-delay: 0.36s; }
-.defense-rings-section.active .ring-group:nth-child(5) { animation-delay: 0.48s; }
-.defense-rings-section.active .ring-group:nth-child(6) { animation-delay: 0.6s; }
-.ring-group:hover {
-  animation: ringPulse 2.8s ease-in-out infinite !important;
-}
 
 @media (max-width: 768px) {
   .guide-scene-card {
@@ -5851,7 +5845,7 @@ body { background: #0D1B15 !important; }
   </div>
   <div class="section-inner">
 
-    <!-- 六道防线环形图 -->
+    <!-- 六道防线关卡式列表 -->
     <div class="defense-rings-section reveal">
       <h3 class="subsection-title" style="color:var(--a-text);">六道防线拦住了大多数，最后一道是你</h3>
       <p style="font-size:0.84rem;color:var(--a-text-secondary);margin-bottom:16px;text-align:center;">
@@ -9869,70 +9863,31 @@ function renderTimeline() {
 function renderDefenseRings() {
   const container = document.getElementById('defenseRingsContainer');
   const rings = Data.defenseRings.rings;
-  
-  const w = 680, h = 500, cx = w / 2, cy = h / 2 + 20;
-  const maxR = 220, minR = 50;
-  const step = (maxR - minR) / (rings.length - 1);
-  
-  let svgHTML = `<svg viewBox="0 0 ${w} ${h}" class="defense-rings-svg" xmlns="http://www.w3.org/2000/svg">`;
-  
-  // Background glow
-  svgHTML += `<defs>
-    <filter id="ringGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  </defs>`;
-  
-  // Draw rings from outside in
-  rings.forEach((ring, i) => {
-    const r = maxR - i * step;
-    const angle = -90 + i * 10; // slight rotation offset for visual interest
-    const dashLen = 2 * Math.PI * r * (ring.id === 6 ? 0.85 : 0.75);
-    const gapLen = 2 * Math.PI * r - dashLen;
-    
-    // Arc path (partial circle with gap at bottom)
-    const startAngle = -150;
-    const endAngle = 150;
-    const startRad = startAngle * Math.PI / 180;
-    const endRad = endAngle * Math.PI / 180;
-    const x1 = cx + r * Math.cos(startRad);
-    const y1 = cy + r * Math.sin(startRad);
-    const x2 = cx + r * Math.cos(endRad);
-    const y2 = cy + r * Math.sin(endRad);
-    const largeArc = (endAngle - startAngle) > 180 ? 1 : 0;
-    
-    const pathD = `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2}`;
-    
-    // Ring label position (left side of arc)
-    const labelAngle = startRad + 0.15;
-    const lx = cx + (r + 8) * Math.cos(labelAngle);
-    const ly = cy + (r + 8) * Math.sin(labelAngle);
-    
-    svgHTML += `<g class="ring-group" onclick="showRingDetail(${ring.id})" style="cursor:pointer;transform-origin:${cx}px ${cy}px">
-      <path d="${pathD}" fill="none" stroke="${ring.color}" stroke-width="${6 + (rings.length - i) * 1.5}" 
-            stroke-linecap="round" opacity="${0.3 + i * 0.12}" class="ring-arc"
-            filter="url(#ringGlow)"/>
-      <text x="${lx}" y="${ly}" fill="${ring.color}" font-size="12" font-weight="700" 
-            text-anchor="end" dominant-baseline="middle" class="ring-label-text">
-        环${ring.id} ${ring.short}
-      </text>
-    </g>`;
-  });
-  
-  // Center text
-  svgHTML += `<text x="${cx}" y="${cy - 10}" text-anchor="middle" font-size="15" font-weight="900" fill="#E8E6DF" font-family="var(--font-serif)">六道防线</text>
-    <text x="${cx}" y="${cy + 14}" text-anchor="middle" font-size="11" fill="#93A29A">外防输入 · 内防扩散</text>`;
 
-  svgHTML += `</svg>`;
+  // 六道防线：境外风险 → 层层设防 → 国内生态。一列"关卡"依次排开，
+  // 每环用彩色徽章编号 + 名称 + 责任方 + 数据，外圈一条红→绿色带贯穿"外防输入、内防扩散"
+  const listHTML = `
+    <div class="defense-chain">
+      <div class="chain-cap">
+        <span class="ca">◉ 境外入境之前</span>
+        <span class="cap-mid">外防输入 · 内防扩散</span>
+        <span class="cb">国内生态 ◉</span>
+      </div>
+      <div class="defense-list">
+        ${rings.map(ring => `
+          <button type="button" class="defense-row" onclick="showRingDetail(${ring.id})" style="--dr-color:${ring.color}">
+            <span class="dr-badge">${ring.id}</span>
+            <span class="dr-main">
+              <span class="dr-name">${ring.name}</span>
+              <span class="dr-actors">${ring.actors}</span>
+            </span>
+            <span class="dr-data">${ring.data_note}</span>
+          </button>`).join('')}
+      </div>
+    </div>`;
 
-  // 方案 6.4：同心圆降作装饰性背景（10% 透明度），主体为横向六层条形列表
-  const listHTML = '<div class="defense-list">' + rings.map(ring => `
-    <button type="button" class="defense-row" onclick="showRingDetail(${ring.id})" style="--dr-color:${ring.color}">
-      <span class="dr-name">${ring.icon} 第${ring.id}环 · ${ring.name}</span>
-      <span class="dr-actors">${ring.actors}</span>
-      <span class="dr-data">${ring.data_note}</span>
-    </button>`).join('') + '</div>';
+  container.innerHTML = listHTML;
 
-  container.innerHTML = `<div class="defense-rings-deco" aria-hidden="true">${svgHTML}</div>` + listHTML;
-  
   // Show first ring detail by default
   showRingDetail(1);
 }
