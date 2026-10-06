@@ -6,7 +6,7 @@
 <title>数据来源与方法｜来者何物</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="apple-touch-icon" href="favicon.svg" />
-<meta name="description" content="《来者何物》的数据口径与方法：393宗公开报道的截获案例（样本）、IPSD 406种植物县域记录、180种物种图鉴的选取与统计说明，以及四组"不能做"的比较。" />
+<meta name="description" content="《来者何物》的数据口径与方法：78宗公开报道的截获案例（样本）、IPSD 406种植物县域记录、180种物种图鉴的选取与统计说明，以及四组"不能做"的比较。" />
 <meta property="og:title" content="数据来源与方法｜来者何物" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://msj1122-jane.github.io/invasive-species-china/methodology.html" />
@@ -175,6 +175,22 @@ h2 .sec-num { color: var(--b-accent); font-family: var(--font-mono); font-size: 
   gap: 10px;
 }
 .page-foot a { color: var(--b-gold); text-decoration: none; }
+
+    .ai-tools { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.86rem; }
+    .ai-tools th, .ai-tools td { text-align: left; vertical-align: top; padding: 9px 12px 9px 0; border-bottom: 1px solid rgba(232,230,223,.12); line-height: 1.75; }
+    .ai-tools th { font-weight: 600; color: var(--m-text, #E8E6DF); white-space: nowrap; }
+    .ai-tools td:first-child { white-space: nowrap; font-weight: 600; }
+    .ai-tools td:nth-child(2) { white-space: nowrap; opacity: .75; }
+    .ref-cats { font-size: 0.82rem; line-height: 1.95; margin-top: 12px; }
+    .ref-cats strong { display: block; margin-top: 14px; }
+    .ref-cats strong:first-child { margin-top: 0; }
+    @media (max-width: 640px) {
+      .ai-tools, .ai-tools tbody, .ai-tools tr, .ai-tools td { display: block; width: 100%; }
+      .ai-tools thead { display: none; }
+      .ai-tools tr { padding: 10px 0; border-bottom: 1px solid rgba(232,230,223,.12); }
+      .ai-tools td { border: 0; padding: 2px 0; }
+      .ai-tools td:nth-child(2) { font-size: 0.78rem; }
+    }
 </style>
 </head>
 <body>
@@ -205,13 +221,14 @@ h2 .sec-num { color: var(--b-accent); font-family: var(--font-mono); font-size: 
     </div>
 
     <div class="card">
-      <h3>海关公开截获档案自建数据集（393 宗）<span class="tag">输入</span></h3>
+      <h3>海关公开截获档案自建数据集（78 宗）<span class="tag">输入</span></h3>
       <p>用于走私手法分布、截获物种类型、异宠入境桑基图、开箱卡片等图表。</p>
       <ul>
         <li><strong>采集渠道</strong>："海关发布"（海关总署官方发布平台）公开报道的口岸查获案例，含 2025 年全国十大案例。</li>
-        <li><strong>采集时间</strong>：2025 年采集，覆盖 2023—2025 年公开报道（确切采集日期未记录）。</li>
-        <li><strong>整理方法</strong>：逐案人工归类"来源地 → 物种类型 → 入境渠道"与申报手法；一案多手法时按主要手法计；来源地取报道中提及的启运地，未必是物种原生地。</li>
-        <li><strong>口径说明</strong>：这是<strong>公开报道中的案例样本，不是海关全年截获总数</strong>，且**非代表性样本**——样本源于我们能查到并整理的公开报道，涵盖面不全，**据此计算的任何占比（如"92.6% 为异宠"）仅反映样本构成，不能作为全国走私结构或海关截获总量的参考**。</li>
+        <li><strong>采集时间</strong>：2025 年采集，覆盖 2023—2026 年公开报道（确切采集日期未记录）。</li>
+        <li><strong>整理方法</strong>：逐案人工归类"来源地 → 物种类型 → 入境渠道"与申报手法；一案多手法时按主要手法计；来源地取报道中提及的启运地，并按洲级归并（马来西亚归入东南亚、南欧与乌克兰归入欧洲、新喀里多尼亚归入大洋洲，跨大洲标注归入"跨区域"，报道未写明启运地的计入"未标明启运地"），未必是物种原生地。</li>
+        <li><strong>数据清理</strong>：建库过程中，脚本曾按常见模式补全过一批无法回源的记录。定稿前逐条复核，剔除全部此类记录；另有一批虽系真实报道、但未留存原文出处的记录，按「查不到出处就不用」的原则一并剔除。最终只保留 78 宗：68 宗存有报道原文全文，10 宗出自海关总署 2025 年查获外来物种十大案例。本站所有相关图表均按这 78 宗重新计算。</li>
+        <li><strong>口径说明</strong>：这是<strong>公开报道中的案例样本，不是海关全年截获总数</strong>，且<strong>非代表性样本</strong>——样本源于我们能查到并整理的公开报道，涵盖面不全，<strong>据此计算的任何占比（如"90.7% 为异宠"）仅反映样本构成，不能作为全国走私结构或海关截获总量的参考</strong>。</li>
       </ul>
     </div>
 
@@ -238,18 +255,112 @@ h2 .sec-num { color: var(--b-accent); font-family: var(--font-mono); font-size: 
 
   <section>
     <h2><span class="sec-num">03</span>参考文献与数据来源</h2>
-    <p class="sec-sub">按报道附三清单整理，定稿前部分条目仍需补全版本信息。</p>
+    <p class="sec-sub">按报道附三清单整理；下方「完整来源清单」为正文各章用到的全部来源。</p>
     <ol class="refs">
       <li><strong>中国外来入侵植物物种高分辨率分布数据库（IPSD）</strong>——县域入侵植物记录（406 种，记录对应 1571—2018 年；本站时间线聚焦 1840 年以来）。配套论文：A comprehensive county-level distribution database of alien and invasive plants in China，《Ecology》2025, 106(5)，DOI: 10.1002/ecy.70084。</li>
-      <li><strong>海关总署官方发布平台"海关发布"公开报道</strong>——393 宗公开报道的截获案例（样本，采集于 2025 年，确切采集日期未记录）。<a href="https://www.customs.gov.cn/" target="_blank" rel="noopener">海关总署官网 ↗</a></li>
+      <li><strong>海关总署官方发布平台"海关发布"公开报道</strong>——78 宗公开报道的截获案例（样本，采集于 2025 年，确切采集日期未记录）。<a href="https://www.customs.gov.cn/" target="_blank" rel="noopener">海关总署官网 ↗</a></li>
       <li><strong>《重点管理外来入侵物种名录》</strong>——农业农村部等六部门发布，2023 年 1 月 1 日施行。<a href="https://www.moa.gov.cn/govpublic/KJJYS/202211/t20221109_6415160.htm" target="_blank" rel="noopener">公告第 567 号原文 ↗</a></li>
       <li><strong>农业农村部等九部门《关于加强红火蚁阻截防控工作的通知》</strong>——2021 年 3 月。</li>
       <li><strong>生态环境部历年《中国生态环境状况公报》</strong>——外来入侵物种总量与 2011 年经济损失评估口径。<a href="https://www.eco.gov.cn/index.php/news_info/44835.html" target="_blank" rel="noopener">《2020中国生态环境状况公报》发布新闻（示例）↗</a></li>
       <li><strong>中国农业科学院植物保护研究所</strong>——红火蚁入侵扩散轨迹（2003—2024）、外来入侵物种经济损失评估（2025）。</li>
       <li><strong>iPlant 植物智外来入侵物种数据库（iflora）</strong>——物种图鉴与原生地 × 入侵等级交叉统计。<a href="https://www.iplant.cn/" target="_blank" rel="noopener">植物智官网 ↗</a></li>
-      <li><strong>红火蚁叮咬过敏反应医学文献</strong>——约 1% 被叮人群发生全身性过敏反应的比例（具体篇目待补）。</li>
-      <li><strong>红火蚁扩散速度估算文献</strong>——"每年向北推进近百公里"引自研究团队估算（具体篇目待补）。</li>
     </ol>
+    <div class="card">
+      <h3>完整来源清单<span class="tag">清单</span></h3>
+      <div class="ref-cats">
+        <strong>一、名录与普查数据</strong><br>
+        ・《中国外来入侵物种名单》（第一批2003年16种、第二批2010年19种、第三批2014年18种、第四批2016年18种，共71种）—— 原国家环保总局／生态环境部、中国科学院等联合发布<br>
+        ・《国家重点管理外来入侵物种名录（第一批）》（52种，2013年制定）—— 原农业部<br>
+        ・《重点管理外来入侵物种名录》（59种，2023年1月1日施行）—— 农业农村部等六部门<br>
+        ・第一次全国外来入侵物种普查（2021—2024）—— 农业农村部牵头，多部门参与<br>
+        ・历年《中国生态环境状况公报》（2006—2020）—— 生态环境部（原国家环保总局／环保部）<br>
+        ・26个国家级自然保护区外来物种调查（2006-2019）—— 《生物多样性》期刊<br><br>
+        <strong>二、海关截获与检疫数据</strong><br>
+        ・口岸查获案例数据库与查获现场图片（含2025年海关查获外来物种十大案例）—— 海关发布（海关总署官方发布平台）<br>
+        ・2025年全国海关查获外来物种5439批次 —— 海关总署（2026年1月发布，《光明日报》2026-01-23）<br>
+        ・海关总署官网公开报道全量检索（2018—2026，检索词：截获／外来物种／异宠，2300余篇去重报道，2026年9月采集）—— search.customs.gov.cn<br>
+        ・历年国新办新闻发布会海关通报（2022年991种2012次；2024年上半年2071种次）<br>
+        ・北京、上海、深圳、广州、宁波等重点口岸年度统计公报<br>
+        ・出境入境动植物检疫法实施数据 —— 中国海关杂志<br><br>
+        <strong>三、经济损失评估</strong><br>
+        ・中国外来入侵物种直接经济损失评估（2011）—— 中国科学院动物研究所，约1198.8亿人民币/年<br>
+        ・农业外来入侵物种损失评估（2014）—— 中国农业科学院，117亿美元/20种（约840亿人民币）<br>
+        ・外来入侵物种40年经济损失系统评估（2025）—— 中国农业科学院，2363.5亿美元/40年累计<br>
+        ・入侵物种生态服务损失研究 —— 《生态学报》、《应用生态学报》各期<br><br>
+        <strong>四、扩散轨迹与案例研究</strong><br>
+        ・红火蚁入侵中国扩散轨迹（2003-2024）—— 中国农业科学院植物保护研究所 / 《昆虫学报》<br>
+        ・互花米草、美国白蛾、薇甘菊等单物种扩散研究 —— 中国科学院空天信息创新研究院<br>
+        ・松材线虫病疫情报告 —— 国家林业和草原局生物灾害防控中心<br><br>
+        <strong>五、政策法规</strong><br>
+        ・《中华人民共和国生物安全法》（2021年4月15日起施行）<br>
+        ・《中华人民共和国刑法修正案（十一）》第三百四十四条之一（非法引进、释放、丢弃外来入侵物种罪）<br>
+        ・《中华人民共和国进出境动植物检疫法》及其实施条例<br>
+        ・《外来入侵物种管理办法》（农业农村部等四部门令2022年第4号，2022年8月1日起施行）<br>
+        ・《口岸重点管控外来物种名录》（海关总署等六部门2026年第39号公告，2026年5月1日施行）<br>
+        ・2023年中央一号文件（首次部署"异宠"交易与放生规范管理）<br>
+        ・各省市外来物种管理地方法规<br><br>
+        <strong>六、国际数据来源</strong><br>
+        ・全球入侵物种数据库（GISD）—— IUCN/SSC<br>
+        ・CABI入侵物种纲要（CABI Invasive Species Compendium）<br>
+        ・全球生物多样性信息网络（GBIF）物种分布数据<br><br>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2><span class="sec-num">04</span>AI 使用声明</h2>
+    <p class="sec-sub">本作品在下列环节使用了生成式 AI 工具，并说明人工把关的位置。</p>
+
+    <div class="card">
+      <h3>用到的工具与分工<span class="tag">工具</span></h3>
+      <p>四个工具在不同阶段承担不同工作，全部改动过程记录在 GitHub 公开仓库，可逐次提交回溯。</p>
+      <table class="ai-tools">
+        <thead><tr><th>工具</th><th>时间</th><th>承担的工作</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Codex</td>
+            <td>2026-07</td>
+            <td>原始素材质量审查：对收集到的分布与排名表格逐项检查重复记录、年份取值与数值字段，并清点文档与图片素材。</td>
+          </tr>
+          <tr>
+            <td>WorkBuddy / CodeBuddy</td>
+            <td>2026-07 — 09</td>
+            <td>贯穿全程：叙事框架与标题方案论证、页面与图表开发、数据提取脚本（物种图提取、原产地洲级归并等）、用 Playwright 逐屏截图做全站体检（桌面 36 屏、移动 46 屏）并按体检报告逐项修复。</td>
+          </tr>
+          <tr>
+            <td>Claude</td>
+            <td>2026-07</td>
+            <td>补齐缺失的图表渲染代码；本轮用于数据清理、口径复核与版式优化。</td>
+          </tr>
+          <tr>
+            <td>Kimi Code</td>
+            <td>2026-08</td>
+            <td>按团队人工编写的六份修改指令改版：滚动方式改造、去框与对齐、图鉴对齐、文案口径统一、热力图配色、背景图加载优化。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>AI 参与的环节<span class="tag">环节</span></h3>
+      <ul>
+        <li><strong>选题与资料梳理</strong>：通读政策文件与历年《中国生态环境状况公报》，整理政策时间线与关键数字。</li>
+        <li><strong>数据整理</strong>：编写脚本解析海关公开报道文档与 iflora 导出表，把原产地自由文本归并到洲级分类（映射表见 data/origin_region_map.json）。</li>
+        <li><strong>文本辅助</strong>：起草与审读稿件，检查全站文字的口径一致性。</li>
+        <li><strong>视觉生成</strong>：生成章节氛围背景图。物种形象一律使用实拍图，未使用 AI 生成的物种图。</li>
+        <li><strong>交互优化</strong>：按人工编写的修改指令编写交互代码，并用 Playwright 自动逐屏截图做回归检查（桌面 36 屏、移动 46 屏）。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>人工把关的位置<span class="tag">把关</span></h3>
+      <ul>
+        <li>选题、统计口径、事实核查与叙事结构由团队成员决定。</li>
+        <li>每张图表的结论式标题与三行脚注，均经人工回到原始来源核对。</li>
+        <li>AI 生成或脚本补全的内容一律回源复核：建库时脚本按常见模式补全的无法回源记录，已在定稿前全部剔除（见上节"数据清理"）。</li>
+        <li>第三方图片均标注来源；AI 生成图仅用于章节氛围背景。</li>
+      </ul>
+    </div>
   </section>
 
   <div class="page-foot">
