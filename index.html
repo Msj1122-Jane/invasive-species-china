@@ -6,11 +6,11 @@
 <title>来者何物｜外来物种如何进入、定殖、扩散与治理</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="apple-touch-icon" href="favicon.svg" />
-<meta name="description" content="申报单上写着"口香糖"，里面爬着活体。660余种外来入侵物种如何进入、定殖、扩散与治理——用393宗公开报道的截获案例（样本）与180种物种记录，回答"来者何物"。" />
+<meta name="description" content="申报单上写着"口香糖"，里面爬着活体。660余种外来入侵物种如何进入、定殖、扩散与治理——用78宗公开报道的截获案例（样本）与180种物种记录，回答"来者何物"。" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="来者何物 · 中国外来入侵物种数据纪实" />
 <meta property="og:title" content="来者何物｜中国外来入侵物种数据纪实" />
-<meta property="og:description" content="申报单上写着"口香糖"，里面爬着活体。393宗公开报道的截获案例（样本）、180种物种记录——660余种外来入侵物种如何进入、定殖、扩散与治理。" />
+<meta property="og:description" content="申报单上写着"口香糖"，里面爬着活体。78宗公开报道的截获案例（样本）、180种物种记录——660余种外来入侵物种如何进入、定殖、扩散与治理。" />
 <meta property="og:url" content="https://msj1122-jane.github.io/invasive-species-china/" />
 <meta property="og:image" content="https://msj1122-jane.github.io/invasive-species-china/deployed-cover.png" />
 <meta property="og:image:type" content="image/png" />
@@ -5084,29 +5084,97 @@ body { background: #0D1B15 !important; }
 @media (prefers-reduced-motion: reduce) {
   /* 按压缩放是 2–4% 的微反馈（非位移/位移动画），reduced-motion 下保留 */
 }
+
+/* ============================================
+   第二批：版式与可读性
+   目标：每个图表单元能在一屏内完整显示（便于阅读与截图）
+   ============================================ */
+
+:root { --nav-clear: 72px; }
+
+/* 1) 标题不再被固定导航栏遮住 —— 原先 scroll-margin-top 为 0，
+      点导航跳章节或滚到图表时，标题正好藏在导航栏后面 */
+html { scroll-padding-top: var(--nav-clear); }
+h2, h3, h4,
+.subsection-title,
+.chapter-gate,
+.story-scene { scroll-margin-top: var(--nav-clear); }
+
+/* 2) 图表高度随视口伸缩：高屏保持原高度，矮屏自动收，不再被切 */
+.radar-chart-wrapper,
+.map-canvas-wrap,
+#china-map                      { height: clamp(260px, 56vh, 520px); }
+.sunburst-chart                 { height: clamp(260px, 56vh, 500px); }
+.spread-canvas-wrap,
+#spread-map                     { height: clamp(240px, 45vh, 480px); }
+#world-flow-chart               { height: clamp(260px, 56vh, 470px); }
+.sankey-chart                   { height: clamp(260px, 56vh, 460px); }
+.customs-sankey-chart           { height: clamp(260px, 56vh, 420px); }
+.bubble-chart                   { height: clamp(260px, 56vh, 400px); }
+#province-rank-chart            { height: clamp(240px, 42vh, 380px); }
+#iceberg-chart,
+#loss-distribution-chart,
+#loss-province-chart            { height: clamp(240px, 40vh, 360px); }
+.customs-mt-chart               { height: clamp(240px, 38vh, 340px); }
+#trend-chart                    { height: clamp(240px, 36vh, 320px); }
+#pet-trade-chart                { height: clamp(220px, 34vh, 300px); }
+
+/* 3) 章节与场景间距随视口收紧（矮屏省出近 80px） */
+.section-inner  { padding-top: clamp(56px, 7vh, 96px); padding-bottom: clamp(56px, 7vh, 96px); }
+.story-scene    { padding-top: clamp(56px, 7vh, 96px); padding-bottom: clamp(56px, 7vh, 96px); }
+.chapter-gate   { padding-top: clamp(56px, 7vh, 96px); padding-bottom: clamp(40px, 5vh, 56px); }
+
+/* 4) 三行脚注默认收成一行，点开仍是原文，一字未改 */
+.chart-footnote details.cf-fold > summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+  color: var(--b-text-dim);
+  opacity: 0.9;
+  transition: opacity var(--dur-fast, .2s) ease;
+}
+.chart-footnote details.cf-fold > summary::-webkit-details-marker { display: none; }
+.chart-footnote details.cf-fold > summary::before {
+  content: "＋";
+  font-size: 11px;
+  line-height: 1;
+  opacity: 0.7;
+}
+.chart-footnote details.cf-fold[open] > summary::before { content: "－"; }
+.chart-footnote details.cf-fold > summary:hover { opacity: 1; }
+.chart-footnote details.cf-fold > summary:focus-visible {
+  outline: 1px solid var(--b-accent, #C9A227);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.chart-footnote details.cf-fold > :not(summary) { margin-top: 6px; }
+.chart-footnote details.cf-fold > p:first-of-type { margin-top: 8px; }
+
+/* 5) 温和吸附：只作用在图表标题上，滚到附近才对齐，不劫持滚轮 */
+@media (pointer: fine) and (min-height: 600px) {
+  html { scroll-snap-type: y proximity; }
+  .section-inner > h3,
+  .section-inner > h4,
+  .subsection-title { scroll-snap-align: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-snap-type: none; }
+}
+
+/* 打印/导出时展开全部脚注 */
+@media print {
+  .chart-footnote details.cf-fold > :not(summary) { display: block !important; }
+}
+
+/* 地图脚注移出固定高度容器后的位置与留白 */
+.map-container > .chart-footnote.map-footnote { grid-column: 1 / -1; margin-top: 8px; }
+/* 侧栏标题改成 h4 后保持原有视觉 */
+h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
 </style>
-<script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
-<script>
-(function(){
-  try{
-    var beacon=new BeaconAction({
-      appkey:'0WEB06U85YBSLJNL',
-      versionCode:'1.0.0',
-      channelID:'share',
-      delay:1000,
-      sessionDuration:30*60*1000,
-      isOversea:false,
-      needReportRqdEvent:false
-    });
-    beacon.onDirectUserAction('preview_page_view',{
-      'url':location.href,
-      'referrer':document.referrer,
-      'title':document.title,
-      'sandbox_id':'361582d39b2a4b4d9131b7e2445ac1f0'
-    });
-  }catch(e){}
-})();
-</script></head>
+</head>
 <body>
 
 <!-- ==============================
@@ -5237,15 +5305,15 @@ body { background: #0D1B15 !important; }
       <div class="map-canvas-wrap" id="mapCanvasWrap">
         <canvas id="particleCanvas"></canvas>
         <div id="china-map"></div>
-        <div class="chart-footnote">
-          <p>数据说明：按有记录的外来入侵物种数统计各省级行政区；记录数不等于实际分布密度，受各地调查强度影响</p>
-          <p>数据来源：iPlant植物智外来入侵物种数据库(iflora) · 全国外来入侵物种普查数据</p>
-          <p>统计时间：数据对应普查与数据库收录年份（2019—2024 年，确切发布日期未公开）</p>
-        </div>
+      </div>
+      <div class="chart-footnote map-footnote">
+        <p>数据说明：按有记录的外来入侵物种数统计各省级行政区；记录数不等于实际分布密度，受各地调查强度影响</p>
+        <p>数据来源：iPlant植物智外来入侵物种数据库(iflora) · 全国外来入侵物种普查数据</p>
+        <p>统计时间：数据对应普查与数据库收录年份（2019—2024 年，确切发布日期未公开）</p>
       </div>
       <div class="map-sidebar">
         <div class="sidebar-panel">
-          <div class="panel-title">省份排名 TOP 10</div>
+          <h4 class="panel-title">省份排名 TOP 10</h4>
           <div id="province-rank-chart"></div>
           <div class="chart-footnote">
             <p>数据说明：按各省有记录的物种数排序取前十</p>
@@ -5254,7 +5322,7 @@ body { background: #0D1B15 !important; }
           </div>
         </div>
         <div class="sidebar-panel">
-          <div class="panel-title">快速洞察</div>
+          <h4 class="panel-title">快速洞察</h4>
           <div style="font-size:0.84rem;line-height:1.8;color:var(--a-text-secondary)">
             <p><strong style="color:var(--a-highlight)">云南</strong> 以 321 种居全国之首，广东（259）、广西（257）紧随其后</p>
             <p><strong style="color:var(--a-highlight)">南北梯度</strong> 明显：南方省份平均约 200 种，北方省份平均约 113 种</p>
@@ -5379,7 +5447,7 @@ body { background: #0D1B15 !important; }
     <div class="gate-content">
       <div class="gate-number">01</div>
       <h2 class="gate-title">一个包裹</h2>
-      <p class="gate-subtitle">393 宗逐案标注的截获样本，与海关总署官网 2018—2026 公开报道互相印证，多数指向同一条地下链：异宠走私。先随包裹走一程，看看它们怎样被伪装、被携带、被寄递，又怎样在 X 光机下现形。</p>
+      <p class="gate-subtitle">78 宗逐案标注的截获样本，与海关总署官网 2018—2026 公开报道互相印证，多数指向同一条地下链：异宠走私。先随包裹走一程，看看它们怎样被伪装、被携带、被寄递，又怎样在 X 光机下现形。</p>
       <div class="gate-divider"></div>
       <div class="gate-scroll-hint">
         <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0V28M12 28L5 21M12 28L19 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
@@ -5473,7 +5541,7 @@ body { background: #0D1B15 !important; }
         <div class="spread-side-title">案例·记录 <span>首记录 · 现状</span></div>
         <div class="spread-case-layer" id="spreadPhotoLayer"></div>
         <div class="chart-footnote">
-          <p>数据说明：仅收录公开资料可核查的记录，事件卡随年份轴拖动、扩散到达对应省份时才出现，中间扩散路径不虚构</p>
+          <p>数据说明：仅收录公开资料可核查的记录，年份为首次发现或报告年份；事件卡随年份轴拖动、扩散到达对应省份时才出现，中间扩散路径不虚构。省份出现的先后不等于一条已经证实的传播路线；625 县为农业农村部 2023 年通报（12 省区市，不含台湾）</p>
           <p id="spreadSource">数据来源：中国农业科学院植物保护研究所 · 红火蚁入侵扩散轨迹（2003—2024）</p>
           <p>统计时间：逐年到达记录对应 2003—2026 年（现状为农业农村部 2023 年通报）</p>
         </div>
@@ -5665,18 +5733,18 @@ body { background: #0D1B15 !important; }
 
     <!-- Customs subsection: Data Overview (replaces disguise game) -->
     <div class="customs-section reveal">
-      <h3 class="subsection-title">🌏 异宠全球化：从 393 宗公开案例看异宠走私</h3>
+      <h3 class="subsection-title">🌏 异宠全球化：从 78 宗公开案例看异宠走私</h3>
       <p style="font-size:0.84rem;color:var(--b-text-dim);text-align:center;margin-bottom:24px;line-height:1.8;max-width:700px;margin-left:auto;margin-right:auto;">
-        这 393 宗逐案标注的样本来自"海关发布"（海关总署官方发布平台）公开报道；全国口径的年度数字，则与海关总署官网 2018—2026 年公开报道互核。
+        这 78 宗逐案标注的样本来自"海关发布"（海关总署官方发布平台）公开报道；全国口径的年度数字，则与海关总署官网 2018—2026 年公开报道互核。
         需要明确：<strong style="color:var(--b-accent);">截获样本中以"异宠走私"为主</strong>，而非已定殖的入侵物种。"异宠"一旦逃逸或被弃养，才可能成为下一条入侵链的起点。
       </p>
 
       <!-- Stat Cards -->
       <div class="customs-overview-stats" id="customsOverviewStats">
-        <div class="cos-item"><div class="cos-num">393</div><div class="cos-lbl">公开截获案例</div><div class="cos-sub">整理自公开报道</div></div>
-        <div class="cos-item"><div class="cos-num cos-warn">364</div><div class="cos-lbl">样本中异宠案</div><div class="cos-sub">占样本 92.6%</div></div>
-        <div class="cos-item"><div class="cos-num">12</div><div class="cos-lbl">走私手法</div><div class="cos-sub">伪报品名·行李夹带</div></div>
-        <div class="cos-item"><div class="cos-num">40+</div><div class="cos-lbl">涉及口岸</div><div class="cos-sub">公开报道·广东最密</div></div>
+        <div class="cos-item"><div class="cos-num">78</div><div class="cos-lbl">公开截获案例</div><div class="cos-sub">每宗均存报道原文</div></div>
+        <div class="cos-item"><div class="cos-num cos-warn">71</div><div class="cos-lbl">样本中异宠案</div><div class="cos-sub">占样本 91.0%</div></div>
+        <div class="cos-item"><div class="cos-num">6</div><div class="cos-lbl">走私手法</div><div class="cos-sub">行李夹带·伪报品名</div></div>
+        <div class="cos-item"><div class="cos-num">20</div><div class="cos-lbl">涉及口岸</div><div class="cos-sub">公开报道·广东最密</div></div>
       </div>
 
       <!-- 全国截获量年表：海关总署历年官方通报 -->
@@ -5735,9 +5803,9 @@ body { background: #0D1B15 !important; }
       </p>
       <div class="customs-sankey-chart" id="customsSankeyChart"></div>
       <div class="chart-footnote">
-        <p>数据说明：393 宗公开报道案例（样本）按"来源地 → 物种类型 → 入境渠道"三级归类，流量数值为案例宗数；来源地取报道中提及的启运地，未必是物种原生地</p>
+        <p>数据说明：78 宗公开报道案例（样本）按"来源地 → 物种类型 → 入境渠道"三级归类；来源地已按洲级归并（马来西亚归入东南亚、南欧与乌克兰归入欧洲、新喀里多尼亚归入大洋洲，跨大洲标注归入"跨区域"，报道未写明启运地的计入"未标明启运地"），流量数值为案例宗数；来源地取报道中提及的启运地，未必是物种原生地</p>
         <p>数据来源：海关发布（海关总署官方发布平台）公开报道，自建截获档案数据集</p>
-        <p>统计时间：2023—2025 年公开报道</p>
+        <p>统计时间：2023—2026 年公开报道</p>
       </div>
       </div>
 
@@ -5753,16 +5821,16 @@ body { background: #0D1B15 !important; }
         </div>
       </div>
       <div class="chart-footnote">
-        <p>数据说明：对 393 宗公开报道案例（样本，非海关全年截获总数）按申报手法与物种类型人工归类计数，一案多手法时按主要手法计</p>
+        <p>数据说明：对 78 宗公开报道案例（样本，非海关全年截获总数）按申报手法与物种类型人工归类计数，一案多手法时按主要手法计</p>
         <p>数据来源：海关发布（海关总署官方发布平台）公开报道，自建截获档案数据集</p>
-        <p>统计时间：2023—2025 年公开报道</p>
+        <p>统计时间：2023—2026 年公开报道</p>
       </div>
 
       <!-- Disguise flip game: 申报品名 → 真实物种 -->
       <div class="customs-disguise-block">
       <h4 style="font-size:1.0rem;margin:32px 0 16px;color:var(--b-text);">申报单上写着"口香糖"，里面爬着活体</h4>
       <p style="font-size:0.78rem;color:var(--b-text-dim);margin-bottom:16px;line-height:1.8;max-width:680px;">
-        在这些公开案例里，伪报品名是最常用的闯关手法——申报单上写着"口香糖""曲奇""海沙"，
+        在这些公开案例里，行李夹带最多（39 宗）——申报单上写着"口香糖""曲奇""海沙"，
         X光机后面却是另一番天地。以下 7 宗真实案例均来自"海关发布"及海关总署官网公开报道，
         <strong style="color:var(--b-accent);">点击卡片开箱查验</strong>，看看申报品名背后藏着什么。👇
       </p>
@@ -5793,9 +5861,9 @@ body { background: #0D1B15 !important; }
         </div>
         <div class="game-score" id="dgScore"></div>
         <div class="chart-footnote">
-          <p>数据说明：7 宗真实案例取自 393 宗公开报道案例（样本）及海关总署官网公开报道，申报品名为关员查验记录</p>
+          <p>数据说明：7 宗真实案例取自 78 宗公开报道案例（样本）及海关总署官网公开报道，申报品名为关员查验记录</p>
           <p>数据来源：海关发布（海关总署官方发布平台）公开报道，自建截获档案数据集</p>
-          <p>统计时间：2023—2025 年公开报道</p>
+          <p>统计时间：2023—2026 年公开报道</p>
         </div>
       </div>
     </div>
@@ -5925,61 +5993,9 @@ body { background: #0D1B15 !important; }
     <!-- 尾声前引语已移至身边章结尾（见 actionContent） -->
 
     <div class="data-footer">
-      <div style="font-weight:700;font-size:0.92rem;margin-bottom:10px;color:var(--a-text);">数据来源与参考文献</div>
-      <div style="font-size:0.8rem;line-height:1.9;color:var(--a-text-secondary);max-width:700px;margin:0 auto;text-align:left;">
-
-
-        <strong>一、名录与普查数据</strong><br>
-        ・《中国外来入侵物种名单》（第一批2003年16种、第二批2010年19种、第三批2014年18种、第四批2016年18种，共71种）—— 原国家环保总局／生态环境部、中国科学院等联合发布<br>
-        ・《国家重点管理外来入侵物种名录（第一批）》（52种，2013年制定）—— 原农业部<br>
-        ・《重点管理外来入侵物种名录》（59种，2023年1月1日施行）—— 农业农村部等六部门<br>
-        ・第一次全国外来入侵物种普查（2021—2024）—— 农业农村部牵头，多部门参与<br>
-        ・历年《中国生态环境状况公报》（2006—2020）—— 生态环境部（原国家环保总局／环保部）<br>
-        ・26个国家级自然保护区外来物种调查（2006-2019）—— 《生物多样性》期刊<br><br>
-
-
-        <strong>二、海关截获与检疫数据</strong><br>
-        ・口岸查获案例数据库与查获现场图片（含2025年海关查获外来物种十大案例）—— 海关发布（海关总署官方发布平台）<br>
-        ・2025年全国海关查获外来物种5439批次 —— 海关总署（2026年1月发布，《光明日报》2026-01-23）<br>
-        ・海关总署官网公开报道全量检索（2018—2026，检索词：截获／外来物种／异宠，2300余篇去重报道，2026年9月采集）—— search.customs.gov.cn<br>
-        ・历年国新办新闻发布会海关通报（2022年991种2012次；2024年上半年2071种次）<br>
-        ・北京、上海、深圳、广州、宁波等重点口岸年度统计公报<br>
-        ・出境入境动植物检疫法实施数据 —— 中国海关杂志<br><br>
-
-
-        <strong>三、经济损失评估</strong><br>
-        ・中国外来入侵物种直接经济损失评估（2011）—— 中国科学院动物研究所，约1198.8亿人民币/年<br>
-        ・农业外来入侵物种损失评估（2014）—— 中国农业科学院，117亿美元/20种（约840亿人民币）<br>
-        ・外来入侵物种40年经济损失系统评估（2025）—— 中国农业科学院，2363.5亿美元/40年累计<br>
-        ・入侵物种生态服务损失研究 —— 《生态学报》、《应用生态学报》各期<br><br>
-
-
-        <strong>四、扩散轨迹与案例研究</strong><br>
-        ・红火蚁入侵中国扩散轨迹（2003-2024）—— 中国农业科学院植物保护研究所 / 《昆虫学报》<br>
-        ・互花米草、美国白蛾、薇甘菊等单物种扩散研究 —— 中国科学院空天信息创新研究院<br>
-        ・松材线虫病疫情报告 —— 国家林业和草原局生物灾害防控中心<br><br>
-
-
-        <strong>五、政策法规</strong><br>
-        ・《中华人民共和国生物安全法》（2021年4月15日起施行）<br>
-        ・《中华人民共和国刑法修正案（十一）》第三百四十四条之一（非法引进、释放、丢弃外来入侵物种罪）<br>
-        ・《中华人民共和国进出境动植物检疫法》及其实施条例<br>
-        ・《外来入侵物种管理办法》（农业农村部等四部门令2022年第4号，2022年8月1日起施行）<br>
-        ・《口岸重点管控外来物种名录》（海关总署等六部门2026年第39号公告，2026年5月1日施行）<br>
-        ・2023年中央一号文件（首次部署"异宠"交易与放生规范管理）<br>
-        ・各省市外来物种管理地方法规<br><br>
-
-
-        <strong>六、国际数据来源</strong><br>
-        ・全球入侵物种数据库（GISD）—— IUCN/SSC<br>
-        ・CABI入侵物种纲要（CABI Invasive Species Compendium）<br>
-        ・全球生物多样性信息网络（GBIF）物种分布数据<br><br>
-
-
-        <span style="color:var(--a-text-secondary);font-style:italic;">
-        说明：本作品数据整合自以上公开来源，各图表均标注数据来源与统计范围，详细说明见方法页。
-        本作品仅供新闻学习与数据可视化技术交流使用，不构成政策建议。
-        </span>
+      <div style="font-size:0.84rem;line-height:1.9;color:var(--a-text-secondary);max-width:700px;margin:0 auto;text-align:center;">
+        本文所有数字均可回溯到公开数据集或公开报道。完整的数据来源、统计口径与方法说明，见
+        <a href="methodology.html" style="color:var(--b-accent,#C9A227);">数据来源与方法</a>。
       </div>
     </div>
   </div>
@@ -6321,7 +6337,7 @@ function rebuildEditorialStructureV2() {
     const innerSubtitle = pathwaySection.querySelector('.section-subtitle');
     if (number) number.textContent = '01';
     if (title) title.textContent = '一个包裹';
-    if (subtitle) subtitle.textContent = '393 宗逐案标注的截获样本，与海关总署官网 2018—2026 公开报道互相印证，多数指向同一条地下链：异宠走私。先随包裹走一程，看看它们怎样被伪装、被携带、被寄递，又怎样在 X 光机下现形。';
+    if (subtitle) subtitle.textContent = '78 宗逐案标注的截获样本，与海关总署官网 2018—2026 公开报道互相印证，多数指向同一条地下链：异宠走私。先随包裹走一程，看看它们怎样被伪装、被携带、被寄递，又怎样在 X 光机下现形。';
     if (innerTitle) innerTitle.textContent = '被拦下的，不等于已经入侵';
     if (innerSubtitle) innerSubtitle.textContent = '口岸查获记录说明输入压力和监管行动；只有后续野外、定殖与影响证据，才能继续判断是否形成入侵。';
   }
@@ -6354,7 +6370,7 @@ function rebuildEditorialStructureV2() {
     act2Inner.appendChild(passportHost);
     const heading = document.createElement('header');
     heading.className = 'route-subhead reveal';
-    heading.innerHTML = '<span>境内扩散记录</span><h3>每年向北 100 公里：一只蚂蚁用 20 年走过 625 个县</h3><p class="act-quote" style="margin-top:18px;">它不知道自己叫红火蚁。它只知道脚下的集装箱晃了四十天——从阿根廷到广东，一万八千公里，一步都没用自己走。</p><p>拖动时间轴查看公开资料中的首次发现或报告年份。省份出现的先后不等于一条已经证实的传播路线。625 县为农业农村部 2023 年通报（12 省区市，不含台湾）。</p>';
+    heading.innerHTML = '<span>境内扩散记录</span><h3>一只蚂蚁的 20 年：从台湾一个坐标到 12 省 625 个县</h3><p class="act-quote" style="margin-top:18px;">它不知道自己叫红火蚁。它只知道脚下的集装箱晃了四十天——从阿根廷到广东，一万八千公里，一步都没用自己走。</p><p>拖动时间轴，看它逐年到达了哪些省份。</p>';
     act2Inner.appendChild(heading);
     if (eventInner) Array.from(eventInner.children).forEach(node => act2Inner.appendChild(node));
     eventsSection.remove();
@@ -6380,7 +6396,7 @@ function rebuildEditorialStructureV2() {
       // 第四幕开场引语
       const netQuote = document.createElement('p');
       netQuote.className = 'act-quote act-quote-network';
-      netQuote.textContent = '被截住的只是样本。393 宗公开报道案例背后，是一条运转多年的地下供应链。';
+      netQuote.textContent = '被截住的只是样本。78 宗公开报道案例背后，是一条运转多年的地下供应链。';
       dInner.appendChild(netQuote);
       // 异宠入境桑基图（从第一幕海关区块拆出）
       const sankeyBlock = pathwayContent && pathwayContent.querySelector('.customs-sankey-block');
@@ -9468,7 +9484,7 @@ function renderCustomsSankey(sankeyData) {
       type: 'sankey', layout: 'none', emphasis: { focus: 'adjacency' },
       nodeAlign: 'left',
       layoutIterations: 32,
-      data: nodeNames.map(name => (/^(未明确|未知|其他|其他地区)$/.test(name)
+      data: nodeNames.map(name => (/^(未明确|未知|其他|其他地区|未标明启运地)$/.test(name)
         ? { name, itemStyle: { color: '#5A6B62' }, label: { formatter: '{b}' } }   // "未明确"类节点置灰
         : { name, label: { formatter: iconFor(name) + '{b}' } })),
       links: links,
@@ -9982,7 +9998,7 @@ function toggleCheck(el) {
   if (checkCount === 0) {
     result.textContent = '勾选上方承诺，成为生态守门人';
   } else if (checkCount === 3) {
-    result.textContent = `🎉 你是第 ${Math.floor(Math.random()*90000)+10000} 位生态守门人！`;
+    result.textContent = '🎉 承诺已记下——你也是国门之外的第七道防线。';
   } else {
     result.textContent = `已承诺 ${checkCount}/3 项，继续加油！`;
   }
@@ -10240,6 +10256,108 @@ function toggleCheck(el) {
 })();
 
 
+</script>
+
+<script>
+/* ============================================
+   第二批：版式与可读性（脚本）
+   ① 三行脚注折叠  ② 视口变化后图表重绘  ③ 方向键在图表间跳转
+   ============================================ */
+(function () {
+  'use strict';
+
+  /* ① 脚注折叠：原文整段搬进 <details>，一个字都不改 */
+  function foldFootnotes(root) {
+    var list = (root || document).querySelectorAll('.chart-footnote');
+    Array.prototype.forEach.call(list, function (fn) {
+      if (fn.dataset.cfFolded) return;
+      var kids = Array.prototype.slice.call(fn.children);
+      if (!kids.length) return;
+      if (kids.length === 1 && kids[0].tagName === 'DETAILS') { fn.dataset.cfFolded = '1'; return; }
+      var d = document.createElement('details');
+      d.className = 'cf-fold';
+      var sm = document.createElement('summary');
+      sm.textContent = '数据说明与口径';
+      d.appendChild(sm);
+      kids.forEach(function (k) { d.appendChild(k); });
+      fn.appendChild(d);
+      fn.dataset.cfFolded = '1';
+    });
+  }
+
+  /* ② 图表高度改用 vh，窗口变化后统一 resize */
+  var CHART_SEL = [
+    '#china-map', '#province-rank-chart', '#trend-chart', '#spread-map', '#world-flow-chart',
+    '#pet-trade-chart', '#iceberg-chart', '#loss-distribution-chart', '#loss-province-chart',
+    '#customsSankeyChart', '#customsMethodsChart', '#customsTypesChart', '#speciesRadarChart',
+    '#sankeyChart', '#sunburstChart', '#bubbleChart', '#invasionTimelineChart',
+    '.sankey-chart', '.sunburst-chart', '.bubble-chart', '.customs-mt-chart'
+  ].join(',');
+  function resizeAllCharts() {
+    if (typeof echarts === 'undefined' || !echarts.getInstanceByDom) return;
+    Array.prototype.forEach.call(document.querySelectorAll(CHART_SEL), function (el) {
+      var c = echarts.getInstanceByDom(el);
+      if (c && c.resize) { try { c.resize(); } catch (e) {} }
+    });
+  }
+  var rzTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(rzTimer);
+    rzTimer = setTimeout(resizeAllCharts, 160);
+  });
+
+  /* ③ 左右方向键在图表单元之间跳转（现场演示用） */
+  function unitList() {
+    var els = document.querySelectorAll('.section-inner > h3, .section-inner > h4, .subsection-title');
+    return Array.prototype.filter.call(els, function (el) { return el.offsetParent !== null; });
+  }
+  function overlayOpen() {
+    var v = document.getElementById('atlasViewer');
+    if (v && v.getAttribute('aria-hidden') === 'false') return true;
+    return !!document.querySelector('[role="dialog"][aria-hidden="false"]');
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target;
+    if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+    if (overlayOpen()) return;
+    var list = unitList();
+    if (!list.length) return;
+    var clear = 80, cur = -1;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].getBoundingClientRect().top <= clear + 4) cur = i;
+    }
+    var next = e.key === 'ArrowRight' ? Math.min(cur + 1, list.length - 1) : Math.max(cur - 1, 0);
+    if (next === cur || next < 0) return;
+    e.preventDefault();
+    list[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* 首屏 + 后续动态渲染的章节都要处理 */
+  function init() { foldFootnotes(); }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+
+  if (window.MutationObserver) {
+    var pending;
+    var mo = new MutationObserver(function (muts) {
+      var need = false;
+      muts.forEach(function (m) {
+        Array.prototype.forEach.call(m.addedNodes, function (n) {
+          if (n.nodeType !== 1) return;
+          if ((n.matches && n.matches('.chart-footnote')) ||
+              (n.querySelector && n.querySelector('.chart-footnote'))) need = true;
+        });
+      });
+      if (!need) return;
+      clearTimeout(pending);
+      pending = setTimeout(function () { foldFootnotes(); }, 60);
+    });
+    if (document.body) mo.observe(document.body, { childList: true, subtree: true });
+  }
+})();
 </script>
 </body>
 </html>
