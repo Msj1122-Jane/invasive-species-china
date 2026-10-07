@@ -8607,8 +8607,8 @@ async function renderWorldFlow() {
     // 同一大洲的线按纬度错开弧度，扇形展开而不是叠成一束
     const curvOf = p => 0.26 - Math.max(0, Math.min(1, (p.coords[1] + 40) / 95)) * 0.14;
     let focus = null;   // 当前高亮的大洲
-    const buildLines = () => ptList.map(p => {
-      const on = !focus || groupOf(p.macro) === focus;
+    const buildLines = (wantOn) => ptList.filter(p => (!focus || groupOf(p.macro) === focus) === wantOn).map(p => {
+      const on = wantOn;
       return {
         name: p.name, macro: p.macro,
         coords: [p.coords, CHINA_COORDS],
@@ -8645,7 +8645,7 @@ async function renderWorldFlow() {
         formatter: function(p) {
           if (p.seriesId === 'wf-hub') return '<strong>中国</strong><br/>外来入侵物种记录 ' + total + ' 种';
           if (p.seriesId === 'wf-dots') return `<strong>${p.name}</strong><br/>原生分布于此的物种：${p.value[2]} 种`;
-          if (p.seriesId === 'wf-lines') { const pt = ptList[p.dataIndex]; return `<strong>${pt.name}</strong> 原生 · 中国有记录<br/>分类单元：${pt.count} 种`; }
+          if (p.seriesId === 'wf-lines') { const pt = ptList.find(x => x.name === p.data.name); return pt ? `<strong>${pt.name}</strong> 原生 · 中国有记录<br/>分类单元：${pt.count} 种` : ''; }
           return '';
         }
       },
@@ -8660,8 +8660,12 @@ async function renderWorldFlow() {
       },
       series: [
         {
+          id: 'wf-dim', type: 'lines', coordinateSystem: 'geo', zlevel: 1, silent: true,
+          data: buildLines(false), effect: { show: false }
+        },
+        {
           id: 'wf-lines', type: 'lines', coordinateSystem: 'geo', zlevel: 1,
-          data: buildLines(),
+          data: buildLines(true),
           // 光点沿弧线匀速流向中国：每条线依次出发，拖尾与线同色
           effect: {
             show: true, constantSpeed: 70, trailLength: 0, symbol: 'circle', symbolSize: 4.2, loop: true,
@@ -8692,7 +8696,7 @@ async function renderWorldFlow() {
     // 图数联动：点击下方统计卡，只看该大洲的连线
     const applyFocus = m => {
       focus = (focus === m) ? null : m;
-      worldFlowChart.setOption({ series: [{ id: 'wf-lines', data: buildLines() }, { id: 'wf-dots', data: buildDots() }] });
+      worldFlowChart.setOption({ series: [{ id: 'wf-dim', data: buildLines(false) }, { id: 'wf-lines', data: buildLines(true) }, { id: 'wf-dots', data: buildDots() }] });
       document.querySelectorAll('.flow-insight .flow-stat.is-pick').forEach(el => {
         const on = !focus || el.dataset.macro === focus;
         el.classList.toggle('is-dim', !on);
