@@ -76,15 +76,14 @@ def main():
     assert html.count(anchor) >= 1, '未找到 </head>'
     html = html.replace(anchor, shim + anchor, 1)
 
-    if os.path.isdir(OUT):
-        shutil.rmtree(OUT)
-    os.makedirs(OUT)
+    # 覆盖写入而不是先删目录：某些环境（如受保护的同步文件夹）禁止删除文件
+    os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8', newline='') as fh:
         fh.write(html)
     for d in COPY_DIRS:
         src = os.path.join(ROOT, d)
         if os.path.isdir(src):
-            shutil.copytree(src, os.path.join(OUT, d))
+            shutil.copytree(src, os.path.join(OUT, d), dirs_exist_ok=True)
     for f in COPY_FILES:
         src = os.path.join(ROOT, f)
         if os.path.exists(src):
