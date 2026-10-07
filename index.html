@@ -71,7 +71,9 @@
   --a-text-secondary: #93A29A;
   --a-border: #2A3F35;
   --a-card: #152720;
-  --a-highlight: #E04A2F;
+  --a-highlight: #D8A24A;
+  --a-danger: #E04A2F;
+  --a-on-accent: #0D1B15;
 
   /* Route B - Dark */
   --b-bg: #0D1B15;
@@ -80,9 +82,11 @@
   --b-text-dim: #93A29A;
   --b-border: #2A3F35;
   --b-card: #152720;
-  --b-accent: #E04A2F;
+  --b-accent: #D8A24A;
+  --b-danger: #E04A2F;
+  --b-on-accent: #0D1B15;
   --b-gold: #D8A24A;
-  --b-glow: rgba(224,74,47,0.15);
+  --b-glow: rgba(216,162,74,0.20);
 
   /* 5-Level Scale */
   --level-1: #7F1D1D; /* 恶性 - darkest red */
@@ -166,7 +170,7 @@ body {
 .nav-progress-bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--b-accent), var(--b-gold));
+  background: linear-gradient(90deg, var(--b-gold), #E8BE76);
   border-radius: 2px;
   transition: width 0.15s ease-out;
 }
@@ -276,7 +280,7 @@ body {
 }
 .section-dark .section-title { color: var(--b-text); }
 .section-dark .section-subtitle { color: var(--b-text-dim); }
-.section-dark .section-divider { background: linear-gradient(90deg, var(--b-accent), var(--b-gold)); }
+.section-dark .section-divider { background: linear-gradient(90deg, var(--b-gold), #E8BE76); }
 
 /* 全站统一底色：同一深色基底贯穿全篇，杜绝章节间生硬切换。
    仅叠加一层各幕相同、极弱的翠绿氛围光晕做节奏区分；边缘全部收敛到 #0D1B15，保证相邻章节之间无缝。 */
@@ -318,7 +322,7 @@ body {
 .story-scene::before {
   content: attr(data-scene-label);
   position: absolute;
-  top: clamp(42px, 6vh, 68px);
+  top: clamp(24px, 3.4vh, 40px);
   left: 0;
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -440,7 +444,7 @@ body {
 .gate-divider {
   width: 60px;
   height: 2px;
-  background: linear-gradient(90deg, var(--b-accent), var(--b-gold));
+  background: linear-gradient(90deg, var(--b-gold), #E8BE76);
   margin: 0 auto 36px;
 }
 .gate-scroll-hint {
@@ -541,7 +545,7 @@ a:focus-visible,
   transition: color 0.2s ease, transform 0.2s ease;
 }
 .atlas-modal-close:hover {
-  color: #E04A2F;
+  color: var(--b-gold);
   transform: scale(1.15);
 }
 
@@ -599,7 +603,7 @@ a:focus-visible,
   left: -5%;
   width: 40%;
   height: 55%;
-  border: 1px solid rgba(239,68,68,0.05);
+  border: 1px solid rgba(216,162,74,0.05);
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
@@ -992,7 +996,7 @@ a:focus-visible,
 .filter-btn:hover { border-color: var(--a-text); }
 .filter-btn.active {
   background: var(--a-highlight);
-  color: white;
+  color: var(--a-on-accent);
   border-color: var(--a-highlight);
 }
 .trend-section {
@@ -1095,7 +1099,7 @@ a:focus-visible,
 .spread-tab:hover { border-color: var(--b-text-dim); color: var(--b-text); }
 .spread-tab.active {
   background: var(--b-accent);
-  color: white;
+  color: var(--b-on-accent);
   border-color: var(--b-accent);
   box-shadow: 0 0 20px var(--b-glow);
 }
@@ -1233,17 +1237,17 @@ a:focus-visible,
   font-size: 1.2rem;
   width: 40px; height: 40px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: rgba(224,74,47,0.16);
+  background: rgba(216,162,74,0.16);
   border: 1px solid var(--b-border);
   border-radius: 50%;
-  box-shadow: 0 0 0 3px rgba(224,74,47,0.08);
+  box-shadow: 0 0 0 3px rgba(216,162,74,0.08);
   user-select: none;
 }
 .st-range {
   -webkit-appearance: none; appearance: none;
   width: 100%; height: 6px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(224,74,47,0.5), rgba(216,162,74,0.5)) 0 / var(--st-pct,50%) 100% no-repeat, var(--b-border);
+  background: linear-gradient(90deg, rgba(216,162,74,0.5), rgba(216,162,74,0.5)) 0 / var(--st-pct,50%) 100% no-repeat, var(--b-border);
   outline: none; cursor: ew-resize;
 }
 .st-range::-webkit-slider-thumb {
@@ -1251,7 +1255,7 @@ a:focus-visible,
   width: 18px; height: 18px; border-radius: 50%;
   background: var(--b-accent);
   border: 2px solid #0D1B15;
-  box-shadow: 0 0 0 2px rgba(224,74,47,0.35);
+  box-shadow: 0 0 0 2px rgba(216,162,74,0.35);
   cursor: grab;
 }
 .st-range::-moz-range-thumb {
@@ -1286,9 +1290,9 @@ a:focus-visible,
 .ti-item {
   text-align: center;
   padding: 12px 8px;
-  background: rgba(239,68,68,0.06);
+  background: rgba(216,162,74,0.06);
   border-radius: 8px;
-  border: 1px solid rgba(239,68,68,0.12);
+  border: 1px solid rgba(216,162,74,0.12);
 }
 .ti-value {
   font-family: var(--font-mono);
@@ -1396,7 +1400,7 @@ a:focus-visible,
   background: var(--level-5);
   transition: all var(--motion-med) var(--ease-standard);
 }
-.reserve-dot.danger { background: var(--b-accent); box-shadow: 0 0 10px var(--b-glow); }
+.reserve-dot.danger { background: var(--b-danger); box-shadow: 0 0 10px var(--b-glow); }
 
 /* ============================================
       CHAPTER 3: 物种图鉴 · 横向滚动画廊 (Dark)
@@ -1462,7 +1466,7 @@ a:focus-visible,
 .sf-btn:hover { border-color: var(--b-text-dim); }
 .sf-btn.active {
   background: var(--b-accent);
-  color: white;
+  color: var(--b-on-accent);
   border-color: var(--b-accent);
 }
 /* ============================================
@@ -1540,7 +1544,7 @@ a:focus-visible,
 }
 .rc-chip.active {
   font-weight: 600;
-  box-shadow: 0 2px 12px rgba(239,68,68,0.15);
+  box-shadow: 0 2px 12px rgba(216,162,74,0.15);
 }
 .rc-dot {
   width: 8px; height: 8px;
@@ -1570,7 +1574,7 @@ a:focus-visible,
   min-height: 210px;
   overflow: hidden;
   border-radius: 12px;
-  border: 1px solid rgba(239,68,68,.16);
+  border: 1px solid rgba(216,162,74,.16);
   background: #152720;
   cursor: pointer;
 }
@@ -1668,9 +1672,9 @@ a:focus-visible,
 .atlas-filter:hover { transform: translateY(-2px); }
 .atlas-mode.active,
 .atlas-filter.active {
-  color: #fff;
-  border-color: #E04A2F;
-  background: #E04A2F;
+  color: var(--b-on-accent);
+  border-color: var(--b-accent);
+  background: var(--b-accent);
 }
 .atlas-search {
   position: relative;
@@ -1739,7 +1743,7 @@ a:focus-visible,
   width: 62px;
   height: 1px;
   margin-bottom: 20px;
-  background: #E04A2F;
+  background: var(--b-gold);
 }
 .atlas-visual-field {
   display: grid;
@@ -1840,7 +1844,7 @@ a:focus-visible,
   font: 500 .64rem/1 var(--font-sans);
   white-space: nowrap;
 }
-.atlas-name:hover { color: #E04A2F; }
+.atlas-name:hover { color: var(--b-gold); }
 .atlas-empty {
   grid-column: 1 / -1;
   padding: 90px 0;
@@ -2304,7 +2308,7 @@ a:focus-visible,
 }
 .hq-row:nth-child(1) .hq-rank, .hq-row:nth-child(2) .hq-rank, .hq-row:nth-child(3) .hq-rank { color: var(--a-highlight); }
 .hq-bar { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #B9D6C6, #5A9E7E); }
-.hq-row:nth-child(1) .hq-bar { background: linear-gradient(90deg, #F59E0B, #D62828); }
+.hq-row:nth-child(1) .hq-bar { background: linear-gradient(90deg, #E8BE76, #B8812A); }
 .hq-count { font-family: var(--font-mono); font-weight: 700; text-align: right; color: var(--a-text); }
 @media (max-width: 640px) {
   .hq-result { grid-template-columns: repeat(2, 1fr); }
@@ -2401,8 +2405,8 @@ a:focus-visible,
 .cos-item {
   flex: 1;
   min-width: 140px;
-  background: rgba(239,68,68,0.06);
-  border: 1px solid rgba(239,68,68,0.12);
+  background: rgba(216,162,74,0.06);
+  border: 1px solid rgba(216,162,74,0.12);
   border-radius: 12px;
   padding: 18px 16px;
   text-align: center;
@@ -2414,7 +2418,7 @@ a:focus-visible,
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
-.cos-num.cos-warn { color: #F59E0B; }
+.cos-num.cos-warn { color: var(--b-gold); }
 .cos-lbl {
   font-size: 0.78rem;
   color: var(--b-text-dim);
@@ -2446,7 +2450,7 @@ a:focus-visible,
   position: absolute;
   top: 8px; bottom: -8px;
   width: 2px;
-  background: rgba(224,74,47,0.25);
+  background: rgba(216,162,74,0.25);
 }
 .ct-row:last-child .ct-line::before { bottom: auto; height: 10px; }
 .ct-line::after {
@@ -2456,7 +2460,7 @@ a:focus-visible,
   width: 8px; height: 8px;
   border-radius: 50%;
   background: var(--b-accent);
-  box-shadow: 0 0 0 3px rgba(224,74,47,0.15);
+  box-shadow: 0 0 0 3px rgba(216,162,74,0.15);
 }
 .ct-body { padding-bottom: 20px; }
 .ct-body strong {
@@ -2650,7 +2654,7 @@ a:focus-visible,
 .game-btn.primary {
   background: var(--b-accent);
   border-color: var(--b-accent);
-  color: white;
+  color: var(--b-on-accent);
 }
 .game-score {
   text-align: center;
@@ -2832,7 +2836,7 @@ a:focus-visible,
   position: relative;
   overflow: hidden;
 }
-.case-card:hover { border-color: var(--b-accent); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(239,68,68,0.1); }
+.case-card:hover { border-color: var(--b-accent); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(216,162,74,0.1); }
 .case-card-arrow {
   position: absolute;
   right: 20px;
@@ -2867,7 +2871,7 @@ a:focus-visible,
   display: inline-block;
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(239,68,68,0.15);
+  background: rgba(216,162,74,0.15);
   color: var(--b-accent);
   font-weight: 500;
 }
@@ -2885,7 +2889,7 @@ a:focus-visible,
   color: #5DB39A;
   font-weight: 500;
 }
-.case-tag.warn { background: rgba(239,68,68,0.12); color: var(--b-accent); }
+.case-tag.warn { background: rgba(216,162,74,0.12); color: var(--b-danger); }
 
 .case-load-more { display: flex; align-items: center; margin: 20px 0 10px; }
 
@@ -2929,7 +2933,7 @@ a:focus-visible,
   border: 1px solid var(--b-border);
   transition: all var(--motion-fast) var(--ease-standard);
 }
-.case-modal-close:hover { background: var(--b-accent); color: #fff; border-color: var(--b-accent); }
+.case-modal-close:hover { background: var(--b-accent); color: var(--b-on-accent); border-color: var(--b-accent); }
 .case-modal-header {
   margin-bottom: 20px;
   padding-bottom: 16px;
@@ -2977,8 +2981,8 @@ a:focus-visible,
   height: 220px;
 }
 .case-modal-disguise {
-  background: rgba(239,68,68,0.1);
-  border: 1px solid rgba(239,68,68,0.25);
+  background: rgba(216,162,74,0.1);
+  border: 1px solid rgba(216,162,74,0.25);
   border-radius: 10px;
   padding: 14px 18px;
   margin-bottom: 16px;
@@ -3161,7 +3165,7 @@ a:focus-visible,
   letter-spacing: 0.04em;
 }
 .tl-card-tag.policy  { background: rgba(216,162,74,.18); color: #D8A24A; }
-.tl-card-tag.law     { background: rgba(224,74,47,.18); color: #E04A2F; }
+.tl-card-tag.law     { background: rgba(216,162,74,.16); color: var(--b-gold); }
 .tl-card-tag.science { background: rgba(78,122,99,.28); color: #8FC7AB; }
 .tl-card-tag.action  { background: rgba(96,125,165,.25); color: #8AA7CF; }
 .tl-card-tag.milestone { background: rgba(140,125,177,.25); color: #A99BD0; }
@@ -3331,7 +3335,7 @@ a:focus-visible,
   left: 0;
   width: 3px;
   border-radius: 3px;
-  background: linear-gradient(180deg, #F0563C, #F2B23C 50%, #4B9A7E);
+  background: linear-gradient(180deg, #E8BE76, #C29438 50%, #4B9A7E);
   opacity: .35;
   pointer-events: none;
 }
@@ -3346,7 +3350,7 @@ a:focus-visible,
   color: var(--b-text-dim);
   padding: 0 6px;
 }
-.chain-cap .ca { color: #F0563C; font-weight: 700; white-space: nowrap; }
+.chain-cap .ca { color: var(--b-gold); font-weight: 700; white-space: nowrap; }
 .chain-cap .cb { color: #4B9A7E; font-weight: 700; white-space: nowrap; }
 .chain-cap .cap-mid { opacity: .7; letter-spacing: 0.2em; }
 .defense-list { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; }
@@ -3600,7 +3604,7 @@ a:focus-visible,
   font-family: var(--font-mono);
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--a-highlight);
+  color: var(--b-gold);
 }
 .defense-stat-lbl {
   font-size: 0.75rem;
@@ -3636,11 +3640,11 @@ a:focus-visible,
 }
 .guide-scene-tab:hover {
   border-color: var(--a-highlight);
-  background: rgba(224,74,47,.12);
+  background: rgba(216,162,74,.12);
 }
 .guide-scene-tab.active {
   background: var(--a-highlight);
-  color: #fff;
+  color: var(--a-on-accent);
   border-color: var(--a-highlight);
 }
 .guide-scene-card {
@@ -3659,16 +3663,16 @@ a:focus-visible,
   background: #152720;
 }
 .guide-card-section.warn {
-  background: rgba(224,74,47,.12);
+  background: rgba(216,162,74,.12);
   border-left: 3px solid var(--a-highlight);
 }
 .guide-card-section.dept {
-  background: rgba(127,179,255,.12);
-  border-left: 3px solid #3B82F6;
+  background: rgba(66,135,196,.14);
+  border-left: 3px solid #4287C4;
 }
 .guide-card-section.record {
   background: rgba(251,191,36,.12);
-  border-left: 3px solid #F59E0B;
+  border-left: 3px solid var(--b-gold);
 }
 .guide-card-section.fallback {
   background: rgba(74,222,128,.12);
@@ -3685,10 +3689,10 @@ a:focus-visible,
   align-items: center;
   gap: 4px;
 }
-.guide-section-title.warn-color { color: #F87171; }
-.guide-section-title.record-color { color: #FBBF24; }
-.guide-section-title.dept-color { color: #7FB3FF; }
-.guide-section-title.fallback-color { color: #4ADE80; }
+.guide-section-title.warn-color { color: var(--b-danger); }
+.guide-section-title.record-color { color: var(--b-gold); }
+.guide-section-title.dept-color { color: #4287C4; }
+.guide-section-title.fallback-color { color: #2E9E74; }
 .guide-section-content {
   font-size: 0.85rem;
   line-height: 1.7;
@@ -3721,7 +3725,7 @@ a:focus-visible,
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.92rem;
-  color: #4ADE80;
+  color: #2E9E74;
 }
 
 /* ============================================
@@ -3787,7 +3791,7 @@ a:focus-visible,
 }
 .rfa-march-ctrl button {
   background: var(--b-accent);
-  color: #fff;
+  color: var(--b-on-accent);
   border: none;
   border-radius: 18px;
   padding: 7px 18px;
@@ -3815,7 +3819,7 @@ a:focus-visible,
   transition: transform var(--motion-fast) var(--ease-standard), border-color var(--motion-fast);
 }
 .wanted-card:hover { transform: translateY(-3px); border-color: var(--b-gold); }
-.wanted-card.most-wanted { border: 2px solid var(--b-accent); box-shadow: 0 6px 24px rgba(224,74,47,.25); }
+.wanted-card.most-wanted { border: 2px solid var(--b-accent); box-shadow: 0 6px 24px rgba(216,162,74,.25); }
 .wanted-no {
   position: absolute;
   top: 6px; right: 8px;
@@ -3831,7 +3835,7 @@ a:focus-visible,
   display: inline-block;
   margin-left: 6px;
   font: 700 .6rem var(--font-sans);
-  color: #fff;
+  color: var(--b-on-accent);
   background: var(--b-accent);
   border-radius: 3px;
   padding: 1px 6px;
@@ -4776,10 +4780,10 @@ a.nav-item { text-decoration: none; }
 }
 .guide-card-section { padding-left: 14px !important; }
 /* 指南卡的彩色边条是语义标记，保留 */
-.guide-card-section.warn { border-left: 3px solid #F87171 !important; border-top: none !important; }
-.guide-card-section.dept { border-left: 3px solid #7FB3FF !important; border-top: none !important; }
-.guide-card-section.record { border-left: 3px solid #FBBF24 !important; border-top: none !important; }
-.guide-card-section.fallback { border-left: 3px solid #4ADE80 !important; border-top: none !important; }
+.guide-card-section.warn { border-left: 3px solid var(--b-danger) !important; border-top: none !important; }
+.guide-card-section.dept { border-left: 3px solid #4287C4 !important; border-top: none !important; }
+.guide-card-section.record { border-left: 3px solid var(--b-gold) !important; border-top: none !important; }
+.guide-card-section.fallback { border-left: 3px solid #2E9E74 !important; border-top: none !important; }
 
 /* 场景与场景之间：1px 分割线（宽度随中轴） */
 .story-scene + .story-scene { border-top: 1px solid var(--b-border); }
@@ -4829,7 +4833,7 @@ a.nav-item { text-decoration: none; }
 .atlas-mode.active, .atlas-filter.active, .guide-scene-tab.active {
   background: var(--b-accent);
   border-color: var(--b-accent);
-  color: #fff;
+  color: var(--b-on-accent);
 }
 
 /* 统计数字去盒：横排大数字 + 竖线分隔 */
@@ -5033,7 +5037,7 @@ body { background: #0D1B15 !important; }
   opacity: 0.18;
   pointer-events: none;
   z-index: 0;
-  filter: drop-shadow(0 0 16px rgba(224,74,47,0.22)) saturate(0.9);
+  filter: drop-shadow(0 0 16px rgba(216,162,74,0.22)) saturate(0.9);
 }
 .narrative-ant--left { left: 2vw; bottom: 7vh; transform: rotate(-8deg); }
 @media (max-width: 720px) { .narrative-ant { display: none; } }
@@ -5246,7 +5250,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
         <path d="M122 168 C 96 180, 74 204, 64 236"/>
         <path d="M178 168 C 204 180, 226 204, 236 236"/>
       </g>
-      <g fill="#E04A2F">
+      <g fill="#C29438">
         <ellipse cx="150" cy="62" rx="27" ry="25"/>
         <ellipse cx="150" cy="132" rx="33" ry="30"/>
         <path d="M150 186 C 112 186, 92 234, 106 278 C 118 322, 182 322, 194 278 C 208 234, 188 186, 150 186 Z"/>
@@ -5273,7 +5277,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
       <div class="gate-divider"></div>
       <div class="gate-scroll-hint">
         <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0V28M12 28L5 21M12 28L19 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-        <span>向下滚动探索</span>
+        <span>向下滚动，看它们落在哪里</span>
       </div>
     </div>
   </div>
@@ -5302,11 +5306,6 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
         <canvas id="particleCanvas"></canvas>
         <div id="china-map"></div>
       </div>
-      <div class="chart-footnote map-footnote">
-        <p>数据说明：按有记录的外来入侵物种数统计各省级行政区；记录数不等于实际分布密度，受各地调查强度影响</p>
-        <p>数据来源：iPlant植物智外来入侵物种数据库(iflora) · 全国外来入侵物种普查数据</p>
-        <p>统计时间：数据对应普查与数据库收录年份（2019—2024 年，确切发布日期未公开）</p>
-      </div>
       <div class="map-sidebar">
         <div class="sidebar-panel">
           <h4 class="panel-title">省份排名 TOP 10</h4>
@@ -5325,6 +5324,11 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
             <p><strong style="color:var(--a-highlight)">动物记录</strong>最多的是云南：iflora数据库119种入侵动物中，48种在云南有明确省级记录；广西（43）、广东（42）次之（按名录点名的省份计，为下限值）</p>
           </div>
         </div>
+      </div>
+      <div class="chart-footnote map-footnote">
+        <p>数据说明：按有记录的外来入侵物种数统计各省级行政区；记录数不等于实际分布密度，受各地调查强度影响</p>
+        <p>数据来源：iPlant植物智外来入侵物种数据库(iflora) · 全国外来入侵物种普查数据</p>
+        <p>统计时间：数据对应普查与数据库收录年份（2019—2024 年，确切发布日期未公开）</p>
       </div>
       <p class="chapter-bridge">数字勾出了轮廓——但认出一个入侵者，得先叫出它的名字。</p>
     </div>
@@ -5474,7 +5478,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
       <div class="gate-divider"></div>
       <div class="gate-scroll-hint">
         <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0V28M12 28L5 21M12 28L19 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-        <span>向下滚动探索</span>
+        <span>向下滚动，跟上这条轨迹</span>
       </div>
     </div>
   </div>
@@ -5564,8 +5568,8 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
       <div class="flow-insight">
         <div class="flow-stat" style="--c:#F5A623"><div class="fs-num">60</div><div class="fs-lbl">来自美洲 (%)</div></div>
         <div class="flow-stat" style="--c:#52B788"><div class="fs-num">15</div><div class="fs-lbl">来自欧洲 (%)</div></div>
-        <div class="flow-stat" style="--c:#38BDF8"><div class="fs-num">11</div><div class="fs-lbl">来自亚洲及大洋洲 (%)</div></div>
-        <div class="flow-stat" style="--c:#A78BFA"><div class="fs-num">9</div><div class="fs-lbl">来自非洲 (%)</div></div>
+        <div class="flow-stat" style="--c:#4287C4"><div class="fs-num">11</div><div class="fs-lbl">来自亚洲及大洋洲 (%)</div></div>
+        <div class="flow-stat" style="--c:#B5638C"><div class="fs-num">9</div><div class="fs-lbl">来自非洲 (%)</div></div>
         <div class="flow-stat" style="--c:#8BA99A"><div class="fs-num">5</div><div class="fs-lbl">跨区或未明确 (%)</div></div>
       </div>
       <p style="text-align:center;font-size:0.84rem;color:var(--b-text-dim);max-width:650px;margin:12px auto 0;line-height:1.8;">
@@ -5629,7 +5633,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
       <div class="gate-divider"></div>
       <div class="gate-scroll-hint">
         <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0V28M12 28L5 21M12 28L19 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-        <span>向下滚动探索</span>
+        <span>向下滚动，算这笔账</span>
       </div>
     </div>
   </div>
@@ -5638,7 +5642,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
     <!-- Loss subsection (light) -->
     <p class="act-quote">它们从不付账。账单都寄给了我们。</p>
     <div class="loss-section reveal">
-      <h3 class="subsection-title">💰 经济损失：历次评估的账单（人民币）</h3>
+      <h3 class="subsection-title">经济损失：历次评估的账单（人民币）</h3>
       <div class="receipt reveal" role="img" aria-label="收银小票：外来入侵物种历次评估经济损失明细，最新年度估算逾 2000 亿元">
         <div class="receipt-head"><strong>年度账单</strong>外来入侵物种 · 历次评估明细 · 单位：人民币</div>
         <div class="loss-compare">
@@ -5683,7 +5687,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
               <polygon points="186,132 274,132 236,58 214,64" fill="#E8F0EB" opacity=".92"/>
             </g>
             <!-- 水面线 -->
-            <line x1="20" y1="132" x2="440" y2="132" stroke="#7FB3FF" stroke-width="1.4" stroke-dasharray="7 6" opacity=".8"/>
+            <line x1="20" y1="132" x2="440" y2="132" stroke="#4287C4" stroke-width="1.4" stroke-dasharray="7 6" opacity=".8"/>
             <text x="436" y="124" text-anchor="end" class="iceberg-lbl">水面</text>
             <!-- 标注 -->
             <text x="230" y="40" text-anchor="middle" class="iceberg-pct-tip">4.42%</text>
@@ -5729,7 +5733,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
 
     <!-- Customs subsection: Data Overview (replaces disguise game) -->
     <div class="customs-section reveal">
-      <h3 class="subsection-title">🌏 异宠全球化：从 78 宗公开案例看异宠走私</h3>
+      <h3 class="subsection-title">异宠全球化：从 78 宗公开案例看异宠走私</h3>
       <p style="font-size:0.84rem;color:var(--b-text-dim);text-align:center;margin-bottom:24px;line-height:1.8;max-width:700px;margin-left:auto;margin-right:auto;">
         这 78 宗逐案标注的样本来自"海关发布"（海关总署官方发布平台）公开报道；全国口径的年度数字，则与海关总署官网 2018—2026 年公开报道互核。
         需要明确：<strong style="color:var(--b-accent);">截获样本中以"异宠走私"为主</strong>，而非已定殖的入侵物种。"异宠"一旦逃逸或被弃养，才可能成为下一条入侵链的起点。
@@ -5866,14 +5870,14 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
 
     <!-- Pet trade -->
     <div class="customs-section reveal">
-      <h3 class="subsection-title">🐢 异宠贸易：屡禁不止的背后</h3>
+      <h3 class="subsection-title">异宠贸易：屡禁不止的背后</h3>
       <p style="font-size:0.84rem;color:var(--b-text-dim);text-align:center;margin-bottom:12px;line-height:1.8;">
         异宠贸易已成为外来物种入侵的<strong style="color:var(--b-accent);">主要"扩散引擎"之一</strong>。
         全国约 <strong style="color:var(--b-accent);">1707 万人</strong>饲养"异宠"（国家安全部风险提示，2025），交易物种中爬行类外来种占比达 78.6%。
         从巴西龟到鳄雀鳝，从绿鬣蜥到巨人蜈蚣——这些"宠物"一旦被弃养或逃逸，便可能在本土生态中引发连锁灾难。
       </p>
       <div class="flow-insight">
-        <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">1619</div><div class="fs-lbl">种异宠交易物种</div></div>
+        <div class="flow-stat"><div class="fs-num" style="color:var(--b-gold)">1619</div><div class="fs-lbl">种异宠交易物种</div></div>
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">1707万</div><div class="fs-lbl">饲养者规模</div></div>
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">近百亿</div><div class="fs-lbl">市场规模(元)</div></div>
         <div class="flow-stat"><div class="fs-num" style="color:var(--b-accent)">78.6%</div><div class="fs-lbl">外来爬行类占比</div></div>
@@ -5896,7 +5900,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
       <div class="gate-divider"></div>
       <div class="gate-scroll-hint">
         <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0V28M12 28L5 21M12 28L19 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-        <span>向下滚动探索</span>
+        <span>向下滚动，拆开这张网</span>
       </div>
     </div>
   </div>
@@ -5954,7 +5958,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
 
     <!-- 发现后怎么办 -->
     <div class="report-guide-section reveal" id="reportGuideSection">
-      <h3 class="subsection-title" style="color:var(--a-text);">🔍 发现后怎么办：5大场景行动指南</h3>
+      <h3 class="subsection-title" style="color:var(--a-text);">发现后怎么办：5大场景行动指南</h3>
       <p style="font-size:0.84rem;color:var(--a-text-secondary);margin-bottom:16px;text-align:center;">
         无论在哪里发现疑似外来入侵物种，记住：不接触、不扩散、快记录、找部门
       </p>
@@ -6972,7 +6976,7 @@ async function initProvinceSelector() {
     if (!prov) { result.classList.remove('visible'); return; }
     
     result.innerHTML = `
-      <strong>${prov.name}</strong> 共有 <strong style="color:#EF4444">${prov.total || '-'}</strong> 种入侵物种，
+      <strong>${prov.name}</strong> 共有 <strong style="color:#D8A24A">${prov.total || '-'}</strong> 种入侵物种，
       其中动物 ${prov.animal || '-'} 种，植物 ${prov.plant || '-'} 种。
       风险评分：<strong>${prov.risk_score || '-'}</strong>/1000
       ${prov.top_species ? `<br>Top3：${prov.top_species.slice(0,3).join('、')}` : ''}
@@ -7024,10 +7028,10 @@ function renderBubbleChart() {
 
   // Family color map
   const famColors = {
-    '菊科': '#D62828', '苋科': '#F77F00', '禾本科': '#FCBF49',
-    '旋花科': '#06D6A0', '茄科': '#118AB2', '豆科': '#073B4C',
-    '十字花科': '#EF476F', '桑科': '#8338EC', '藜科': '#FFBE0B',
-    '伞形科': '#FB5607', '酢浆草科': '#3A86FF', '未知': '#94A3B8'
+    '菊科': '#B8812A', '禾本科': '#2E9E74', '豆科': '#4287C4',
+    '苋科': '#B5638C', '茄科': '#7E9440', '旋花科': '#8A6AC4',
+    '十字花科': '#189E9E', '伞形科': '#C25A3C', '桑科': '#6B8A7B',
+    '藜科': '#8F9A86', '酢浆草科': '#7D8E9A', '未知': '#5E6B64'
   };
 
   // Build series by family. Color identifies the family; bubble area encodes
@@ -7257,18 +7261,18 @@ function renderInvasionTimeline() {
         data: years.map((y, i) => [y, cumulative[i]]),
         smooth: true,
         symbol: 'none',
-        lineStyle: { color: '#EF4444', width: 2 },
+        lineStyle: { color: '#D8A24A', width: 2 },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: 'rgba(239,68,68,0.25)' },
-            { offset: 1, color: 'rgba(239,68,68,0.02)' }
+            { offset: 0, color: 'rgba(216,162,74,0.25)' },
+            { offset: 1, color: 'rgba(216,162,74,0.02)' }
           ])
         },
         markArea: {
           silent: true,
           data: [
-            [{ name: '近代 1840—1949', xAxis: '1840', itemStyle: { color: 'rgba(245,158,11,0.10)' } }, { xAxis: '1949' }],
-            [{ name: '现代 1950—2018', xAxis: '1950', itemStyle: { color: 'rgba(239,68,68,0.08)' } }, { xAxis: '2018' }]
+            [{ name: '近代 1840—1949', xAxis: '1840', itemStyle: { color: 'rgba(216,162,74,0.08)' } }, { xAxis: '1949' }],
+            [{ name: '现代 1950—2018', xAxis: '1950', itemStyle: { color: 'rgba(216,162,74,0.08)' } }, { xAxis: '2018' }]
           ],
           label: { show: true, position: 'insideTop', color: '#8BA99A', fontSize: 11 }
         }
@@ -7278,7 +7282,7 @@ function renderInvasionTimeline() {
         type: 'bar',
         data: years.map((y, i) => [y, newSpecies[i]]),
         barWidth: 2,
-        itemStyle: { color: '#F59E0B' },
+        itemStyle: { color: '#E8BE76' },
         yAxisIndex: 0
       }
     ]
@@ -7348,12 +7352,12 @@ async function renderMapChapter() {
       smooth: true,
       symbol: 'circle',
       symbolSize: 8,
-      lineStyle: { width: 3, color: '#D62828' },
-      itemStyle: { color: '#D62828' },
+      lineStyle: { width: 3, color: '#D8A24A' },
+      itemStyle: { color: '#D8A24A' },
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          { offset: 0, color: 'rgba(214,40,40,0.25)' },
-          { offset: 1, color: 'rgba(214,40,40,0.02)' }
+          { offset: 0, color: 'rgba(216,162,74,0.25)' },
+          { offset: 1, color: 'rgba(216,162,74,0.02)' }
         ])
       },
       markPoint: {
@@ -7402,7 +7406,7 @@ async function renderMapByFilter(mode) {
     total:  { visualMap: ['#14190F', '#4A3510', '#7A5818', '#B07E20', '#F2B23C'], main: '#B07E20', bright: '#F2B23C' },
     animal: { visualMap: ['#2A0F0F', '#6E1A1A', '#A32626', '#D13C2E', '#F0563C'], main: '#D13C2E', bright: '#F0563C' },
     plant:  { visualMap: ['#15211B', '#1E3628', '#2E5D43', '#4E7A63', '#6B9A80'], main: '#4E7A63', bright: '#6B9A80' },
-    level1: { visualMap: ['#161223', '#2F2450', '#5B3E85', '#8A5CBE', '#B07FE0'], main: '#8A5CBE', bright: '#B07FE0' }
+    level1: { visualMap: ['#1A1410', '#3E2A1C', '#6E4428', '#A35F33', '#D9814A'], main: '#A35F33', bright: '#D9814A' }
   };
   const colorMap = { total: palettes.total.main, animal: palettes.animal.main, plant: palettes.plant.main, level1: palettes.level1.main };
 
@@ -7987,7 +7991,7 @@ function renderSpreadMap(speciesKey) {
       regions: provs.map(p => ({
         name: p.replace(/省|市|自治区|特别行政区/g,''),
         itemStyle: {
-          areaColor: p === firstProv ? '#F59E0B' : '#DC2626',
+          areaColor: p === firstProv ? '#F2C879' : '#B5832F',
           opacity: 0.7
         }
       }))
@@ -8000,7 +8004,7 @@ function renderSpreadMap(speciesKey) {
         data: otherProvs.map(p => ({ name: p, value: provinceCoords[p] || [104, 30] })),
         symbolSize: 10,
         rippleEffect: { brushType: 'stroke', scale: 3 },
-        itemStyle: { color: '#EF4444' },
+        itemStyle: { color: '#D8A24A' },
         label: { show: true, formatter: '{b}', fontSize: 10, color: '#fff', position: 'right' },
         zlevel: 1
       },
@@ -8012,13 +8016,13 @@ function renderSpreadMap(speciesKey) {
         symbolSize: 18,
         showEffectOn: 'render',
         rippleEffect: { brushType: 'stroke', scale: 5 },
-        itemStyle: { color: '#F59E0B' },
+        itemStyle: { color: '#F2C879' },
         label: {
           show: true,
           formatter: '首次记录 · ' + spd.first.year,
           fontSize: 11,
           fontWeight: 700,
-          color: '#F59E0B',
+          color: '#F2C879',
           position: 'top',
           backgroundColor: 'rgba(11,20,16,0.75)',
           padding: [3, 6],
@@ -8060,7 +8064,7 @@ function renderSpreadMap(speciesKey) {
     prevOn = new Set(onProv);
     spreadChart.setOption({
       animationDurationUpdate: 420, animationEasingUpdate: 'cubicOut',
-      geo: { regions: onProv.map(p => ({ name: geoName(p), itemStyle: { areaColor: p === firstProv ? '#F59E0B' : '#DC2626', opacity: 0.8 } })) },
+      geo: { regions: onProv.map(p => ({ name: geoName(p), itemStyle: { areaColor: p === firstProv ? '#F2C879' : '#B5832F', opacity: 0.8 } })) },
       series: [
         { name: 'current', type: 'effectScatter', coordinateSystem: 'geo', data: otherOn.map(p => ({ name: p, value: provinceCoords[p] || [104, 30] })), symbolSize: 10, rippleEffect: { brushType: 'stroke', scale: 3 }, itemStyle: { color: '#EF4444' }, label: { show: true, formatter: '{b}', fontSize: 10, color: '#fff', position: 'right' }, zlevel: 1 },
         { name: 'first', type: 'effectScatter', coordinateSystem: 'geo', data: isFirstOn ? [{ name: firstProv, value: provinceCoords[firstProv] || [104, 30] }] : [], symbolSize: 18, showEffectOn: 'render', rippleEffect: { brushType: 'stroke', scale: 5 }, itemStyle: { color: '#F59E0B' }, label: { show: isFirstOn, formatter: '首次记录 · ' + spd.first.year, fontSize: 11, fontWeight: 700, color: '#F59E0B', position: 'top', backgroundColor: 'rgba(11,20,16,0.75)', padding: [3, 6], borderRadius: 4 }, zlevel: 2 },
@@ -8132,8 +8136,8 @@ function renderSpreadMap(speciesKey) {
 let _marchTimer = null;
 const _ANT_SVG = 'image://data:image/svg+xml;utf8,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
-  '<g fill="#E04A2F"><ellipse cx="5.5" cy="12" rx="2.7" ry="2.2"/><ellipse cx="11" cy="12" rx="2.1" ry="1.8"/><ellipse cx="17" cy="11.5" rx="3" ry="2.5"/></g>' +
-  '<g stroke="#E04A2F" stroke-width="1.1" stroke-linecap="round" fill="none">' +
+  '<g fill="#C29438"><ellipse cx="5.5" cy="12" rx="2.7" ry="2.2"/><ellipse cx="11" cy="12" rx="2.1" ry="1.8"/><ellipse cx="17" cy="11.5" rx="3" ry="2.5"/></g>' +
+  '<g stroke="#C29438" stroke-width="1.1" stroke-linecap="round" fill="none">' +
   '<path d="M9.3 10.4 6.8 6M11 10.2 10 5.4M12.7 10.4 14.2 6M9.3 13.6 6.8 18M11 13.8 10 18.6M12.7 13.6 14.2 18"/>' +
   '<path d="M19.6 9.4c1.6-1.4 2.6-1.9 3.4-2M19.6 13.8c1.6 1.2 2.6 1.7 3.4 1.8"/></g></svg>');
 
@@ -8185,7 +8189,7 @@ function enhanceRfaMarch(chart, spd, coords, firstProv) {
       geo: {
         regions: provArr.map(p => ({
           name: p.replace(/省|市|自治区|特别行政区/g, ''),
-          itemStyle: { areaColor: p === firstProv ? '#F59E0B' : '#DC2626', opacity: 0.7 }
+          itemStyle: { areaColor: p === firstProv ? '#F2C879' : '#B5832F', opacity: 0.7 }
         }))
       },
       series: [
@@ -8376,8 +8380,8 @@ function renderSankeyFlow() {  if (!Data.species) return;
       textStyle: { color: '#8BA99A', fontSize: 11 },
       itemWidth: 14,
       itemHeight: 140,
-      // 单向渐变（方案 6.1）：深色底上墨绿对比度不足，少→多 = #1C332B → #E04A2F
-      inRange: { color: ['#1C332B', '#4D392C', '#7E3E2D', '#AF442E', '#E04A2F'] }
+      // 单向渐变（方案 6.1）：深色底上墨绿对比度不足，少→多 = #1C332B → #E8BE76
+      inRange: { color: ['#1C332B', '#3A3B28', '#6B5B2C', '#A98434', '#E8BE76'] }
     },
     series: [{
       type: 'heatmap',
@@ -8467,12 +8471,14 @@ async function renderWorldFlow() {
   const otherShare = total - macroSum.americas - macroSum.europe - macroSum.africa - asiaAll;
   // Region colour palette — ties the arcs, the origin dots and the stat cards together
   const REGION_COLORS = {
-    americas: '#F5A623', // amber — largest share
-    europe: '#52B788',   // spring green
-    asia: '#38BDF8',     // sky
-    oceania: '#38BDF8',  // sky (grouped with Asia in the cards)
-    africa: '#A78BFA',   // violet
-    other: '#8BA99A'     // muted sage
+    // 经 dataviz validate_palette.js 校验（dark, surface #0D1B15）：
+    // 明度带/彩度/色盲分离/常视分离/对比度 五项全过
+    americas: '#B8812A', // 金 — 占比最大
+    europe: '#2E9E74',   // 绿
+    asia: '#4287C4',     // 蓝
+    oceania: '#4287C4',  // 蓝（统计卡中与亚洲合并）
+    africa: '#B5638C',   // 玫
+    other: '#8BA99A'     // 中性灰绿 — "未明确"不计入分类色
   };
   const colorFor = m => REGION_COLORS[m] || REGION_COLORS.other;
 
@@ -8593,7 +8599,7 @@ async function renderWorldFlow() {
             name: '中国',
             value: [...CHINA_COORDS, total],
             symbolSize: 20,
-            itemStyle: { color: '#EF4444', borderColor: 'rgba(255,255,255,0.7)', borderWidth: 1.5 },
+            itemStyle: { color: '#D8A24A', borderColor: 'rgba(255,255,255,0.7)', borderWidth: 1.5 },
             label: {
               show: true,
               formatter: `{name|中国}\n{val|${total}种记录}`,
@@ -8641,7 +8647,7 @@ async function renderWorldFlow() {
           ]),
           borderRadius: [0, 4, 4, 0]
         },
-        label: { show: true, position: 'right', color: '#F59E0B', fontSize: 11, formatter: '{c} 种' }
+        label: { show: true, position: 'right', color: '#D8A24A', fontSize: 11, formatter: '{c} 种' }
       }]
     });
   }
@@ -9385,7 +9391,7 @@ async function renderImpactChapter() {
     yAxis: { type: 'category', data:['广东','辽宁','陕西'], inverse:true, axisLabel:{color:'#E8E6DF', fontSize:12}, axisLine:{lineStyle:{color:'#2A3F35'}} },
     series: [{
       type: 'bar', data: [377,294,228],
-      itemStyle: { color: function(p) { return ['#E04A2F','#D8A24A','#4E7A63'][p.dataIndex]; }, borderRadius:[0,4,4,0] },
+      itemStyle: { color: function(p) { return ['#E8BE76','#C29438','#8A6A2C'][p.dataIndex]; }, borderRadius:[0,4,4,0] },
       barMaxWidth: 24,
       label: { show:true, position:'right', formatter:'{c}亿元', fontSize:11, color:'#E8E6DF' }
     }, {
@@ -9477,7 +9483,6 @@ function renderCustomsSankey(sankeyData) {
   const nodeNames = [...new Set(links.flatMap(l => [l.source, l.target]))];
   // C.6 行李传送带：发货地=包裹📦（纸箱棕），中间口岸=🛃（X 光蓝），终到类型=🐜（灰绿）
   const midNames = new Set([...linkSources].filter(n => linkTargets.has(n)));
-  const iconFor = n => originNames.has(n) ? '📦 ' : (midNames.has(n) ? '🛃 ' : '🐜 ');
 
   customsSankeyChart.setOption({
     tooltip: { trigger: 'item', triggerOn: 'mousemove', formatter: p => p.dataType === 'edge'
@@ -9485,19 +9490,20 @@ function renderCustomsSankey(sankeyData) {
     series: [{
       type: 'sankey', layout: 'none', emphasis: { focus: 'adjacency' },
       nodeAlign: 'left',
+      left: 118, right: 96, top: 16, bottom: 16,   // 留出左右标签位，避免"未标明启运地"等被裁切
       layoutIterations: 32,
       data: nodeNames.map(name => (/^(未明确|未知|其他|其他地区|未标明启运地)$/.test(name)
         ? { name, itemStyle: { color: '#5A6B62' }, label: { formatter: '{b}' } }   // "未明确"类节点置灰
-        : { name, label: { formatter: iconFor(name) + '{b}' } })),
+        : { name, label: { formatter: '{b}' } })),
       links: links,
       lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.4 },
       itemStyle: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
       label: { position: 'right', fontSize: 13, color: '#dce8df', formatter: '{b}' },
       nodeWidth: 16, nodeGap: 12,
       levels: [
-        { depth: 0, itemStyle: { color: '#A67B4F' }, label: { position: 'left' } },  // 纸箱棕
-        { depth: 1, itemStyle: { color: '#7FB3FF' } },                                // X 光蓝
-        { depth: 2, itemStyle: { color: '#4E7A63' } }
+        { depth: 0, itemStyle: { color: '#8A6A2C' }, label: { position: 'left' } },  // 来源地·深金
+        { depth: 1, itemStyle: { color: '#C29438' } },                                // 物种类型·金
+        { depth: 2, itemStyle: { color: '#E8BE76' } }                                 // 入境渠道·浅金
       ]
     }]
   });
@@ -9518,7 +9524,7 @@ function renderCustomsMethods(methodsData) {
     series: [{
       type: 'bar', data: values, barMaxWidth: 20,
       itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-        { offset: 0, color: 'rgba(239,68,68,0.4)' }, { offset: 1, color: 'rgba(239,68,68,0.8)' }
+        { offset: 0, color: 'rgba(216,162,74,0.4)' }, { offset: 1, color: 'rgba(216,162,74,0.8)' }
       ]), borderRadius: [0, 4, 4, 0] },
       label: { show: true, position: 'right', fontSize: 10, color: '#a9bdb1' }  // 方案 6.4：条末端补数值标签
     }]
@@ -9727,8 +9733,8 @@ function renderPetTradeChart() {
         name: '海关截获', type: 'line', yAxisIndex: 1,
         data: [2100,3500,4270,5100,5800,6300,6800],
         smooth: true, symbol: 'circle', symbolSize: 6,
-        lineStyle: { width: 3, color: '#F59E0B' },
-        itemStyle: { color: '#F59E0B' },
+        lineStyle: { width: 3, color: '#D8A24A' },
+        itemStyle: { color: '#D8A24A' },
         areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           { offset: 0, color: 'rgba(245,158,11,0.18)' },
           { offset: 1, color: 'rgba(245,158,11,0)' }
@@ -9917,13 +9923,13 @@ function showRingDetail(id) {
     <div style="flex:1;min-width:240px;">
       <div class="ring-detail-name" style="color:${ring.color}">${ring.icon} 第${ring.id}环：${ring.name}</div>
       <div class="ring-detail-row"><span class="ring-detail-label">位置：</span><span class="ring-detail-value">${ring.place}</span></div>
-      <div class="ring-detail-row"><span class="ring-detail-label">风险：</span><span class="ring-detail-value" style="color:#DC2626">${ring.risk}</span></div>
+      <div class="ring-detail-row"><span class="ring-detail-label">风险：</span><span class="ring-detail-value" style="color:var(--b-danger)">${ring.risk}</span></div>
       <div class="ring-detail-row"><span class="ring-detail-label">措施：</span><span class="ring-detail-value">${ring.measures}</span></div>
     </div>
     <div style="flex:1;min-width:200px;">
       <div class="ring-detail-row"><span class="ring-detail-label">责任方：</span><span class="ring-detail-value">${ring.actors}</span></div>
       <div class="ring-detail-row"><span class="ring-detail-label">数据：</span><span class="ring-detail-value">${ring.data_note}</span></div>
-      <div class="ring-detail-row"><span class="ring-detail-label">缺口：</span><span class="ring-detail-value" style="color:#FBBF24">${ring.gap}</span></div>
+      <div class="ring-detail-row"><span class="ring-detail-label">缺口：</span><span class="ring-detail-value" style="color:var(--b-gold)">${ring.gap}</span></div>
     </div>
     ${ring.highlight ? `<div class="ring-detail-highlight" style="flex-basis:100%;">📌 ${ring.highlight}</div>` : ''}
   `;
