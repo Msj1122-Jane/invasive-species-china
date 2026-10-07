@@ -1369,6 +1369,11 @@ a:focus-visible,
   font-size: 0.78rem;
   color: var(--b-text-dim);
 }
+.flow-insight .flow-stat { padding: 6px 10px; }
+.flow-stat.is-pick { cursor: pointer; border-radius: 10px; transition: opacity .3s ease, background .3s ease; }
+.flow-stat.is-pick:hover, .flow-stat.is-pick:focus-visible { background: rgba(216,162,74,.08); outline: none; }
+.flow-stat.is-dim { opacity: .35; }
+#world-flow-chart { background: radial-gradient(ellipse at 62% 45%, #12241C 0%, #0D1B15 70%); }
 
 /* Sankey flow chart */
 .sankey-section {
@@ -5565,7 +5570,7 @@ h4.panel-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
         连线表示同一分类单元同时具有原生分布记录与中国外来记录，不代表贸易路线或直接来源国
       </p>
       <div id="world-flow-chart"></div>
-      <div class="chart-source">数据来源：iPlant植物智外来入侵物种数据库(iflora)</div>
+      <div class="chart-source">数据来源：iPlant植物智外来入侵物种数据库(iflora) · 点击下方数字，只看某一大洲</div>
       <div class="flow-insight">
         <div class="flow-stat" style="--c:#F5A623"><div class="fs-num">60</div><div class="fs-lbl">来自美洲 (%)</div></div>
         <div class="flow-stat" style="--c:#52B788"><div class="fs-num">15</div><div class="fs-lbl">来自欧洲 (%)</div></div>
@@ -8580,137 +8585,123 @@ async function renderWorldFlow() {
 
   const pct = v => Math.round(v / total * 100);
   const stats = [
-    { num: pct(macroSum.americas), lbl: '来自美洲 (%)', color: REGION_COLORS.americas },
-    { num: pct(macroSum.europe), lbl: '来自欧洲 (%)', color: REGION_COLORS.europe },
-    { num: pct(asiaAll), lbl: '来自亚洲及大洋洲 (%)', color: REGION_COLORS.asia },
-    { num: pct(macroSum.africa), lbl: '来自非洲 (%)', color: REGION_COLORS.africa },
-    { num: pct(otherShare), lbl: '跨区或未明确 (%)', color: REGION_COLORS.other }
+    { key: 'americas', num: pct(macroSum.americas), lbl: '原产美洲 (%)', color: REGION_COLORS.americas },
+    { key: 'europe', num: pct(macroSum.europe), lbl: '原产欧洲 (%)', color: REGION_COLORS.europe },
+    { key: 'asia', num: pct(asiaAll), lbl: '原产亚洲及大洋洲 (%)', color: REGION_COLORS.asia },
+    { key: 'africa', num: pct(macroSum.africa), lbl: '原产非洲 (%)', color: REGION_COLORS.africa },
+    { key: null, num: pct(otherShare), lbl: '跨区或未明确 (%)', color: REGION_COLORS.other }
   ];
   const flowInsight = document.querySelector('.flow-section .flow-insight');
   if (flowInsight) {
     flowInsight.innerHTML = stats.map(s => `
-      <div class="flow-stat" style="--c:${s.color}"><div class="fs-num">${s.num}</div><div class="fs-lbl">${s.lbl}</div></div>
+      <div class="flow-stat${s.key ? ' is-pick' : ''}" ${s.key ? `role="button" tabindex="0" data-macro="${s.key}" aria-pressed="false"` : ''} style="--c:${s.color}"><div class="fs-num">${s.num}</div><div class="fs-lbl">${s.lbl}</div></div>
     `).join('');
   }
 
-  // Line width: gentle power scale keeps big sources readable without
-  // turning the map into a fat orange band (63 -> ~13px, 10 -> ~6px, 1 -> ~2px)
-  const lineWidth = v => Math.min(16, 1.4 + Math.pow(v, 0.62));
-
+  // 线宽：平方根尺度，最粗约 4.5px，避免粗色带糊成一片
+  const lineWidth = v => Math.min(4.6, 0.8 + Math.sqrt(v) * 0.5);
   const hasWorldMap = await loadWorldGeoJSON();
 
   if (hasWorldMap) {
-    // Lines are colour-coded by region and kept thin (no heavy glow) so the
-    // many small sources read as an ordered set of ribbons, not one blob.
-    const linesData = ptList.map(p => {
-      const c = colorFor(p.macro);
+    const groupOf = m => (m === 'oceania' ? 'asia' : m);
+    // 同一大洲的线按纬度错开弧度，扇形展开而不是叠成一束
+    const curvOf = p => 0.26 - Math.max(0, Math.min(1, (p.coords[1] + 40) / 95)) * 0.14;
+    let focus = null;   // 当前高亮的大洲
+    const buildLines = () => ptList.map(p => {
+      const on = !focus || groupOf(p.macro) === focus;
       return {
+        name: p.name, macro: p.macro,
         coords: [p.coords, CHINA_COORDS],
-        lineStyle: {
-          width: lineWidth(p.count),
-          color: c,
-          opacity: Math.min(0.58, 0.22 + p.count / 90),
-          curveness: 0.32
+        lineStyle: { width: lineWidth(p.count), color: colorFor(p.macro), opacity: on ? (focus ? 0.62 : 0.36) : 0.05, curveness: curvOf(p) }
+      };
+    });
+    const buildDots = () => ptList.map((p, i) => {
+      const on = !focus || groupOf(p.macro) === focus;
+      return {
+        name: p.name,
+        value: [...p.coords, p.count],
+        symbolSize: 4 + Math.sqrt(p.count) * 1.5,
+        itemStyle: { color: colorFor(p.macro), opacity: on ? 1 : 0.18, borderColor: 'rgba(13,27,21,0.9)', borderWidth: 1 },
+        label: {
+          show: on && (focus ? p.count >= 2 : i < LABEL_TOP_N),
+          formatter: `{name|${p.name}}  {val|${p.count}}`,
+          rich: {
+            name: { color: '#DCE6E0', fontSize: 11, fontWeight: 600 },
+            val: { color: colorFor(p.macro), fontSize: 11, fontWeight: 700, fontFamily: 'Space Grotesk, Arial' }
+          },
+          position: p.coords[1] < 0 ? 'bottom' : 'top', distance: 6,
+          backgroundColor: 'rgba(11,20,16,0.72)', padding: [2, 6], borderRadius: 3
         }
       };
     });
 
-    const scatterData = ptList.map((p, i) => ({
-      name: p.name,
-      value: [...p.coords, p.count],
-      symbolSize: 5 + Math.sqrt(p.count) * 2.0,
-      itemStyle: { color: colorFor(p.macro), borderColor: 'rgba(232,240,235,0.55)', borderWidth: 1 },
-      label: {
-        show: i < LABEL_TOP_N,
-        formatter: `{name|${p.name}}\n{val|${p.count}种}`,
-        rich: {
-          name: { color: '#E8F0EB', fontSize: 12, lineHeight: 17, fontWeight: 700 },
-          val: { color: colorFor(p.macro), fontSize: 11, lineHeight: 15, fontWeight: 600 }
-        },
-        position: p.coords[0] < -50 ? 'left' : (p.coords[1] < 0 ? 'bottom' : 'top'),
-        distance: 7
-      }
-    }));
-
     worldFlowChart.setOption({
       backgroundColor: 'transparent',
+      animationDuration: 1200,
+      animationDurationUpdate: 450,
       tooltip: {
         trigger: 'item',
+        backgroundColor: '#152A22', borderColor: '#1F3D30', textStyle: { color: '#E8F0EB', fontSize: 12 },
         formatter: function(p) {
-          if (p.seriesType === 'effectScatter' || p.seriesType === 'scatter') {
-            if (p.name === '中国') return '<strong>中国</strong><br/>外来入侵物种记录目标地';
-            return `<strong>${p.name}</strong><br/>原生分布记录：${p.value[2]} 种`;
-          }
-          if (p.seriesType === 'lines') {
-            const pt = ptList[p.dataIndex];
-            return `<strong>${pt.name} → 中国</strong><br/>分类单元：${pt.count} 种`;
-          }
+          if (p.seriesId === 'wf-hub') return '<strong>中国</strong><br/>外来入侵物种记录 ' + total + ' 种';
+          if (p.seriesId === 'wf-dots') return `<strong>${p.name}</strong><br/>原生分布于此的物种：${p.value[2]} 种`;
+          if (p.seriesId === 'wf-lines') { const pt = ptList[p.dataIndex]; return `<strong>${pt.name}</strong> 原生 · 中国有记录<br/>分类单元：${pt.count} 种`; }
           return '';
         }
       },
       geo: {
         map: 'world',
-        roam: true,
+        roam: false,
         silent: true,
-        itemStyle: {
-          areaColor: '#17402F',
-          borderColor: '#2B6349',
-          borderWidth: 0.7
-        },
-        emphasis: { disabled: true, itemStyle: { areaColor: '#1D4A37' } },
-        center: [70, 20],
-        zoom: 1.3
+        boundingCoords: [[-128, 64], [158, -44]],
+        top: 46, bottom: 14, left: 18, right: 18,
+        itemStyle: { areaColor: '#14271F', borderColor: '#22402F', borderWidth: 0.5 },
+        emphasis: { disabled: true }
       },
       series: [
         {
-          type: 'lines',
-          coordinateSystem: 'geo',
-          data: linesData,
-          // A single, quiet pulse travelling along each ribbon reads as
-          // "flowing here" without the arrow clutter of the old design.
+          id: 'wf-lines', type: 'lines', coordinateSystem: 'geo', zlevel: 1,
+          data: buildLines(),
+          // 光点沿弧线匀速流向中国：每条线依次出发，拖尾与线同色
           effect: {
-            show: true,
-            period: 5,
-            trailLength: 0.14,
-            color: 'rgba(255,255,255,0.55)',
-            symbol: 'circle',
-            symbolSize: 2.6,
-            loop: true
-          },
-          lineStyle: { curveness: 0.32 },
-          zlevel: 1
+            show: true, constantSpeed: 70, trailLength: 0, symbol: 'circle', symbolSize: 4.2, loop: true,
+            delay: idx => (idx * 260) % 3600
+          }
         },
         {
-          type: 'scatter',
-          coordinateSystem: 'geo',
-          data: scatterData,
-          labelLayout: { hideOverlap: true },
-          zlevel: 2
+          id: 'wf-dots', type: 'scatter', coordinateSystem: 'geo', zlevel: 2,
+          data: buildDots(),
+          labelLayout: { hideOverlap: true, moveOverlap: 'shiftY' }
         },
         {
-          // China hub — the single destination, given a clear ring + pulse
-          type: 'effectScatter',
-          coordinateSystem: 'geo',
-          data: [{
-            name: '中国',
-            value: [...CHINA_COORDS, total],
-            symbolSize: 20,
-            itemStyle: { color: '#D8A24A', borderColor: 'rgba(255,255,255,0.7)', borderWidth: 1.5 },
-            label: {
-              show: true,
-              formatter: `{name|中国}\n{val|${total}种记录}`,
-              rich: {
-                name: { color: '#FFFFFF', fontSize: 13, lineHeight: 18, fontWeight: 700 },
-                val: { color: '#FFE9B8', fontSize: 11, lineHeight: 15, fontWeight: 600 }
-              },
-              position: 'right',
-              distance: 8
-            }
-          }],
-          rippleEffect: { brushType: 'stroke', scale: 2.8 },
-          zlevel: 3
+          id: 'wf-hub', type: 'effectScatter', coordinateSystem: 'geo', zlevel: 3,
+          data: [{ name: '中国', value: [...CHINA_COORDS, total] }],
+          symbolSize: 13,
+          rippleEffect: { brushType: 'stroke', scale: 4.5, period: 3.2, number: 3 },
+          itemStyle: { color: '#F2C879', borderColor: '#0D1B15', borderWidth: 1.5, shadowBlur: 14, shadowColor: 'rgba(242,200,121,0.6)' },
+          label: {
+            show: true, position: 'right', distance: 10,
+            formatter: `{name|中国}\n{val|${total} 种记录}`,
+            rich: { name: { color: '#FFFFFF', fontSize: 13, lineHeight: 18, fontWeight: 700 },
+                    val: { color: '#F2C879', fontSize: 11, lineHeight: 15, fontWeight: 600 } }
+          }
         }
       ]
+    }, true);
+
+    // 图数联动：点击下方统计卡，只看该大洲的连线
+    const applyFocus = m => {
+      focus = (focus === m) ? null : m;
+      worldFlowChart.setOption({ series: [{ id: 'wf-lines', data: buildLines() }, { id: 'wf-dots', data: buildDots() }] });
+      document.querySelectorAll('.flow-insight .flow-stat.is-pick').forEach(el => {
+        const on = !focus || el.dataset.macro === focus;
+        el.classList.toggle('is-dim', !on);
+        el.setAttribute('aria-pressed', String(!!focus && el.dataset.macro === focus));
+      });
+    };
+    document.querySelectorAll('.flow-insight .flow-stat.is-pick').forEach(el => {
+      el.addEventListener('click', () => applyFocus(el.dataset.macro));
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyFocus(el.dataset.macro); } });
     });
   } else {
     // Fallback: horizontal bar ranking of origin points
