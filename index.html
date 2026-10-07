@@ -17,8 +17,6 @@
 <meta name="twitter:card" content="summary_large_image" />
 
 <!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 
 <!-- 背景图秒开（指令⑤）：封面预加载，章节头图顺次预取 -->
 <link rel="preload" as="image" href="assets/images/bg/cover.webp" fetchpriority="high">
@@ -29,7 +27,7 @@
 <link rel="prefetch" as="image" href="assets/images/bg/gate-ch5.webp">
 
 <!-- Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="vendor/echarts.min.js"></script>
 <script>
 // ECharts 全局动画增强：所有图表自动添加更持久的动画 + 数据逐项延迟出现
 (function() {
@@ -58,9 +56,7 @@
   };
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+<script src="vendor/d3.min.js"></script>
 
 <style>
 /* ============================================
@@ -96,9 +92,9 @@
   --level-5: #84CC16;
 
   /* Typography */
-  --font-serif: 'Noto Serif SC', serif;
-  --font-sans: 'Noto Sans SC', sans-serif;
-  --font-mono: 'Space Grotesk', monospace;
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', STSong, 'SimSun', 'Times New Roman', serif;
+  --font-sans: 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Space Grotesk', 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', Roboto, Arial, sans-serif;
 
   /* Spacing */
   --section-h: 100vh;
@@ -6686,6 +6682,8 @@ async function tryLoadGeoJSON(urls) {
 async function loadChinaGeoJSON() {
   if (_chinaMapRegistered) return true;
   const geo = await tryLoadGeoJSON([
+    'data/geo/china.json',
+    'data/geo/china-full.json',
     'https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/json/china.json',
     'https://unpkg.com/echarts@4.9.0/map/json/china.json',
     'https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/json/china.json',
@@ -6703,6 +6701,7 @@ async function loadChinaGeoJSON() {
 async function loadWorldGeoJSON() {
   if (_worldMapRegistered) return true;
   const geo = await tryLoadGeoJSON([
+    'data/geo/world.json',
     'https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/json/world.json',
     'https://unpkg.com/echarts@4.9.0/map/json/world.json',
     'https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/json/world.json'
@@ -7558,8 +7557,11 @@ async function initParticleScan() {
   // Load China GeoJSON and sample boundary points
   let geojson = null;
   try {
-    const geoResp = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json');
-    if (geoResp.ok) geojson = await geoResp.json();
+    let geoResp = await fetch('data/geo/china-full.json').catch(() => null);
+    if (!geoResp || !geoResp.ok) {
+      geoResp = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json').catch(() => null);
+    }
+    if (geoResp && geoResp.ok) geojson = await geoResp.json();
   } catch(e) { console.warn('GeoJSON preload failed for particles', e); }
   
   // Determine which grid points are inside China

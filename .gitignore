@@ -3,3 +3,6 @@
 *.log
 node_modules/
 dist/
+
+# 离线包为构建产物，由 scripts/build_offline.py 生成
+offline/
