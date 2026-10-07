@@ -3800,7 +3800,8 @@ a:focus-visible,
   transition: transform var(--motion-fast) var(--ease-standard);
 }
 .rfa-march-ctrl button:hover { transform: scale(1.04); }
-.rfa-march-year { font-family: var(--font-mono); color: var(--b-gold); font-size: .92rem; font-weight: 700; }
+.rfa-march-ctrl button { min-width: 104px; }
+.rfa-march-year { font-family: var(--font-mono); color: var(--b-gold); font-size: .92rem; font-weight: 700; min-width: 118px; font-variant-numeric: tabular-nums; }
 .rfa-march-note { font-size: .7rem; color: var(--b-text-dim); }
 
 /* C.2 通缉令墙 */
@@ -8035,8 +8036,7 @@ function renderSpreadMap(speciesKey) {
   }, true);
 
   // C.1 行军足迹：红火蚁 tab 升级为蚂蚁点阵 + 逐年播放（省级口径）
-  if (speciesKey === '红火蚁') enhanceRfaMarch(spreadChart, spd, provinceCoords, firstProv);
-  else { const c = document.getElementById('rfaMarchCtrl'); if (c) c.remove(); clearInterval(_marchTimer); }
+  if (speciesKey !== '红火蚁') stopRfaMarch();
 
   // 案例记录卡：首次记录 + 逐年事件 + 现状（事件块随年份浮现）
   renderSpreadCase(spd, speciesKey);
@@ -8066,9 +8066,9 @@ function renderSpreadMap(speciesKey) {
       animationDurationUpdate: 420, animationEasingUpdate: 'cubicOut',
       geo: { regions: onProv.map(p => ({ name: geoName(p), itemStyle: { areaColor: p === firstProv ? '#F2C879' : '#B5832F', opacity: 0.8 } })) },
       series: [
-        { name: 'current', type: 'effectScatter', coordinateSystem: 'geo', data: otherOn.map(p => ({ name: p, value: provinceCoords[p] || [104, 30] })), symbolSize: 10, rippleEffect: { brushType: 'stroke', scale: 3 }, itemStyle: { color: '#EF4444' }, label: { show: true, formatter: '{b}', fontSize: 10, color: '#fff', position: 'right' }, zlevel: 1 },
-        { name: 'first', type: 'effectScatter', coordinateSystem: 'geo', data: isFirstOn ? [{ name: firstProv, value: provinceCoords[firstProv] || [104, 30] }] : [], symbolSize: 18, showEffectOn: 'render', rippleEffect: { brushType: 'stroke', scale: 5 }, itemStyle: { color: '#F59E0B' }, label: { show: isFirstOn, formatter: '首次记录 · ' + spd.first.year, fontSize: 11, fontWeight: 700, color: '#F59E0B', position: 'top', backgroundColor: 'rgba(11,20,16,0.75)', padding: [3, 6], borderRadius: 4 }, zlevel: 2 },
-        { id: 'spread-burst', name: 'burst', type: 'effectScatter', coordinateSystem: 'geo', silent: true, data: added.map(p => ({ name: p, value: provinceCoords[p] || [104, 30] })), symbolSize: 26, rippleEffect: { brushType: 'stroke', scale: 5, period: 2.4 }, itemStyle: { color: '#FBBF24' }, label: { show: false }, zlevel: 3 }
+        { name: 'current', type: 'effectScatter', coordinateSystem: 'geo', data: otherOn.map(p => ({ name: p, value: provinceCoords[p] || [104, 30] })), symbolSize: 10, rippleEffect: { brushType: 'stroke', scale: 3 }, itemStyle: { color: '#D8A24A' }, label: { show: true, formatter: '{b}', fontSize: 10, color: '#fff', position: 'right' }, zlevel: 1 },
+        { name: 'first', type: 'effectScatter', coordinateSystem: 'geo', data: isFirstOn ? [{ name: firstProv, value: provinceCoords[firstProv] || [104, 30] }] : [], symbolSize: 18, showEffectOn: 'render', rippleEffect: { brushType: 'stroke', scale: 5 }, itemStyle: { color: '#F2C879' }, label: { show: isFirstOn, formatter: '首次记录 · ' + spd.first.year, fontSize: 11, fontWeight: 700, color: '#F2C879', position: 'top', backgroundColor: 'rgba(11,20,16,0.75)', padding: [3, 6], borderRadius: 4 }, zlevel: 2 },
+        { id: 'spread-burst', name: 'burst', type: 'effectScatter', coordinateSystem: 'geo', silent: true, data: added.map(p => ({ name: p, value: provinceCoords[p] || [104, 30] })), symbolSize: 26, rippleEffect: { brushType: 'stroke', scale: 5, period: 2.4 }, itemStyle: { color: '#F2C879' }, label: { show: false }, zlevel: 3 }
       ]
     });
     // 新点亮省份：橙色涟漪爆发 1.5 秒后淡出
@@ -8125,26 +8125,39 @@ function renderSpreadMap(speciesKey) {
     probe.onerror = setEmoji;
     probe.src = 'assets/images/deco/species-icons.png';
   }
+  if (speciesKey === '红火蚁') { enhanceRfaMarch(spreadChart, spd, provinceCoords, firstProv); return; }
+  if (range) range.step = '1';
+  const stLab = document.getElementById('stYearLabel');
+  if (stLab && stLab.dataset.rfa) { delete stLab.dataset.rfa; stLab.innerHTML = '到 <strong id="stYear"></strong> 年，已记录 <strong id="stCount"></strong> 省'; }
   if (mnY != null && mxY != null) paintSpread(range && range.value ? range.value : mnY);
 }
 
 // ============================================
-// C.1 行军足迹（红火蚁）：蚂蚁 icon 点阵 + 逐年播放 + 足迹虚线
-// 数据为省级口径（data/red_fire_ant.json，2003—2023 逐年到达省份）；
-// 县级 625 个记录无公开坐标，蚂蚁按省布置，图注如实说明。
+// C.1 红火蚁逐年扩散（省级口径，data/red_fire_ant.json，2003—2023）
+// 一个"当前年份"驱动全部视图：地图、蚂蚁点、年份标签、滑块、统计、事件卡；
+// 播放时滑块连续滑动、地图逐年点亮；不画省际连线（先后顺序≠传播路线）。
 // ============================================
-let _marchTimer = null;
+let _marchTimer = null, _marchRaf = null, _marchIO = null;
 const _ANT_SVG = 'image://data:image/svg+xml;utf8,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
-  '<g fill="#C29438"><ellipse cx="5.5" cy="12" rx="2.7" ry="2.2"/><ellipse cx="11" cy="12" rx="2.1" ry="1.8"/><ellipse cx="17" cy="11.5" rx="3" ry="2.5"/></g>' +
-  '<g stroke="#C29438" stroke-width="1.1" stroke-linecap="round" fill="none">' +
+  '<g fill="#E8BE76"><ellipse cx="5.5" cy="12" rx="2.7" ry="2.2"/><ellipse cx="11" cy="12" rx="2.1" ry="1.8"/><ellipse cx="17" cy="11.5" rx="3" ry="2.5"/></g>' +
+  '<g stroke="#E8BE76" stroke-width="1.1" stroke-linecap="round" fill="none">' +
   '<path d="M9.3 10.4 6.8 6M11 10.2 10 5.4M12.7 10.4 14.2 6M9.3 13.6 6.8 18M11 13.8 10 18.6M12.7 13.6 14.2 18"/>' +
   '<path d="M19.6 9.4c1.6-1.4 2.6-1.9 3.4-2M19.6 13.8c1.6 1.2 2.6 1.7 3.4 1.8"/></g></svg>');
+
+function stopRfaMarch() {
+  if (_marchRaf) cancelAnimationFrame(_marchRaf);
+  _marchRaf = null;
+  clearInterval(_marchTimer);
+  if (_marchIO) { _marchIO.disconnect(); _marchIO = null; }
+  const c = document.getElementById('rfaMarchCtrl'); if (c) c.remove();
+  const r = document.getElementById('spreadYearRange'); if (r) r.step = '1';
+  const lab = document.querySelector('#tiProvinces + .ti-label'); if (lab) lab.textContent = '当前分布·省级行政区';
+}
 
 function enhanceRfaMarch(chart, spd, coords, firstProv) {
   const mapDom = document.getElementById('spread-map');
   if (!mapDom) return;
-  // Data 是模块内 const（不在 window 上）；数据未就绪时等 loadData 完成后重试一次
   if (!(typeof Data !== 'undefined' && Data.redFireAnt && Data.redFireAnt.length)) {
     if (!mapDom._marchRetried && typeof loadData === 'function') {
       mapDom._marchRetried = true;
@@ -8152,10 +8165,18 @@ function enhanceRfaMarch(chart, spd, coords, firstProv) {
     }
     return;
   }
-  // 与全站口径对齐：行军终点停在农业农村部通报的 2023 年（12 省 625 县，不含台湾）
+  // 与全站口径对齐：终点停在农业农村部通报的 2023 年
   const years = Data.redFireAnt.filter(d => d.year <= 2023);
+  const Y0 = years[0].year, Y1 = years[years.length - 1].year;
+  const TW = '台湾', MAINLAND_FIRST = '广东';
+  const arrival = {};   // 省份 → 首次出现在逐年名单中的年份
+  years.forEach(d => (d.provinces || []).forEach(p => { if (!(p in arrival)) arrival[p] = d.year; }));
+  const geoName = p => String(p).replace(/省|市|自治区|特别行政区/g, '');
+  const reachedBy = y => Object.keys(arrival).filter(p => arrival[p] <= y && coords[p]);
+  const mainlandCount = y => reachedBy(y).filter(p => p !== TW).length;
+  const evts = (SPREAD_EVENTS['红火蚁'] || []);
 
-  // 播放控制条
+  // ---- 控制条 ----
   const wrap = mapDom.parentElement;
   let ctrl = document.getElementById('rfaMarchCtrl');
   if (!ctrl) {
@@ -8163,75 +8184,150 @@ function enhanceRfaMarch(chart, spd, coords, firstProv) {
     ctrl.id = 'rfaMarchCtrl';
     ctrl.className = 'rfa-march-ctrl';
     ctrl.innerHTML =
-      '<button type="button" id="rfaMarchPlay" aria-label="播放红火蚁逐年扩散">▶ 播放行军</button>' +
-      '<span id="rfaMarchYear" class="rfa-march-year"></span>' +
-      '<span class="rfa-march-note">蚂蚁逐年到站，虚线为行进足迹示意（现状为 2023 年通报的 12 省 625 县）</span>';
+      '<button type="button" id="rfaMarchPlay" aria-label="播放红火蚁逐年扩散">▶ 播放</button>' +
+      '<span id="rfaMarchYear" class="rfa-march-year" aria-live="polite"></span>' +
+      '<span class="rfa-march-note">逐年点亮有公开记录的省份；先后顺序不代表传播路线</span>';
     wrap.insertBefore(ctrl, mapDom);
   }
   const yearLabel = ctrl.querySelector('#rfaMarchYear');
   const playBtn = ctrl.querySelector('#rfaMarchPlay');
+  const tiLab = document.querySelector('#tiProvinces + .ti-label');
+  if (tiLab) tiLab.textContent = '大陆已记录省级行政区';
 
-  // 起点：大陆首记录为广东（2004），足迹从广东引出
-  const origin = '广东';
-  const originCoord = coords[origin];
+  // ---- 底图与固定系列（只建一次，之后只更新数据，保证过渡连贯）----
+  chart.setOption({
+    backgroundColor: 'transparent',
+    animation: true,
+    animationDurationUpdate: 650,
+    animationEasingUpdate: 'cubicInOut',
+    tooltip: {
+      trigger: 'item',
+      backgroundColor: '#152A22', borderColor: '#1F3D30', textStyle: { color: '#E8F0EB' },
+      formatter: p => p.name ? `<strong>${p.name}</strong> · ${arrival[p.name] || ''} 年首次出现在逐年记录中` : ''
+    },
+    geo: {
+      map: 'china', roam: false, silent: true, top: 18, bottom: 28, left: 6, right: 84,
+      itemStyle: { areaColor: '#132820', borderColor: '#24443A', borderWidth: 0.8 },
+      emphasis: { disabled: true }, regions: []
+    },
+    series: [
+      { id: 'rfa-ants', type: 'scatter', coordinateSystem: 'geo', symbol: _ANT_SVG, symbolSize: 15,
+        data: [], zlevel: 2, animationDuration: 600, animationEasing: 'backOut',
+        labelLayout: { hideOverlap: true },
+        label: { show: true, formatter: '{b}', fontSize: 10, color: '#E8F0EB', position: 'right', distance: 4,
+          textBorderColor: 'rgba(11,20,16,0.9)', textBorderWidth: 2 } },
+      { id: 'rfa-anchor', type: 'scatter', coordinateSystem: 'geo', symbol: 'circle', symbolSize: 7,
+        itemStyle: { color: '#F2C879', borderColor: '#0D1B15', borderWidth: 1.5 }, zlevel: 3, silent: true,
+        data: [], label: { show: true, distance: 8, fontSize: 11, fontWeight: 700, color: '#F2C879',
+          backgroundColor: 'rgba(11,20,16,0.82)', padding: [3, 7], borderRadius: 4, formatter: p => p.data.tag } },
+      { id: 'rfa-burst', type: 'effectScatter', coordinateSystem: 'geo', silent: true, data: [],
+        symbolSize: 22, showEffectOn: 'render', rippleEffect: { brushType: 'stroke', scale: 4.2, period: 1.8 },
+        itemStyle: { color: 'rgba(242,200,121,0.9)' }, zlevel: 1 }
+    ],
+    graphic: []
+  }, true);
 
-  function frameFor(yearIdx) {
-    const reached = new Set();
-    for (let i = 0; i <= yearIdx; i++) (years[i].provinces || []).forEach(p => reached.add(p));
-    const provArr = [...reached].filter(p => coords[p]);
-    const ants = provArr.filter(p => p !== firstProv)
-      .map(p => ({ name: p, value: coords[p] }));
-    const trails = provArr.filter(p => p !== origin && coords[p])
-      .map(p => ({ coords: [originCoord, coords[p]] }));
-    const y = years[yearIdx];
-    yearLabel.textContent = y.year + ' · ' + (y.province_count || provArr.length) + ' 省';
+  // ---- 单一状态渲染 ----
+  let shownYear = null;
+  function setYear(y, opts) {
+    y = Math.max(Y0, Math.min(Y1, Math.round(y)));
+    if (y === shownYear && !(opts && opts.force)) return;
+    shownYear = y;
+    const reached = reachedBy(y);
+    const fresh = reached.filter(p => arrival[p] === y);
+    // 越新到达的省份越亮：当年 #F2C879 → 3 年以上 #A9782C
+    const shade = p => { const a = y - arrival[p]; return a <= 0 ? '#F2C879' : a === 1 ? '#DDAE5A' : a === 2 ? '#C8963F' : '#A9782C'; };
+    const anchors = [];
+    if (reached.includes(TW)) anchors.push({ name: TW, value: coords[TW], tag: '台湾 · 2003 首见', label: { position: 'right' } });
+    if (reached.includes(MAINLAND_FIRST)) anchors.push({ name: MAINLAND_FIRST, value: coords[MAINLAND_FIRST], tag: '广东 · 2004 大陆首见', label: { position: 'bottom', distance: 10 } });
     chart.setOption({
-      geo: {
-        regions: provArr.map(p => ({
-          name: p.replace(/省|市|自治区|特别行政区/g, ''),
-          itemStyle: { areaColor: p === firstProv ? '#F2C879' : '#B5832F', opacity: 0.7 }
-        }))
-      },
+      geo: { regions: reached.map(p => ({ name: geoName(p), itemStyle: { areaColor: shade(p), opacity: 0.88 } })) },
       series: [
-        { name: 'current', type: 'scatter', coordinateSystem: 'geo',
-          data: ants, symbol: _ANT_SVG, symbolSize: 18,
-          label: { show: true, formatter: '{b}', fontSize: 9, color: '#E8F0EB', position: 'right' },
-          zlevel: 2 },
-        { name: 'first', type: 'scatter', coordinateSystem: 'geo',
-          data: [{ name: firstProv, value: coords[firstProv] }],
-          symbol: _ANT_SVG, symbolSize: 26,
-          label: { show: true, formatter: '首次记录 · ' + spd.first.year, fontSize: 11, fontWeight: 700,
-            color: '#D8A24A', position: 'top', backgroundColor: 'rgba(11,20,16,0.75)', padding: [3, 6], borderRadius: 4 },
-          zlevel: 3 },
-        { name: 'trails', type: 'lines', coordinateSystem: 'geo', silent: true,
-          data: trails,
-          lineStyle: { color: 'rgba(216,162,74,.55)', width: 1.2, type: 'dashed', curveness: 0.25 },
-          symbol: ['none', 'none'], zlevel: 1 },
-        { id: 'spread-burst', data: [] }
+        { id: 'rfa-ants', data: reached.filter(p => p !== TW && p !== MAINLAND_FIRST).map(p => ({ name: p, value: coords[p] })) },
+        { id: 'rfa-anchor', data: anchors },
+        { id: 'rfa-burst', data: fresh.map(p => ({ name: p, value: coords[p] })) }
       ]
     });
+    clearTimeout(_marchTimer);
+    if (fresh.length) _marchTimer = setTimeout(() => chart.setOption({ series: [{ id: 'rfa-burst', data: [] }] }), 1600);
+
+    const n = mainlandCount(y);
+    yearLabel.textContent = y < 2004 ? `${y} · 台湾首见` : `${y} · 大陆 ${n} 省`;
+    const elW = document.getElementById('stYear'); if (elW) elW.textContent = y;
+    const elC = document.getElementById('stCount'); if (elC) elC.textContent = n;
+    const elP = document.getElementById('tiProvinces'); if (elP) elP.textContent = n;
+    const stLab = document.getElementById('stYearLabel');
+    if (stLab && !stLab.dataset.rfa) { stLab.dataset.rfa = '1'; stLab.innerHTML = '到 <strong id="stYear">' + y + '</strong> 年，大陆已记录 <strong id="stCount">' + n + '</strong> 个省级行政区'; }
+
+    // 故事面板：当年新增 + 当年可核查事件
+    const evNow = evts.filter(e => parseInt(e.year, 10) === y);
+    const freshMain = fresh.filter(p => p !== TW);
+    let html = '';
+    if (freshMain.length) html += `<p style="margin:0 0 8px;"><strong style="color:var(--b-gold);">${y} 年新出现在记录中：</strong>${freshMain.join('、')}</p>`;
+    evNow.forEach(e => { html += `<p style="margin:0 0 8px;"><strong style="color:var(--b-gold);">${e.year} · ${e.province}：</strong>${e.text}</p>`; });
+    if (!html) html = `<p style="margin:0;">${y} 年没有新增省份记录；已记录范围保持不变。</p>`;
+    if (y === Y1) html += `<p style="margin:0;color:var(--b-text);"><strong style="color:var(--b-gold);">现状：</strong>${spd.current.text}</p>`;
+    const elSY = document.getElementById('storyYear'); if (elSY) elSY.textContent = `截至 ${y} 年 · 大陆已记录 ${n} 个省级行政区`;
+    const elST = document.getElementById('storyText'); if (elST) elST.innerHTML = html;
+    updateSpreadCaseYear(y);
   }
 
-  // 静态终态
-  clearInterval(_marchTimer);
-  frameFor(years.length - 1);
-  playBtn.textContent = '▶ 播放行军';
-
-  playBtn.onclick = () => {
-    clearInterval(_marchTimer);
-    let i = 0;
-    playBtn.textContent = '⏸ 行军中…';
-    frameFor(0);
-    _marchTimer = setInterval(() => {
-      i++;
-      if (i >= years.length) {
-        clearInterval(_marchTimer);
-        playBtn.textContent = '↺ 重新播放';
-        return;
-      }
-      frameFor(i);
-    }, 850);
+  // ---- 滑块：连续滑动，按整年渲染 ----
+  const range = document.getElementById('spreadYearRange');
+  const setThumb = v => {
+    if (!range) return;
+    range.value = v;
+    range.style.setProperty('--st-pct', ((v - Y0) / (Y1 - Y0)) * 100 + '%');
   };
+  if (range) {
+    range.min = Y0; range.max = Y1; range.step = 'any';
+    if (window._spreadRangeHandler) range.removeEventListener('input', window._spreadRangeHandler);
+    window._spreadRangeHandler = () => { stop(); const v = parseFloat(range.value); range.style.setProperty('--st-pct', ((v - Y0) / (Y1 - Y0)) * 100 + '%'); setYear(v); };
+    range.addEventListener('input', window._spreadRangeHandler);
+    range.onchange = () => setThumb(Math.round(parseFloat(range.value)));
+  }
+
+  // ---- 播放：requestAnimationFrame 驱动，每年 0.8 秒 ----
+  const MS_PER_YEAR = 800;
+  function stop(label) {
+    if (_marchRaf) cancelAnimationFrame(_marchRaf);
+    _marchRaf = null;
+    playBtn.textContent = label || (shownYear >= Y1 ? '↺ 重新播放' : '▶ 播放');
+    playBtn.setAttribute('aria-pressed', 'false');
+  }
+  function play(fromStart) {
+    if (_marchRaf) { stop(); return; }
+    let v = (fromStart || shownYear >= Y1) ? Y0 : parseFloat(range ? range.value : Y0);
+    if (fromStart || shownYear >= Y1) setYear(Y0, { force: true });
+    playBtn.textContent = '❚❚ 暂停';
+    playBtn.setAttribute('aria-pressed', 'true');
+    let last = performance.now();
+    const tick = now => {
+      v = Math.min(Y1, v + (now - last) / MS_PER_YEAR); last = now;
+      setThumb(v); setYear(Math.floor(v));
+      if (v >= Y1) { setYear(Y1); stop('↺ 重新播放'); return; }
+      _marchRaf = requestAnimationFrame(tick);
+    };
+    _marchRaf = requestAnimationFrame(tick);
+  }
+  playBtn.onclick = () => play(false);
+
+  // ---- 初始状态：进入视口自动播放一次；减少动态效果时直接显示终态 ----
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (_marchIO) { _marchIO.disconnect(); _marchIO = null; }
+  if (reduce || !('IntersectionObserver' in window) || mapDom._rfaAutoPlayed) {
+    setThumb(Y1); setYear(Y1, { force: true }); stop('↺ 重新播放');
+  } else {
+    setThumb(Y0); setYear(Y0, { force: true }); stop('▶ 播放');
+    _marchIO = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) {
+        mapDom._rfaAutoPlayed = true;
+        _marchIO.disconnect(); _marchIO = null;
+        setTimeout(() => play(true), 350);
+      }
+    }, { threshold: 0.6 });
+    _marchIO.observe(mapDom);
+  }
 }
 
 // 物种切换
